@@ -1,0 +1,13 @@
+    <div class="help_left1">
+	<div class="he_le_bor">
+		<div class="he_le_title"><h1>ÍøÕ¾À¸Ä¿</h1></div>
+			<div class="help_menu">
+			       <ul>
+				   {loop module="admin" function="GetSiteList" var="var" limit="all" pid=1}
+				       <li>¡¤<a href="/{$var.nid}/index.html" {if $_G.site_result.nid==$var.nid}style="color:red"{/if}>{$var.name}</a></li>
+					   {/loop}
+				   </ul>
+			  </div>
+    </div>
+           <div style="padding-top:10px"><img src="{$tempdir}/images/Hotline.gif" /></div>
+  </div>

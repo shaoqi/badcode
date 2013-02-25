@@ -1,0 +1,31 @@
+.user_right_border { line-height:25px; height:auto; width:100%; text-align:left; font-size:13px; overflow:hidden }
+.user_right_border .l {  float:left; width:150px;padding:4px 5px 0 0px; text-align:right }
+.user_right_border .linvest {  float:left; width:180px;padding:4px 5px 0 0px; text-align:right }
+.user_right_border .d {  float:left; width:320px;padding:4px 5px 0 0px; text-align:right }
+.user_right_border .e {  float:left; width:220px;padding:4px 5px 0 0px; text-align:right }
+.user_right_border .c {  padding:4px 5px 3px 10px; float:left; width:500px;}
+.user_right_border .r {  padding:4px 5px 3px 10px; float:left; width:240px }
+.user_right_border .rb {  padding:4px 5px 3px 10px; float:left; width:180px }
+.user_right_border b { color:#FF0000; font-weight:normal; margin-left:5px;}
+.user_main_title{border-bottom:1px solid #FFCF88; background-color:#FFFDEC; text-align:left; font-size:12px; padding-left:10px;height:auto; padding-top:7px;line-height:20px;}
+.user_right_foot{font-size:12px;border:1px solid #bfbfbf;background-color:#fdeee7;width:660px;margin-bottom:10px;padding:10px 10px 10px 10px;margin-top:10px;height:auto;line-height:20px;}
+      
+.item {padding:0 10px; line-height: 25px; height: 150px; overflow: hidden;  }      
+.item li { padding:5px 0; margin: 0;overflow: hidden; height:39px;border-bottom: 1px dotted #DFE6EA;}       
+.item li .color {font-weight:normal;}    
+.item li .mtop5 {margin-bottom: 0;height:15px; overflow:hidden}
+
+
+
+#examIndex {height: 220px;overflow: hidden;padding: 5px 10px 0;}
+#examIndex ul li {
+border-bottom: 1px dotted #DFE6EA;
+color: #1D366B;
+padding: 5px 0px;
+font: 12px/162% Arial,Tahoma,Helvetica,ËÎÌו;
+height: 48px;
+overflow: hidden;
+}
+.f_l {text-align: left;}
+.l {float: left;}
+.f_r {text-align: right;}

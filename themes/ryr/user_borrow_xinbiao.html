@@ -1,0 +1,82 @@
+<div class="user_right">
+<div class="main_box">
+<div class="us_cen1"><h1>账户中心-新标上线提醒计划</h1></div>
+{articles module="remind" function="GetRemindBorrowOne" var="var" user_id="$_G.user_id"}
+<form id="form2" name="form2" method="post" action="">
+<div  style="padding:10px 20px 30px 20px">
+    <div class="remind t20">
+		<span>			尊敬的融易融用户，融易融将根据您的设置，在新标上线时向您的手机发送短信提醒（此功能目前免费）
+		</span>
+    </div>
+    <div class="new_wmarn t10">
+	<ul>
+		<li>
+			新标上线同时满足以下条件，请向我的手机发送提醒短信
+		</li>
+		<li>
+			<input type="checkbox" name="apr_status" id="apr_status" value="1" {if $var.apr_status==1}checked="checked"{/if}/>
+			年化利率≥<input type="text" name="apr" id="apr" value="{$var.apr}" onkeyup="value=this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');value=value.replace(/[^0-9.]/g,'')"/>%
+		</li>
+		<li>
+			<input type="checkbox" name="borrow_type_status" id="borrow_type_status" value="1" {if $var.borrow_type_status==1}checked="checked"{/if}/>
+			产品类型
+			<input type="radio" name="borrow_type" id="borrow_type" value="roam" {if $var.borrow_type=="roam" || $var.borrow_type==""}checked="checked"{/if}/>
+			循环贷
+			<input type="radio" name="borrow_type" id="borrow_type" value="pawn" {if $var.borrow_type=="pawn"}checked="checked"{/if}/>
+			抵押贷
+		</li>
+		<li>
+			<input type="checkbox" name="borrow_period_status" id="borrow_period_status" value="1" {if $var.borrow_period_status==1}checked="checked"{/if}/>
+			借款或回购期限
+			<input type="text" name="borrow_period_start" id="borrow_period_start" value="{$var.borrow_period_start}" onkeyup="value=value.replace(/[^0-9.]/g,'')"/>
+			个月到
+			<input type="text" name="borrow_period_end" id="borrow_period_end" value="{$var.borrow_period_end}" onkeyup="value=value.replace(/[^0-9.]/g,'')"/>
+			个月之间
+		</li>
+		<li style="width:700px">
+			<input type="checkbox" name="account_status" id="account_status" value="1" {if $var.account_status==1}checked="checked"{/if}/>
+			账户余额
+			<input type="text" name="account" id="account" onkeyup="value=this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');value=value.replace(/[^0-9.]/g,'')" value="{$var.account}"/>元
+		</li>
+		<input type="hidden" name="name" id="name" value=1>
+		{if $_G.user_info.phone_status!=1}
+		<li class="bacn" style="width:700px">
+			<font class="red">您还没有验证您的手机号码。</font><a href="/?user&q=code/approve/phone">[修改我的手机号码]</a>
+		</li>
+		{/if}
+		<li style=" text-align:right; padding:15px 10px 0 0; border:none;width:700px">
+			<a href="javascript:location.reload()"><img src="{$tpldir}/images/user_reset.gif" width="76" height="28"/></a>
+			<input type="image" src="{$tpldir}/images/user_fix.gif" width="76" height="28"/>
+		</li>
+	</ul>
+	</div>
+	<div class="t40">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr>
+				<td colspan="6" style="text-align:left">&nbsp;&nbsp;您当前的新标上线提醒设置为</td>
+			</tr>
+			<tr class="ytit1">
+				<td width="20%">产品类型</td>
+				<td width="20%">年化利率</td>
+				<td width="20%">借贷/回购期限</td>
+				<td width="20%">账户余额</td>				
+				<td width="10%">操作</td>
+			</tr>			
+			{list module='remind' function='GetRemindBorrowList' id="$_G.user_id"  var="loop"}
+			{foreach from="$loop.list" item="item"}
+			<tr>
+				<td>{if $item.borrow_type=="roam"}流转标{else}抵押标{/if}</td>
+				<td>{$item.apr}%</td>
+				<td>{$item.borrow_period_start}月~{$item.borrow_period_end}月</td>
+				<td>{$item.account}元</td>			
+				<td><a href="/?user&q=code/borrow/xinbiao&id={$item.id}">取消</a></td>
+			</tr>
+			{/foreach}
+			{/list}
+		</table>
+	</div>
+</div>
+</form>
+{/articles}
+</div>
+</div>

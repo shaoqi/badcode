@@ -1,0 +1,200 @@
+{if $magic.request.borrow_nid==""}
+<script>location.href="/?user"</script>
+{/if}
+
+{articles module="borrow" function="GetView" borrow_nid='$magic.request.borrow_nid' user_id="$_G.user_id" var="view_var" }
+		<!--还款明细 开始-->
+		<div class="user_right_border">
+			<div class="l">标题：</div>
+			<div class="c">
+				<a href="/invest/a{$view_var.borrow_nid}.html" target="_blank">{$view_var.name}</a> 
+			</div>
+		</div>
+		<div class="user_right_border">
+
+			<div class="l"> 借款金额：</div>
+			<div class="rb">
+				<font color="#FF0000"><strong>￥{$view_var.account}</strong></font>
+			</div>
+
+			<div class="l"> 借款利率：</div>
+
+
+			<div class="rb">
+
+
+				 {$view_var.borrow_apr}%
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"> 借款期限：</div>
+
+
+			<div class="rb">
+			
+{$view_var.borrow_period_name}
+
+
+			</div>
+
+
+			<div class="l"> 还款方式：</div>
+			<div class="rb">
+
+{$view_var.style_name}
+				 
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"> 发布时间：</div>
+
+
+			<div class="rb">
+
+
+				 {$view_var.addtime|date_format:"Y-m-d H:i:s"}
+
+
+			</div>
+
+
+			<div class="l"> 借款时间：</div>
+
+
+			<div class="rb">
+
+
+				 {$view_var.borrow_success_time|date_format:"Y-m-d H:i:s"}
+
+
+			</div>
+
+
+		</div>
+
+{/articles}
+	
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >期数</td>
+
+
+					<td  >计划还款日</td>
+
+
+					<td  >应还本息</td>
+
+
+					<td  >实还日期</td>
+
+
+
+					<td  >实还本金</td>
+					<td  >实还利息</td>
+
+					<td  >逾期天数</td>
+
+
+
+
+					<td title="实还本金+实还利息+还款费用" >总还款金额</td>
+
+
+					<td  >状态</td>
+
+
+					<td  >当期还款</td>
+
+
+					<!--<td  >提前全额还款</td>-->
+
+
+				</tr>
+
+
+				{loop module="borrow" plugins="loan" function ="GetRepayList" borrow_status=3 user_id="$_G.user_id" borrow_nid="$magic.request.borrow_nid" limit="all" order="order"}
+
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td >第{$var.repay_period}期</td>
+					<td>{$var.repay_time|date_format:"Y-m-d"}</td>
+					<td>￥{$var.repay_account}</td>
+					<td>{$var.repay_yestime|date_format:"Y-m-d H:i"|default:-}</td>
+					<td>￥{$var.repay_capital_yes}</td>
+					<td>￥{$var.repay_interest_yes}</td>
+					<td>{$var.late_days|default:0}天</td>
+					<td title="实还本金[{$var.repay_capital_yes}]+实还利息[{$var.repay_interest_yes}]+还款费用[{$var.repay_fee}]">￥{$var.repay_account_yes+$var.repay_fee}</td>
+
+
+					<td>{$var.repay_type_name}</td>
+
+
+					<td>{if $var.repay_status==1}-{else}<a href="javascript:void(0)" onclick="repay({$var.id},{$var.borrow_nid})">还款</a>{/if}</td>
+					
+
+				</tr>
+
+
+				{/loop}
+
+
+			</form>	
+
+
+		</table>
+
+<script>
+{literal}
+function repay(id,borrow_nid){
+   var dia = $.dialog({
+        id: 'borr_realname',
+        width: "300px",
+        height: "240px",
+        title:'我要还款',
+        content: 'url:/?user&q=code/borrow/loan&p=view&repay_id='+id+"&borrow_nid="+borrow_nid,
+        max: false,
+        min: false
+    });
+}
+
+function repay_advance(borrow_nid){
+   var dia = $.dialog({
+        id: 'borr_realname',
+        width: "300px",
+        title:'我要提前还款',
+        content: 'url:/?user&q=code/borrow/loan&p=view_advance&borrow_nid='+borrow_nid,
+        max: false,
+        min: false
+    });
+}
+{/literal}
+</script>
+

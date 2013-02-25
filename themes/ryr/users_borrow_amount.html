@@ -1,0 +1,117 @@
+
+<div>
+{if $magic.request.p!="log"}
+	<!-- {articles module="borrow" plugins="Amount" function="GetAmountUsers" user_id="$_G.user_id" var="_amount"}
+	<div style="line-height:50px; border-bottom:1px dashed #999999">您目前的总信用额度：<strong>{$_amount.credit}</strong>元， 可用信用额度：￥{$_amount.credit_use|default:0}，冻结信用额度：￥{$_amount.credit_frost|default:0}。</div>
+	{/articles} -->	
+	<form action="/?user&q=code/borrow/amount" method="post" enctype="multipart/form-data"  >
+	
+	<div class="user_right_border">
+		<div class="l"> 申请类型：</div>
+		<div class="c">
+            {loop module="borrow" function="GetAmountTypeList" plugins="Amount" limit="all" var="item" status=1}
+				<input type="radio" name="amount_type" value="{$item.nid}" {if $item.nid==$magic.request.type || $magic.request.type=="roam"}checked="checked"{elseif $key==0}checked="checked"{/if} onclick="change_once({$item.once_status})" />{$item.title}<span style="color:#B5B5B5;">{if $item.nid=='pawn'}(您发布抵押贷时的所需额度){else}(您发布流转贷或循环贷时的所需额度){/if}</span><br/>
+            {/loop}
+		</div>
+	</div>	
+	<div class="user_right_border" style="display: none;" id="amount_style">
+		<div class="l"> 申请种类：</div>
+		<div class="c">
+			<input type="radio" name="amount_style" value="forever" checked="checked" />永久额度
+			<input type="radio" name="amount_style" value="once"   />一次性额度
+		</div>
+	</div>
+	<div class="user_right_border">
+		<div class="l"> 申请额度：</div>
+		<div class="c"><input type="text" name="amount_account" value="" onkeyup="value=value.replace(/[^0-9]/g,'')"/> </div>
+	</div>
+    
+	<div class="user_right_border">
+		<div class="l"> 借款用途：</div>
+		<div class="c">{linkages nid="borrow_use" name="borrow_use" type="value"  value="$var.borrow_use"}</div>
+	</div>
+    
+	<div class="user_right_border">
+		<div class="l">详细说明：</div>
+		<div class="c"><textarea rows="5" cols="40" name="content"></textarea></div>
+	</div>
+	
+	<div class="user_right_border">
+		<div class="l">其它地方借款详细说明：</div>
+		<div class="c"><textarea rows="5" cols="40" name="remark"></textarea></div>
+	</div>
+	
+	<div class="user_right_border">
+		<div class="l">&nbsp;</div>
+		<div class="c"><input type="hidden" name="ajax" value="1" /><input type="hidden" name="borrowtype" value="{$magic.request.type}" /><input type="submit" name="name"  class="press_mode"  value="确认提交" size="30" /></div>
+	</div>
+</form>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+	<form action="" method="post">
+		<tr class="ytit1" >
+		<td  >申请时间</td>
+		<td  >申请类型</td>
+		<td  >申请金额(元)</td>
+		<td  >通过金额(元)</td>
+		<td  >备注说明</td>
+		<td  >状态</td>
+		<td  >审核时间</td>
+		<td  >审核备注</td>
+	</tr>
+	{list module="borrow" var="loop" plugins="Amount" function ="GetAmountApplyList" showpage="3" user_id="0"  }
+	{foreach from="$loop.list" item="item"}
+	<tr {if $key%2==1} class="ynow"{/if}>
+		<td  >{$item.addtime|date_format:"m-d H:i"}</td>
+		<td >{$item.type_name}</td>
+		<td  >{$item.amount_account}</td>
+		<td  >{$item.account|default:-}</td>
+		<td  >{$item.content}</td>
+		<td  >{if $item.status==0}正在审核{elseif $item.status==1}审核通过{else}审核不通过{/if}</td>
+		<td  >{$item.verify_time|date_format|default:-} </td>
+		<td  >{$item.verify_remark|default:-}</td></tr>
+		{/foreach}
+		<tr ><td colspan="8" class="page">{$loop.pages|showpage}</td>
+	</tr>
+	{/list}
+	</form>	
+	</table>
+{else}
+{articles module="borrow" plugins="Amount" function="GetAmountUsers" user_id="$_G.user_id" var="_amount"}
+		<div class="user_main_title1">你目前的总借款信用额度为：￥{$_amount.credit|default:0}，可用额度为：￥{$_amount.credit_use|default:0}，担保借款额度：￥{$_amount.vouch|default:0}，抵押借款额度：￥{$_amount.pawn|default:0}。</div>
+		{/articles}
+	<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit1">
+				<td>额度类型</td>
+				<td>增加</td>
+				<td>减少</td>
+				<td>冻结</td>
+				<td>返回</td>
+				<td>可用额度</td>
+				<td>冻结额度</td>
+				<td>总额度</td>
+				<td>备注</td>
+			</tr>
+			{list module="borrow" plugins="Amount" function="GetAmountLogList"  var="loop" user_id="0"  }
+            {foreach from="$loop.list" item="var"}
+			<tr>
+				<td>{$var.type_name}</td>
+				<td>{if $var.oprate=="add"}￥{$var.account}{/if}</td>
+				<td>{if $var.oprate=="reduce"}￥{$var.account}{/if}</td>
+				<td>{if $var.oprate=="frost"}￥{$var.account}{/if}</td>
+				<td>{if $var.oprate=="return"}￥{$var.account}{/if}</td>
+				<td>￥{$var.account_use}</td>
+				<td>￥{$var.account_frost}</td>
+				<td>￥{$var.account_all}</td>
+				<td>{$var.remark}</td>
+			</tr>
+			{/foreach}
+				<tr ><td colspan="11" class="page">{$loop.pages|showpage}</td>
+			{/list}
+		</table>
+	</div>
+	</div>
+
+{/if}
+</div>

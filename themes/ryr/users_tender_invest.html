@@ -1,0 +1,80 @@
+{include file="header.html"}
+<form action="/?user&q=code/borrow/tender&p=add" method="post" id="loan_tender_form">
+  <div class="conbox t20">
+           <div class="main_box1">
+             <div class="title_bor1"><span>你当前位置：<a href="/">{$_G.system.con_webname}</a> > <a href="/invest/index.html">投资中心</a> > <a href="/invest/a{$_U.loan_tender.borrow_nid}.html">{$_U.loan_tender.name}</a> > 马上投标</span></div>
+				<div style="padding: 10px 85px;">
+                <div style="font-weight: bold; color: #494949; padding: 10px 0; font-size: 14px">确认借款信息</div>
+                <table width="100%" height="200" border="0" cellpadding="0" cellspacing="1" bgcolor="#E4E4E4">
+                    <tbody>
+                        <tr height="27">
+                            <td width="14%" align="right" bgcolor="#EEF4FE">借款标题：</td>
+                          <td width="86%" bgcolor="#FFFFFF"><div style="padding-left: 5px">{$_U.loan_tender.name}</div></td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#EEF4FE">借款金额：</td>
+                          <td bgcolor="#FFFFFF" style="padding-left: 5px;color: #ff0000">￥{$_U.loan_tender.account}</td>
+                        </tr>
+                        <tr height="27">
+                            <td align="right" bgcolor="#EEF4FE">借款年利率：</td>
+                            <td bgcolor="#FFFFFF" style="padding-left: 5px; color: #ff0000">{$_U.loan_tender.borrow_apr}%</td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#EEF4FE">还款方式：</td>
+                            <td bgcolor="#FFFFFF">
+                                <div style="padding-left: 5px">{$_U.loan_tender.style_name}</div>
+                          </td>
+                        </tr>
+                        <tr height="27">
+                            <td align="right" bgcolor="#EEF4FE">已完成：</td>
+                            <td bgcolor="#FFFFFF">
+                                &nbsp;<span class="loading"><em style="width:{$_U.loan_tender.borrow_account_scale}%"></em></span>{$_U.loan_tender.borrow_account_scale}%
+                          </td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#EEF4FE">剩余投标金额：</td>
+                          <td bgcolor="#FFFFFF" style="color: #ff0000"><div style="padding-left: 5px">￥{$_U.loan_tender.borrow_account_wait|default:0}</div></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:10px">
+				     <table width="100%" height="141" border="0" cellpadding="0" cellspacing="10">
+  <tr>
+    <td align="left" valign="middle">投标金额：<input type="text" name="money" id="money" style="width:70px; border:#BFBFBF solid 1px; height:18px;"/>元   <span style="color:#999999">{if $_U.loan_tender.tender_account_min>0}(最低投标金额为{$_U.loan_tender.tender_account_min}，最高投标金额为{if $_U.loan_tender.tender_account_max==0}不限{else}{$_U.loan_tender.tender_account_max}{/if}，并且是50的倍数){/if}<!-- (最低投标金额为50元,并且是50的倍数) --></span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle">可用余额：<b style="color:#FF0000">￥{$_U.loan_tender.balance|default:"0.00"}</b><a target="_blank" style="color:#0000FF" href="/?user&amp;q=code/account/recharge_new">我要充值</a></td>
+  </tr>
+  {if $_U.loan_tender.borrow_password!=""}
+  <tr>
+    <td align="left" valign="middle">投资密码：<input type="hidden" value="yes" id="password_status_id" /><input type="password" name="borrow_password" id="borrow_password" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/> <font style="color:#ff0000">此密码请跟借款人索要。</font> </td>
+  </tr>{else} <input type="hidden" value="no" id="password_status_id" />
+  {/if}
+ <!--  <tr>
+    <td align="left" >请输入交易密码：
+      <input type="text" name="textfield2" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/>                        
+      如还未设置交易密码，"<a href="#" style="color:#0000FF">请先设置交易密码</a>"</td>
+  </tr> -->
+   <tr>
+    <td align="left" valign="middle">交易密码：
+	{if $_G.user_result.paypassword==""}<a style="color:#0000FF" target="_blank" href="/?user&q=code/users/paypwd">请先设置交易密码</a>{else}<input type="password" style="width:150px; border:#BFBFBF solid 1px; height:18px;" name="paypassword" id="paypassword">  {/if}</td>
+  </tr>
+  <tr>
+  <td align="left" valign="middle">验证码：<input type="text" style="width:70px; border:#BFBFBF solid 1px; height:18px;" tabindex="3" name="valicode" id="valicode"> <img src="/?plugins&q=imgcode" alt="点击刷新" name="valicode" width="50" height="18" align="absmiddle" id="valicode" style="cursor:pointer;height:18px;" onclick="this.src='/?plugins&q=imgcode&t=' + Math.random();"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle">
+	<input type="hidden" name="borrow_nid"  value="{$magic.request.borrow_nid}"/>
+	<input  type="image" width="171" height="43" class="borrow_content_img" border="0" src="{$tpldir}/images/gogo.gif">
+	</td>
+  </tr>
+</table>
+</div>
+                <br />
+			   </div>   
+       </div>
+   <div class="cle"></div>
+</div>
+</form>
+<script>{literal}deayou.use("borrow",function(e){e.loan_tender();});</script>{/literal}<script src="{$tpldir}/js/jquery.form.js" type="text/javascript"></script>
+{include file="footer.html"}

@@ -1,0 +1,28 @@
+{include file="header.html"}   
+  <div class="conbox t20">
+           <div class="main_box1">
+             <div class="title_bor1"><span>你当前位置：<a href="/">{$_G.system.con_webname}</a> > 认证完成</span></div>
+			<div class="ch_content" style="padding:80px 50px">
+              <div style="text-align:center">
+			        <img src="{$tpldir}/images/step4.gif" />
+</div> 
+<div class="us_r_texts t40" style="padding-left:180px">
+<table width="80%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="86%" valign="middle"><img src="{$tpldir}/images/wanc_lcon.gif" width="382" height="58" /></td>
+    </tr>
+</table></div>
+<div class="us_caution t30" style="padding-left:180px">
+ <h1>温馨提示：</h1>
+<span>如果您在验证过程中，出现任何问题，请致电 <font>{$_G.system.con_company_tel}</font>，或咨询客服<font>QQ {$_G.system.con_company_qq}</font></span>
+              </div>
+            </div>	   
+       </div>
+{literal}
+<script>
+setTimeout("location.href='/?user'",3000 );
+</script> 
+{/literal}
+   <div class="cle"></div>
+</div>
+{include file="footer.html"}  

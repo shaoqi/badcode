@@ -1,0 +1,31 @@
+{include file="header.html"}
+<div class="conbox t10">
+     <div class="weizhi">ÄúµÄÎ»ÖÃ£º<a href="/">{$_G.site_result.name}</a> > ÍøÕ¾À¸Ä¿ > {$_G.site_result.name}</div>
+	 
+</div> 
+	
+	<div class="conbox t20">
+		   {include file='new_left.html'}
+ <div class="help_right1">
+		       <div class="main_box1">
+			     <div class="title_bor"><h1>{$_G.site_result.name}</h1></div>
+		         <div class="us_r_bor2">
+				      <div class="notice_list">
+   {loop module="articles" function="GetList" var="var" limit="16" site_id="this"}
+  <ul>
+    <li><h1>¡¤<a href="/{$_G.site_result.nid}/a{$var.id}.html">{$var.name}</a></h1><span>{$var.addtime|date_format:"Y-m-d H:i:s"}</span></li>
+  </ul>
+    {/loop}
+			<div class="pages">  <span>1</span>
+                <a href="/activity/4820?fromid=indexactivity&amp;p=2#comment-list">2</a>
+                <a href="/activity/4820?fromid=indexactivity&amp;p=3#comment-list">3</a>
+                <a href="/activity/4820?fromid=indexactivity&amp;p=2">&gt;</a> </div>
+			  </div>
+	        </div>
+		  </div>
+		  </div>
+		  
+		  
+		  <div class="cle"></div>
+	</div>
+    {include file='footer.html'}

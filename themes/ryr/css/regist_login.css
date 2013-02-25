@@ -1,0 +1,11 @@
+@charset "gb2312";
+/* CSS Document */
+
+.regist_bor{padding:60px 20px 90px; position:relative; width:958px;}
+.reg_left{ width:530px; float:left; margin-left:20px; display:inline; padding:30px 0 0 0 }
+.reg_right{ float:right; width:320px; padding:50px 30px 0 0}
+table.reg_tab td.tex_left{ text-align:right; color:#666666; padding-right:10px; font-family:"Î¢ÈíÑÅºÚ"}
+table.reg_tab td{ font-size:14px; vertical-align:top; padding-bottom:20px;}
+table.reg_tab td em{ font-size:12px; font-style:normal; color:#999999; display:block}
+table.reg_tab td em.warning{ color:#F00}
+.re_dr_bene{ background:url(../images/fg.gif) 0 7px no-repeat; font-family:"Î¢ÈíÑÅºÚ"; padding-left:20px; line-height:26px; font-size:14px; color:#787777}

@@ -1,0 +1,214 @@
+{include file="header.html"}
+  <div class="conbox t20">
+	      <div class="con_box">
+{include file="user_menu.html"}	
+	<div class="user_right"> 
+     <div class="main_box">
+		           <div class="m_change ">
+                    <ul>
+                    <li><a href="{$_U.query_url}/?user" {if $_U.query_type=="list"} class="onn"{/if}>我的首页</a></li>
+                    <li><a href="/?user&q=code/borrow/tender&p=recover" {if $_U.query_type=="realname"} class="onn"{/if}>回收中借出</a></li>
+                    <li><a href="/?user&q=code/borrow/loan&p=repay" {if $_U.query_type=="myapp"} class="onn"{/if}>偿还中借入</a></li>
+                    <li><a href="/?user&q=code/account/log" {if $_U.query_type=="video"} class="onn"{/if}>资金历史明细</a></li>
+                    </ul>
+                   </div>
+ <div>  
+ <div  style="padding:10px 20px 30px 20px">   
+<div class="main_box t10">
+            <div class="m_r_title1">
+		<h1>个人信息</h1><span>><a href="/?user&q=code/rating/basic">修改我的个人信息</a></span></div>
+				   <div class="us_infor">
+			         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="20%" align="left" valign="top">
+    <div style="margin:10px 0 0 0"><img src="{$_G.user_id|avatar}" width="118" height="118" style="border:#d4d1d1 solid 1px; padding:1px" /></div>
+    <div class="change"><a href="/?user&q=code/users/avatar">[更换头像] </a></div>
+    </td>
+    <td width="80%" align="left" valign="top"><table width="100%" border="0" cellspacing="7" cellpadding="0">
+      <tr>
+        <td width="17%" align="right">用 户 名：</td>
+        <td width="83%" align="left">{$_G.user_result.username}</td>
+      </tr>
+	  <tr>{articles module="borrow" function = "GetBorrowCredit" user_id="$_G.user_id" var="Credit_var"}
+        <td width="17%" align="right">积分：</td>
+        <td width="83%" align="left">{$Credit_var.credit_total}分&nbsp;<a href="/?user&q=code/users/credit">积分记录</a>
+		
+		</td>
+      </tr>{/articles}
+	  <tr>{articles module="borrow" plugins="count" function="GetUsersRecoverCount" var="recover_var" user_id="$_G.user_id"}
+        <td width="17%" align="right">投资等级：</td>
+        <td width="83%" align="left">{ $recover_var.tender_success_account|round|default:"0"|credit:"tender"}
+		</td>
+      </tr>{/articles}
+      <tr>
+        <td align="right">注册时间：</td>
+        <td align="left"><span style="color:#d72d2c">{$_G.user_result.reg_time|date_format:"Y-m-d"}</span></td>
+      </tr>
+      <tr>
+        <td align="right">上次登入时间：</td>
+        <td align="left"><span style="color:#d72d2c">{$_G.user_result.up_time|date_format:"Y-m-d"}</span></td>
+      </tr>
+	  {articles module="users" plugins="vip" function="GetUsersVip" var="Vvar" user_id="$_G.user_id"}
+	   {if $Vvar.status==1}
+	  <tr>
+        <td align="right">会员等级：</td>
+        <td align="2">Vip会员</td>
+      </tr>
+      <tr>
+        <td align="right">有效时间：</td>
+        <td align="2">{$Vvar.first_date|date_format:"Y-m-d"}~{$Vvar.end_date|date_format:"Y-m-d"}</td>
+      </tr>
+	  {else}
+      <tr>
+        <td align="right">会员等级：</td>
+        <td colspan="2">一般会员 <a style="color:#0000ff" href="/?user&q=code/users/vip">[马上升级]</a></td>
+      </tr>
+	  {/if}
+	  {/articles}
+	  {articles module="users" function="GetUserManageOne" var="Vvar" user_id="$_G.user_id"}
+	   {if $Vvar.status==1}
+	  <tr>
+        <td align="right">注册理财师：</td>
+        <td align="left"><img src="{$tpldir}/images/lic_icon.gif" /></td>
+      </tr>
+	  {else}
+	  <tr>
+        <td align="right">注册理财师：</td>
+        <td align="left"><img src="{$tpldir}/images/lic_icon1.gif" /> <a style="color:#0000ff" href="/?user&q=code/users/reginvite">[马上申请]</a></td>
+      </tr>
+	  {/if}
+	  {/articles}
+      <tr>
+        <td align="right">系统通知：</td>
+        <td align="left"><a href="/?user&q=code/message"><b class="red">{$_G.message_result.noread|default:0} </b></a> 封未读信息 <a href="/?user&q=code/account/recharge_new">[账号充值]</td>
+        
+      </tr>
+     
+    </table></td>
+  </tr>
+</table>
+				 </div>
+	    </div>
+ {articles module="approve" function="GetRealnameOne" user_id="$_G.user_id" var="rel"}       
+        <div class="main_box t10">
+            <div class="m_r_title1">
+		<h1>安全中心</h1><span>><a href="/?user&q=code/approve/realname">更多</a></span></div>
+				   <div class="us_infor"><table width="100%" cellspacing="9">
+  <tbody><tr>
+    <td width="36%">真实姓名：{if $rel.realname!=''}{$rel.realname}{else}未验证<a href="/?user&q=code/approve/realname">【马上验证】</a>{/if}</td>
+    <td width="64%">身份证号码：{if $rel.card_id!=''}{$rel.card_id}{else}未验证<a href="/?user&q=code/approve/realname">【马上验证】</a>{/if}</td>
+  </tr>
+  <tr>
+  {articles module="approve" function="GetSmsOne" user_id="$_G.user_id" var="pvar" status='1'}
+    <td>手机号码：{if $pvar.phone!=''}{$pvar.phone}{else}未验证{/if} <a href="/?user&q=code/approve/phone">{if $pvar.phone==''}【马上验证】{else}[更换手机号码]{/if}</a></td>
+	{/articles} 
+	{articles module="approve" function="GetEmailOne" user_id="$_G.user_id" var="Evar"}
+    <td width="64%">电子邮箱：{if $Evar.email!=''}{$Evar.email}{else}未验证<a href="/?user&q=code/approve/email">【马上验证】</a>{/if}</td>
+	{/articles} 
+  </tr>
+  <tr>
+    <td>密码安全：一般
+	<a href="/?user&q=code/users/userpwd">[修改密码]</a></td>
+    <td width="64%">&nbsp;</td>
+  </tr>
+  
+ </tbody></table>
+
+				      
+		  </div>
+	    </div>
+    	{/articles}    
+        
+        <div class="main_box t10">
+		           <div class="m_r_title1">
+		<h1>资金信息</h1><span>><a href="/?user&q=code/account/detail">更多</a></span></div>
+{articles module="account"  function="GetOne" var="Avar" user_id="$_G.user_id"}
+				   <div class="us_infor">
+                   <table width="100%" cellspacing="9">
+  <tbody><tr>
+    <td width="35%">账户资金总额：<font>￥{$Avar.total|default:0.00}</font></td>
+    {list  module="users" plugins="Friends" function="GetFriendsInvite" var="loop" user_id="$_G.user_id" showpage="3"}
+	<td width="29%">奖金金额：<font>￥{$loop.vip_account|default:0.00}</font></td>
+	{/list}
+    <td width="36%">可用现金金额：<font>￥{$Avar.balance|default:0.00}</font></td>
+  </tr>
+  <tr>
+    <td>待审核提现：<font>￥0.00</font></td>
+    <td width="29%">&nbsp;</td>
+    <td width="36%">&nbsp;</td>
+  </tr>
+</tbody></table>
+</div>
+{/articles}
+	    </div>
+{articles module="borrow" plugins="count" function="GetUsersRecoverCount" var="recover_var" user_id="$_G.user_id"}
+<div class="main_box t10">
+<div class="m_r_title1">				   
+		<h1>借出记录</h1><span>><a href="/?user&q=code/borrow/tender&p=now">更多</a></span></div>
+				   <div class="us_infor">
+                   <table width="100%" cellspacing="9">
+  <tbody><tr>
+    <td width="35%">竞标中借出：<font>￥{$recover_var.tender_now_account|default:0.00}</font></td>
+    <td width="29%">回收中借出：<font>￥{$recover_var.recover_wait_account|default:0.00}</font></td>
+    <td width="36%">收完的借出：<font>￥{$recover_var.recover_yes_account|default:0.00}</font></td>
+  </tr>
+  <tr>
+    <td>累计收益率：<font>￥{ $recover_var.tender_recover_scale|default:0.00}</font></td>
+    <td width="29%">累计坏账率：<font>￥{$recover_var.tender_false_scale|default:0.00}</font></td>
+    <td width="36%">&nbsp;</td>
+  </tr>
+
+</tbody></table>
+                   </div>
+	    </div>
+{/articles}
+        <div class="main_box t10">
+		           <div class="m_r_title1">
+		<h1>借入记录</h1>
+		<span>><a href="/?user&q=code/borrow/loan&p=repay">更多</a></span></div>
+		 {articles module="borrow" plugins="count" function="GetUsersRepayCount" var="repay_var" user_id="$_G.user_id"}
+				   <div class="us_infor">
+                   <table width="100%" cellspacing="9">
+  <tbody><tr>
+    <td width="35%">发标中借款：<font>￥{$repay_var.borrow_now_account|default:0.00}</font></td>
+    <td width="29%">偿还中借款：<font>￥{$repay_var.repay_wait_account|default:0.00} </font></td>
+    <td width="36%">还清的借款：<font>￥{$repay_var.repay_yes_account|default:0.00}</font></td>
+  </tr>
+  {articles module="borrow" plugins="Amount" function="GetAmountUsers" user_id=$_G.user_id var="user_amount"}
+  <tr>
+    <td>累计利息成本：<font>￥{$repay_var.repay_interest|default:0.00}</font></td>
+    <td width="29%">流转额度：<font>￥{$user_amount.vest_use|round:"2"|default:"0.00"}</font></td>
+    <td width="36%">授信额度：<font>￥{$user_amount.pawn_use|round:"2"|default:"0.00"}</font></td>
+  </tr>
+{/articles}
+</tbody></table>
+                   </div>
+{/articles}
+	    </div>
+
+ </div>
+  </div>
+     <div class="cle"></div>
+	 </div>
+     </div>
+    <div class="cle"></div>
+   </div>
+	</div>
+<div class="conbox t10">
+<div class="main_r_bor">
+ <div class="m_r_title">
+   <h1>友情链接</h1></div>
+ <div class="pa_text">
+   <ul>
+		     {loop module="links" function="GetList" limit="8" var="_var"}
+		      <li><a href="{$_var.url}" target="_blank">{$_var.webname}</a></li>			  
+			  {/loop}  
+		  </ul>
+   <div class="cle"></div>
+    </div>
+</div>
+</div>
+
+
+{include file="footer.html"}
+

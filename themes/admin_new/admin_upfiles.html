@@ -1,0 +1,55 @@
+<div class="module_add">
+	<div class="module_title">上传图片处理
+</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+		<td width="" class="main_td">ID</td>
+		<td width="*" class="main_td">用户名</td>
+		<td width="*" class="main_td">模块</td>
+		<td width="*" class="main_td">文件类型</td>
+		<td width="*" class="main_td">文件大小</td>
+		<td width="*" class="main_td">文件名称</td>
+		<td width="*" class="main_td">图片</td>
+		<th width="" class="main_td">添加时间</th>
+		<th width="" class="main_td">IP</th>
+	</tr>
+	{list module="admin" function="GetUpfiles" var="loop" username='$magic.request.username'}
+	{ foreach  from=$loop.list key=key item=item}
+	<tr {if $key%2==1} class="tr2"{/if}>
+		<td class="main_td1" align="center">{ $item.id}</td>
+		<td class="main_td1" align="center">{$item.username}</td>
+		<td class="main_td1" align="center">{$item.code}</td>
+		<td class="main_td1" align="center">{$item.filetype }</td>
+		<td class="main_td1" align="center">{$item.filesize}K</td>
+		<td class="main_td1" align="center">{$item.filename }</td>
+		<td class="main_td1" align="center"><a href="{$item.fileurl }" target="_blank"><img src="{$item.fileurl }" width="50" height="50" /></a></td>
+		<td class="main_td1" align="center" >{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+		<td class="main_td1" align="center" >{$item.addip}</td>
+	</tr>
+	{ /foreach}
+	<tr>
+			<td colspan="11" >
+			<div class="floatl">
+			<script>
+	  var url = '{$_A.query_url}';
+	    {literal}
+	  	function sousuoq(){
+			var username = $("#username").val();
+			location.href=url+"&username="+username;
+		}
+	  
+	  </script>
+	  {/literal}
+			</div>
+			<div class="floatr">
+				用户名：<input type="text" name="username" id="username" value="{$magic.request.username}"/>   <input type="button" value="搜索" / onclick="sousuoq()">
+			</div>
+			</td>
+		</tr>
+	<tr>
+		<td colspan="11" class="page">
+		{$loop.pages|showpage}
+		</td>
+	</tr>
+	{/list}
+</table>

@@ -1,0 +1,86 @@
+{include file="header.html"}   
+  <div class="conbox t20">
+           <div class="main_box1">
+             <div class="title_bor1"><span>你当前位置：<a href="/">{$_G.system.con_webname}</a> > 邮箱认证</span></div>
+			<div class="ch_content">
+              <div style="text-align:center">
+			        <img src="{$tpldir}/images/step3.gif" />
+		      </div> 
+              <div class="us_r_text t30" style="background:url({$tpldir}/images/youx_lcon.gif) 120px 20px no-repeat;">
+ <form action="/?user&q=code/approve/email&type=loan" method="post" onsubmit="this.elements['image'].disabled='disabled';return true;" >
+  <table width="80%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="15%" height="54" align="right" valign="middle">输入邮箱：</td>
+    <td valign="middle"><input name="email" onchange="checkemail()" id="email" type="text" class="in_name" value="{$_G.user_result.email}" readonly="readonly" /><input class="press_mode" type="button" size="30" value="修改邮箱地址" name="name" onclick="change();"><span id="emial_notice"></span></td>
+    </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><p>登录您的邮箱查收，并点击邮件中的链接，完成激活。激活成功后<br />
+      您就可以畅快使用站内所有功能。</p></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td height="54" valign="bottom">
+	<input type="hidden" name="loan" value="1">
+	<input type="image" src="{$tpldir}/images/Login_email.gif" onClick="sendemail()" width="185" height="32" />	
+	</td>
+  </tr>
+</table>
+</form> 
+</div>
+              <div class="us_caution t20">
+               <h1>温馨提示</h1>
+               <span>1、如果30分钟内没有收到激活邮件，查看您的垃圾邮箱，依然不能收到请重新发送。<br />
+2、如果您在验证过程中，出现任何问题，请致电 <font>{$_G.system.con_company_tel}</font>，或咨询客服<font>QQ {$_G.system.con_company_qq}</font></span>
+              </div>
+            </div>	   
+       </div>
+{literal}
+<script>
+
+function checkemail(){
+	var email = $("#email").val();
+	
+	if(email!=''){
+		$.post("/?user&q=code/approve/checkemail",{ email: email},
+			function (result){			
+				if(result==1){
+					msg = "<font style='color:red'>邮箱已存在</font>";
+				}else if(result==2){
+					msg = "<font style='color:red'>邮箱格式不正确</font>";
+				}else{
+					msg = "";
+				}				
+				$("#emial_notice").html(msg);	
+			});			
+	}else{
+		$("#emial_notice").html();
+	}
+}
+
+function change(){
+	$('#email').removeAttr('readonly');
+}
+</script>
+{/literal}	   
+<!-- 
+<script>
+{literal}
+var newemail=$("#email").val();
+function sendemail(){
+	var one =1;
+	$.post("/?user&q=code/approve/email&type=loan",{email:newemail,loan:one},function(result){		
+		if(result==1){
+			alert("发送成功，请登录邮箱确认激活！");
+			href.location="'"+emalurl+"'";
+		}else{
+			alert(result);
+		}
+	});
+}
+</script>
+{/literal}
+	 -->	 
+   <div class="cle"></div>
+</div>
+{include file="footer.html"}  

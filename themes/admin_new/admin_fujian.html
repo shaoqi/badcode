@@ -1,0 +1,63 @@
+<div class="module_add">
+		<form action="" method="post"  enctype="multipart/form-data" >
+		<div class="module_title"><strong>附件设置</strong></div>
+		
+		<div class="module_border">
+			<div class="e">缩略图是否裁切：</div>
+			<div class="c">
+				<input type="radio" name="con_fujian_imgstatus" value="1" {if $result.con_fujian_imgstatus==1 || $result.con_fujian_imgstatus==""} checked="checked"{/if}/>是 <input type="radio" name="con_fujian_imgstatus" value="0" {if $result.con_fujian_imgstatus=="0" } checked="checked"{/if}/>否
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="e">缩略图默认宽度：</div>
+			<div class="c">
+				<input type="text" name="con_fujian_imgwidth" value="{$result.con_fujian_imgwidth}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="e">缩略图默认高度：</div>
+			<div class="c">
+				<input type="text" name="con_fujian_imgheight" value="{$result.con_fujian_imgheight}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="e">上传图片限定宽度：</div>
+			<div class="c">
+				<input type="text" name="con_fujian_picwidth" value="{$result.con_fujian_picwidth}"/> 如果不截取图片，请为空
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="e">上传图片限定高度：</div>
+			<div class="c">
+				<input type="text" name="con_fujian_picheight" value="{$result.con_fujian_picheight}"/> 如果不截取图片，请为空
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="e">允许上传的图片类型：</div>
+			<div class="c">
+				<input type="text" name="con_fujian_imgtype" value="{$result.con_fujian_imgtype}" size="35"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="e">允许上传的软件类型：</div>
+			<div class="c">
+				<input type="text" name="con_fujian_annextype" value="{$result.con_fujian_annextype}" size="35"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="e">允许的多媒体文件类型：</div>
+			<div class="c">
+				<input type="text" name="con_fujian_mediatype" value="{$result.con_fujian_mediatype}" size="35"/>
+			</div>
+		</div>
+		
+		<div class="module_submit"><input type="submit" value="确认修改"  /></div>
+			</form>
+	</div>

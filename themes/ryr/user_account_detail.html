@@ -1,0 +1,92 @@
+
+    <div class="us_r_bor1">
+{articles module="borrow" plugins="count" function="GetUsersCount" user_id="$_G.user_id" var="item"}
+{articles module="borrow" plugins="count" function="GetUsersRecoverCount" var="recover_var" user_id="$_G.user_id"}		      
+		           <div class="title_bor"><h1>个人资金详情</h1></div>	
+				   <div class="us_infor"><table width="100%" cellspacing="9">			   
+ {articles module="account" function="GetOne" var="Avar" user_id="$_G.user_id"}
+  <tbody><tr>
+    <td width="35%" title="总额=可用余额+冻结金额+待收金额"> 资产总额：<font>￥{$Avar.total|default:0.00}</font></td>
+	<td width="35%"> 可用余额：<font>￥{$Avar.balance|default:0.00}</font></td>
+
+  </tr>
+  <tr>
+  	<td width="35%"> 冻结总额：<font>￥{$Avar.frost|default:0.00}</font></td>	
+    <td width="65%">投标冻结总额：<font>￥{ $recover_var.tender_now_account|default:0.00}</font></td>
+  </tr>
+  {articles module="account" function="GetRechargeCount" var="Rvar" user_id='$_G.user_id'}
+  <tr>
+  {list module="account" function="GetCashList" var="loop" user_id="$_G.user_id" epage=20}
+  	<td>充值成功总额：<font>￥{$Rvar.account_balance|default:0.00}</font></td>
+    <td width="65%">提现成功总额：<font>￥{$loop.credited_all|default:0.00}</font></td>
+  </tr>
+  {/articles}
+  <tr>
+    	<td>充值手续费：<font>￥{$Rvar.account_fee|default:0.00}</font></td>
+		<td width="65%">提现手续费：<font>￥{$loop.fee_all|default:0.00}</font></td>
+	{/list}
+  </tr>
+ </tbody></table>	      
+		  </div>
+		           <div class="title_bor"><h1>投资资金详情</h1></div>
+				   <div class="us_infor">
+                  <table width="100%" cellspacing="9">
+  <tbody>
+
+  <tr>
+    <td>投标总额：<font>￥{ $recover_var.tender_success_account|default:0.00}</font></td>
+    <td width="65%">待回收总额：<font>￥{ $recover_var.recover_wait_account|default:0.00}</font></td>
+  </tr>
+
+  <tr>
+    <td>待回收本金：<font>￥{ $recover_var.recover_wait_capital|default:0.00}</font></td>
+    <td width="65%">待回收利息：<font>￥{ $recover_var.recover_wait_interest|default:0.00}</font> </td>
+  </tr>  
+  <tr>
+    <td>已回收总额：<font>￥{ $recover_var.recover_yes_account|default:0.00}</font></td>
+	<td width="65%">已回收金额：<font>￥{ $recover_var.recover_yes_capital|default:0.00}</font></td>
+  </tr>
+   <tr>
+    <td>已回收利息：<font>￥{ $recover_var.recover_yes_interest|default:0.00}</font></td>
+    <td width="65%">网站垫付总额：<font>￥{ $recover_var.recover_web_account|default:0.00}</font></td>
+  </tr>
+    <tr>
+    <td>逾期罚金收入：<font>￥{ $recover_var.recover_fee_account|default:0.00}</font></td>
+    <td  width="65%">损失利息总额：<font>￥{ $recover_var.repay_account_web|default:0.00}</font></td>
+  </tr>
+  <tr>
+    <td>最近收款日期：<font>{ $recover_var.recover_wait_now_time|date_format:"Y-m-d"|default:"-"}</font></td>
+  </tr>
+  
+</tbody></table>
+                   </div>{/articles}
+
+{articles module="borrow" plugins="count" function="GetUsersRepayCount" var="recover_var" user_id="$_G.user_id"}	    
+        <div class=" t10">
+		           <div class="title_bor"><h1>贷款资金详情</h1></div>
+				   <div class="us_infor">
+                    <table width="100%" cellspacing="9">
+  <tbody>
+  
+  <tr>
+    <td>借款总额：<font>￥{$recover_var.borrow_success_account|default:0.00}</font></td>
+	<td>已还总额：<font>￥{$recover_var.repay_yes_account|default:0.00}</font></td>
+  </tr>
+  <tr>
+	<td>未还总额：<font>￥{ $recover_var.repay_wait_account|default:0.00}</font></td>
+    <td width="65%">发标次数：<font>{$recover_var.borrow_loan_num|default:0}笔</font> </td>
+  </tr>
+  <tr>
+	<td>还款标数：<font>{$recover_var.repay_yes_times|default:0}笔</font></td>
+    <td width="65%">待还笔数：<font>{$recover_var.repay_wait_times|default:0}笔</font> </td>
+  </tr>
+  <tr>
+    <td>最近应还款金额：<font>￥{$recover_var.repay_wait_now_account|default:0.00}</font></td>
+    <td width="65%">最近还款日期：{$recover_var.repay_wait_now_time|date_format:"Y/m/d"|default"/"}<font></font>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/?user&q=code/borrow/loan&p=repay"><strong><font color="red">[我要还款]</font></strong></a></td>
+  </tr>
+
+</tbody></table>{/articles}{/articles}
+                   </div>
+                   </div></div>
+
+	    

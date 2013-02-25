@@ -1,0 +1,73 @@
+<br>
+<div class="us_cen1">我的基本信息</div>
+<form action="/?user&q=code/rating/basic" method="post" name="formx" onsubmit="return formcheck();">
+<div class="user_info_box clearfix" style="width: auto">
+	<div class="user_info_item">
+		<span class="user_info_item_left">用户名：</span> 
+		<span>
+		{$_G.user_result.username}
+		</span>
+	</div>
+	{articles module="rating" function="GetInfoOne" user_id="$_G.user_id" var="var"}
+	
+	{articles module="approve" function="GetRealnameOne" user_id="$_G.user_id" var="rel"}
+		<div class="user_info_item">
+		<span class="user_info_item_left"><!-- <span class="f_red b">*</span> -->真实姓名：</span> 
+		<span> 
+		<input id="realname" name="realname" {if $var.realname!=''}value="{$var.realname}"{else}value="{$rel.realname}"{/if} class="input180 " >
+		</span>
+		</div>	
+		<div class="user_info_item">
+		<span class="user_info_item_left"><!-- <span class="f_red b">*</span> -->身份证号：</span> 
+		<span> 
+		<input id="card_id" name="card_id" {if $var.card_id!=''}value="{$var.card_id}"{else}value="{$rel.card_id}"{/if} class="input180 " >
+		</span>
+		</div>	
+	{/articles}
+	{articles module="approve" function="GetSmsOne" status=1 user_id="$_G.user_id" var="tel"}
+	<div class="user_info_item">	
+		<span class="user_info_item_left">手机号码：</span> 
+		<span> 
+		<input id="phone" name="phone" value="{$tel.phone}" class="input180 ">
+		</span>
+	</div>
+	{/articles}
+	<div class="user_info_item">
+		<span class="user_info_item_left">性 别：</span>
+		<span> {linkages nid="rating_sex" name="sex" type="value" value="$var.sex"  style="width:120px; border:#BFBFBF solid 1px; height:18px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">出生日期：</span>
+		<span> {linkages nid="rating_birthday_year" name="rating_birthday_year" type="value" value="$var.rating_birthday_year" }{linkages nid="rating_birthday_mouth" name="rating_birthday_mouth" type="value" value="$var.rating_birthday_mouth" }{linkages nid="rating_birthday_day" name="rating_birthday_day" type="value" value="$var.rating_birthday_day" } 
+		</span>
+	</div>
+
+	<div class="user_info_item">
+		<span class="user_info_item_left">婚姻状况：</span> <span>{linkages nid="rating_marry" name="marry" value="$var.marry" type="value"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>
+
+	<div class="user_info_item">
+		<span class="user_info_item_left">学 历：</span> <span> {linkages nid="rating_education" name="edu" value="$var.edu" type="value" style="width:120px; border:#BFBFBF solid 1px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">月收入：</span> <span> {linkages nid="rating_income" name="income" value="$var.income" type="value" style="width:120px; border:#BFBFBF solid 1px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+	<span class="user_info_item_left">个人描述：</span> <span> <textarea name="remark" cols="50" rows="5"/>{$var.remark}</textarea>
+		</span>				
+			</div>
+    <div style="padding:10px 0; margin-left:170px">
+	<input type="hidden" name="type" value="{$magic.request.type}" />
+	{if $magic.request.type=='basic'}
+	<input type="image" src="{$tpldir}/images/saveandcon.gif"/>	
+	<input type="hidden" name="submit" id="submit" value="提交" />
+	{else}
+	<input type="submit" name="submit" id="submit" value="提交" class="press_mode" />
+	{/if}
+	</div>
+	</div>
+</form>

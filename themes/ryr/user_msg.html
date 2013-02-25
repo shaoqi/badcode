@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>系统消息 - {$sys_info.webname}</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<link href="{$tpldir}/main1.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+{include file="header.html"}
+
+<div style=" border:1px solid #CCCCCC;width:960px; margin:0 auto; margin-top:10px;">
+	<div style=" background-color:#E8E8E8; margin:1px; line-height:25px; padding-left:10px; font-size:13px;"><strong>系统信息</strong></div>
+	<div style="text-align:center;font-size:12px;"><br />
+{ $_U.showmsg.msg }<br /><br  /> <div id="msg_content"><a href="{ $_U.showmsg.url }">{$_U.showmsg.content}</a></div><br />
+	</div>
+</div>
+<script> 
+
+var url = '{ $_U.showmsg.url|$ }';
+var content = '{ $_U.showmsg.content }';
+{literal}
+if (url == ""){
+	document.getElementById('msg_content').innerHTML = "<a href='javascript:history.go(-1)'>"+content+"</a>";
+}else{
+	document.getElementById('msg_content').innerHTML = "<a href='"+url+"'>"+content+"</a>";
+}
+setInterval("testTime()",3000); 
+function testTime() { 
+		if (url == ""){
+			history.go(-1);
+		}else{
+        location.href = url; //#设定跳转的链接地址
+		}
+} 
+</script>{/literal}
+
+
+{include file="footer.html"}

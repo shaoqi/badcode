@@ -1,0 +1,170 @@
+{articles module="borrow" function="GetUserCount" user_id="$_G.user_id" var="item"}
+		        <div class="main_box1 t10">
+		           <div class="title_bor"><h1>个人资金详情</h1></div>	
+				   <div class="us_infor"><table width="100%" cellspacing="9">			   
+ {articles module="account" function="GetOne" var="Avar" user_id="$_G.user_id"}
+  <tbody><tr>
+    <td width="35%"> 账户总额：<font>￥{$Avar.total|default:0.00}</font></td>
+    <td width="65%"><a href="index.php?user&amp;q=code/account/log">资金记录查询</a> | <a href="index.php?user&amp;q=code/account">账户资金详情</a> </td>
+  </tr>
+  <tr>
+    <td>可用余额：<font>￥{$Avar.balance|default:0.00}</font></td>
+    <td width="65%"><a href="index.php?user&amp;q=code/account/cash_new"><font style="font-size:12px;"><strong>[提现]</strong></font></a> <a href="index.php?user&amp;q=code/account/recharge_new"><font style="font-size:12px;"><strong>[充值]</strong></font> </a> <a href="/index.php?user&amp;q=code/account/bank">
+            
+            &nbsp;银行账户设置 </a> <a href="/index.php?user&amp;q=code/account/recharge">
+                &nbsp;充值记录查询 </a>
+        &nbsp;<a href="/index.php?user&amp;q=code/account/cash">提现记录查询 </a> </td>
+  </tr>
+  <tr>
+    <td>冻结总额：<font>￥{$Avar.frost|default:0.00}</font></td>
+    <td width="65%"><a href="/index.php?user&amp;q=code/borrow/bid">正在进行的投标</a> <a href="/index.php?user&amp;q=code/account/cash">正在申请的提现</a></td>
+  </tr>
+  <tr>
+    <td>投标冻结总额：<font>￥{ $item.recover_flost_account|default:0.00}</font></td>
+	{articles module="account" function="GetRechargeCount" var="Rvar" user_id='$_G.user_id'}
+	<td  width="65%">充值成功总额：<font>￥{$Rvar.all.account_balance|default:0.00}</font></td>
+	
+  </tr>
+  
+  <tr>
+  {list module="account" function="GetCashList" var="loop" user_id="$_G.user_id" epage=20}
+    <td>提现成功总额：<font>￥{$loop.credited_all|default:0.00}</font></td>
+	
+	    <td  width="65%">在线充值总额：<font>￥{$Rvar.1.account_balance|default:0.00}</font></td>
+  </tr>
+  
+  <tr>
+    <td>线下充值总额：：<font>￥{$Rvar.0.account_balance|default:0.00}</font></td>
+	<td  width="65%">手动充值总额：<font>￥{$Rvar.2.account_balance|default:0.00}</font></td>
+  </tr>{/articles}
+  <tr>
+    <td>提现手续费：<font>￥{$loop.fee_all|default:0.00}</font></td>
+	{/list}
+	{articles module="borrow" function="GetAmountUsers" user_id="$_G.user_id" var="_amount"}
+	<td  width="65%">可用额度：<font>￥{$_amount.borrow_use|default:"0.00"}</font></td>
+	{/articles}
+  </tr>
+  <!-- <tr>
+    <td>可用红包：<font>￥0.00</font></td>
+    <td width="65%"></td>
+  </tr> -->
+  
+ </tbody></table>
+
+				      
+		  </div>
+	    </div>
+        
+        
+        <div class="main_box1 t10">
+		           <div class="title_bor"><h1>投资资金详情</h1></div>
+				   <div class="us_infor">
+                   <table width="100%" cellspacing="9">
+  <tbody>
+
+  <tr>
+    <td>投标总额：<font>￥{ $item.tender_success_account|default:0.00}</font></td>
+    <td width="65%">待回收总额：<font>￥{ $item.tender_recover_wait|default:0.00}</font></td>
+  </tr>
+
+  <tr>
+    <td>待回收金额：<font>￥{ $item.tender_capital_wait|default:0.00}</font></td>
+    <td width="65%">待回收利息：<font>￥{ $item.tender_interest_wait|default:0.00}</font> </td>
+  </tr>  
+  <tr>
+    <td>已回收总额：<font>￥{ $item.tender_recover_yes|default:0.00}</font></td>
+	<td width="65%">已回收金额：<font>￥{ $item.tender_capital_yes|default:0.00}</font></td>
+  </tr>
+   <tr>
+    <td>已回收利息：<font>￥{ $item.tender_interest_yes|default:0.00}</font></td>
+    <td width="65%">网站垫付总额：<font>￥{ $item.repay_account_web|default:0.00}</font></td>
+  </tr>
+    <tr>
+    <td>逾期罚金收入：<font>￥-</font></td>
+    <td  width="65%">损失利息总额：<font>￥-</font></td>
+  </tr>
+  <tr>
+    <td>最近收款日期：<font>{ $item.recover_late_time|date_format:"Y-m-d"|default:"-"}</font></td>
+  </tr>
+  
+</tbody></table>
+                   </div>
+	    </div>
+        <div class="main_box1 t10">
+		           <div class="title_bor"><h1>贷款资金详情</h1></div>
+				   <div class="us_infor">
+                   <table width="100%" cellspacing="9">
+  <tbody>
+  
+  <tr>
+    <td>借款总额：<font>￥{$item.repay_account|default:0.00}</font></td>
+	<td>已还总额：<font>￥{$item.repay_account_yes|default:0.00}</font></td>
+  </tr>
+  <tr>
+	<td>未还总额：<font>￥{ $item.repay_account_wait|default:0.00}</font></td>
+    <td width="65%">发标次数：<font>{$item.borrow_times|default:0}笔</font> </td>
+  </tr>
+  <tr>
+	<td>还款标数：<font>{$item.borrow_yes_times|default:0}笔</font></td>
+    <td width="65%">待还笔数：<font>{$item.borrow_wait_times|default:0}笔</font> </td>
+  </tr>
+  <tr>
+    <td>最近应还款金额：<font>￥{$item.account_late|default:0.00}</font></td>
+    <td width="65%">最近还款日期：{$item.repay_late_time|date_format:"Y-m-d"|default"-"}<font></font>&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php?user&amp;q=code/borrow/repaymentplan"><strong><font color="red">[我要还款]</font></strong></a></td>
+  </tr>
+
+</tbody></table>{/articles}
+                   </div>
+	    </div>
+
+<div class="t20">
+{literal}
+<script>
+function sousuo(url){
+	var dotime1=$('#dotime1').val();
+	var dotime2=$('#dotime2').val();
+	location.href=url+"&dotime1="+dotime1+"&dotime2="+dotime2;
+}
+</script>
+{/literal}
+			<div>
+				发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1|default:"$day7"|date_format:"Y-m-d"}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2|default:"$nowtime"|date_format:"Y-m-d"}" id="dotime2" size="15" onclick="change_picktime()"/>
+				 <input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/zhanghu')" style="height:25px; width:60px"/>
+		</div>
+	</div>
+	
+<div class="t20">
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<form action="" method="post">
+			<tr class="ytit1" >
+					<td>日期</td>
+					<td>成功借款+</td>
+					<td>借款管理费-</td>
+					<td>投标-</td>
+					<td>待收总额+</td>
+					<td>利息收入+</td>
+					<td>还款-</td>
+					<td>充值+</td>
+					<td>提现-</td>
+			</tr>
+			{list module="borrow" var="loop" function ="Getaccountzhanghu"  user_id="$_G.user_id" dotime2=request dotime1=request }
+			{foreach from="$loop.list" item="item"}			
+			<tr {if $key%2==1} class="ynow"{/if} >
+				<td>{$key}</td>
+				<td >￥{$item.borrow_success|default:"0.00"}</td>
+				<td >￥{$item.borrow_manage_fee|default:"0.00"}</td>
+				<td >￥{$item.tender_success|default:"0.00"}</td>
+				<td >￥{$item.recover_account_wait|default:"0.00"}</td>
+				<td >￥{$item.recover_interest_yes|default:"0.00"}</td>
+				<td >￥{$item.borrow_repay|default:"0.00"}</td>
+				<td >￥{$item.cash_success|default:"0.00"}</td>
+				<td >￥{$item.recharge|default:"0.00"}</td>				
+			</tr>
+			{/foreach}
+			{/list}
+			</form>
+		</table>
+</div>
+
+		{/articles}

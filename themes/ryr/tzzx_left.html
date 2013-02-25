@@ -1,0 +1,13 @@
+<div class="user_left">
+	<div class="he_le_bor">
+		<div class="he_le_title">
+		  <h1>投资中心</h1></div>
+			<div class="help_menu">
+					<ul>
+					 {loop module="admin" function="GetSiteList" var="var" limit ="all" pid="177" status="1"}
+						<li><a href="/{$var.nid}/index.html" {if $_G.site_result.nid==$var.nid}style=" background:#FFF; color:#ff7e00"{/if}> - {$var.name}</a></li>
+					{/loop}				
+				    </ul>
+		    </div>
+    </div>
+     </div>

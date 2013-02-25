@@ -1,0 +1,186 @@
+{if $magic.request.type=="reg"}
+<form action="/?user&q=code/users/manage" method="post" name="formx" id="manage">
+	<div class="user_info_item">
+		<span class="user_info_item_left">用户名：</span> 
+		<span>
+		{$_G.user_result.username}
+		</span>
+	</div>
+	{articles module="users" function="GetUserManageOne" user_id="$_G.user_id" var="var"}
+	
+	{articles module="approve" function="GetRealnameOne" user_id="$_G.user_id" var="rel"}
+		<div class="user_info_item">
+		<span class="user_info_item_left"><!-- <span class="f_red b">*</span> -->真实姓名：</span> 
+		<span> 
+		<input id="realname" name="realname" {if $var.realname!=''}value="{$var.realname}"{else}value="{$rel.realname}"{/if} class="input180 " >
+		</span>
+		</div>	
+		<div class="user_info_item">
+		<span class="user_info_item_left"><!-- <span class="f_red b">*</span> -->身份证号：</span> 
+		<span> 
+		<input id="card_id" name="card_id" {if $var.card_id!=''}value="{$var.card_id}"{else}value="{$rel.card_id}"{/if} class="input180 " >
+		</span>
+		</div>	
+	{/articles}	
+	<div class="user_info_item">
+		<span class="user_info_item_left">性 别：</span>
+		<span> {linkages nid="rating_sex" name="sex" type="value" value="$var.sex"  style="width:135px; border:#BFBFBF solid 1px; height:18px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">出生日期：</span>
+		<span> {linkages nid="rating_birthday_year" name="rating_birthday_year" type="value" value="$var.rating_birthday_year" }{linkages nid="rating_birthday_mouth" name="rating_birthday_mouth" type="value" value="$var.rating_birthday_mouth" }{linkages nid="rating_birthday_day" name="rating_birthday_day" type="value" value="$var.rating_birthday_day" } 
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">学 历：</span> <span> {linkages nid="rating_education" name="edu" value="$var.edu" type="value" style="width:135px; border:#BFBFBF solid 1px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">联系地址：</span><span><input id="address" name="address" value="{$var.address}" class="input180 " > 
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">邮箱：</span><span><input id="email" name="email" value="{$var.email}" class="input180 " > 
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">紧急联系人：</span><span><input id="linkman" name="linkman" value="{$var.linkman}" class="input180 " > 
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">紧急联系人电话：</span><span><input id="linktel" name="linktel" value="{$var.linktel}" class="input180 " > 
+		</span>
+	</div>
+	<div class="user_info_item">
+	<span class="user_info_item_left">个人简历：</span> <span> <textarea name="resume" id="resume" cols="50" rows="5"/>{$var.resume}</textarea>
+		</span>				
+			</div>
+    <div style="padding:10px 0; margin-left:170px">	
+	<input type="image" src="{$tpldir}/images/saveandcon.gif"/>	
+	<input type="hidden" name="submit" id="submit" value="提交" />	
+	</div>	
+</form>
+{literal}
+<script src="{$tpldir}/js/jquery.form.js" type="text/javascript"></script>
+<script>
+ $("#manage").live("submit",function(){
+	var realname=$("#realname").val();
+	var card_id=$("#card_id").val();
+	var address=$("#address").val();
+	var email=$("#email").val();
+	var linkman=$("#linkman").val();
+	var linktel=$("#linktel").val();
+	var resume=$("#resume").val();
+	var msg = '';
+	if(realname==''){
+		msg += "真实姓名不能为空 \n";
+	}
+	if(card_id==''){
+		msg += "身份证号不能为空 \n";
+	}
+	if(address==''){
+		msg += "联系地址不能为空 \n";
+	}
+	if(email==''){
+		msg += "邮箱不能为空 \n";
+	}
+	if(linkman==''){
+		msg += "紧急联系人不能为空 \n";
+	}
+	if(linktel==''){
+		msg += "紧急联系人电话不能为空 \n";
+	}
+	if(resume==''){
+		msg += "个人简历不能为空 \n";
+	}
+	if(msg!=''){
+		alert(msg);return false;
+	}
+	$("#manage").ajaxSubmit({
+			 success: function (result, status) {
+				if(parseInt(result)==1){
+					alert("提交成功，请等待客服审核!");					
+				 }else{
+				   alert(result);
+				 }
+			}
+		});
+		return false; // cancel conventional submit
+})
+</script>
+{/literal}
+
+
+{else}
+
+		{if $_U.user_manage.status==1}
+		<!--好友邀请 开始-->
+		<div class="user_main_title1" > 
+			温馨提示：请不要发送邀请信给不熟悉的人士,避免给别人带来不必要的困扰。<br />
+		</div><br />
+		<div class="user_right_border">
+			<div class="l">邀请链接：</div>
+			<div class="c">
+				<textarea cols="40" rows="3" id="invite">http://{$magic.server.SERVER_NAME}/index.php?user&q=reginvite&u={$_U.user_inviteid}</textarea> <input type="button" class="press_mode" onclick="doCopy('invite')" value="复制" />
+			</div>
+			</div><br /><br />
+			{list  module="users" function="GetManageAccountList" var="loop" dotime1=request  dotime2=request  user_id="$_G.user_id" showpage="3"}
+			
+			<div style="float:right">目前总共获得的推广奖励{$loop.num|default:"0.00"}元</div>
+			<div  style="float:left">发生日期：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>
+			<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url_all}')" /></div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+				<tr class="ytit1" >
+					<td  >发生日期</td>
+					<td  >用户名 </td>
+					<td  >投资金额</td>
+					<td  >投资期限</td>
+					<td  >年化利率</td>
+					<td  >奖金金额</td>
+				</tr>
+				
+				{foreach from="$loop.list" item="item"}
+				<tr >
+					<td>{$item.addtime|date_format:"Y-m-d"}</td>
+					<td>{$item.tender_username}</td>
+					<td>{$item.tender_account}元</td>
+					<td>{$item.tender_period}个月</td>
+					<td>{$item.tender_apr}%</td>
+					<td>{$item.award}元</td>
+				</tr>
+				{/foreach}
+				<tr >
+					<td colspan="6" align="center">{$loop.pages|showpage}</td>
+				</tr>
+				{/list}
+		</table>
+		{else}
+		<div class="user_main_title1" > 
+		申请成为注册理财师后，您可以进行财富推广，轻松赚取佣金，还犹豫什么？<br />
+		<br />
+		关于注册理财师介绍  <a href="/zclcs/index.html"><font style="color:#EF5002">查看更多</font></a><br />
+		<br />
+		<a href="/?user&q=code/users/reginvite&type=reg"><font style="color:#EF5002">马上申请注册理财师</font></a><br />
+		<br />
+		</div><br />		
+		{/if}
+{/if}		
+<script>
+var url = "{$_U.query_url}/{$_U.query_type}";
+{literal}
+function sousuo(urla){
+	if (urla!="") url = urla;
+	var _url = "";
+	var dotime1 = $("#dotime1").val();
+	var dotime2 = $("#dotime2").val();	
+	if (dotime1!=null){
+		 _url += "&dotime1="+dotime1;
+	}
+	if (dotime2!=null){
+		 _url += "&dotime2="+dotime2;
+	}
+	location.href=url+_url;
+}
+{/literal}
+</script>

@@ -1,0 +1,211 @@
+{if $_A.query_type=="list"}
+<div class="module_add">
+	<div class="module_title"><strong style="color:#006600">系统模块</strong>(<a href="{$_A.query_url_all}/update">一键更新所有模块信息)</a>
+</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+			<td width="" class="main_td">编号</td>
+			<td width="*" class="main_td">名称</td>
+			<th width="" class="main_td">描述</th>
+			<th width="" class="main_td">版本</th>
+			<th width="" class="main_td">作者</th>
+			<th width="" class="main_td">更新时间</th>
+			<th width="" class="main_td">更新内容</th>
+			<td width="" class="main_td">操作</td>
+		</tr>
+		
+		{ loop  module="admin" function="GetModuleFileList" limit="all" var=item type="system"}
+		<tr {if $key%2==1}class="tr2"{/if}>
+			<td align="center">{ $item.nid}</td>
+			<td align="center">{$item.name}</td>
+			<td align="center">{$item.description}</td>
+			<td align="center">{$item.version|default:"-"}</td>
+			<td align="center">{$item.author|default:"-"}</td>
+			<td align="center">{$item.date|default:"-"}</td>
+			<td align="center">{$item.update|default:"-"}</td>
+			<td align="center" >{if $item.version==$item.version_new}-{else}<a href="{$_A.query_url}/update&nid={ $item.nid}">更新</a>{/if}</td>
+		</tr>
+		{ /loop}
+</table>
+<form action="{$_A.query_url}/action" method="post">
+<div class="module_add">
+	<div class="module_title"><strong style="color:#006600">已安装模块</strong><input type="submit" value="修改排序" />
+</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+			<td width="" class="main_td">ID</td>
+			<td width="*" class="main_td">标识名</td>
+			<td width="*" class="main_td">别名</td>
+			<td width="*" class="main_td">名称</td>
+			<th width="" class="main_td">版本</th>
+			<th width="" class="main_td">作者</th>
+			<th width="" class="main_td">更新时间</th>
+			<th width="" class="main_td">描述</th>
+			<th width="" class="main_td">状态</th>
+			<th width="" class="main_td">排序</th>
+			<td width="" class="main_td">操作</td>
+		</tr>
+		<form action="{$_A.query_url}/order" method="post">
+		{ loop  module="admin" function="GetModuleFileList" type="install" var=item}
+		<tr {if $key%2==1}class="tr2"{/if}>
+			<td align="center">{ $item.id}</td>
+			<td align="center">{$item.nid}</td>
+			<td align="center">{$item.nickname}</td>
+			<td align="center">{$item.name}</td>
+			<td align="center">{$item.version}</td>
+			<td align="center">{$item.author}</td>
+			<td align="center">{$item.date}</td>
+			<td align="center">{$item.description}</td>
+			<td align="center"><select name="status[]"><option value="1" {if $item.status==1} selected="selected"{/if}>开启</option><option value="0" {if $item.status==0} selected="selected"{/if}>关闭</option></select></td>
+			<td align="center"><input type="text" name="order[]" value="{$item.order|default:0}" size="5" /><input type="hidden" name="id[]" value="{$item.id}" /></td>
+			<td align="center"> <a href="{$_A.query_url}/edit&nid={ $item.nid}">编辑</a> | <a href="#" onClick="javascript:if(confirm('请确定是否要卸载此模块，此模块卸载后所有的数据都将清空，请慎重处理')) location.href='{$_A.query_url}/delete&nid={$item.nid}'">卸载</a> {if $item.version!=$item.version_new}| <a href="{$_A.query_url}/update&nid={ $item.nid}">更新</a>{/if}</td>
+		</tr>
+		{ /loop}
+</table>
+</form>
+<div class="module_add">
+	<div class="module_title"><strong style="color:#FF0000">未安装模块</strong>
+	
+</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+			<td width="" class="main_td">编号</td>
+			<td width="*" class="main_td">名称</td>
+			<th width="" class="main_td">描述</th>
+			<th width="" class="main_td">版本</th>
+			<th width="" class="main_td">作者</th>
+			<th width="" class="main_td">更新时间</th>
+			<th width="" class="main_td">更新内容</th>
+			<td width="" class="main_td">操作</td>
+		</tr>
+		<form action="{$_A.query_url}/order" method="post">
+		
+		{ loop  module="admin" function="GetModuleFileList" limit="all" var=item type="unstall"}
+		<tr {if $key%2==1}class="tr2"{/if}>
+			<td align="center">{ $item.code}</td>
+			<td align="center">{$item.name}</td>
+			<td align="center">{$item.description}</td>
+			<td align="center">{$item.version|default:"-"}</td>
+			<td align="center">{$item.author|default:"-"}</td>
+			<td align="center">{$item.date|default:"-"}</td>
+			<td align="center">{$item.update|default:"-"}</td>
+			<td align="center" ><a href="{$_A.query_url}/install&nid={ $item.code}">安装</a></td>
+		</tr>
+		{ /loop}
+</table>
+
+{elseif $_A.query_type=="install" || $_A.query_type=="edit"}
+<div class="module_add">
+		<form action="" method="post" name="form1" onsubmit="return check_form();" >
+		<div class="module_title"><strong>{ if $_A.query_type == "edit" }编辑{else}添加{/if}模块</strong></div>
+		
+		<div class="module_border">
+			<div class="l">模块名称：</div>
+			<div class="c">
+			{$_A.module_result.name}	<input type="hidden" name="name" value="{$_A.module_result.name}" /><input type="hidden"  name="date" value="{$_A.module_result.date}" />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">模块别名：</div>
+			<div class="c">
+				<input type="text" class="input_border" align="absmiddle" name="nickname" value="{$_A.module_result.nickname|default:$_A.module_result.name}" />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">识别ID（nid）：</div>
+			<div class="c">
+				{$_A.module_result.nid}<input type="hidden" name="nid" value="{$_A.module_result.nid}" />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">状态：</div>
+			<div class="c">
+				<select name="status" class="input_border">
+				<option value="1" { if $_A.module_result.status=='1' || $_A.module_result.status==""} selected="selected"{ /if}>开启</option>
+				<option value="0"  { if $_A.module_result.status=='0'} selected="selected"{ /if}>关闭</option>
+			  </select>
+			</div>
+		</div>
+		
+		
+		<div class="module_border">
+			<div class="l">默认封面模板：</div>
+			<div class="c">
+				<input type="text" align="absmiddle" name="index_tpl" value="{$_A.module_result.index_tpl|default:"[code].html"}" class="input_border"  />[code]表示此模块的识别id，以下类推
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">默认列表模板：</div>
+			<div class="c">
+				<input type="text" align="absmiddle" name="list_tpl" value="{$_A.module_result.list_tpl|default:"[code]_list.html"}" class="input_border"  />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">默认内容模板：</div>
+			<div class="c">
+				<input type="text" align="absmiddle" name="content_tpl" value="{$_A.module_result.content_tpl|default:"[code]_content.html"}" class="input_border"  />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">搜索模板：</div>
+			<div class="c">
+				<input type="text" align="absmiddle" name="search_tpl" value="{$_A.module_result.search_tpl|default:"[code]_search.html"}" class="input_border"  />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">简介：</div>
+			<div class="c">
+				<input type="text" align="absmiddle" name="description" value="{$_A.module_result.description}" class="input_border"  />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">版本：</div>
+			<div class="c">
+				<input type="text" align="absmiddle" name="version" value="{$_A.module_result.version|default:'1.0'}" class="input_border"  />
+			</div>
+		</div>
+		
+		<div class="module_border">
+			<div class="l">作者：</div>
+			<div class="c">
+				<input type="text" align="absmiddle" name="author" value="{$_A.module_result.author|default:'hycms'}" class="input_border"  />
+			</div>
+		</div>
+		
+		<div class="module_submit border_b" >
+			<input type="submit" value=" 提 交 " class="submitstyle" name="submit_ok" />&nbsp;&nbsp;
+			<input name="reset" type="reset" class="submitstyle" value=" 重 置 " />
+		</div>
+		</form>
+	</div>
+	{literal}
+	<script>
+	function check_form(){
+		 var frm = document.forms['form1'];
+		 var title = frm.elements['name'].value;
+		 var code = frm.elements['code'].value;
+		 var errorMsg = '';
+		  if (title.length == 0 ) {
+			errorMsg += '模块名称必须填写' + '\n';
+		  }
+		  if (code.length == 0 ) {
+			errorMsg += '识别id必须填写' + '\n';
+		  }
+		  if (errorMsg.length > 0){
+			alert(errorMsg); return false;
+		  } else{  
+			return true;
+		  }
+	}
+	</script>
+	{/literal}
+
+{/if}

@@ -1,0 +1,12 @@
+/* CSS Document */
+body{ background:#F3F3F3;}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td {margin: 0;padding: 0;}
+body, input, button, select, textarea, th, td,div,font {color: #333333;font-family: tahoma,arial,sans-serif;font-size: 12px;line-height: 1.5;}
+img{ border:none}
+ul{ list-style-type:none}
+a{ color:#245F98; text-decoration:none}
+a:hover{ text-decoration:underline}
+.cle{ clear:both; height:0; overflow:hidden; line-height:0; font-size:0px;}
+.daeyou_dialog { line-height:30px;margin-top:10px; margin-bottom:5px}
+.daeyou_dialog .title{  float:left; width: 90px; text-align: right;}
+.daeyou_dialog .content{ text-align:left}

@@ -1,0 +1,10 @@
+<?
+	$code = "areas";
+	$name = "地区模块";
+	$description = "全国的省，市，区";
+	$version = "2.0";
+	$author = "dycms";
+	$update = "";
+	$date = "2011-05-04";
+	$type = "system";
+?>

@@ -1,0 +1,120 @@
+ <div>
+            <div class="us_r_bor1">
+			     <div>
+			   <div class="tips" style="width: auto">亲爱的客户，<!-- <span class="f_red b">*</span>为必填内容, -->请认真填写以下信息，我们会对您的个人信息严格保密。</div><br>
+{articles module="rating" function="GetContactOne" user_id="$_G.user_id" var="var"}
+ <form action="/?user&q=code/rating/contact&type=addassets" method="post" name="formx">
+			   <div class="item_group" style="width: auto">请填写您的联系方式
+</div>
+			   <div class="user_info_box clearfix" style="width: auto">	
+	<div class="user_info_item">
+		<span class="user_info_item_left">居住地电话：</span> <span>
+		<input value="{$var.live_tel}" class="input180 " name="live_tel" id="live_tel">
+		</span>
+	</div>
+	<!-- <div class="user_info_item">
+		<span class="user_info_item_left">手机号码：</span> <span>
+		<input value="{$var.phone}" class="input180 " name="phone" id="phone">
+		</span>
+	</div> -->
+	<div class="user_info_item">
+		<span class="user_info_item_left">居住所在省市：</span> <span> 
+		{areas type="p,c,a" value="$var.live_city" name="live_"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">居住地邮编：</span> <span>
+		<input value="{$var.live_code}" class="input180 " name="live_code" id="live_code">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">现居住地址：</span> <span> 
+		<input value="{$var.live_address}" class="input180 " name="live_address" id="live_address">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">MSN：</span> <span> 
+		<input value="{$var.msn}" class="input180 " name="msn" id="msn">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">QQ：</span> <span> 
+		<input value="{$var.qq}" class="input180 " name="qq" id="qq">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">旺旺：</span> <span> 
+		<input value="{$var.taobao}" class="input180 " name="taobao" id="taobao">
+		</span>
+	</div>
+	</div><br>
+	<div class="item_group" style="width: auto">联系人一</div>
+	<div class="user_info_box clearfix" style="width: auto">	
+	<div class="user_info_item">
+		<span class="user_info_item_left">姓名：</span> <span> 
+		<input value="{$var.linkman2}" class="input180 " name="linkman2" id="linkman2">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">关系：</span> <span> 
+		 {linkages nid="rating_relation" name="relationship2" type="value" value="$var.relationship2"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">手机：</span> <span> 
+		<input value="{$var.phone2}" class="input180 " name="phone2" id="phone2">
+		</span>
+	</div>
+	
+	</div><br>
+	<div class="item_group" style="width: auto">联系人二</div>
+	<div class="user_info_box clearfix" style="width: auto">	
+	
+	<div class="user_info_item">
+		<span class="user_info_item_left">姓名：</span> <span> 
+		<input value="{$var.linkman3}" class="input180 " name="linkman3" id="linkman3">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">关系：</span> <span> 
+		{linkages nid="rating_relation" name="relationship3" type="value" value="$var.relationship3"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">手机：</span> <span> 
+		<input value="{$var.phone3}" class="input180 " name="phone3" id="phone3">
+		</span>
+	</div>
+	</div><br>
+	<div class="item_group" style="width: auto">联系人三</div>
+	<div class="user_info_box clearfix" style="width: auto">	
+	
+	<div class="user_info_item">
+		<span class="user_info_item_left">姓名：</span> <span> 
+		<input value="{$var.linkman4}" class="input180 " name="linkman4" id="linkman4">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">关系：</span> <span> 
+		{linkages nid="rating_relation" name="relationship4" type="value" value="$var.relationship4"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">手机：</span> <span> 
+		<input value="{$var.phone4}" class="input180 " name="phone4" id="phone4">
+		</span>
+	</div>
+	<input value="borrow" class="input180 " type="hidden" name="web">
+</div>{/articles}
+			   <div style="text-align: center; padding: 20px 0">
+							<input value="{$magic.request.type}" class="input180 " type="hidden" name="borrow_type">
+							<input type="submit" name="submit" class="saveSettingBnt" onclick="javascript:return checkItemA()" value="保存>继续">
+							<input type="button" class="saveSettingBnt" onclick="javascript:location.href='/?user&q=code/borrow/loan&p=finance'" value="跳过并继续">
+				 </div>
+			   </div>
+			</div>
+            </div>
+            </form>
+		  </div>
+	      </div>
+	   </div>

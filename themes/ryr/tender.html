@@ -1,0 +1,48 @@
+{include file="header.html"}
+<div class="conbox t10">
+     <div class="main_box"><div class="title_bor1"><h1>借款条件筛选</h1></div>
+     <div class="fund_filter">
+       <ul>
+        <li><span>产品类型</span><a href="javascript:void();"  onclick="sousuo('type','')" {if $magic.request.sou_type==""} class="on"{/if}>全部 </a>
+		<a href="javascript:void(0)" onclick="sousuo('type','roam')" {if $magic.request.sou_type=="roam"} class="on"{/if}>循环贷 </a><a href="javascript:void(0)" onclick="sousuo('type','pawn')" {if $magic.request.sou_type=="pawn"} class="on"{/if}>抵押贷</a></li>
+		
+        <li><span>年化利率</span><a href="javascript:void(0)"  onclick="sousuo('apr','')" {if $magic.request.sou_apr==""} class="on"{/if}>全部</a><a href="javascript:void(0)"  onclick="sousuo('apr','0,10')" {if $magic.request.sou_apr=="0,10"} class="on"{/if}>10%以下 </a> <a href="javascript:void(0)"  onclick="sousuo('apr','10,20')" {if $magic.request.sou_apr=="10,20"} class="on"{/if}>10%-20%</a>
+        <a href="javascript:void(0)"  onclick="sousuo('apr','20,100')" {if $magic.request.sou_apr=="20,100"} class="on"{/if}>20%以上</a></li>
+		
+         <li><span>借款期限</span><a href="javascript:void(1)" onclick="sousuo('period','')" {if $magic.request.sou_period==""} class="on"{/if}>全部</a><a href="javascript:void(1)"  onclick="sousuo('period','1,1')" {if $magic.request.sou_period=="1,1"} class="on"{/if}>1个月</a><a href="javascript:void(1)"  onclick="sousuo('period','1,3')" {if $magic.request.sou_period=="1,3"} class="on"{/if}>1-3个月</a>
+        <a href="javascript:void(1)"  onclick="sousuo('period','3,6')" {if $magic.request.sou_period=="3,6"} class="on"{/if}>3-6个月</a><a href="javascript:void(1)"  onclick="sousuo('period','6,12')" {if $magic.request.sou_period=="6,12"} class="on"{/if}>6-12个月</a><a href="javascript:void(1)"  onclick="sousuo('period','12,24')" {if $magic.request.sou_period=="12,24"} class="on"{/if}>12-24个月</a></li>
+		
+         <li><span>借款金额</span><a href="javascript:void(2)" onclick="sousuo('account','')" {if $magic.request.sou_account==""} class="on"{/if}>全部</a><a href="javascript:void(2)" onclick="sousuo('account','0,100')" {if $magic.request.sou_account=="0,100"} class="on"{/if}>100万以内 </a><a href="javascript:void(2)" onclick="sousuo('account','100,300')" {if $magic.request.sou_account=="100,300"} class="on"{/if}>100-300万</a>
+        <a href="javascript:void(2)" onclick="sousuo('account','300,500')" {if $magic.request.sou_account=="300,500"} class="on"{/if}>300-500万 </a><a href="javascript:void(2)" onclick="sousuo('account','500,0')" {if $magic.request.sou_account=="500,0"} class="on"{/if}>500万以上</a></li>
+       </ul>
+     </div>
+    
+    </div>
+  </div>
+ <script>
+ var _type = '{$magic.request.sou_type}';
+ var _apr = '{$magic.request.sou_apr}';
+ var _period = '{$magic.request.sou_period}';
+ var _account = '{$magic.request.sou_account}';
+ var urls = "/invest/index.html?";
+ {literal}
+ function sousuo(type,val){
+	if (type=="type"){
+		_type = val;
+	}
+	if (type=="apr"){
+		_apr = val;
+	}
+	if (type=="period"){
+		 _period = val;
+	}
+	if (type=="account"){
+		_account = val;
+	}
+	url = urls+"sou_type="+_type+"&sou_apr="+_apr+"&sou_period="+_period+"&sou_account="+_account;
+	location.href= url;
+ }
+ </script>
+ {/literal}
+{include file="index_center.html"}
+{include file="footer.html"}

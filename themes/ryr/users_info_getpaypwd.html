@@ -1,0 +1,239 @@
+
+		<!--修改安全密码 开始-->
+
+
+		{if $magic.request.id!=""}
+
+
+		<form action="" name="form1" method="post" onsubmit="return check_form()" >
+
+
+		<div class="user_main_title1">请重新输入您的支付密码</div>
+		
+		<div class="t20">
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">请输入密码：</div>
+
+
+			<div class="c">
+
+
+				<input type="password" name="paypwd" />
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">请再一次输入密码：</div>
+
+
+			<div class="c">
+
+
+				<input type="password" name="paypwd1" />
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">验证码：</div>
+
+
+			<div class="c">
+
+
+				<input name="valicode" type="text" size="11" maxlength="4"  tabindex="3"/>&nbsp;<img src="/?plugins&q=imgcode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"></div>
+
+
+			<div class="c">
+
+
+				<input type="submit" name="name"  value="确认提交" size="30" /> 
+
+
+			</div>
+
+
+		</div>
+
+		</div>
+		
+		</form>
+
+
+		{literal}<script>
+
+
+			function check_form(){
+
+
+				 var frm = document.forms['form1'];
+
+
+				 var newpassword = frm.elements['paypwd'].value;
+
+
+				  var newpassword1 = frm.elements['paypwd1'].value;
+
+
+				 var errorMsg = '';
+
+
+				  if (newpassword.length == 0 ) {
+
+
+					errorMsg += '* 新密码不能为空' + '\n';
+
+
+				  }
+
+
+				   if (newpassword.length >15 || newpassword.length<6 ) {
+
+
+					errorMsg += '* 新密码长度在6到15之间' + '\n';
+
+
+				  }
+
+
+				    if (newpassword.length !=newpassword1.length) {
+
+
+					errorMsg += '* 两次密码不一样' + '\n';
+
+
+				  }
+
+
+				  if (errorMsg.length > 0){
+
+
+					alert(errorMsg); return false;
+
+
+				  } else{  
+
+
+					return true;
+
+
+				}
+
+
+			
+
+
+			}
+
+
+		</script>{/literal}
+
+
+		{else}
+
+
+		<form action="" name="form1" method="post" >
+
+
+		<div class="user_main_title1">请登录邮箱找回</div>
+		
+		<div class="t20">
+
+		<div class="user_right_border">
+
+
+			<div class="l">您的邮箱：</div>
+
+
+			<div class="c">
+
+
+				{$_G.user_result.email}
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">验证码：</div>
+
+
+			<div class="c">
+
+
+				<input name="valicode" type="text" size="11" maxlength="4"  tabindex="3"/>&nbsp;<img src="/?plugins&q=imgcode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"></div>
+
+
+			<div class="c">
+
+
+				<input type="submit" name="name"  value="确认提交" size="30" /> 
+
+
+			</div>
+
+
+		</div>
+
+		</div>
+		
+		</form>
+
+
+		{/if}
+
+
+		<div style="font-size:12px;">
+
+
+		* 温馨提示：我们将严格对用户的所有资料进行保密
+
+
+		</div>
+		<!--修改安全密码 结束-->

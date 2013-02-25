@@ -1,0 +1,64 @@
+<div  style="padding:10px 20px 30px 20px">
+    <div class="remind t20"><span> 尊敬的融易融用户，以下是您在融易融的奖金记录，敬请审阅！</span><br/>
+	<span>您邀请的用户成功申请成为VIP会员，您将获得5元奖金。</span>
+    </div>
+	 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >邀请的好友</td>
+
+
+					<td  >注册时间 </td>
+
+
+					<td  >获得的金额</td>
+
+
+				</tr>
+
+
+				{list  module="users" plugins="Friends" function="GetFriendsInvite" var="loop" user_id="$_G.user_id" showpage="3"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr >
+
+
+					<td>{$item.friends_username}</td>
+
+
+					<td>{$item.friend_reg_time|date_format:"Y-m-d H:i:s"}</td>
+
+					{articles module="users" plugins="vip" function="GetUsersVip" var="Vvar" user_id="$item.friends_userid"}
+					<td>{if $Vvar.status==1}{$_G.system.con_friend_vip_money}{else}0{/if}</td>
+					{/articles}
+					
+				</tr>
+
+
+				{/foreach}
+				<tr >
+
+					<td colspan="3" align="center">{$loop.pages|showpage}</td>
+
+
+				</tr>
+
+				{/list}
+
+
+			</form>	
+
+
+		</table>
+				              
+ </div>
+

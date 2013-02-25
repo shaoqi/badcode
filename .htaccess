@@ -1,0 +1,172 @@
+# Multiple Environment config, set this to development, staging or production
+# SetEnv FUEL_ENV production
+
+<IfModule mod_rewrite.c>
+
+    # Make sure directory listing is disabled
+	Options +FollowSymLinks -Indexes
+	RewriteEngine on
+
+	# NOTICE: If you get a 404 play with combinations of the following commented out lines
+	#AllowOverride All
+	#RewriteBase /wherever/fuel/is
+
+	# Restrict your site to only one domain
+	# !important USE ONLY ONE OPTION
+
+	# Option 1: To rewrite "www.domain.com -> domain.com" uncomment the following lines.
+	#RewriteCond %{HTTPS} !=on
+	#RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+	#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+	# Option 2: To rewrite "domain.com -> www.domain.com" uncomment the following lines.
+	#RewriteCond %{HTTPS} !=on
+	#RewriteCond %{HTTP_HOST} !^www\..+$ [NC]
+	#RewriteCond %{HTTP_HOST} (.+)$ [NC]
+	#RewriteRule ^(.*)$ http://www.%1/$1 [R=301,L]
+
+	# Remove index.php from URL
+	RewriteCond %{HTTP:X-Requested-With}	!^XMLHttpRequest$
+	RewriteCond %{THE_REQUEST}				^[^/]*/index\.php [NC]
+	RewriteRule ^index\.php(.*)$			$1 [R=301,NS,L]
+ 	RewriteRule	^(.*)/user/(.*)/(.*)/(.*)/(.*)$ $1/index\.php?user&user_id=$2&q=code/$3/$4&a=$5
+ 	RewriteRule	^(.*)/user/(.*)/(.*)/(.*)$ $1/index\.php?user&user_id=$2&q=code/$3/$4
+ 	RewriteRule	^(.*)/user/(.*)/(.*)$ $1/index\.php?user&user_id=$2&q=code/$3
+	RewriteRule	^(.*)/user/(.*)$ $1/index\.php?user&user_id=$2
+	RewriteRule	^(.*)/u/(.*)/(.*)$ $1/index\.php?home&user_id=$2&q=$3
+	RewriteRule	^(.*)/u/(.*)$ $1/index\.php?home&user_id=$2
+	RewriteRule	^(.*)/(.*)/(.*)/index.html$ $1/index\.php?$2&nid=$3
+	RewriteRule	^(.*)/(.*)/(.*)/index(.*).html$ $1/index\.php?$2&nid=$3&page=$4
+	RewriteRule	^(.*)/(.*)/(.*)/a(.*).html$ $1/index\.php?$2&nid=$3&article_id=$4
+	RewriteRule	^(.*)/(.*)/index.html$ $1/index\.php?$2
+	RewriteRule	^(.*)/(.*)/index(.*).html$ $1/index\.php?$2&page=$3
+	RewriteRule	^(.*)/(.*)/a(.*)_(.*).html$ $1/index\.php?$2&article_id=$3&page=$4
+	RewriteRule	^(.*)/(.*)/a(.*).html$ $1/index\.php?$2&article_id=$3
+
+	# Send request via index.php (again, not if its a real file or folder)
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+
+	# deal with php5-cgi first
+	<IfModule mod_fcgid.c>
+		RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
+	</IfModule>
+
+	<IfModule !mod_fcgid.c>
+
+		# for normal Apache installations
+		<IfModule mod_php5.c>
+			RewriteRule ^(.*)$ index.php/$1 [L]
+		</IfModule>
+
+		# for Apache FGCI installations
+		<IfModule !mod_php5.c>
+			RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
+		</IfModule>
+
+	</IfModule>
+
+</IfModule>
+<IfModule mod_headers.c>
+  Header set X-UA-Compatible "IE=Edge,chrome=1"
+  # mod_headers can't match by content-type, but we don't want to send this header on *everything*...
+  <FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|oex|xpi|safariextz|vcf)$" >
+    Header unset X-UA-Compatible
+  </FilesMatch>
+</IfModule>
+<IfModule mod_setenvif.c>
+  <IfModule mod_headers.c>
+    # mod_headers, y u no match by Content-Type?!
+    <FilesMatch "\.(gif|png|jpe?g|svg|svgz|ico|webp)$">
+      SetEnvIf Origin ":" IS_CORS
+      Header set Access-Control-Allow-Origin "*" env=IS_CORS
+    </FilesMatch>
+  </IfModule>
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(ttf|ttc|otf|eot|woff|font.css)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+# ----------------------------------------------------------------------
+# Proper MIME type for all files
+# ----------------------------------------------------------------------
+
+# JavaScript
+#   Normalize to standard type (it's sniffed in IE anyways)
+#   tools.ietf.org/html/rfc4329#section-7.2
+AddType application/javascript         js jsonp
+AddType application/json               json
+
+# Audio
+AddType audio/ogg                      oga ogg
+AddType audio/mp4                      m4a f4a f4b
+
+# Video
+AddType video/ogg                      ogv
+AddType video/mp4                      mp4 m4v f4v f4p
+AddType video/webm                     webm
+AddType video/x-flv                    flv
+
+# SVG
+#   Required for svg webfonts on iPad
+#   twitter.com/FontSquirrel/status/14855840545
+AddType     image/svg+xml              svg svgz
+AddEncoding gzip                       svgz
+
+# Webfonts
+AddType application/vnd.ms-fontobject  eot
+AddType application/x-font-ttf         ttf ttc
+AddType font/opentype                  otf
+AddType application/x-font-woff        woff
+
+# Assorted types
+AddType image/x-icon                        ico
+AddType image/webp                          webp
+AddType text/cache-manifest                 appcache manifest
+AddType text/x-component                    htc
+AddType application/xml                     rss atom xml rdf
+AddType application/x-chrome-extension      crx
+AddType application/x-opera-extension       oex
+AddType application/x-xpinstall             xpi
+AddType application/octet-stream            safariextz
+AddType application/x-web-app-manifest+json webapp
+AddType text/x-vcard                        vcf
+AddType application/x-shockwave-flash       swf
+AddType text/vtt                            vtt
+<IfModule mod_deflate.c>
+
+  # Force deflate for mangled headers developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
+  <IfModule mod_setenvif.c>
+    <IfModule mod_headers.c>
+      SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+      RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+    </IfModule>
+  </IfModule>
+
+  # Compress all output labeled with one of the following MIME-types
+  <IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE application/atom+xml \
+                                  application/javascript \
+                                  application/json \
+                                  application/rss+xml \
+                                  application/vnd.ms-fontobject \
+                                  application/x-font-ttf \
+                                  application/xhtml+xml \
+                                  application/xml \
+                                  font/opentype \
+                                  image/svg+xml \
+                                  image/x-icon \
+                                  text/css \
+                                  text/html \
+                                  text/plain \
+                                  text/x-component \
+                                  text/xml
+  </IfModule>
+
+</IfModule>
+AddDefaultCharset utf-8
+AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
+<IfModule php5_module>
+  php_value session.cookie_httponly true
+</IfModule>

@@ -1,0 +1,10 @@
+<?
+	$code = "comments";
+	$name = "评论";
+	$description = "网站总的评论管理";
+	$version = "1.9";
+	$author = "dycms";
+	$date = "2011-11-09";
+	$update = "";
+	$type = "comment";
+?>

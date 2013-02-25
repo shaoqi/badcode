@@ -1,0 +1,59 @@
+{include file="header.html"}
+<!-- {if $_G.site_result.nid=="invest"}
+	<script>
+		location.href="/tender_now/index.html";
+	</script>
+{/if} -->
+	<div class="conbox t20">
+	      <div class="main_left">
+		  <div class="m_change">
+			         <ul>
+					     <li><a href="/transfer/index.html" {if $_G.site_result.nid=="transfer"}class="onn"{/if}>转让中的债权</a></li>
+						 <li><a href="/transfer_success/index.html" {if $_G.site_result.nid=="transfer_success"}class="onn"{/if}>成功转让的债权</a></li>
+					 </ul>
+			   </div>
+		       <div class="main_box">
+			        <div class="us_r_bor2">
+					     <div class="zq_list">
+			        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr class="zqtit">
+    <td width="9%">债权人</td>
+    <td width="31%">投标标题</td>
+    <td width="10%">利率</td>
+    <td width="16%">待还期数/总期数</td>
+    <td width="15%">待收本金/利息</td>
+    <td width="11%">转让价格</td>
+    <td width="8%">购买债权</td>
+  </tr>
+  {list module='borrow' function='GetChangeList' plugins="change" status='$magic.request.status' var="item" var="loop" web='request' dotime2=request dotime1=request order="status"}
+		{foreach from="$loop.list" item="item"}
+  <tr class="oushu">
+    <td><a href="/invest/a{$var.borrow_nid}.html">{$item.username}</a></td>
+    <td><a href="/u/{$var.user_id}">{$item.borrow_name}</a> </td>
+    <td>{$item.borrow_apr}%</td>
+    <td>{$item.wait_times}/{$item.borrow_period}</td>
+    <td>{$item.recover_account_capital_wait}/{if $item.interest_no>0}{$item.interest_no}{else}{$item.recover_account_interest_wait}{/if}</td>
+    <td><em>{if $item.web_status==2 && $item.status==1}
+					{$item.web_buy}
+				{elseif $item.status==1 && $item.web_status!=2}
+					{$item.account}
+				{elseif $item.status==4}
+					{$item.web_account}
+				{/if}</em></td>
+    <td><span><a href="#">购买</a></span></td>
+  </tr>
+  {/foreach}
+  {/list}
+</table>
+
+			   </div>
+<div class="pages">{$loop.pages|showpage:"3,dy"}</div>
+					</div>
+			  </div>
+		  </div>
+		  
+{include file="tender_right.html"} 
+		 <div class="cle"></div>
+	</div>
+
+{include file="footer.html"}

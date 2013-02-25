@@ -1,0 +1,10 @@
+<?
+	$code = "borrow";
+	$name = "借款模块";
+	$description = "借款模块";
+	$version = "3.0";
+	$author = "dycms";
+	$date = "2010-08-20";
+	$update = "更新了借款流程，额度管理等";
+	$type = "borrow";
+?>

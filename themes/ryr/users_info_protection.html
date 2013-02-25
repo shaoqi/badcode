@@ -1,0 +1,152 @@
+
+
+		<!--密码保护 开始-->
+
+
+		 <form action="" method="post">
+
+
+		{if $_U.answer_type=="2" || $_G.user_result.answer == "" }
+
+
+		<div class="user_main_title1">请选择一个新的帐号保护问题,并输入答案。帐号保护可以为您以后在忘记密码、重要设置等操作的时候,提供安全保障。 </div>
+		
+		<div class="t20">
+
+		<div class="user_right_border">
+
+
+			<div class="l">请选择问题：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="question" />
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">请输入答案：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="answer" /><input type="hidden" name="type" value="2" /> 
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">验证码：</div>
+
+
+			<div class="c">
+
+
+				<input name="valicode" type="text" size="11" maxlength="4"  tabindex="3"/>&nbsp;<img src="/?plugins&q=imgcode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+
+
+			</div>
+
+
+		</div>
+		
+		</div>
+		
+		{else}
+
+
+		<div class="user_main_title1">您已经设置了密码保护功能，请先输入答案再进行修改。 </div>
+		
+		<div class="t20">
+
+		<div class="user_right_border">
+
+
+			<div class="l">问题：</div>
+
+
+			<div class="c">
+
+
+				{$_G.user_result.question} 
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">请输入答案：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="answer" /> <input type="hidden" name="type" value="1" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		{/if}
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"></div>
+
+
+			<div class="c">
+
+
+				<input type="submit" name="name"  value="确认提交" size="30" /> 
+
+
+			</div>
+
+
+		</div>
+
+		<div style="font-size:12px;">
+
+
+		* 温馨提示：我们将严格对用户的所有资料进行保密
+
+
+		</div>
+
+		
+		</div>
+
+
+		</form>
+
+
+		<!--密码保护 结束-->

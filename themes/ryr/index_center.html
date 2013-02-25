@@ -1,0 +1,231 @@
+<style>
+</style>
+<div class="conbox t20">
+  <div class="main_left">
+   <div class="quick_links">
+    <ul>
+     <li><a href="/tzlc/index.html"><img src="{$tpldir}/images/p1.gif" /></a></li>
+     <li><a href="/rongzi/index.html"><img src="{$tpldir}/images/p2.gif" /></a></li>
+     <li><a href="/zclcs/index.html"><img src="{$tpldir}/images/p3.gif" /></a></li>
+    </ul>
+    <div class="cle"></div>
+   </div>
+    <div class="main_box t10">
+      <div class="title_bor">
+        <h1>进行中的借款</h1>
+		{if $_G.site_result.nid=='invest'}
+		<span >
+		<a href="/{$_G.site_result.nid}/index.html?order={if $magic.request.order!='account_up' || $magic.request.order=='account_down'}account_up{elseif $magic.request.order=='account_up'}account_down{/if}" >
+		<font style="{if $magic.request.order=='account_down'||$magic.request.order=='account_up'}color: #FF7E00;{/if}
+		font-size:14px;">金额{if $magic.request.order=="account_down"}↑{else}↓{/if}</font></a>&nbsp;
+		<a href="/{$_G.site_result.nid}/index.html?order={if $magic.request.order!='period_up' || $magic.request.order=='period_down'}period_up{elseif $magic.request.order=='period_up'}period_down{/if}" >
+		<font style="{if $magic.request.order=='period_down'||$magic.request.order=='period_up'}color: #FF7E00;{/if}font-size:14px;">期限{if $magic.request.order=="period_down"}↑{else}↓{/if}</font></a>&nbsp;
+		<a href="/{$_G.site_result.nid}/index.html?order={if $magic.request.order!='apr_up' || $magic.request.order=='apr_down'}apr_up{elseif $magic.request.order=='apr_up'}apr_down{/if}" >
+		<font style="{if $magic.request.order=='apr_up'||$magic.request.order=='apr_down'}color: #FF7E00;{/if}font-size:14px;">利率{if $magic.request.order=="apr_down"}↑{else}↓{/if}</font></a>
+		<a href="/{$_G.site_result.nid}/index.html?order={if $magic.request.order!='datetime_up' || $magic.request.order=='datetime_down'}datetime_up{elseif $magic.request.order=='datetime_up'}datetime_down{/if}" >
+		<font style="{if $magic.request.order=='datetime_up'||$magic.request.order=='datetime_down'}color: #FF7E00;{/if}font-size:14px;">发布时间{if $magic.request.order=="datetime_down"}↑{else}↓{/if}</font></a>
+		</span>
+		{else}
+		<span style=" margin-top:5px;">
+		<a href="/invest/index.html" >
+		<font style="font-size:14px;">查看更多</font></a>
+		</span>
+		{/if}
+      </div>
+      <div class="in_jk_list">
+        <ul>
+          {list module="borrow" function="GetList" var="loop" epage="5" status_nid="invest" sou_type="request" sou_apr="request" sou_period="request" sou_account="request" order="$magic.request.order" roam_wait=1}
+          {foreach from="$loop.list" item="item"}
+          {if $item.borrow_type=="roam"}
+          <li>
+            <div class="left"><a href="/invest/a{$item.borrow_nid}.html">
+			{if $item.fileurl==''}
+			<img src="{$item.user_id|avatar}" border="0" width="70" height="70"/>
+			{else}
+			<img src="/{$item.fileurl}" border="0" width="70" height="70"/>
+			{/if}</a></div>
+            <div class="in_jk_right">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td colspan="5" align="left">
+				  <img src="{$tpldir}/images/roam.gif" align="absmiddle" style="float:left;"/><div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+                </tr>
+                <tr>
+                  <td width="22%" align="left">最小流转：<font class="red">{$item.roam.account_min}元</font></td>
+                  <td width="19%" align="left">年 利 率：<font class="red">{$item.borrow_apr}%</font></td>
+                  <td width="21%" align="left">回购期限：<font class="red">{$item.borrow_period_name}</font></td>
+                  <td width="25%" align="left">还款方式：<font class="red">{$item.style_title}</font></td>
+                  <td width="13%" align="left" rowspan="2">				 
+						<a href="/invest/a{$item.borrow_nid}.html"><img src="{$tpldir}/images/rengou.gif" align="middle" /></a>
+				   </td>
+                </tr>
+                <tr>
+                  <td width="22%" align="left">流转总额：{if $item.account_status.key==1}{$item.account_status.value}万{else}{$item.account}{/if}</td>
+                  <td width="19%" align="left">已流转份：{$item.roam.portion_yes}份</td>
+                  <td width="21%" align="left">已回购份：{$item.roam.recover_yes}份</td>
+                  <td width="25%" align="left">待流转份：{$item.roam.portion_wait}份</td>
+                </tr>
+              </table>
+            </div>
+          </li>
+          {else}
+          <li class="no">
+            <div class="left"><a href="/invest/a{$item.borrow_nid}.html">
+			{if $item.fileurl==''}
+			<img src="{$item.user_id|avatar}" border="0" width="70" height="70"/>
+			{else}
+			<img src="/{$item.fileurl}" border="0" width="70" height="70"/>
+			{/if}
+			</a></div>
+            <div class="in_jk_right">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td colspan="5" align="left">
+				  <img src="{$tpldir}/images/danb.gif" align="absmiddle" style="float:left;"/><div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+                </tr>
+                <tr>
+                  <td width="22%" align="left">借款金额：<font class="red">￥{if $item.account_status.key==1}{$item.account_status.value}万{else}{$item.account}{/if}</font></td>
+                  <td width="19%" align="left">年 利 率：<font class="red">{$item.borrow_apr}%</font></td>
+                  <td width="21%" align="left">借款期限：<font class="red">{$item.borrow_period_name}</font></td>
+                  <td width="25%" align="left">进度：<span class="loading"><em style="width:{$item.borrow_account_scale}%"></em></span>{$item.borrow_account_scale}%</td>
+                  <td width="13%" rowspan="2" align="left">				 
+                   {if $item.status==1 && $item.borrow_account_wait!=0}
+						<a href="/invest/a{$item.borrow_nid}.html"><img src="{$tpldir}/images/viewbtn1.gif" align="middle" /></a>
+				    {else}
+						<a href="/invest/a{$item.borrow_nid}.html"><img src="{$tpldir}/dyp2p/borrow_status_{$item.borrow_status_nid}.gif" align="middle" /></a>
+				   {/if}
+					</td>
+                </tr>
+                <tr>				  
+                  <td width="22%" align="left">授信额度：{if $item.pawn_status.key==1}{$item.pawn_status.value}万{else}{$item.pawn_amount}{/if}				  
+				  </td>				 
+                  <td width="19%" align="left">还需金额：<font class="red">￥{if $item.account_wait_status.key==1}{$item.account_wait_status.value}万{else}{$item.borrow_account_wait|default:0}{/if}</font></td>
+                  <td width="21%" align="left">还款方式：{$item.style_title}</td>
+                  <td width="25%" align="left">剩余时间：{$item.borrow_end_time|surplus}</td>
+                </tr>
+              </table>
+            </div>
+          </li>
+          {/if}
+          {/foreach}
+        </ul>
+      </div>
+	  {if $_G.site_result.nid=='invest'}
+	  <div style=" margin-left:200px; font-size:14px;" id="page_list">{$loop.pages|showpage:"3,dy"}</div>
+	  {/if}
+    </div> {/list}
+  </div>
+ 
+  <script>
+{articles module="borrow" plugins="Loan" function="GetLoanStep" user_id="$_G.user_id" var="var"}
+var step = {$var.status};
+var url = '/{$var.url}';
+{/articles} 
+{literal}
+function change_detail(i,k){
+if(k==1){
+	for(j=1;j<=2;j++){
+		$("#li_list_"+j).removeClass();
+		$("#li_list_detail_"+j).hide();
+		$("#a_"+j).hide();
+	}
+	$("#li_list_"+i).addClass("onn");
+	$("#li_list_detail_"+i).show();
+	$("#a_"+i).show();
+}else{
+	for(j=3;j<=5;j++){
+		$("#li_list_"+j).removeClass();
+		$("#li_list_detail_"+j).hide();
+		$("#a_"+j).hide();
+	}
+	$("#li_list_"+i).addClass("onn");
+	$("#li_list_detail_"+i).show();
+	$("#a_"+i).show();
+ }
+}
+
+function roam_buy(borrow_nid,account,_user_id){
+     if (user_id==""){
+        alert("你还没登陆，请先登陆");
+		location.href="/?user&q=login";
+     } else if (user_id==_user_id){
+        alert("不能投自己的标");
+     }else if(step==0){
+		 alert("您还未进行安全信息验证，请先进入验证");
+		 location.href=url;
+	 }else{
+     var val = $("#result_"+borrow_nid).val();
+    _val = parseInt(val.replace("份", ""));
+   
+        var dia = $.dialog({
+            id: 'borr_realname',
+            width: "300px",
+            height: "240px",
+            title:'我要购买',
+            content: 'url:/?user&q=code/borrow/loan&p=view_roam&account='+account+'&num='+_val+'&borrow_nid='+borrow_nid,
+            max: false,
+            min: false
+        });
+    }
+}
+</script>
+  {/literal}
+  <div class="main_right">
+    <div class="main_r_bor">
+      <div class="choic_tit">
+        <ul>
+          <li><a href="/gonggao/index.html" target="_blank" title="网站公告" onmouseover="change_detail(1,1);" id="li_list_1" class="onn">网站公告</a></li>
+          <li><a href="/xwzx/index.html" target="_blank" title="新闻资讯" onmouseover="change_detail(2,1);" id="li_list_2">新闻资讯</a></li>
+        </ul>
+      </div>
+      <div class="m_r_news" id="li_list_detail_1"> {loop module="articles" function="GetList" var="var" limit="6" type_id="58"}
+        <ul>
+          <li>·<a href="/gonggao/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+        </ul>
+        {/loop} </div>
+      <div class="m_r_news" id="li_list_detail_2" style="display:none"> {loop module="articles" function="GetList" var="var" limit="6" type_id="62"}
+        <ul>
+          <li>·<a href="/xwzx/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+        </ul>
+        {/loop} </div>
+    </div>
+    <div class="t10"><a href="/?user&q=code/borrow/jrsh&type=basic"><img src="{$tpldir}/images/banner_07.jpg" /></a></div>
+    <div class="main_r_bor t10">
+      <div class="choic_tit">
+        <ul>
+          <li><a href="/mtbd/index.html" target="_blank" title="媒体报道" onmouseover="change_detail(3,2);" id="li_list_3">媒体报道</a></li>
+          <li><a href="/zhuce/index.html" target="_blank" title="帮助中心" onmouseover="change_detail(4,2);" id="li_list_4" class="onn">帮助中心</a></li>
+        </ul>
+      </div>
+      <div class="m_r_news" id="li_list_detail_3" style="display:none"> {loop module="articles" function="GetList" var="var" limit="6" type_id="59"}
+        <ul>
+          <li>·<a href="/gonggao/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+        </ul>
+        {/loop} </div>
+      <div class="m_r_news" id="li_list_detail_4" > {loop module="articles" function="GetList" var="var" limit="6" type_id="52"}
+        <ul>
+          <li>·<a href="/zhuce/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+        </ul>
+        {/loop} </div>
+    </div>
+    <div class="main_r_bor t10">
+      <div class="m_r_title">
+        <h1>最新投标</h1>
+        </div>
+      <div class="m_r_news" style=" margin-left:5px" id="m_r_news">
+        <ul id="line">
+		{list module="borrow" var="loop" plugins="tender" function ="GetTenderList" epage="15"  }
+				{foreach from="$loop.list" item="item"}
+          <li>
+		  <span><div style="width:65px;float:left">{$item.username|truncate:2}***</div> &nbsp;成功投资<font class="red">￥{$item.account}</font></span>
+		  </li>
+		  {/loop}{/list}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="cle"></div>
+</div>
+<script>
+new Marquee(["m_r_news","line"],0,1,198,157,20,4000,2000);
+</script>

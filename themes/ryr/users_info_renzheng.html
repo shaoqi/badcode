@@ -1,0 +1,178 @@
+
+		<!--修改安全密码 开始-->
+
+
+		<form action="" name="form1" method="post" onsubmit="return check_form()">
+
+
+		<div class="user_main_title1"><!-- 密码请不要太简单，设成复杂一点，做好字母+符号 --></div>
+		
+		<div>
+
+		<div class="user_right_border">
+         <div class="l">认证类型：</div>
+         <div class="c">
+		 <input name="type" type="radio" value="1" checked="checked" onclick="renzheng(1)" />实力认证
+		 <input name="type" type="radio" value="2" onclick="renzheng(2)"/>项目认证
+		</div>
+</div>
+		
+		  <div class="user_right_border t20" id="renzheng_1">
+			<div class="l"></div>
+			<div class="c">
+				<img src="{$tpldir}/images/Le_icon1.gif" /> 100万   
+				<img src="{$tpldir}/images/Le_icon2.gif" /> 200万   
+				<img src="{$tpldir}/images/Le_icon3.gif" /> 300万   
+				<img src="{$tpldir}/images/Le_icon4.gif" /> 400万   
+				<img src="{$tpldir}/images/Le_icon5.gif" /> 500万 
+
+				<p style="padding-top:20px"><span style=" color:#F00"> 温馨提示</span><br/>1.实力认证分为五个等级，根据相应的金额显示相应的等级。<br/>
+				2.项目融资方可申请项目认证，请联系客服处理：{$_G.system.con_company_tel}。
+</p>
+			</div>
+		</div>	
+		</div>
+		</form>
+		<!--修改安全密码 结束-->
+
+
+		{literal}<script>
+		
+		
+		
+			function check_form(){
+
+
+				 var frm = document.forms['form1'];
+
+
+				 var oldpassword = frm.elements['oldpassword'].value;
+
+
+				 var newpassword = frm.elements['newpassword'].value;
+
+
+				  var newpassword1 = frm.elements['newpassword1'].value;
+
+
+				 var errorMsg = '';
+
+
+				  if (oldpassword.length == 0 ) {
+
+
+					errorMsg += '* 请输入旧密码，如果没有设定交易密码，请输入登录密码' + '\n';
+
+
+				  }
+
+
+				  if (newpassword.length == 0 ) {
+
+
+					errorMsg += '* 新密码不能为空' + '\n';
+
+
+				  }
+
+
+				   if (newpassword.length >15 || newpassword.length<6 ) {
+
+
+					errorMsg += '* 新密码长度在6到15之间' + '\n';
+
+
+				  }
+
+
+				    if (newpassword.length !=newpassword1.length) {
+
+
+					errorMsg += '* 两次密码不一样' + '\n';
+
+
+				  }
+
+
+				  if (errorMsg.length > 0){
+
+
+					alert(errorMsg); return false;
+
+
+				  } else{  
+
+
+					return true;
+
+
+				}
+			}
+			
+			//判断输入密码的类型  
+				function CharMode(iN){  
+				if (iN>=48 && iN <=57) //数字  
+				return 1;  
+				if (iN>=65 && iN <=90) //大写  
+				return 2;  
+				if (iN>=97 && iN <=122) //小写  
+				return 4;  
+				else  
+				return 8;   
+				}  
+				//bitTotal函数  
+				//计算密码模式  
+				function bitTotal(num){  
+				modes=0;  
+				for (i=0;i<4;i++){  
+				if (num & 1) modes++;  
+				num>>>=1;  
+				}  
+				return modes;  
+				}  
+				//返回强度级别  
+				function checkStrong(sPW){  
+				if (sPW.length<=4)  
+				return 0; //密码太短  
+				Modes=0;  
+				for (i=0;i<sPW.length;i++){  
+				//密码模式  
+				Modes|=CharMode(sPW.charCodeAt(i));  
+				}  
+				return bitTotal(Modes);  
+				}  
+				  
+				//显示颜色  
+				function pwStrength(pwd){  
+				O_color="#eeeeee";  
+				L_color="#FF0000";  
+				M_color="#FF9900";  
+				H_color="#33CC00";  
+				if (pwd==null||pwd==''){  
+				Lcolor=Mcolor=Hcolor=O_color;  
+				}  
+				else{  
+				S_level=checkStrong(pwd);  
+				switch(S_level) {  
+				case 0:  
+				Lcolor=Mcolor=Hcolor=O_color;  
+				case 1:  
+				Lcolor=L_color;  
+				Mcolor=Hcolor=O_color;  
+				break;  
+				case 2:  
+				Lcolor=Mcolor=M_color;  
+				Hcolor=O_color;  
+				break;  
+				default:  
+				Lcolor=Mcolor=Hcolor=H_color;  
+				}  
+				}  
+				document.getElementById("strength_L").style.background=Lcolor;  
+				document.getElementById("strength_M").style.background=Mcolor;  
+				document.getElementById("strength_H").style.background=Hcolor;  
+				return;  
+				} 
+
+
+		</script>{/literal}

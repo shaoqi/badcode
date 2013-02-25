@@ -1,0 +1,64 @@
+<div class="main_box">
+<div class="us_r_bor1">
+{articles module="borrow" plugins="count" function="GetUsersRepayCount" var="repay_var" user_id="$_G.user_id"}
+		<div >
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4">个人借款统计</td>
+			</tr>
+			<tr>
+				<td width="25%" title="目前正在投标中，尚未确定借入的金额">正在招标的借款</td>
+				<td width="25%"><font>￥{$repay_var.borrow_now_account|default:0.00}/{$repay_var.borrow_now_num|default:0}笔</font><a href="/?user&q=code/borrow/loan&p=now">[列表]</a></td>
+				<td width="25%" ></td>
+				<td width="25%"></td>
+			</tr>
+			<tr>
+				<td title="目前已经借入，正在还款中的借入金额">还款中的借款</td>
+				<td><font>￥{$repay_var.repay_wait_account|default:0.00}/{$repay_var.repay_wait_times|default:0}笔</font><a href="/?user&q=code/borrow/loan&p=repay">[列表]</a></td>
+				<td title="=待还的借款本金+利息">待还本息</td>
+				<td>￥{$repay_var.repay_wait_account|default:0.00}/{$repay_var.repay_wait_num|default:0}期</td>
+			</tr>
+			<tr>
+				<td title="已经全部收回的借入的本金总额">还清的借款</td>
+				<td><font>￥{$repay_var.repay_yes_account|default:0.00}/{$repay_var.repay_yes_times|default:0}笔</font><a href="/?user&q=code/borrow/loan&p=repay&type=yes">[列表]</a></td>
+				<td title="=已还的借款本金+利息">已还本息</td>
+				<td>￥{$repay_var.repay_yes_account|default:0.00}/{$repay_var.repay_yes_num|default:0}期</td>
+			</tr>
+		</table>
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4" >借款资金统计</td>
+			</tr>
+			<tr>
+				<td width="25%" title="注册至今，您累计借入的总额">累计借入金额</td>
+				<td width="25%">￥{$repay_var.borrow_success_account|default:0.00}</td>
+				<td width="25%" ></td>
+				<td width="25%"></td>
+			</tr>
+			<tr>
+				<td width="25%" title="注册至今，您累计借入金额已支出的和将要支出的利息总额">累计利息成本</td>
+				<td width="25%">￥{$repay_var.repay_interest|default:0.00}</td>
+				<td width="25%" title="借入利息成本 = 累计利息成本 / 累计借入金额">借入利息成本</td>
+				<td width="25%">{$repay_var.borrow_interest_scale|default:0}%</td>
+			</tr>
+		</table>
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4" >借款逾期统计</td>
+			</tr>
+			<tr>
+				<td width="25%" title="已经借入并逾期未还款的">逾期的借款</td>
+				<td width="25%">{$repay_var.repay_late_num|default:0}次<a href="/?user&q=code/borrow/loan&p=repay&type=late">[列表]</a></td>
+				<td width="25%" title="因逾期未还款而产生的罚息">逾期罚息</td>
+				<td width="25%">￥{$repay_var.repay_late_interest|default:0.00}</td>
+			</tr>
+		</table>
+		</div>
+		
+		{/articles}
+		</div>
+		</div>

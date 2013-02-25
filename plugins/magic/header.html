@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>首页</title>
+<link href="{$tempdir}/css/style.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/home.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/user.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/self.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/oldai_pic.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/loan_list.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/about.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/loan.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/help.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/loan_set.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/borrow.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/right_new.css" rel="stylesheet" type="text/css" />
+<link href="{$tempdir}/css/tipswindown.css" rel="stylesheet" type="text/css" />
+<SCRIPT src="{$tempdir}/js/jquery.js" type=text/javascript></SCRIPT>
+<SCRIPT src="{$tempdir}/js/swfobject.js" type=text/javascript></SCRIPT>
+<SCRIPT src="{$tempdir}/js/tipswindown.js" type=text/javascript></SCRIPT>
+
+</head>
+
+
+
+
+<body>
+<!--header开始-->
+<div id="header">
+<center>
+<!-- top开始-->
+<div id="head_top">
+<div class="head_top_zi">
+<ul class="l">
+<li class="l_01"><a  href='#' onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.zaixiandai.com');">设为首页</a></li>
+<li class="l_02">|</li>
+<li class="l_01"><a  href="javascript:window.external.addFavorite('http://www.zaixiandai.com','{$_G.system.con_webname}');">加入收藏</a>
+</li>
+</ul>
+<ul  style="float:right; margin-right:0px;">
+{if $_G.user_id==""}
+<li class="r_01">游客</li>  
+<li class="r_06"><a href="/?user&q=reg">免费注册</a></li>  
+<li class="r_03"><a href="/?user&q=login">登录</a></li>
+{else} 
+<li class="r_01">你好</li>  
+<li class="r_06">{$_G.user_result.username}</li>  
+<li class="r_03"><a href="/?user&q=logout">退出</a></li>
+{/if}
+<li class="r_05">|</li>
+<li class="r_03"><a href="/help/index.php">帮助</a></li>
+</ul>
+</div>
+</div>
+
+<!--top结束-->
+<!--LOGO开始-->
+<div id="logo">
+<a href="/"><div class="logoimg"></div></a>
+<div class="ctry_ad">
+<div class="ctry">全国 &nbsp;<img src="{$tempdir}/images/select_ctry.jpg" /></div>
+<div class="ad">全国具有形象力的网络借贷平台</div>
+</div>
+<div class="tel400"><img src="{$tempdir}/images/index_09.gif" /></div>
+</div>
+<!--LOGO结束-->
+<!--Navigation导航开始-->
+<div id="Navigation">
+<div class="nav_hoem">
+<ul id="nav_ul_one">
+<li class="nav_li_1"></li>
+{site var="item"}
+<li {if $_G.site_presult.id==$item.id ||    $_G.site_result.id==$item.id}class="nav_li_3"{else}class="nav_li_2"{/if}><A href="{$item.url}">{$item.name}</A></li>
+<li class="nav_li_1"></li>
+{/site}
+</ul>
+<ul id="nav_two_lm">
+{if $_G.site_result.pid!=0}
+
+{foreach from="$_G.site_brother_list" item="_item" key="_key"}
+<li {if $_G.site_result.id== $_item.id}class="nav_two_lm_1"{else}class="nav_two_lm_2"{/if}><a href="/{$_item.nid}/index.html">{$_item.name}</a></li>
+{/foreach}
+{else}
+{foreach from="$_G.site_sub_list" item="_item" key="_key"}
+
+<li {if $_G.site_result.id== $_item.id || $_key==0 }class="nav_two_lm_1"{else}class="nav_two_lm_2"{/if}><a href="/{$_item.nid}/index.html">{$_item.name}</a></li>
+
+{/foreach}
+{/if}
+</ul>
+</div>
+</div>
+</center>
+</div>

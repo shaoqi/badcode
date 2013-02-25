@@ -1,0 +1,58 @@
+{if  $_G.user_id==""}
+<script>alert("你还没有登录，请先登录");
+location.href='/?user&q=action/login';</script>
+{/if}
+{include file="header.html"}
+<div class="conbox t20">
+ <div class="main_left">
+		  {include file="borrow_xh.html"}
+<div class="main_box">
+	<div class="us_r_bor2">
+	
+
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="jk_list">
+              <tr class="jk_list_tit">
+				<td width="10%" align="center">头像</td>
+				<td width="30%" align="left">标题  / 借款人 / 所在地</td>
+				<td width="19%" align="center"><a href="/{$_G.site_result.nid}/index.html?order=account" >金额</a> / <a href="/{$_G.site_result.nid}/index.html?order=borrow_period" >期限</a> / <a href="/{$_G.site_result.nid}/index.html?order=borrow_apr" >利率</a></td>
+				<td width="22%" align="center">信用等级 / 还款方式 </td>
+				<td width="19%" align="center"><a href="/{$_G.site_result.nid}/index.html?order=borrow_account_scale" >进度</a> / <a href="/{$_G.site_result.nid}/index.html?order=verify_time">发布时间</a></td>
+			  </tr>
+{list module="users" function="GetCareList" var="loop" keywords="request" type="request" flag="request" account1="request" account2 = "request" borrow_period="request" award_status="request" province="request" city="request" borrow_use="request" epage="6" order="$magic.request.order" vouch_status="request" borrow_style="request" borrow_type="request" user_id="$_G.user_id"}
+{foreach from="$loop.list" item="var" }
+              <tr>
+                <td align="center" valign="top"><a href="/invest/a{$var.borrow_nid}.html"><img src="{$var.user_id|avatar}" border="0" class="head60" /></a></td>
+                <td align="left" valign="top"><div><a href="/invest/a{$var.borrow_nid}.html" title="{$var.name}">{$var.name|truncate:10}</a><img src="{$tempdir}/images/borrow_type_{$var.borrow_type}.gif" align="absmiddle"></div>
+                    <div class="h5"><a href="/u/{$var.user_id}">{$var.username}</a>
+					</div>
+					<div class="h5">{$var.city|areas:"p,c"|default:"-"}
+					</div></td>                
+                <td align="center" valign="top"><div>￥{$var.account}</div>
+                    <div class="h5">
+			{if $var.borrow_type=="day"}{$var.borrow_day}天{else}{$var.borrow_period}个月{/if}，<font class="red">{$var.borrow_apr}%</font></div></td>
+                <td align="center" valign="top">
+				<div>{$var.credit|credit:"borrow"}</div>
+				<div style="margin:5px 0 0 0">{$var.style_name}</div>
+				</td>
+                <td align="center" valign="top"><div class="press_bor">
+                  <!-- <div class="press_bor1"><span class="loading"><em style="width:{$var.borrow_account_scale}%"></em></span></div>  -->
+                  <div class="h5" style="margin:6px 0 0 0"><font class="red">{$var.borrow_status_nid|linkages:borrow_status}</font>
+				  </div>
+                  <!-- <div style="margin:3px 0 0 0">{$var.addtime|date_format:"Y-m-d"}发布</div> -->
+                </div>
+				</td>
+		  </tr>
+{/foreach}
+</table>
+<div class="pages">{$loop.pages|showpage}</div>
+{/list}
+	   </div>
+   </div>
+</div>
+
+ {include file="tender_right.html"} 
+	 <div class="cle"></div>
+</div>
+
+
+{include file="footer.html"}

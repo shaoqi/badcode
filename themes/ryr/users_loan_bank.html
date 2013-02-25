@@ -1,0 +1,36 @@
+{if $_G.user_info.realname_status!=1}
+	<div class="user_main_title1">{$_G.system.con_webname}禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。
+	</div>
+	<div style="text-align:center; padding-top:50px; padding-bottom:50px;">
+	你还没有进行实名认证，不能绑定银行卡号等相关信息。<br />
+	开始进行 <a href="/?user&q=code/approve/realname"><strong style="color:#FF0000; font-size:18px">实名认证</strong></a>
+	</div>
+{else}
+<div style=" margin:10px 20px">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<form action="" method="post">
+			<tr class="ytit">
+				<td colspan="8">银行账号</td>
+			</tr>
+				<tr class="head">
+					<td>真实姓名</td>
+					<td>所属银行</td>
+					<td>所在地</td>
+					<td>开户行支行</td>
+					<td>账号</td>
+					<td>操作</td>
+				</tr>
+			{loop module="account" function="GetUsersBankList" var="item" user_id="$_G.user_id" limit="all"}
+				<tr  {if $key%2==1} class="ynow"{/if}>
+					<td>{ $_G.user_info.realname}</td>
+					<td>{ $item.bank|linkages:"account_bank"}</td>
+					<td>{ $item.city|areas:""p,c}</td>
+					<td>{ $item.branch }</td>
+					<td>{ $item.account }</td>
+					<td><a href="{$_U.query_url}/bank_new&id={$item.id}">编辑</a> <!--<a href="#" data-href="{$_U.query_url}/bank_del&id={$item.id}" class="bank_del">删除</a>--></td>
+				</tr>
+				{ /loop}
+			</form>	
+</table></div>
+		<script>{literal}deayou.use("account",function(e){e.bank_del();});</script>{/literal}
+{/if}

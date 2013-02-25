@@ -1,0 +1,181 @@
+{articles module="users" function="GetEmailActiveOne" user_id="$_G.user_id" var="Evar"}
+{if $Evar.status!=1 && $_G.user_id!=""}<script>alert("您还没有激活邮箱，请先激活！");location.href='/?user&q=code/approve/email';</script>
+{/if}
+{/articles}
+{articles module="approve" function="GetRealnameOne" user_id="$_G.user_id" var="Avar"}
+{if $Avar.status!=1 && $_G.user_id!=""}
+{literal}
+<script>
+var dia = $.dialog({
+id: 'borr_realname',title:'姓名认证',content: 'url:/?user&q=code/borrow/loan&p=realname,max: false,
+min: false,lock:true});
+</script>
+{/literal}
+{/if}
+{/articles}
+<div class="main_box">
+ <div class="us_r_bor1">
+{if $_U.query_type=="auto"}
+<div>
+			<!-- 1、借款进入发布中三十分钟后，才会启动自动借出。</br> -->
+			1、单笔借出金额需为50的倍数。</br>
+			2、满足自动借出规则的金额小于设定的每次借出金额，也会进行自动借出。</br>
+			3、初审开始关闭，复审之后开启。</br>
+			4、借出排序规则如下：</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;a）借出顺序按照开启自动借出功能的时间先后进行排序</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;b）每个会员每个借款仅自动借出一次，借出后，排到所有自动借出会员的队尾</br>
+						
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+			<tr class="ytit">
+				<td colspan="13">自动借出</td>
+			</tr>
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >排序</td>
+
+
+					<td  >是否启用</td>
+
+
+					<td  >借出金额</td>
+
+
+					<td  >借出类型</td>
+
+
+					<td  >借款期限</td>
+
+
+					<td  >利率范围</td>
+
+
+					<td  >保留金额</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{loop module="borrow" function ="GetAutoList" plugins="Auto" user_id="0" limit="all" order="order"}
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td >{$key+1}</td>
+
+					<td>{if $var.status==1}启用{else}未启用{/if}</td>
+
+					<td>￥{$var.tender_account}</td>
+					
+					<td>{$var.tender_type|linkages:"borrow_all_type"|default:"$item.tender_type"}</td>
+
+					<td>{$var.timelimit_month_first}个月~{$var.timelimit_month_last}个月</td>
+					
+					<td>{$var.apr_first}%~{$var.apr_last}%</td>
+					
+					<td>{$var.min_account}</td>
+
+					<td><a href="/index.php?user&q=code/borrow/auto_new&id={$var.id}">修改</a> <a href="#" onclick="javascript:if(confirm('你确定要删除此自动投标吗？')) location.href='{$_U.query_url}/auto_del&id={$var.id}'">删除</a></td>
+
+
+				</tr>
+
+
+				{/loop}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+{else}
+<div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+			<tr class="ytit">
+				<td colspan="13">自动借出记录</td>
+			</tr>
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >借入人</td>
+
+
+					<td  >借款标题</td>
+
+
+					<td  >借款类型</td>
+
+<!-- 
+					<td  >借入人信用</td> -->
+
+
+					<td  >年利率</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >借出金额</td>
+
+
+					<td  >进度</td>
+					
+
+					<td  >状态</td>
+
+
+				</tr>
+
+
+{list module="borrow" function ="GetAutoLogList" plugins="Auto" var="loop"  user_id="0" epage="10" order="order"}
+
+				{foreach from="$loop.list" item="item"}
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+					<td >{$item.borrow_username}</td>
+
+					<td><a href="/invest/a{$item.borrow_nid}.html">{$item.name}</a></td>
+
+					<td>{$item.borrow_type|linkages:"borrow_all_type"|default:"$item.borrow_type"}</td>
+					
+				<!-- 	<td>{$item.credit.credit_total|credit:"borrow"}</td> -->
+
+					<td>{$item.borrow_apr}</td>
+					
+					<td>{$item.borrow_period}个月</td>
+					
+					<td>{$item.account}</td>
+					
+					<td>{$item.borrow_account_scale}%</td>
+
+					<td>{$item.status_nid|linkages:"borrow_status"}</td>
+
+				</tr>
+				{/foreach}
+				
+				{/list}
+
+			</form>	
+
+
+		</table>
+		</div>
+</div>
+</div>
+{/if}

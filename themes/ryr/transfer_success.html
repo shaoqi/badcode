@@ -1,0 +1,49 @@
+{include file="header.html"}
+{if $_G.site_result.nid=="invest"}
+	<script>
+		location.href="/tender_now/index.html";
+	</script>
+{/if}
+	<div class="conbox t20">
+	      <div class="main_left">
+		  <div class="m_change">
+			         <ul>
+					     <li><a href="/transfer/index.html" {if $_G.site_result.nid=="transfer"}class="onn"{/if}>转让中的债权</a></li>
+						 <li><a href="/transfer_success/index.html" {if $_G.site_result.nid=="transfer_success"}class="onn"{/if}>成功转让的债权</a></li>
+					 </ul>
+			   </div>
+		       <div class="main_box">
+			        <div class="us_r_bor2">
+					     <div class="zq_list">
+			        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr class="zqtit">
+    <td width="9%">债权人</td>
+    <td width="31%">投标标题</td>
+    <td width="10%">利率</td>
+    <td width="16%">待还期数/总期数</td>
+    <td width="15%">待收本金/利息</td>
+    <td width="11%">转让价格</td>
+    <td width="8%">购买债权</td>
+  </tr>
+  <tr class="oushu">
+    <td><a href="#">caitou</a></td>
+    <td><a href="#">公务员购房借款周转</a> </td>
+    <td>12.00%</td>
+    <td>4/6</td>
+    <td>￥503/￥21.01</td>
+    <td><em>￥500</em></td>
+    <td><span><a href="#">购买</a></span></td>
+  </tr>
+</table>
+
+			   </div>
+<div class="pages">  <span>1</span><a href="/activity/4820?fromid=indexactivity&amp;p=2#comment-list">2</a><a href="/activity/4820?fromid=indexactivity&amp;p=3#comment-list">3</a> <a href="/activity/4820?fromid=indexactivity&amp;p=2">&gt;</a> </div>
+					</div>
+			  </div>
+		  </div>
+		  
+{include file="tender_right.html"} 
+		 <div class="cle"></div>
+	</div>
+
+{include file="footer.html"}

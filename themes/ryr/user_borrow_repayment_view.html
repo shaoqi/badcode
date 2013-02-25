@@ -1,0 +1,261 @@
+
+		<!--还款明细 开始-->
+		<div class="user_right_border">
+
+
+			<div class="l">标题：</div>
+
+
+			<div class="c">
+
+
+				{$_U.borrow_result.name}
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"> 借款金额：</div>
+
+
+			<div class="rb">
+
+
+				<font color="#FF0000"><strong>￥{$_U.borrow_result.account}</strong></font>
+
+
+			</div>
+
+
+			<div class="l"> 借款利率：</div>
+
+
+			<div class="rb">
+
+
+				 {$_U.borrow_result.borrow_apr}%
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"> 借款期限：</div>
+
+
+			<div class="rb">
+			
+
+{if $_U.borrow_result.borrow_type==6}{$_U.borrow_result.borrow_day}天{else}{$_U.borrow_result.borrow_period}个月{/if}
+
+
+			</div>
+
+
+			<div class="l"> 还款方式：</div>
+
+
+			<div class="rb">
+
+{if $_U.borrow_result.borrow_type==6}到期还本付息
+{else}{$_U.borrow_result.borrow_style|linkages:"borrow_style"}{/if}
+				 
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"> 发布时间：</div>
+
+
+			<div class="rb">
+
+
+				 {$_U.borrow_result.addtime|date_format:"Y-m-d H:i:s"}
+
+
+			</div>
+
+
+			<div class="l"> 借款时间：</div>
+
+
+			<div class="rb">
+
+
+				 {$_U.borrow_result.borrow_success_time|date_format:"Y-m-d H:i:s"}
+
+
+			</div>
+
+
+		</div>
+
+
+		<!--
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"> 下次还款时间：</div>
+
+
+			<div class="rb">
+
+
+				 {$_U.borrow_result.username}
+
+
+			</div>
+
+
+			<div class="l"> 下次还款金额：</div>
+
+
+			<div class="rb">
+
+
+				 {$_U.user_result.username}
+
+
+			</div>
+
+
+		</div>
+
+
+		-->
+
+
+		<!--还款明细 结束-->
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >序号</td>
+
+
+					<td  >计划还款日</td>
+
+
+					<td  >计划还款本息</td>
+
+
+					<td  >实还日期</td>
+
+
+					<td  >逾期天数</td>
+
+
+					<td  >实还本息</td>
+
+
+					<td  >逾期罚息</td>
+
+
+					<!--<td  >催缴费</td>-->
+
+
+					<td  >总还款金额</td>
+
+
+					<td  >状态</td>
+
+
+					<td  >当期还款</td>
+
+
+					<!--<td  >提前全额还款</td>-->
+
+
+				</tr>
+
+
+				{loop module="borrow" function ="GetBorrowRepayList" borrow_status=3 user_id="$_G.user_id" borrow_nid="$magic.request.borrow_nid" limit="all" order="order"}
+
+
+			
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td >{$var.repay_period+1}</td>
+
+
+					<td>{$var.repay_time|date_format:"Y-m-d"}</td>
+
+
+					<td>￥{$var.repay_account}</td>
+
+
+					<td>{$var.repay_yestime|date_format:"Y-m-d H:i"|default:-}</td>
+
+
+					<td>{$var.late_days|default:0}天</td>
+
+
+					<td>￥{$var.repay_account_yes}</td>
+
+
+					<td>￥{$var.late_interest|default:0.00}</td>
+
+
+					<!--<td>￥{$var.late_reminder|default:0.00}</td>-->
+
+
+					<td>￥{$var.late_interest+$var.repay_account}</td>
+
+
+					<td>{if $var.repay_web==1}网站垫付{elseif $var.repay_vouch==1}担保者垫付{elseif $var.repay_status==1}已还款{else}未还款{/if}</td>
+
+
+					<td>{if $var.repay_status==1}-{else}<a href="#" onclick="javascript:if(confirm('你确定要偿还此借款吗？')) location.href='{$_U.query_url}/loan&p=repays&id={$var.id}'">还款</a>{/if}</td>
+					
+					<!--<td>
+					{if $item.repay_status!=1 and $item.advance_status==1 and $item.late_days==0 and $Vvar.vip_type==2 and $item.borrow_period>11}
+						<a href="#" onclick="javascript:if(confirm('提前还款将一次性偿还剩余本金，且按剩余本金*1%计算违约金')) location.href='{$_U.query_url}/repay&borrow_nid={$item.borrow_nid}'">提前全额还款</a>
+					{else}
+						-
+					{/if}
+					</td>-->
+
+				</tr>
+
+
+				{/loop}
+
+
+			</form>	
+
+
+		</table>
+
+
+		<br>
+

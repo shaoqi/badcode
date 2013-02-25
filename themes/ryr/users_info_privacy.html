@@ -1,0 +1,257 @@
+
+		<div class="user_main_title1">设置个人的隐私</div>
+
+
+		<form action="" method="post">
+
+
+		<div class="user_main_title">我的主页</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">好友列表：</div>
+
+
+			<div class="c">
+
+
+				<script src="plugins/index.php?q=linkage&nid=yinsi&name=friend&isid=false&value={$_U.user_privacy.friend}"></script>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">好友评论：</div>
+
+
+			<div class="c">
+
+
+				<script src="plugins/index.php?q=linkage&nid=yinsi&name=friend_comment&isid=false&value={$_U.user_privacy.friend_comment}"></script>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">借款列表：</div>
+
+
+			<div class="c">
+
+
+				<script src="plugins/index.php?q=linkage&nid=yinsi&name=borrow_list&isid=false&value={$_U.user_privacy.borrow_list}"></script>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">投标记录：</div>
+
+
+			<div class="c">
+
+
+				<script src="plugins/index.php?q=linkage&nid=yinsi&name=loan_log&isid=false&value={$_U.user_privacy.loan_log}"></script>
+
+
+			</div>
+
+
+		</div>
+
+
+			
+
+
+		
+
+
+		<div class="user_main_title">站内信/加为好友</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">谁可以给我发站内信：</div>
+
+
+			<div class="c">
+
+
+				<script src="plugins/index.php?q=linkage&nid=yinsi&name=sent_msg&isid=false&value={$_U.user_privacy.sent_msg}"></script>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">谁可以向我发好友申请：</div>
+
+
+			<div class="c">
+
+
+				<script src="plugins/index.php?q=linkage&nid=yinsi&name=friend_request&isid=false&value={$_U.user_privacy.friend_request}"></script>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		
+
+
+		<div class="user_main_title">黑名单</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">谁可以看我的黑名单：</div>
+
+
+			<div class="c">
+
+
+				<select name="look_black">
+
+
+					<option value="0" {if $_U.user_privacy.look_black==0} selected="selected"{/if}>不允许我的好友查看我的黑名单</option>
+
+
+					<option value="1" {if $_U.user_privacy.look_black==1} selected="selected"{/if}>允许我的好友查看我的黑名单</option>
+
+
+					<option value="2"{ if $_U.user_privacy.look_black==2} selected="selected"{/if}>仅允许我同意的好友查看我的黑名单</option>
+
+
+				</select>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">允许黑名单向我发内信：</div>
+
+
+			<div class="c">
+
+
+				<input type="radio" name="allow_black_sent" value="1" { if $_U.user_privacy.allow_black_sent==1} checked="checked"{/if}/> 允许 <input type="radio" name="allow_black_sent" value="0"   { if $_U.user_privacy.allow_black_sent==0 || $_U.user_privacy.allow_black_sent==""} checked="checked"{/if} /> 不允许 
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="user_right_border">
+
+
+			<div class="l">允许黑名单向我发送好友请求：</div>
+
+
+			<div class="c">
+
+
+				<input type="radio" name="allow_black_request" value="1"  {if $_U.user_privacy.allow_black_request==1} checked="checked"{/if}/> 允许 <input type="radio" name="allow_black_request" value="0" {if $_U.user_privacy.allow_black_request==0 || $_U.user_privacy.allow_black_request==""} checked="checked"{/if}/> 不允许 
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="l"></div>
+
+
+			<div class="c">
+
+
+				<input type="submit" name="name"  value="确认提交" size="30" /> 
+
+
+			</div>
+
+
+		</div>
+
+
+		</form>
+
+
+		
+
+
+		<div style="font-size:12px;">
+
+
+		* 温馨提示：请保护好自己的隐私
+
+
+		</div>
+
+
+		<!--个人隐私 结束-->
+
+
+		

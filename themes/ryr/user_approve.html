@@ -1,0 +1,182 @@
+{include file="header.html"}
+<div class="conbox t20">
+		{include file="user_menu.html"}
+	<div class="user_right">
+	   <div>
+		   <div class="m_change">
+			{if $_U.query_type=="realname"  || $_U.query_type=="email" || $_U.query_type=="phone"}
+			<ul>
+				<!-- <li><a href="{$_U.query_url}/myapp" {if $_U.query_type=="myapp"} class="onn"{/if}>我的认证</a></li> -->
+				<li><a href="{$_U.query_url}/realname" {if $_U.query_type=="realname"} class="onn"{/if}>身份认证</a></li>
+				<li><a href="{$_U.query_url}/email" {if $_U.query_type=="email"} class="onn"{/if}>邮箱认证</a></li>
+				<li><a href="{$_U.query_url}/phone" {if $_U.query_type=="phone"} class="onn"{/if}>手机认证</a></li>
+				<!-- <li><a href="{$_U.query_url}/education" {if $_U.query_type=="education"} class="onn"{/if}>学历认证</a></li>
+				<li><a href="{$_U.query_url}/video" {if $_U.query_type=="video"} class="onn"{/if}>视频认证</a></li> -->
+
+			</ul>
+			{/if}
+		</div>
+<div class="main_box1">
+		<div class="us_r_bor1">
+		{if $_U.query_type=="realname"}
+		{include file="user_approve_realname.html"}
+		
+		{elseif $_U.query_type=="email"}
+		{include file="user_approve_email.html"}
+		
+		{elseif $_U.query_type=="myapp"}
+		{include file="user_approve_myapp.html"}
+		
+		{elseif $_U.query_type=="phone"}
+		{include file="user_approve_phone.html"}
+		
+		{elseif $_U.query_type=="video"}
+		{include file="user_approve_video.html"}
+		
+		{elseif $_U.query_type=="scene"}
+		{include file="user_approve_scene.html"}
+		
+		{elseif $_U.query_type=="education"}
+		{include file="user_approve_education.html"}
+
+		{elseif $_U.query_type=="edu_status"}
+		
+
+
+
+		{elseif $_U.query_type=="borrow_credit"}
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+			{articles module="borrow" function="GetBorrowCredit" var="Cvar" user_id=$_G.user_id}
+				<td colspan="4">还款积分：<font color="red">{$Cvar.borrow_credit|default:"0"}分</font> {$Cvar.borrow_credit|default:"0"|credit:"borrow"}</td>
+			</tr>
+			{/articles}
+			<tr class="ytit1">
+				<td width="33%">项目名称</td>
+				<td width="33%">累积规则</td>
+				<td width="33%">所获积分</td>
+			</tr>
+			{articles module="credit" function="GetCreditCount" var="cvar" user_id=$_G.user_id}
+			<tr>
+				<td>还款记录</td>
+				<td>成功还款，每100元积1分</td>
+				<td>{$cvar.repay_all|default:"0"}分</td>
+			</tr>
+			<tr>
+				<td>迟还款(指逾期1-3天的还款)</td>
+				<td>每次扣100分</td>
+				<td>{$cvar.borrow_repay_slow|default:"0"}分</td>
+			</tr>
+			<tr>
+				<td>一般逾期还款(指逾期3-30天的还款)</td>
+				<td>每次扣200分</td>
+				<td>{$cvar.borrow_repay_late_common|default:"0"}分</td>
+			</tr>
+			<tr>
+				<td>严重逾期还款(指逾期30-90天的还款)</td>
+				<td>每次扣300分</td>
+				<td>{$cvar.borrow_repay_late_serious|default:"0"}分</td>
+			</tr>
+			<tr>
+				<td>恶意逾期还款(指逾期90天以上的还款)</td>
+				<td>每次扣400分</td>
+				<td>{$cvar.borrow_repay_late_spite|default:"0"}分</td>
+			</tr>
+			{/articles}
+		</table>
+		{elseif $_U.query_type=="gold"}
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			{articles module="credit" function="GetGoldCount" user_id="$_G.user_id" var="Cvar"}
+			<tr class="ytit">
+				<td colspan="4">获得的金币 {$Cvar.total}</td>
+			</tr>
+			<tr class="ytit1">
+				<td width="33%">项目名称</td>
+				<td width="33%">累积规则</td>
+				<td width="33%">所获金币</td>
+			</tr>
+			<tr>
+				<td>会员注册</td>
+				<td>30金币（仅一次）</td>
+				<td>{$Cvar.reg|default:0}</td>
+			</tr>
+			<tr>
+				<td>邀请注册成功</td>
+				<td>10金币/个</td>
+				<td>{$Cvar.invite_gold|default:0}</td>
+			</tr>
+			<tr>
+				<td>邀请人投标成功</td>
+				<td>1金币/5000元</td>
+				<td>{$Cvar.invite_tender|default:0}</td>
+			</tr>
+			<tr>
+				<td>成功投标</td>
+				<td>1金币/10000元</td>
+				<td>{$Cvar.tender|default:0}</td>
+			</tr>
+			<tr>
+				<td>Vip冲抵</td>
+				<td>-20/次</td>
+				<td>{$Cvar.vip_gold|default:0}</td>
+			</tr>
+			{/articles}
+		</table>
+		{elseif $_U.query_type=="myapp"}
+		
+		
+
+		
+
+		
+
+		<!--信用积分 开始-->
+
+		{elseif $_U.query_type=="credit"}
+
+		<div class="user_main_title1" > 
+
+		<strong>信用总得分：</strong> <font size="3" color="#FF0000"><strong>{$_G.user_result.credit}</strong></font>  {$_G.user_result.credit|credit}
+
+		</div>
+
+		<table  border="0"  cellspacing="1" class="user_list_table" style="width:98%">
+
+			  <form action="" method="post">
+
+				<tr class="head" >
+
+					<td  >积分类型</td>
+
+					<td  >积分</td>
+
+					<td  >备注</td>
+
+				</tr>
+				<tr >
+
+					<td colspan="4" class="page">
+
+						<div class="list_table_page">{$_U.show_page}</div>
+
+					</td>
+
+				</tr>
+
+			</form>	
+
+		</table>
+
+		<!--信用积分 结束-->
+
+		{/if}
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<div style="clear:both;"></div>
+{include file="footer.html"}

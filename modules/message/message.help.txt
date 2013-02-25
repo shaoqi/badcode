@@ -1,0 +1,29 @@
+短消息帮助文档。
+1，短消息分为两个模块。一个是发送表（dw_message），一个是接收表(dw_message_receive)。
+发送的方式分为三种模式
+1）是系统发给单个用户的短消息。此方式只有接收表有数据，发送表没有数据。只要用在系统提醒短消息发明，用户可以直接删除。
+2）系统发给所有人或者群组，或者用户类型的多用户方式。此方式委发送表中有数据，接收表只有在用户查看后才有数据，用户看完后可以直接删除，同时发送表有记录哪个用户已经存在。
+
+3）个人对个人的信息。用户直接直接看到相关的信息。也可以单独对两个表单独进行管理。
+
+
+
+发送类型，type
+
+all 表示整个网站所有的用户。
+user 发送给个人
+group 发送给群组
+user_type 用户组别
+
+发送状态 status
+1，立即发送
+0，保存草稿
+
+require_once("modules/message/message.class.php");
+			$message['user_id'] = "0";
+			$message['receive_userid'] = $data['receive_userid'];
+			$message['name'] = $data['title'];
+			$message['contents'] = $data['content'];
+			$message['type'] = 'user';
+			$message['status'] = 2;
+			messageClass::AddMessage($message);

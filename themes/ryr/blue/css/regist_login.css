@@ -1,0 +1,51 @@
+.regist_bor{ background:#fff url(../images/reg_bg.gif) repeat-x; border:#D7EBF2 solid 1px; border-radius:5px; padding:100px 20px 50px; position:relative; width:918px;}
+.reg_tit{ background:url(../images/reg_titbg.gif) no-repeat; width:220px; height:40px; position:absolute; left:-12px; top:15px; padding:20px 0 0 30px; font-family:"Î¢ÈíÑÅºÚ"; color:#fff; font-size:22px;}
+
+.reg_left{ width:500px; float:left; border-right:#E8E8E8 solid 1px; margin-left:20px; display:inline; padding:30px 0 0 0; overflow:hidden }
+table.reg_tab{}
+table.reg_tab td{ font-size:14px; vertical-align:top; padding-bottom:20px;}
+table.reg_tab td span{ display:block; color:#999999; font-size:12px; margin:5px 0 0 0}
+table.reg_tab td span.warning{ color:#DB2C2C}
+table.reg_tab td em{ font-size:12px; font-style:normal; color:#999999}
+table.reg_tab td.tex_left{ text-align:right; color:#666666; padding-right:10px}
+.in_text{ border:#D3D3D3 solid 1px; width:200px; height:26px;border-radius:2px;}
+.reg_right{ float:right; width:340px; padding:40px 0 0 30px; overflow:hidden}
+
+a.dl_btn{ background:url(../images/btnbg.gif) no-repeat; display:inline-block; width:120px; height:35px; font-size:14px; font-weight:bold; line-height:35px; text-align:center}
+
+a.qq{ display:inline-block; background:url(../images/qq.gif) left center no-repeat; height:22px; line-height:22px; color:#0063DC; padding-left:20px}
+a.sina{ display:inline-block; background:url(../images/sina.gif) left center no-repeat; height:22px; line-height:22px; color:#0063DC; padding-left:25px}
+
+
+/* µ¯³ö´°¿Ú-µÇÂ¼ */
+.windows_div_bg{background-color: #000; width: 100%;height: 100%;left:0;top:0;/*FF IE7*/filter:alpha(opacity=40);/*IE*/opacity:0.4;/*FF*/z-index:1000;
+position:fixed!important;/*FF IE7*/position:absolute;/*IE6*/_top:
+expression(eval(document.compatMode &&
+            document.compatMode=='CSS1Compat') ?
+            documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
+            document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);}
+			
+.pop_div{ background:#fff; border-radius:5px; box-shadow:0px 0px 15px #666666; z-index:1001;left:50%; margin-top:0; position:fixed!important;/* FF IE7*/
+position:absolute;/*IE6*/
+}	
+
+.login_div{ width: 788px;background: #fff; top:50px; margin-left:-400px; top:170px; padding:6px;}
+.login_title{ background:#2984B0; height:28px; border-radius:3px;}
+.login_title h1{ float:left; line-height:28px; padding:0 0 0 15px; color:#FFFFFF; font-size:14px}
+.login_title span{ float:right; padding:10px 15px 0 0}
+a.win_close{ display:block; background:url(../images/close.gif) no-repeat; width:10px; height:9px;}
+a.win_close:hover{ background:#59A8CE url(../images/close.gif) no-repeat;}
+.log_content{ padding:50px 40px}
+.log_left{ width:445px; float:left}
+.in_text1{ border:#D3D3D3 solid 1px; width:240px; height:26px;border-radius:2px;}
+
+.log_right{ width:230px; padding:0 0 0 30px; border-left:#E7E7E7 solid 1px; float:right}
+
+
+/* µ¯³ö´°¿Ú-·¢ËÍ¶ÌÏûÏ¢ */
+.mes_div{ width: 500px;background: #fff; top:50px; margin-left:-250px; top:170px; padding:6px;}
+.mes_content{ padding:20px 25px;}
+.mes_content h1{ font-weight:normal; font-weight:normal; font-size:12px; color:#999999}
+.mes_content span{ display:block; margin:10px 0 0 0;}
+.mes_content em{ text-align:right; margin:10px 0 0 0; display:block}
+.mes_area{border:#dedede solid 1px; border-radius:3px; width:450px; height:100px;}

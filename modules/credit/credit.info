@@ -1,0 +1,10 @@
+<?
+	$code = "credit";
+	$name = "信用积分";
+	$description = "信用积分";
+	$version = "3.0";
+	$author = "dwcms";
+	$date = "2011-11-27";
+	$update = "2010-07-27";
+	$type = "credit";
+?>

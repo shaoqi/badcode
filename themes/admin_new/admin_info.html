@@ -1,0 +1,360 @@
+
+<ul class="nav3"> 
+<li><a href="{$_A.query_url}" {if $magic.request.type_id=="" && $_A.query_type!="type"}id="c_so"{/if}>系统参数</a></li> 
+{loop module="admin" function="GetSystemTypeList" limit="all"}
+<li><a href="{$_A.query_url}&type_id={$var.id}&name={$var.name}" {if $magic.request.type_id==$var.id}id="c_so"{/if}>{$var.name}</a></li> 
+{/loop}
+<li><a href="{$_A.query_url}/type" {if $_A.query_type=="type"}id="c_so"{/if}>添加类型</a></li> 
+</ul> 
+
+{if $_A.query_type=="" || $_A.query_type=="list"}
+
+{if $magic.request.type_id=="" }
+<div class="module_add">
+		<form action="" method="post"  enctype="multipart/form-data" >
+		<div class="module_title"><strong>{$MsgInfo.admin_system_name}</strong></div>
+	
+		
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_webname}：</div>
+			<div class="c">
+				<input type="text" name="con_webname" value="{$_G.system.con_webname}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_weburl}：</div>
+			<div class="c">
+				<input type="text" name="con_weburl" value="{$_G.system.con_weburl}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">网站描述：</div>
+			<div class="c">
+				<input type="text" name="con_webdescription" value="{$_G.system.con_webdescription}"/>
+			</div>
+		</div>
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_webpath}：</div>
+			<div class="c">
+				<input type="text" name="con_webpath" value="{$_G.system.con_webpath}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">网站logo：</div>
+			<div class="c">
+				<input type="text" name="con_logo" value="{$_G.system.con_logo}"/>请填写完整的路径
+			</div>
+		</div>
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_beian}：</div>
+			<div class="c">
+				<input type="text" name="con_beian" value="{$_G.system.con_beian}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_template}：</div>
+			<div class="c">
+				<input type="text" name="con_template" value="{$_G.system.con_template}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">网站模板皮肤：</div>
+			<div class="c">
+				<input type="text" name="con_template_skin" value="{$_G.system.con_template_skin}"/>
+			</div>
+		</div>
+		<div class="module_border">
+		<div class="d">网站后台地址：</div>
+			<div class="c">
+				<input type="text" name="con_houtai" value="{$_G.system.con_houtai}"/>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">网站关键字：</div>
+			<div class="c">
+				<textarea name="con_keywords" cols="50" rows="5">{$_G.system.con_keywords}</textarea>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">网站描述：</div>
+			<div class="c">
+				<textarea name="con_description" cols="50" rows="5">{$_G.system.con_description}</textarea>
+			</div>
+		</div>
+		<div class="module_border">
+			<div class="d">{$MsgInfo.admin_system_con_webopen}：</div>
+			<div class="c">
+				{input type="radio" name="con_webopen" value="1|是,0|否" checked="$_G.system.con_webopen"}
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_closemsg}：</div>
+			<div class="c">
+				<textarea name="con_closemsg" cols="50" rows="5">{$_G.system.con_closemsg}</textarea>
+			</div>
+		</div>
+		
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_tongji}：</div>
+			<div class="c">
+				<textarea name="con_tongji" cols="50" rows="5">{$_G.system.con_tongji}</textarea>
+			</div>
+		</div>
+			
+		
+		<div class="module_submit"><input type="submit" value="{$MsgInfo.admin_name_submit}"  /></div>
+			</form>
+		</div>
+{elseif $magic.request.type_id!=""}
+
+<div class="module_add">
+		<div class="module_title"><strong>{$magic.request.name|urldecode}参数</strong> (<a href="{$_A.query_url}/new&type_id={$magic.request.type_id}">添加参数</a> )</div>
+	</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+<form action="{$_A.query_url}/action" method="post"  >
+	<tr >
+	  <td width="20%" class="main_td" >参数名称</td>
+	  <td width="20%" class="main_td">参数值</td>
+	  <td width="20%" class="main_td">变量名</td>
+	  <td width="20%" class="main_td">备注</td>
+	  <td width="20%" class="main_td">编辑</td>
+	</tr>
+	{ foreach from=$_G._system key=key item=item}
+	{if $item.type_id==$magic.request.type_id}
+	<tr {if $key%2==1}class="tr2"{/if} >
+	  <td   class="main_td1" ><input type="text" value="{ $item.name}" name="name[{ $item.nid}]"/></td>
+	  <td align="left" class="main_td1" >
+	  { if $item.type==0}
+		<input type="text" value="{ $item.value|br2nl}" name="value[{ $item.nid}]"/>
+	  { elseif $item.type==2}
+	  <textarea name="value[{ $item.nid}]" cols="30" rows="4">{ $item.value|br2nl}</textarea>
+	  { elseif $item.type==3}
+	  <input  name="value[{ $item.nid}]" value="{ $item.value|br2nl}" size="15"> <INPUT onclick="uploadImg('value[{ $item.nid}]');" type=button value=上传图片...>
+	  { else}
+	  <input type="radio" name="value[{ $item.nid}]" value="1" { if $item.value==1} checked="checked"{ /if} /> 是 <input type="radio" name="value[{ $item.nid}]"  value="0"  { if $item.value==0} checked="checked"{ /if}/> 否
+	  { /if}
+	  </td>
+	  <td class="main_td1" >{ $item.nid}</td>
+	  <td class="main_td1" >{ $item.remark|default:-}</td>
+	   <td class="main_td1" >{ if $item.status ==1}<a href="{$_A.query_url}/edit&id={$item.id}&type_id={$magic.request.type_id}">修改</a> / <a href="#" onClick="javascript:if(confirm('{$MsgInfo.linkages_name_del_msg}')) location.href='{$_A.query_url}/del&id={$item.id}&type_id={$magic.request.type_id}'">{$MsgInfo.admin_name_del}</a>{ else} - {/if}</td>
+	</tr>
+	{/if}
+	{ /foreach}
+	<tr >
+	  <td  colspan="7" class="submit" ><input type="submit" value="确认修改"  />&nbsp;&nbsp;&nbsp;</td>
+	</tr>
+	</form>
+</table>
+
+{else}
+
+<div class="module_add">
+		<div class="module_title"><strong>添加参数</strong></div>
+	</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+<form action="" method="post"  >
+	<tr >
+	  <td width="32%" class="main_td" >参数名称</td>
+	  <td width="*" class="main_td">参数值</td>
+	  <td width="22%" class="main_td">变量名</td>
+	   <td width="12%" class="main_td">编辑</td>
+	</tr>
+	{ foreach from=$_G._system key=key item=item}
+	{if $item.code==$magic.request.code}
+	<tr {if $key%2==1}class="tr2"{/if} >
+	  <td   class="main_td1" ><input type="text" value="{ $item.name|br2nl}" name="name[{ $item.name}]"/></td>
+	  <td align="left" class="main_td1" >
+	  { if $item.type==0}
+		<input type="text" value="{ $item.value|br2nl}" name="value[{ $item.nid}]"/>
+	  { elseif $item.type==2}
+	  <textarea name="value[{ $item.nid}]" cols="30" rows="4">{ $item.value|br2nl}</textarea>
+	  { elseif $item.type==3}
+	  <input  name="value[{ $item.nid}]" value="{ $item.value|br2nl}" size="15"> <INPUT onclick="uploadImg('value[{ $item.nid}]');" type=button value=上传图片...>
+	  { else}
+	  <input type="radio" name="value[{ $item.nid}]" value="1" { if $item.value==1} checked="checked"{ /if} /> 是 <input type="radio" name="value[{ $item.nid}]"  value="0"  { if $item.value==0} checked="checked"{ /if}/> 否
+	  { /if}
+	  </td>
+	  <td class="main_td1" > &nbsp;{ $item.nid}</td>
+	   <td class="main_td1" >{ if $item.status ==1}<a href="{$_A.query_url}/edit&id={$item.id}&code={$magic.request.code}">修改</a> / <a href="#" onClick="javascript:if(confirm('{$MsgInfo.linkages_name_del_msg}')) location.href='{$_A.query_url}/del&id={$item.id}&code={$magic.request.code}'">{$MsgInfo.admin_name_del}</a>{ else} - {/if}</td>
+	</tr>
+	{/if}
+	{ /foreach}
+	<tr >
+	  <td  colspan="7" class="submit" ><input type="submit" value="确认修改"  />&nbsp;&nbsp;&nbsp;<input value="添加参数" type="button" onclick="javascript:location='{$_A.query_url}/new&code={$magic.request.code}';" /></td>
+	</tr>
+	</form>
+</table>
+
+	{/if}
+{elseif $_A.query_type == "type"}
+
+<div class="module_add">
+
+<form action="" method="post" name="form1" onsubmit="return check_form()"  >
+{ if $magic.request.action=="edit"}<input type="hidden" value="{ $_A.system_result.id}" name="id" />{ /if}
+<div class="module_title"><strong>{ if $magic.request.action == "edit" }编辑{else}添加{/if}参数类型</strong></div>
+
+
+
+<div class="module_border">
+<div class="l">类 型 名 称：</div>
+<div class="c">
+	<input type="text" align="absmiddle" name="name" value="{ $_A.system_result.name}"/>
+</div>
+</div>
+<div class="module_border">
+		<div class="l">标识名：</div>
+		<div class="c">
+			<input type="text" align="absmiddle" name="nid"  value="{ $_A.system_result.nid}"/>
+	</div>
+</div>
+<div class="module_border">
+		<div class="l">状态：</div>
+		<div class="c">
+		{input name="status" value="1|显示,2|隐藏" checked="$_A.system_result.status"}
+	</div>
+</div>
+
+<div class="module_submit">
+<input name="" type="submit" value=" 提交 " /> <input name="" type="reset" value=" 重置 " /><input type="hidden" name="style" value="1" />
+
+</div>
+</form>
+</div>
+
+<div class="module_add">
+<div class="module_title"><strong>类型列表</strong></div>
+</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+	  <td class="main_td" >id</td>
+	  <td width="*" class="main_td">类型名称</td>
+	  <td  class="main_td">标识名</td>
+	   <td class="main_td">状态</td>
+	   <td class="main_td">操作</td>
+	</tr>
+	{loop module="admin" function="GetSystemTypeList" limit="all" var="item"}
+	<tr {if $key%2==1}class="tr2"{/if} >
+	  <td   class="main_td1" >{ $item.id}</td>
+	  <td   class="main_td1" >{ $item.name}</td>
+	  <td   class="main_td1" >{ $item.nid}</td>
+	  <td   class="main_td1" >{if $item.status==1}显示{else}隐藏{/if}</td>
+	   <td class="main_td1" ><a href="{$_A.query_url}/type&action=edit&id={$item.id}&code={$magic.request.code}">修改</a> / <a href="#" onClick="javascript:if(confirm('是否删除此类型，删除后将不可恢复')) location.href='{$_A.query_url}/type&action=del&id={$item.id}&code={$magic.request.code}'">{$MsgInfo.admin_name_del}</a></td>
+	</tr>
+	{ /loop}
+	
+</table>
+{elseif $_A.query_type == "new" || $_A.query_type == "edit"}
+
+<div class="module_add">
+
+<form action="" method="post" name="form1" onsubmit="return check_form()"  >
+{ if $_A.query_type=="edit"}<input type="hidden" value="{ $_A.system_result.id}" name="id" />{ /if}
+<div class="module_title"><strong>{ if $_A.query_type == "edit" }编辑{else}添加{/if}参数</strong></div>
+
+
+<div class="module_border">
+		<div class="l">所属类型：</div>
+		<div class="c">
+			<select name="type_id">
+			{loop module="admin" function="GetSystemTypeList" limit="all"}
+			<option value="{$var.id}" {if $var.id==$magic.request.type_id} selected="selected"{/if}>{$var.name}</option>
+			{/loop}
+			</select>
+	</div>
+</div>
+
+<div class="module_border">
+<div class="l">参 数 名 称：</div>
+<div class="c">
+	<input type="text" align="absmiddle" name="name" value="{ $_A.system_result.name}"/>
+</div>
+</div>
+<div class="module_border">
+		<div class="l">变量名：</div>
+		<div class="c">
+			<input type="text" align="absmiddle" name="nid"  value="{ $_A.system_result.nid}"/>请在前面加con_
+	</div>
+</div>
+<div class="module_border">
+		<div class="l">参数类型：</div>
+		<div class="c">
+			
+<input type="radio" value="0" name="type" checked="checked" onclick="change(0)" { if $_A.system_result.type==0} checked="checked"{ /if}/> 文本/数字 
+<input type="radio" value="1" name="type" onclick="change(1)" { if $_A.system_result.type==1} checked="checked"{ /if}/> 布尔（Y/N）
+<input type="radio" value="2" name="type" onclick="change(0)" { if $_A.system_result.type==2} checked="checked"{ /if}/> 多行
+<input type="radio" value="3" name="type" onclick="change(0)" { if $_A.system_result.type==3} checked="checked"{ /if}/>图片
+</div>
+</div>
+<div class="module_border">
+		<div class="l">参数值：</div>
+		<div class="c">
+			<div id="text_v" { if $_A.system_result.type==1 }style="display:none" { /if} align="left" >
+		<input type="text" align="absmiddle" name="value1"  value="{ $_A.system_result.value}"/>
+	</div>
+	<div id="option_v" { if $_A.system_result.type==0 || $_A.system_result.type==3}style="display:none" { /if}>
+		<input type="radio" value="1" name="value2" checked="checked" { if $_A.system_result.value==1} checked="checked"{ /if}/> 是
+		<input type="radio" value="0" name="value2" { if $_A.system_result.value==0} checked="checked"{ /if}/> 否 
+	</div>
+</div>
+</div>
+<div class="module_border">
+		<div class="l">状态：</div>
+		<div class="c">
+			<input type="radio" value="0" name="status" checked="checked"  { if $_A.system_result.status==0} checked="checked"{ /if}/> 系统 <input type="radio" value="1" name="status" { if $_A.system_result.status==1 || $_A.system_result.status==""} checked="checked"{ /if}/> 自定义
+</div>
+</div>
+
+
+<div class="module_border">
+		<div class="l">备注：</div>
+		<div class="c">
+		<textarea name="remark" height="50" width="200">{$_A.system_result.remark}</textarea></div>
+</div>
+
+
+<div class="module_submit">
+<input name="" type="submit" value=" 提交 " /> <input name="" type="reset" value=" 重置 " /><input type="hidden" name="style" value="1" />
+
+</div>
+</form>
+</div>
+{literal}
+<script>
+function change(val){
+if (val==0){
+	document.getElementById("text_v").style.display ="";
+	document.getElementById("option_v").style.display ="none";
+}else{
+	document.getElementById("text_v").style.display ="none";
+	document.getElementById("option_v").style.display ="";
+}
+}
+function check_form(){
+var frm = document.forms['form1'];
+ var title = frm.elements['name'].value;
+ var nid = frm.elements['nid'].value;
+ var errorMsg = '';
+  if (title.length == 0 ) {
+	errorMsg += '参数名称必须填写' + '\n';
+  }
+  if (nid.length == 0 ) {
+	errorMsg += '变量名必须填写' + '\n';
+  }
+  if (errorMsg.length > 0){
+	alert(errorMsg); return false;
+  } else{  
+	return true;
+  }
+}
+</script>
+{/literal}
+{/if}

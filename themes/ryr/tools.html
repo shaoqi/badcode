@@ -1,0 +1,84 @@
+{include file="header.html"}
+    <div class="conbox t10">
+  <div class="location"><span>你当前位置：{$_G.system.con_webname}</a> > 投资中心 > {$_G.site_result.name}</span></div></div>
+ 
+ <div class="conbox t10">
+	      <div class="con_box">
+ {include file="tools_left.html"}
+	<div class="user_right"> 
+     <div class="main_box1">
+		           <div class="us_cen1">
+		             <h1>借款工具</h1>
+                    
+        </div>
+ <div  style="padding:30px">
+<div class="main_r_bor">
+				        <div class="m_r_title">
+				          <h1>按月分期还款计算器</h1></div>
+						<div class="m_r_list">
+		  <div style="color:#ff0000">
+		    <p>使用分期还款利息计算器，帮您计算一下借款的总成本，包括每月需要偿还的金额及月利率等；同时，一份完整的还款计划时间表让您更好地了解还款的情况。 分期还款采用的是通用的"等额本息还款法"，即借款人每月以相等的金额偿还贷款本息。也是银行房贷等采用的方法。</p>
+		    <p>&nbsp;</p>
+		  </div>
+		  <div><b>借款设置：</b>
+		   <form action="/tools/index.html" method="get">借款金额：<input type="text" name="account" size="10"  value="<? echo isset($_REQUEST['account'])?$_REQUEST['account']:""; ?>" value="<? echo $_REQUEST['account'];?>" /> 年利率：<input type="text" name="lilv"  size="10"  value="<? echo isset($_REQUEST['lilv'])?$_REQUEST['lilv']:""; ?>"/>%  借款期限：<input type="text" name="times"  size="10"  value="<? echo isset($_REQUEST['times'])?$_REQUEST['times']:""; ?>" />个月 还款方式：<select name="type">
+		   <option value="month" {if $magic.request.type=="month"}selected="selected"{/if}>按月等额本息</option>
+		   <option value="end"  {if $magic.request.type=='end'}selected="selected"{/if} >到期还本还息</option>
+		   <option value="endmonth"  {if $magic.request.type=='endmonth'}selected="selected"{/if} >按月付息，到期还本</option>		   
+		   </select>
+		   <div style="text-align:center; padding-top:30px"><input type="image"  src="{$tpldir}/images/submit.gif"  width="97" height="33"  /></div></form>
+      </div>
+          </div></div>
+                   
+          <div class="main_r_bor t10">
+				        <div class="m_r_title">
+				          <h1>偿还的时间表</h1></div>
+						<div class="m_r_list">
+                        <div class="t10">
+{literal} 
+<?
+	$account = isset($_REQUEST['account'])?$_REQUEST['account']:"";
+	$lilv = isset($_REQUEST['lilv'])?$_REQUEST['lilv']:"";
+	$times = isset($_REQUEST['times'])?$_REQUEST['times']:"";
+	$type = isset($_REQUEST['type'])?$_REQUEST['type']:"";
+?>
+<?
+require_once(ROOT_PATH."modules/borrow/borrow.calculates.php");
+$data['account'] = $account;
+$data['apr'] = $lilv;
+$data['period'] = $times;
+$data['time'] = time();
+$data['style'] = $type;
+$_result = borrowCalculateClass::GetType($data);
+$data['type'] = "all";
+$result = borrowCalculateClass::GetType($data);
+if ($result!="" && is_array($result)){
+?>						
+ <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+  <tr class="ytit1">
+    <td width="13%">期数</td>
+    <td width="13%">月偿还</td>
+    <td width="13%">月本金还款</td>
+    <td width="17%">利息</td>
+    <td width="14%">余额</td>
+    </tr>
+	<? foreach ($_result as $key => $value){?>
+  <tr>
+    <td><? echo $key+1;?></td>
+    <td><? echo $value['account_all'];?></td>
+    <td><? echo $value['account_capital'];?></td>
+    <td><? echo $value['account_interest'];?></td>
+    <td><? echo $value['account_other'];?></td>
+    </tr>
+     <? }?>
+    </table><?}?>{/literal} 
+		    </div></div></div>
+          </div>
+          </div>
+          </div>
+          <div class="cle"></div>
+   </div>
+	</div>
+
+{include file="footer.html"}

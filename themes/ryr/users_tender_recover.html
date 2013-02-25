@@ -1,0 +1,118 @@
+<div class="main_box">
+<div class="us_r_bor1">
+		<!--成功投资 开始-->
+		<div>
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  标题：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+		<input value="搜索" type="submit"  class="press_mode" onclick="sousuo('{$_U.query_url}/tender&p=recover')" />
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+			<tr class="ytit">
+				<td colspan="10">
+				{if $magic.request.type=="yes"}回收完的借款{else}回收中的借款{/if}</td>
+			</tr>
+
+
+				<tr class="ytit1" >
+
+
+					<td  >借款者</td>
+
+
+					<td  >标题</td>
+
+
+					<td  >借款类型</td>
+
+
+				<!-- 	<td  >借款者等级</td> -->
+
+
+					<td  >年利率</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >投资金额</td>
+
+
+					<td  >已收本息</td>
+					<td  >发布时间</td>
+
+
+					<td  >协议书</td>
+
+
+					<!--<td  >联系方式</td>-->
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" plugins="Tender" function ="GetTenderList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request"  tender_type="wait" roam_status=1}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td  ><!-- a href="/u/{$item.borrow_userid}"> -->{$item.borrow_username}</td>
+
+
+					
+
+
+					<td title="{$item.borrow_name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.borrow_name|truncate:8}</a></td>
+
+
+					<td  >{$item.borrow_type_name}</td>
+
+
+					<!-- <td  >{$item.credit.credit_total|credit:"borrow"}</td> -->
+
+
+					<td  >{$item.borrow_apr}%</td>
+
+
+					<td>{$item.borrow_period_name}</td>
+				
+
+
+					<td  >￥{$item.account}</td>
+
+
+					<td  >￥{$item.recover_account_yes|default:0.00}</td>
+					<td  >{$item.borrow_verify_time|date_format:"Y-m-d"}</td>
+
+
+					<td  ><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议书</a></td>
+
+
+					<!--<td  ><a href="">{if $item.borrow_userqq==""}-{else}<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$item.borrow_userqq}&amp;site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:{$item.borrow_userqq}:41" alt="" title=""></a>{/if}</a></td>-->
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+
+				{/list}
+
+		<!--成功投资 结束-->
+</div>		</div>

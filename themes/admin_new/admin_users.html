@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=gbk"> 
+<meta http-equiv="expires" content="0"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-Control" content="no-cache"> 
+<link rel="stylesheet" type="text/css" href="/themes/admin_new/admin.css" /> 
+<script language="JavaScript" src="/themes/admin_new/images/jquery.js"></script> 
+<script language="JavaScript" src="/themes/admin_new/images/common.js"></script> 
+<script language="JavaScript" src="/themes/admin_new/js/base.js"></script> 
+<link href="/themes/admin/css/tipswindown.css" rel="stylesheet" type="text/css" /> 
+<script src="/themes/admin/js/tipswindown.js" type="text/javascript"></script> 
+<script src="/plugins/timepicker/WdatePicker.js" type="text/javascript"></script>
+<script src="/plugins/editor/xheditor/xheditor-1.1.12-zh-cn.min.js" type="text/javascript"></script>
+</head> 
+<body> 
+<div class="admin_module">
+<!--模块列表 开始-->
+
+	<div class="module_add">
+		<form action="" method="post" name="form1" onsubmit="return check_form();" >
+		<div class="module_title"><strong>个人资料</strong></div>
+		
+		<div class="module_border">
+			<div class="l">用户名：</div>
+			<div class="c">
+				{$_A.user_result.username}
+			</div>
+		</div>
+		<div class="module_border">
+			<div class="l">邮箱：</div>
+			<div class="c">
+				{$_A.user_result.email}
+			</div>
+		</div>
+		<div class="module_border">
+			<div class="l">注册时间/IP：</div>
+			<div class="c">
+				{$_A.user_result.reg_time|date_format}/{$_A.user_result.reg_ip}
+			</div>
+		</div>
+		<div class="module_border">
+			<div class="l">登陆密码：</div>
+			<div class="c">
+				<input type="password" value="" name="password" />不修改请为空
+			</div>
+		</div>
+		<div class="module_border">
+			<div class="l">支付密码：</div>
+			<div class="c">
+				<input type="password" value="" name="paypassword" />不修改请为空
+			</div>
+		</div>
+		
+		
+		
+		<div class="module_submit border_b" >
+			<input type="submit" value=" 提 交 " class="submitstyle" name="submit_ok" />&nbsp;&nbsp;
+			<input name="reset" type="reset" class="submitstyle" value=" 重 置 " />
+		</div>
+		</form>
+	</div>
+	{literal}
+	<script>
+	function check_form(){
+		 var frm = document.forms['form1'];
+		 var title = frm.elements['name'].value;
+		 var code = frm.elements['code'].value;
+		 var errorMsg = '';
+		  if (title.length == 0 ) {
+			errorMsg += '模块名称必须填写' + '\n';
+		  }
+		  if (code.length == 0 ) {
+			errorMsg += '识别id必须填写' + '\n';
+		  }
+		  if (errorMsg.length > 0){
+			alert(errorMsg); return false;
+		  } else{  
+			return true;
+		  }
+	}
+	</script>
+	{/literal}
+	<!--模块编辑 结束-->
+	
+
+
+	
+</body>
+</html>

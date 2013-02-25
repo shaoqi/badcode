@@ -1,0 +1,126 @@
+{include file="header.html"}
+{if $magic.request.type=="email"}
+<div class="conbox t40">
+	     <div class="regist_bor">
+              <div class="reg_tit">免费注册</div>
+			  <div style="background:#F6F4F4; padding:40px 25px; margin:0px 30px">
+			        <div style="text-align:center"><img src="{$tempdir}/images/success.gif" /></div>
+					<div style="width:675px; margin:20px auto; ">
+					     <div style="color:#AE0606; line-height:28px; font-size:14px">{$_G.user_result.email}将收到一封认证邮件，登录您的邮箱查收，并点击邮件中的链接，完成激活。激活成功后，
+您就可以畅快使用站内所有功能，否则将不能使用{$_G.system.con_webname}的所有功能哦~~ </div>
+<div style="text-align:center; margin-top:15px;"><a href="{$_U.emailurl}" target="_blank"><img src="{$tempdir}/images/mailgo.gif" border="0" /></a></div>
+
+<div style="margin-top:25px; font-size:14px">如果30分钟内没有收到激活邮件，查看您的垃圾邮箱，依然不能收到请重新发送。<br />
+  <input type="text" value="{$_G.user_result.email}" readonly="readonly" name="textfield" style="width:250px; border:#BFBFBF solid 1px; height:18px;"/><input type="button" value="重新发送" onClick="sendemail()"/>
+  <br />
+</div>
+<div style="margin-top:15px; font-size:14px">等待激活时间，您还可以去这里看看：<a href="/tender_now/index.html" style=" color:#025ED0; font-size:14px; text-decoration:underline">我要投资</a>  <a href="/borrow/index.html" style=" color:#025ED0; font-size:14px; text-decoration:underline">我要借款</a></div>
+					</div>
+			   </div>
+		 </div>
+	</div>
+{literal}
+<script>
+function sendemail(){
+	var newemail=$("#email").val();
+	$.post("/index.php?user&q=reg&type=sendemail",{checkemail:newemail},function(result){
+		alert("发送成功，请登录邮箱确认激活！");
+	});
+}
+</script>
+{/literal}
+{else}
+{literal}
+<script>
+function checksms(){
+  var newphone=$("#phone").val();
+  if (newphone==""){
+	alert("请填写手机号码！");
+	window.location.href="/index.php?user&q=reg";
+	return false;
+  }
+	$.get("/?user&q=code/users/checkphone",{phone:newphone},function(result){
+		if (result==true){
+			alert("手机号码已存在！");
+			return false;
+		}else{
+		  $.post("/?user&q=code/approve/phone",{phone:newphone},function(data){
+				alert("发送成功。");
+		  });
+		}
+	});
+}
+
+</script>
+{/literal}
+<script type="text/javascript" src="{$tempdir}/js/user.js"></script>
+<div class="conbox t40">
+	     <div class="regist_bor">
+              <div class="reg_tit">免费注册</div>
+			  <div>
+			      <div class="reg_left">
+				  <form action="" method="post" id="reg_form" >
+				       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="reg_tab">
+  <tr>
+    <td class="tex_left"><font class="red">*</font> 邮箱：</td>
+    <td>
+	<input name="email" id="email" type="text" class="in_text"/>
+	<span class="warning" style="color:#FF0000" id=email_notice>请输入您常用的邮箱地址</span>
+	</td>
+  </tr>
+  <tr>
+    <td class="tex_left"><font class="red">*</font> 用户名：</td>
+    <td>
+	<input name="username" id="username"  type="text" class="in_text"/>
+	<span class="warning" style="color:#FF0000" id=username_notice>请输入您网站的用户名</span>
+	</td>
+  </tr>
+  <tr>
+    <td class="tex_left"><font class="red">*</font> 密码：</td>
+    <td>
+	<input type=password maxLength=16 name=password id=password class="in_text"/>
+	<span style="color:#FF0000" id=password_notice>请输入6到16位密码</span>
+	</td>
+  </tr>
+  <tr>
+    <td class="tex_left"><font class="red">*</font> 密码确认：</td>
+    <td>
+	<input type="password" name="confirm_password" id="confirm_password" class="in_text"/>
+	<span style="color:#FF0000" id=conform_password_notice>请重复输入上面的密码</span>
+	</td>
+  </tr>  
+{if $magic.session.reginvite_user_id==""}
+  <tr>
+    <td class="tex_left">推荐人:</td>
+    <td>
+	<input type="test" name="tuijian_userid" id="tuijian_userid" class="in_text"/><font color="red"><b>请填写推荐人用户名</b></font><font color="blue"><b>(选填项)</b></font>
+	</td>
+  </tr>  
+{else}
+<input name="invite_user_id" type="hidden" value="{$magic.session.reginvite_user_id}"/> 
+{/if}
+ 
+  <tr>
+    <td class="tex_left"><font class="red">*</font> 验证码：</td>
+    <td>
+	<input name="valicode" type="text" class="in_text" style="width:50px"/><img src="/?plugins&q=imgcode" id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" /><em>看不清？<a href="javascript:void(0)" onClick="$('#valicode').attr('src','/?plugins&q=imgcode&t=' + Math.random());">换一张！</a></em></td>
+  </tr>
+  <tr>
+    <td class="tex_left">&nbsp;</td>
+    <td align="left">
+	<input type="image" name="submit" src="{$tempdir}/images/reg_go.gif" width="128" height="44" border="0"><input type="hidden" name="type" value="ajax" />
+	</td>
+  </tr>
+</table>
+</form>
+				  </div>
+				  <div class="reg_right">
+					   <div style="margin:10px 0 0 0"><a href="/?user&q=login" class="dl_btn"><img src="{$tempdir}/images/zhuce.gif" /></a></div>
+				  </div>
+				  <div class="cle"></div>
+			  </div>
+		 </div>
+	</div>
+{/if}
+<script>{literal}deayou.use("users",function(users){users.reg();});</script>{/literal}
+{include file="footer.html"}

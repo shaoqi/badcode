@@ -1,0 +1,94 @@
+
+    <div class="us_r_bor1">
+  <div>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabguy">
+	  <tr class="gtit">
+		<td>资金总额 </td>
+		<td>可用资金</td>
+		<td>冻结资金 </td>
+	  </tr>
+	  <tr>
+	  {articles module="account" function="GetOne" var="var" user_id="$_G.user_id"}
+		<td>￥{$var.total|default:0.00}</td>
+		<td>￥{$var.balance|default:0.00}</td>
+		<td>￥{$var.frost|default:0.00}</td>
+	 {/articles}
+	  </tr>
+	</table>
+  </div>
+  <div class="t20">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+	  <tr class="ytit">
+		<td>资金记录查询</td>
+	  </tr>
+	  <tr>
+		<td style="padding:10px 0">查询类型：
+		  {linkages nid="account_type" value="$magic.request.type" name="type" type="value" default="全部" }
+		  &nbsp;&nbsp;查询范围：
+		  <input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1|default:"$day7"|date_format:"Y-m-d"}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2|default:"$nowtime"|date_format:"Y-m-d"}" id="dotime2" size="15" onclick="change_picktime()"/>		 
+		  <input value="查询" type="submit"  class="press_mode"  onclick="sousuo('{$_U.query_url}/log')" style="height:25px; width:60px"/>
+		</td>
+	  </tr>
+	</table>
+  </div>
+   <script>
+var url = "{$_U.query_url}/{$_U.query_type}";
+{literal}
+function sousuo(){
+	var _url = "";
+	var dotime1 = $("#dotime1").val();
+	var keywords = $("#keywords").val();
+	var username = $("#username").val();
+	var dotime2 = $("#dotime2").val();
+	var type = $("#type").val();
+	if (username!=null){
+		 _url += "&username="+username;
+	}
+	if (keywords!=null){
+		 _url += "&keywords="+keywords;
+	}
+	if (dotime1!=null){
+		 _url += "&dotime1="+dotime1;
+	}
+	if (dotime2!=null){
+		 _url += "&dotime2="+dotime2;
+	}
+	if (type!=null){
+		 _url += "&type="+type;
+	}
+	location.href=url+_url;
+}
+
+</script>
+{/literal}
+  <div class="t20">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+	  <tr class="ytit">
+		<td colspan="7">资金历史记录</td>
+	  </tr>
+	  <tr class="ytit1">
+		<td width="16%">时间</td>
+		<td width="11%">类型</td>
+		<td width="13%">存入</td>
+		<td width="13%">支出</td>
+		<td width="13%">冻结</td>
+		<td width="11%">余额</td>
+		<td width="23%">备注</td>
+	  </tr>
+	  {list module="account" function="GetLogList" var="loop" user_id="$_G.user_id" dotime2="request" dotime1="request" type="request"}
+	  {foreach from=$loop.list item="item"}
+	  <tr {if  $key==0} class="trtdcolor"{elseif $key%2==1} class="ynow"{/if}>
+		<td>{ $item.addtime|date_format:"Y-m-d H:i:s"}</td>
+		<td>{$item.type|linkages:"account_type"} </td>
+		<td>{if $item.balance_new>0 }￥{$item.balance_new}{elseif $item.await_new>0}￥{$item.await_new}{/if}</td>
+		<td>{if $item.expend_new>0}￥{$item.expend_new}{/if}</td>
+		<td>{if $item.frost_new>0}￥{$item.frost_new}{/if}</td>
+		<td>￥{$item.balance}</td>
+		<td>{ $item.remark}</td>
+	  </tr>
+	  { /foreach}
+	</table>
+  </div>
+  <div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+</div>
+{/list}

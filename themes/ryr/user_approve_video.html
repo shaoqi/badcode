@@ -1,0 +1,38 @@
+		<!--视频认证 开始-->
+
+		{if $_U.video_result.status==1}
+
+		<div class="user_main_title1">您已经通过了视频认证</div>
+
+		{else}
+
+		<div class="user_main_title1">
+
+		{if $_U.video_result.status!=0}您的视频认证已经提交，客服人员会及时的跟你联系。</font>{else}您尚未通过视频认证。
+
+		<div  >
+
+			
+
+				如果你需要视频认证，请点按钮提交。<form action="" method="post"><input type="submit" value="提交申请" name="submit" />（请保持联系方式畅通，我们的客服会与您联系安排验证）
+
+				<br /></form>
+
+
+
+			
+
+		</div>{/if}</div>
+
+		{/if}
+
+		<!--视频认证 结束-->
+
+
+	
+<script>var realname_status='{$_G.user_info.realname_status}';
+{literal}
+if (realname_status!=1){
+deayou.use("header",function(e){e.ajaxError('请先进行实名认证。','/?user&q=code/approve/realname');});	
+};</script>
+{/literal}	

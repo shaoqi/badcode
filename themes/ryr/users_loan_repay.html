@@ -1,0 +1,16 @@
+{if $magic.request.type==""}
+{include file="users_loan_repay_now.html"}
+
+{elseif $magic.request.type=="detail"}
+{include file="users_loan_repay_detail.html"}
+
+{elseif $magic.request.type=="tender"}
+{include file="users_loan_repay_tender.html"}
+
+{elseif $magic.request.type=="yes"}
+{include file="users_loan_repay_yes.html"}
+
+{elseif $magic.request.type=="late"}
+{include file="users_loan_repay_late.html"}
+
+{/if}

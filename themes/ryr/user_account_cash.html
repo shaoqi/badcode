@@ -1,0 +1,76 @@
+
+<div class="us_r_bor1" >
+		<div style="margin:10px">
+		{list module="account" function="GetCashList" var="loop" user_id="$_G.user_id" epage=20}
+		<div><span class="daochu" style="float:right"><a href="{$magic.server.REQUEST_URI}&excel=true">导出数据</a></span>成功提现{$loop.all|default:0.00}元，提现到账{$loop.credited_all|default:0.00}元，手续费{$loop.fee_all|default:0.00}元
+		</div>
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			
+			<tr class="ytit">
+				<td colspan="8">提现记录</td>
+			</tr>
+				<tr class="head">
+					<td>提现银行</td>
+					<td>提现账号</td>
+					<td>提现总额</td>
+					<td>到账金额</td>
+					<td>手续费</td>
+					<td>提现时间</td>
+					<td>状态</td>
+					<td>操作</td>
+				</tr>
+			{ foreach  from=$loop.list key=key item=item}
+				<tr  {if $key%2==1} class="ynow"{/if}>
+					<td>{ $item.bank|linkages:"account_bank"|default:"$item.bank"}</td>
+					<td>{ $item.account}</td>
+					<td>￥{ $item.total|default:0.00}</td>
+					<td>￥{ $item.credited|default:0.00}</td>
+					<td>￥{ $item.fee|default:0.00}</td>	
+					<td>{ $item.addtime|date_format:"Y-m-d H:i"}</td>
+					<td>{if $item.status==0}审核中{elseif  $item.status==1} 提现成功 {elseif $item.status==2}提现失败 {elseif $item.status==3}用户取消{/if}</td>
+					<td>{if $item.verify_remark!=""}{$item.verify_remark}{else}{if $item.status==0}<a href="{$_U.query_url}/cash_cancel&id={$item.id}"  class="cach_cancel">取消提现</a>{else}-{/if}{/if}</td>
+				</tr>
+				{ /foreach}
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		{/list}
+		
+		
+		
+			
+</div>
+</div></div>
+<script>
+		{articles module="users" plugins="vip" function="GetUsersVip" user_id="$_G.user_id" var="_vip"}
+		var status="{$_vip.status}";
+		{/articles}
+		var real_money=5;
+		{literal}
+		function commit(obj) {
+			if (parseFloat(obj.value) > 0 ) 
+			{
+				var realMoney=parseFloat(obj.value);			
+				document.getElementById("real_money").innerText = 5;
+				document.getElementById("r_money").innerText = realMoney-real_money;	
+				
+			}else{
+				var realMoney=parseFloat(obj.value);
+				document.getElementById("real_money").innerText =0;
+				document.getElementById("r_money").innerText =0;
+			}
+		}
+		</script>
+<script>
+deayou.use("account",function(e){e.cash();});
+$("form").submit(function(e){
+	var member = $(".money").attr("value");
+	if(menber = ""){
+		alert("请输入提现金额");
+	}elseif(member<100 || member>49999){
+		alert("输入的提取金额应在100-49999之间");
+	}
+});
+</script>{/literal}

@@ -1,0 +1,76 @@
+{include file="header.html"}
+<div class="conbox t20">
+	     <div>
+	      <div class="con_bor">
+	        <div class="pos_bor"><span>你的位置><a href="/">急速贷</a> ><a href="#">我要借款</a>>填写资料</span></div>
+            <div class="t40">
+              <div style="text-align:center">
+			        <img src="{$tpldir}/images/step2.gif" />
+		      </div> 
+		  </div>
+          <div class="ch_content">
+		  <div class="m_change">
+			         <ul>
+					     <li><a  href="/?user&q=code/borrow/loan_info">基本信息</a></li>
+						 <li><a  href="/?user&q=code/borrow/loan_work">单位资料</a></li>
+						 <li><a  href="/?user&q=code/borrow/loan_company">私营业主</a></li>
+                         <li><a href="/?user&q=code/borrow/loan_contact">联系方式</a></li>
+                         <li><a class="onn" href="/?user&q=code/borrow/loan_finance">财务状况</a></li>
+                         <li><a href="/?user&q=code/borrow/loan_houses">房产资料</a></li>
+					 </ul>
+		    </div>		    
+            <div>
+            <div class="us_r_bor1">
+			     <div>
+			   <div class="tips" style="width: auto">亲爱的客户，<!-- span class="f_red b">*</span>为必填内容, -->请认真填写以下信息，我们会对您的个人信息严格保密。</div><br>
+{articles module="rating" function="GetFinanceOne" user_id="$_G.user_id" var="var"}
+ <form action="/?user&q=code/rating/addpayment&type=borrow" method="post" name="formx" onsubmit="return formcheck();">
+			   <div class="item_group" style="width: auto">请填写您的财务状况
+</div>
+			   <div class="user_info_box clearfix" style="width: auto">	
+	<div class="user_info_item">
+		<span class="user_info_item_left">每月无抵押贷款还款额：</span> <span>
+		<input value="{$var.month_money}" class="input180 " name="month_money" id="month_money">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">自有房产：</span> <span>
+		{linkages nid="rating_car" name="is_house" type="value" value="$var.is_house"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">每月房屋按揭金额：</span> <span> 
+		<input value="{$var.month_house}" class="input180 " name="month_house" id="month_house">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">自有汽车：</span> <span>
+		{linkages nid="rating_car" name="is_car" type="value" value="$var.is_car"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">每月汽车按揭金额：</span> <span> 
+		<input value="{$var.month_car}" class="input180 " name="month_car" id="month_car">
+		</span>元
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">每月信用卡还款金额：</span> <span> 
+		<input value="{$var.month_card}" class="input180 " name="month_card" id="month_card">元
+		</span>
+	</div>
+	<input value="borrow" class="input180 " type="hidden" name="web">
+</div>{/articles}
+			   <div style="text-align: center; padding: 20px 0">
+							<input type="submit" name="submit" class="saveSettingBnt" onclick="javascript:return checkItemA()" value="保存并继续">
+				 </div>
+			   </div>
+			</div>
+            </div>
+            </form>
+		  </div>
+	      </div>
+	   </div>
+	</div>
+{include file="footer.html"}
+</body>
+</html>

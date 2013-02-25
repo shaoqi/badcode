@@ -1,0 +1,149 @@
+<div class="us_r_bor1" >
+{if $_U.account_bank_result==""}<br />
+<br />
+<br />
+
+			<center>
+			你还没设置银行账户，请先设置。 点击这里 <a href="/?user&q=code/account/bank_new" style="color:#FF0000"><strong>添加银行账户</strong></a>
+			</center><br />
+<br />
+<br />
+<br />
+
+
+		
+		{else}
+		<div style="margin:10px">注：1、请输入您需要提取的金额,我们将在1至3个工作日(国家节假日除外)之内将钱转入到您在网站上填写的银行帐号。<br />
+			  2、如急需把钱转到您的个人银行帐号或者24小时之内网站未将钱转入到所填写的银行帐号,请联系客服人员。 <br />
+			  3、请确保您的个人银行帐号姓名与网站上填写的真实姓名一致。 <br />
+			  4、每笔提现金额至少为100元，以100为单位（备注：请申请整数，如600、2800等）。100元以下提现将无法实现。<br />
+			  5、每笔提现金额最高不能超过500000元。VIP会员每笔限定500000万，普通会员每笔限定300000万。<br />
+			  6、重要！！开户行支行填写不正确，会导致提现交易无法成功，提现费用将不予返还。如不确定开户行支行名称，请致电当地所在银行的营业网点询问或上网查询。
+		</div>
+		<form action="" method="post" id="account_cash_form">
+		<div class="user_right_border">
+			<div class="l">用户名：</div>
+			<div class="c">
+				{$_G.user_result.username}
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l">提现账户：</div>
+			<div class="c">
+				{$_G.user_info.realname}
+			</div>
+		</div>
+		{articles module="account" function="GetOne" var="var" user_id="$_G.user_id"}
+		<div class="user_right_border">
+			<div class="l">可用余额：</div>
+			<div class="c">
+				{$var.balance|default:0.00}元
+			</div>
+		</div>
+		{/articles}
+		
+		<div class="user_right_border">
+			<div class="l">选择银行账号：</div>
+			<div class="c">
+				{loop module="account" function="GetUsersBankList" user_id="$_G.user_id" limit="all"}
+				<input type="radio" name="user_bank_id" value="{$var.id}" /> {$var.bank_name} {$var.city|areas:"p,c"} {$var.branch} {$var.account}<br />
+				{/loop}
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l"><font color="#FF0000">*</font>交易密码：</div>
+			<div class="c">
+				{if $_G.user_result.paypassword==""}<a href="/?user&q=code/users/paypwd"><font color="#FF0000">请先设置一个支付密码</font></a>{else}<input type="password" name="paypassword" tabindex="1" />{/if}
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l"><font color="#FF0000">*</font>提现金额：</div>
+			<div class="c">
+				<input type="text" name="money" class="money" value=""  size="10" onkeyup="commit(this);" maxlength="9"  tabindex="2"/>
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l"><font color="#FF0000">*</font>提现费用：</div>
+				<div class="c">
+						
+					<font color="#FF0000" id="real_money">0</font> 元
+				</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l"><font color="#FF0000">*</font>实际到账金额：</div>
+				<div class="c">						
+					<font color="#FF0000" id="r_money">0</font> 元
+				</div>
+		</div>
+	
+		<div class="user_right_border">
+			<div class="l"><font color="#FF0000">*</font>验证码：</div>
+			<div class="c">
+				<input name="valicode" type="text" size="11" maxlength="4"  tabindex="3"/>&nbsp;<img src="/?plugins&q=imgcode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				<input type="submit" name="name"  value="确认提交" class="press_mode"size="30" /> 
+				
+			</div>
+		</div>
+			<input type="hidden" name="type" value="ajax" />
+		</form>
+		<div class="user_right_foot">
+		* 温馨提示：禁止信用卡套现
+		</div>
+	{/if}	
+	
+</div>
+</div></div>
+</div>
+<script>
+{articles module="account" plugins="Fee" function="GetFeeOne" id=2 var="_var"}
+var vip_fee = {$_var.vip_account_scale};
+var all_fee = {$_var.all_account_scale};
+var vip_max = {$_var.vip_account_scale_max};
+var all_max = {$_var.all_account_scale_max};
+{/articles}
+		{articles module="users" plugins="vip" function="GetUsersVip" user_id="$_G.user_id" var="_vip"}
+		var status={$_vip.status};
+		{/articles}		
+		{literal}
+		if(status==1){
+		  fee = vip_fee;
+		}else{
+		  fee = all_fee;
+		}
+		function commit(obj) {
+			if (parseFloat(obj.value) > 0 ) 
+			{	
+				var realMoney=parseFloat(obj.value);
+				var real_money=realMoney*fee/100;
+				var sum1=real_money;
+				var sum2=realMoney-real_money;
+				//document.getElementById("real_money").innerText = sum1.toFixed(2);
+				//document.getElementById("r_money").innerText = sum2.toFixed(2);
+				$("#real_money").text(sum1.toFixed(2));
+				$("#r_money").text(sum2.toFixed(2));					
+				
+			}else{
+				var realMoney=parseFloat(obj.value);
+				//document.getElementById("real_money").innerText =0;
+				//document.getElementById("r_money").innerText =0;
+				$("#real_money").text(0);
+				$("#r_money").text(0);
+			}
+		}
+		</script>
+<script>
+deayou.use("account",function(e){e.cash();});
+$("form").submit(function(e){
+	var member = $(".money").attr("value");
+	if(menber = ""){
+		alert("请输入提现金额");
+	}elseif(member<100 || member>49999){
+		alert("输入的提取金额应在100-49999之间");
+	}
+});
+</script>{/literal}

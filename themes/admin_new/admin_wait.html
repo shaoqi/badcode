@@ -1,0 +1,89 @@
+{include file="admin_head.html"}
+{articles module="borrow" function="BorrowRemindCount" plugins="Count"}
+			 <table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+			  
+				
+			  <tr>
+					<td colspan="3" bgcolor="#ffffff" class="main_td2" >
+					<div class="main_title">借款信息</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">初审标:</td>
+					<td class="main_td1" align="left" width="50">{$var.borrow_publish_wait}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/borrow/first">初审借款</a></td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">复审标:</td>
+					<td class="main_td1" align="left" width="50">{$var.borrow_full_check}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/borrow/full">复审借款</a></td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">额度待审:</td>
+					<td class="main_td1" align="left" width="50">{$var.borrow_amount_apply}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/borrow/amount_apply">审核额度</a></td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">未还款:</td>
+					<td class="main_td1" align="left" width="50">{$var.borrow_repay_not}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/borrow/late">未还款</a></td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">逾期未还款:</td>
+					<td class="main_td1" align="left" width="50">{$var.borrow_repay_late_not}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/borrow/late&late_days=0">逾期未还</a></td>
+				</tr>
+				
+			  <tr>
+					<td colspan="3" bgcolor="#ffffff" class="main_td2" >
+					<div class="main_title">资金管理</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">充值待审核:</td>
+					<td class="main_td1" align="left" width="50">{$var.recharge}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/account/recharge">审核充值</a></td>
+				</tr><tr>
+					<td class="main_td1" align="right" width="15%">提现待审核:</td>
+					<td class="main_td1" align="left" width="50">{$var.cash}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/account/cash&status=0">审核提现</a></td>
+				</tr>
+				
+				
+			  <tr>
+					<td colspan="3" bgcolor="#ffffff" class="main_td2" >
+					<div class="main_title">认证管理</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">实名待认证:</td>
+					<td class="main_td1" align="left" width="50">{$var.approve_realname}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/approve/realname">审核认证</a></td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">学历待认证:</td>
+					<td class="main_td1" align="left" width="50">{$var.approve_edu}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/approve/edu">审核认证</a></td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">手机待认证:</td>
+					<td class="main_td1" align="left" width="50">{$var.approve_sms}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/approve/sms">审核认证</a></td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">视频待认证:</td>
+					<td class="main_td1" align="left" width="50">{$var.approve_video}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/approve/video">审核认证</a></td>
+				</tr>
+				 <tr>
+					<td colspan="3" bgcolor="#ffffff" class="main_td2" >
+					<div class="main_title">证明材料审核</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">未审核证明:</td>
+					<td class="main_td1" align="left" width="50">{$var.attestations}</td>
+					<td class="main_td1" align="left"><a href="{$_A.admin_url}&q=code/attestations/upload">审核认证</a></td>
+				</tr>
+	      </table>
+		  {/articles}

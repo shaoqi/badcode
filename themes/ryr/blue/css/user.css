@@ -1,0 +1,52 @@
+
+/* 用户中心 */
+.user_left{ width:160px; float:left;}
+.user_right{ width:785px; float:right}
+.us_top{ background:url(../images/us_top.gif) no-repeat; height:4px; overflow:hidden}
+.us_cen{padding:0; border:#EEEEEE solid 1px; background:#fff; border-radius:0 0 5px 5px;  }
+.us_cen h1{ background: none repeat scroll 0 0 #7CB1C8; height: 28px; color:#FFFFFF;font-family: "微软雅黑"; font-size: 14px;  line-height: 28px; padding-left: 15px;}
+.us_cen ul{ padding-bottom:10px; }
+.us_cen li{ background:url(../images/us_l_bg.gif) repeat-x; height:29px; line-height:29px; color:#666666; padding-left:10px; font-family:"宋体"}
+.us_cen li a{ line-height:29px;}
+.us_cen li a:hover{ text-decoration:underline; color:#6F96BF; font-weight:bold}
+.us_bot{ background:url(../images/us_bot.gif) no-repeat; height:4px; overflow:hidden}
+
+.us_r_bor3{ padding:0 20px}
+.us_r_bor{ border:#DBDBDB solid 1px; background:#fff; padding:10px}
+.us_r_tit{ border-bottom:#F7D1D1 solid 1px; height:30px;}
+.us_r_tit h1{ font-size:12px; float:left; padding-left:15px; color:#DD0C0C; line-height:30px;}
+.us_r_tit span{ float:right; line-height:30px;}
+.us_r_tit span a{ line-height:30px;}
+.us_infor{ padding:10px 20px;}
+b.red{ color:#D72D2C}
+
+.my_news{ padding:0px 10px}
+.my_news td{ border-bottom:#E1E1E1 solid 1px; height:35px; line-height:35px; padding-left:10px}
+.my_news td a{ color:#425F9D;}
+td.time{ color:#999999; padding-right:10px}
+
+table.tabguy{ border-collapse:collapse}
+table.tabguy td{ border:#CCCCCC solid 1px; height:32px; line-height:32px; text-align:center}
+table.tabguy tr.gtit td{ background:#F6F6F6;}
+
+table.tabyel{ border-collapse:collapse}
+table.tabyel td{ border:#B3CEE0 solid 1px; height:32px; line-height:32px; text-align:center; color:#666666}
+table.tabyel td a{color:#425F9D;}
+table.tabyel tr.ytit td{ background:#E0ECF4; text-align:left; padding-left:15px; color:#666666; font-weight:bold}
+table.tabyel tr.ytit1 td{ font-weight:bold; background:#F6F6F6; }
+table.tabyel tr.ynow td{ background:#EEF4FE;}
+
+.jk_word{ padding:10px 10px 0 0}
+
+.us_r_left{ float:left; width:565px}
+.us_r_right{ float:right; width:210px;}
+.change{ margin:5px 0 0 0; text-align:center}
+.post{ height:30px; background:#ffffff; border:#e7e7e7 solid 1px;}
+.post_1{ margin:5px 10px 5px 10px}
+.post_1 h1{ color:#c42700; font-size:12px}
+.post_1 span{ float:right; display:block}
+.us_infor a{ color:#757575;}
+.us_infor td{ color:#757575;}
+.us_infor font{ color:#c42700;}
+.m_r_news ul.a_color a{color:#245F98}
+.m_r_news ul.a_color_1 a{color:#245F98}

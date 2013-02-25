@@ -1,0 +1,107 @@
+{articles module="users" function="GetEmailActiveOne" user_id="$_G.user_id" var="Evar"}
+{if $Evar.status!=1 && $_G.user_id!=""}<script>alert("您还没有激活邮箱，请先激活！");location.href='/index.php?user&q=reg&type=email';</script>
+{/if}
+{/articles}
+{articles module="approve" function="GetRealnameOne" user_id="$_G.user_id" var="Avar"}
+{if $Avar.status!=1 && $_G.user_id!=""}
+{literal}
+<script>
+var dia = $.dialog({
+id: 'borr_realname',title:'姓名认证',content: 'url:/?user&q=code/borrow/loan&p=realname&borrow_nid='+borrow_nid,max: false,
+min: false,lock:true});
+</script>
+{/literal}
+{/if}
+{/articles}
+{literal}
+<script>
+function check(){
+	var tender_account = $("#tender_account").val();
+	if (tender_account%50!=0 || tender_account==0){
+		alert("借出金额请为50的倍数");
+		return false;
+	}
+		return true;
+}
+</script>
+{/literal}
+<form  method="post" name="form1"  action="/index.php?user&q=code/borrow/auto_add" onsubmit="return check()" >
+<div class="user_main_title1">自动借出时，只有满足下面您选择的条件时系统才会为您进行自动借出。</div>
+<div class="user_right_border">
+	<div class="l">状态：</div>
+	<div class="c">
+		<input id="status" type="checkbox" name="status" value="1" {if $_U.auto_result.status==1} checked="checked" {/if}/>是否启用（如果不选中则当前规则不会生效）
+	</div>
+</div>
+{articles module="account" function="GetOne" var="var" user_id="$_G.user_id"}
+<div class="user_right_border">
+	<div class="l">账户余额：</div>
+	<div class="c">
+		￥{$var.balance|default:0.00}
+	</div>
+</div>
+{/articles}
+<div class="user_right_border">
+	<div class="l">标种：</div>
+	<div class="c">
+		<input name="tender_type" type="radio" id="tender_type" {if $_U.auto_result.tender_type=='pawn' || $_U.auto_result.tender_type==''}checked="checked" {/if}   value="pawn" />抵押标
+		<input name="tender_type" type="radio" id="tender_type" {if $_U.auto_result.tender_type=='roam'}checked="checked" {/if}  value="roam" />流转标
+	</div>
+</div>
+<div class="user_right_border">
+	<div class="l">借出金额：</div>
+	<div class="c">
+		<input name="tender_account" type="text" maxlength="5" id="tender_account"  style="width:80px;" value="{$_U.auto_result.tender_account}" /> 元（为50的倍数）
+	</div>
+</div>
+<!-- <div class="user_right_border">
+	<div class="l">信用等级：</div>
+	<div class="c">	
+	{linkages name="borrow_credit_first" nid="credit_lev" type="value" value="$_U.auto_result.borrow_credit_first"}~{linkages name="borrow_credit_last" nid="credit_lev" type="value" value="$_U.auto_result.borrow_credit_last"}
+	</div>
+</div> -->
+<div class="user_right_border">
+	<div class="l">借款期限：</div>
+	<div class="c">
+		<select name="timelimit_month_first" id="timelimit_month_first"> 
+		{for start=1  end=18 var="i"}
+			<option value="{$i}" {if $_U.auto_result.timelimit_month_first==$i} selected="selected"{/if}>{$i}个月</option> 
+		{/for}
+		</select>
+		~
+		<select name="timelimit_month_last" id="timelimit_month_last"> 
+		{for start=1  end=24 var="i"}
+			<option value="{$i}" {if $_U.auto_result.timelimit_month_last==$i} selected="selected"{/if}>{$i}个月</option>
+		{/for}
+		</select> 
+	</div>
+</div>
+<div class="user_right_border">
+	<div class="l">利率选项：</div>
+	<div class="c">
+		<select name="apr_first" > 
+		{for start=8  end=24 var="i"}		
+			<option value="{$i}" {if $_U.auto_result.apr_first==$i} selected="selected"{/if}>{$i}%</option> 
+		{/for}
+		</select> 
+		~
+		<select name="apr_last" > 
+		{for start=10  end=24 var="i"}
+			<option value="{$i}" {if $_U.auto_result.apr_last==$i} selected="selected"{/if}>{$i}%</option> 
+		{/for}
+		</select> 
+	</div>
+</div>
+<div class="user_right_border">
+	<div class="l">账户保留金额：</div>
+	<div class="c">
+		<input type="text" name="min_account" value="{$_U.auto_result.min_account}" style="width:100px;" /> 
+	</div>
+</div>
+<div class="user_right_border">
+	<div class="l">&nbsp;<input type="hidden" name="id" value="{$magic.request.id}" /></div>
+	<div class="c">
+		<input type="submit" name="submit" value="保存"   class="press_mode" /> 
+	</div>
+</div>
+</form>

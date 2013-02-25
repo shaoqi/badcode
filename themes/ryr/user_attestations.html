@@ -1,0 +1,270 @@
+{include file="header.html"}
+<div class="conbox t10">
+	<div class="user_left">
+		{include file="user_menu.html"}
+	</div>
+	<div class="user_right">
+	   <div>
+		   <div class="m_change">
+			<ul>
+				<li ><a href="{$_U.query_url}/list" {if $_U.query_type=="list"} class="onn"{/if}>材料详情</a></li>
+				<!-- <li ><a href="{$_U.query_url}/one" {if $_U.query_type=="one"} class="onn"{/if}>单个上传</a></li> -->
+				<!-- <li ><a href="{$_U.query_url}/more" {if $_U.query_type=="more"} class="onn"{/if}>多个上传</a></li> -->
+			</ul>
+			</div>
+<div class="user_right">
+<div class="main_box">	
+		<div class="us_r_bor1">
+			<form action="/?user&q=code/attestations/one" name="form1" method="post" onsubmit="return check_form()" enctype="multipart/form-data">
+
+			<div class="user_main_title1">
+			<font color="#FF0000">*</font>必须是本人的相关资料<br/>
+			<font color="#FF0000">*</font>真实 有效<br />
+			<font color="#FF0000">*</font>审核时间：3个工作日<br/>
+			</div>
+
+			<div class="user_right_border">
+
+				<div>资料上传：<input type="file" name="pic[]" tabindex="1" /> 上传最大的图片为500K，上传的格式为jpg.gif</div>
+
+			</div>
+
+			<div class="user_right_border">
+
+				<div>上传类型：					
+					<select name="type_id"  tabindex="2">
+
+					{loop module="attestations" function="GetAttestationsTypeList" limit="all" }
+						<option value="{$var.id}" {if $magic.request.nid==$var.nid} selected="selected"{/if}>{$var.name}</option>
+					{/loop}
+
+					</select>
+			  </div>
+
+			</div>
+
+			<div class="user_right_border" style="height:100px; overflow:hidden">
+
+				<div>备注说明：<textarea cols="50" rows="5" name="name" style="width:400px; height:80px;"  tabindex="3"></textarea></div>			
+
+			</div>
+
+			
+
+
+			  <div class="l">&nbsp;<input type="hidden"  value="{$magic.request.type}" name="upload" /></div>
+
+				<div class="c">
+
+					<input type="submit"  value="确认提交" size="30" /> 
+
+				</div>
+	             <div class="user_right_foot1">
+		            <font style=" color:#FF0000">* 温馨提示：我们将严格对用户的所有资料进行保密</font>
+		         </div>	
+
+			</form>			
+		
+</div>	
+			
+			
+			
+			
+			{literal}
+			<script>
+
+				function check_form(){
+
+					 var frm = document.forms['form1'];
+
+					 var file = frm.elements['litpic'].value;
+
+					 var errorMsg = '';
+
+					  if (file.length == 0 ) {
+
+						errorMsg += '* 图片不能为空' + '\n';
+
+					  }
+
+					 
+
+					  if (errorMsg.length > 0){
+
+						alert(errorMsg); return false;
+
+					  } else{  
+
+						return true;
+
+					}
+
+				
+
+				}
+
+			</script>{/literal}
+
+			
+
+		
+		<div class="us_r_bor1">
+		{if $_U.query_type=="list"}
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+			<form action="" method="post" id="form1">
+
+				<tr class="head" >
+
+				<td>说明信息 </td>
+
+				<td>资料类型</td>
+
+				<td>上传时间 </td>
+
+				<!-- <td>审核时间</td>
+
+				<td>审核说明</td>
+
+				<td>积分 </td>
+
+				<td>状态</td> -->
+
+				<td>操作</td>
+
+				</tr>
+
+			{list module="attestations" function="GetAttestationsList" var="_loop" user_id="$_G.user_id" epage=20}
+
+				{ foreach from=$_loop.list item=item}
+				<tr  {if  $key==0} class="trtdcolor"{elseif $key%2==1} class="ynow"{/if}>
+
+				<td>{$item.name|default:-}</td>
+
+				<td>{$item.type_name}</td>
+
+				<td>{ $item.addtime|date_format:"Y-m-d H:i"}</td>
+
+				<!-- <td>{ $item.verify_time|date_format:"Y-m-d H:i"|default:-}</td>
+
+				<td>{$item.verify_remark|default:-}</td>
+
+				<td>{$item.credit|default:0} 分</td>
+
+				<td>{if $item.status==0}未审核{elseif $item.status==2}审核失败{else}已审核{/if}</td> -->
+
+				<td><a href="{$item.fileurl}" target="_blank">查看</a></td>
+				</tr>
+				{ /foreach}
+
+				<tr >
+
+					<td colspan="11" class="page">
+
+						{$_loop.pages|showpage}
+
+					</td>
+
+				</tr>
+
+				{/list}
+
+			</form>	
+
+			</table>
+
+		{elseif $_U.query_type=="one"}
+		
+			<form action="/?user&q=code/attestations/one" name="form1" method="post" onsubmit="return check_form()" enctype="multipart/form-data">
+
+			<div class="user_top">
+			<font color="#FF0000">*</font>必须是本人的相关资料<br/>
+			<font color="#FF0000">*</font>真实 有效<br />
+			<font color="#FF0000">*</font>审核时间：3个工作日<br/>
+			</div>
+
+			<div class="user_right_border">
+
+				<div>资料上传：<input type="file" name="pic" id="pic" tabindex="1" /> 上传最大的图片为500K，上传的格式为jpg.gif</div>
+
+			</div>
+
+			<div class="user_right_border">
+
+				<div>上传类型：					
+					<select name="type_id"  tabindex="2">
+
+					{loop module="attestations" function="GetAttestationsTypeList" limit="all" }
+						<option value="{$var.id}" {if $magic.request.nid==$var.nid} selected="selected"{/if}>{$var.name}</option>
+					{/loop}
+
+					</select>
+					</div>
+
+			</div>
+
+			<div class="user_right_border" style="height:100px; overflow:hidden">
+
+				<div>备注说明：<textarea cols="50" rows="5" name="remark" style="width:400px; height:80px;"  tabindex="3"></textarea></div>			
+
+			</div>
+
+			
+
+			<div class="user_right_border">
+
+				<div class="l">&nbsp;<input type="hidden"  value="1" name="upload" /></div>
+
+				<div class="c">
+
+					<input type="submit"  value="确认提交" size="30" /> 
+
+				</div>
+
+			</div>
+
+			</form>
+
+			<div class="user_top m_t">
+
+			* 温馨提示：我们将严格对用户的所有资料进行保密
+
+			</div>
+
+			{literal}<script>
+			
+			var isIE = /msie/i.test(navigator.userAgent) && !window.opera;  
+			function check_form(){
+				var ele=document.getElementById("pic");
+				var fileSize = 0;          
+				if (isIE && !ele.files) {      
+					var filePath = ele.value;   
+					var fileSystem = new ActiveXObject("Scripting.FileSystemObject");var file = fileSystem.GetFile (filePath);      
+					fileSize = file.Size;     
+				}else {     
+					fileSize = ele.files[0].size;      
+				}    
+					var size = fileSize / 1024; 
+				if(size>2048){   
+					alert("附件不能大于2M");
+					return false;
+				}
+			}
+			</script>{/literal}
+
+			
+
+		{elseif $_U.query_type=="more"}
+		
+		{include file="user_attestations_new.html"}
+		
+		{/if}
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cle"></div>
+{include file="footer.html"}

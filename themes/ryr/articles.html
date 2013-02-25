@@ -1,0 +1,27 @@
+{include file="header.html"}
+<div class="conbox t10">
+     <div class="weizhi">ÄúµÄÎ»ÖÃ£º<a href="/">{$_G.site_result.name}</a> > <a href="/{$_G.site_result.nid}/index.html">{$_G.site_result.name}</a></div>
+</div>
+<div class="conbox t10">
+     <div class="sm_left">
+	      <div class="d_con">
+		  <div class="title"><h2><img src="{$tpldir}/images/icon5.gif" align="absmiddle" />&nbsp;&nbsp;{$_G.site_result.name}</h2></div>
+		  <div class="articles_content ">
+		     <div class="news_list" style="margin:0">
+		       <table width="100%" border="0" cellspacing="0" cellpadding="0">
+				{loop module="articles" function="GetList" var="var" limit="all" site_id="this"}
+					<tr>
+						<td width="10%" align="center">{$key}</td>
+						<td width="62%" align="left"><a href="/{$_G.site_result.nid}/a{$var.id}.html">{$var.name}</a></td>
+						<td width="28%" align="center">{$var.addtime|date_format:"Y-m-d H:i:s"}</td>
+					</tr>
+				{/loop}
+			</table>
+		  </div>
+</div>
+	 </div>
+	 </div>
+	 {include file="help_right.html"}
+	 <div style="clear:both"></div>
+</div>
+{include file="footer.html"}

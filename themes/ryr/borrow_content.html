@@ -1,0 +1,495 @@
+{include file="header.html"}
+<link href="{$tpldir}/blue/css/deayou.css" rel="stylesheet" type="text/css" />
+{articles module="borrow" function="GetView" var="var" borrow_nid=$magic.request.article_id hits="auto"}
+{if $var.borrow_type=="roam"}
+    {include file="borrow_roam_content.html"}
+{else}
+<div class="conbox t10">
+  <div class="location"><span>你当前位置：<a href="/">{$_G.system.con_webname}</a> ><a href="/invest/index.html">投资中心</a> >{$var.name}</span></div></div>
+
+  
+    <div class="conbox t20">
+     <div class="jk_bor">
+      <div class="jk_bor_le">
+       <div class="jk_v_tit">
+          <h1><img src="{$tpldir}/images/danb.gif" width="30" height="17" /> {$var.name}</h1>
+        </div>
+        <div class="jk_v_in" style="padding:18px 10px">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="67%" align="left" valign="top" class="jk_data">
+                <div>借款金额：<b style="color:#FF4E00">￥{$var.account}</b></div>
+                <div class="t10">借款年利率：<span style="color:#FF4E00">{$var.borrow_apr}%</span>       
+				借款期限：<span style="color:#FF4E00">{$var.borrow_period_name}</span></div>
+              </td>
+              <td width="33%" align="center" valign="top">
+			  {if $_G.user_id == $var.user_id }
+			  <a href="javascript:alert('不能投自己的标')"  >
+			  {else}
+			  <a href="javascript:void(0)"  class="borrow_type_class">
+			  {/if}
+	 <img src="{$tpldir}/dyp2p/borrow_status_{$var.borrow_status_nid}.gif" /></a>
+			  <span style="color:#666666; margin-top:10px; display:block">最低投标金额 {$var.tender_account_min}元,最高投标金额 {if $var.tender_account_max==0}不限{else}{$var.tender_account_max}{/if}</span></td>
+            </tr>
+  </table>
+          
+  <div style="border-top:#8A8A8A dotted 1px; padding-top:15px;">
+  <table width="100%" height="100" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td colspan="3" align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="39%" align="left">借款进度：<span class="loading"><em style="width:{$var.borrow_account_scale}%"></em></span>{$var.borrow_account_scale}%已完成</td>
+          <td width="61%" align="left" style="font-size:14px"><span style="color:#FF4E00">{$var.tender_times}</span> 笔投标，还需 <span style="color:#FF4E00">￥{$var.borrow_account_wait|default:0}</span> </td>
+          </tr>
+        </table></td>
+      </tr>
+    <tr>
+      <td width="39%" align="left" valign="middle">还款方式：{$var.style_title} 
+  </td>
+      <td width="30%" align="left" valign="middle">还款总额：<span style="color:#FF4E00">{$var.repay_account_all}元</span></td>
+      <td width="31%" align="left" valign="middle">担保机构：<span style="color:#FF4E00">{$var.pawnins}</span></td>
+  
+      </tr>
+    <tr>
+      <td colspan="3" align="left" valign="middle">剩余时间： {if $var.status==0}审核中{else}<span id="endtime">{$var.borrow_other_time}</span>{/if}</td>
+      </tr>
+  </table>
+  </div>
+</div>
+     </div>
+{literal}
+
+<script type="text/javascript">
+
+var CID = "endtime";
+
+if(window.CID != null){
+
+    var iTime = document.getElementById(CID).innerHTML;
+
+    var Account;
+
+    RemainTime();
+
+}
+
+function RemainTime(){
+
+var iDay,iHour,iMinute,iSecond;
+
+var sDay="",sTime="";
+
+    if (iTime >= 0){
+
+        iDay = parseInt(iTime/24/3600);
+
+        iHour = parseInt((iTime/3600)%24);
+
+        iMinute = parseInt((iTime/60)%60);
+
+        iSecond = parseInt(iTime%60);
+
+  
+
+   if (iDay > 0){ 
+
+    sDay = iDay + "天"; 
+
+   }
+
+   sTime =sDay + iHour + "小时" + iMinute + "分钟" + iSecond + "秒";
+
+  
+
+        if(iTime==0){
+
+           clearTimeout(Account);
+
+           sTime="<span style='color:green'>时间到了！</span>";
+
+        }else{
+
+           Account = setTimeout("RemainTime()",1000);
+
+        }
+
+        iTime=iTime-1;
+
+    }else{
+
+        sTime="<span style='color:red'>此标已过期！</span>";
+
+    }
+
+document.getElementById(CID).innerHTML = sTime;
+
+}
+
+</script>
+
+{/literal}	 
+     <div class="jk_bor_ri">
+<div class="main_box1">
+		  <div class="title_bor"><h1 style="background:none; padding-left:15px">借款人详细资料</h1> </div>
+        <div class="jk_v_in">
+          <div class="portrait"><img src="{$var.user_id|avatar}" height="70" border="0" alt="{$var.username}" />          
+          </div>
+          <div class="name_por">用户名：<span style="color:#ef6401">{$var.username}</span><br />
+		  {articles module="borrow" function = "GetBorrowCredit" user_id="$var.user_id" var="Credit_var"}
+积分：{$Credit_var.credit_total}<br />
+{/articles}
+注册时间：{$_G.user_result.reg_time|date_format:"Y-m-d"}<br />
+{articles module="borrow" plugins="count" function="GetUsersRepayCount" var="repay_var" user_id="$var.user_id"}
+<from>{$repay_var.borrow_success_num|default:0}</from>
+次成功：
+<from>{$repay_var.borrow_over_num|default:0}</from>
+次流标
+<br />
+{/articles}
+</div>
+<div class="attest"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top">
+	{articles module="users" function="GetUsersVip" user_id="$var.user_id" var="Vvar"}
+		{if $Vvar.status==1}
+		<img border="0" src="{$tpldir}/images/vip1.gif" title="已认证"/>
+	    {else}<img border="0"  src="{$tpldir}/images/vip0.gif" title="未认证"/>
+	    {/if}
+	    {if $_G.user_info.realname_status=="1"}
+	    <img border="0" src="{$tpldir}/images/realname.gif" title="已认证">
+	    {else}<img border="0" src="{$tpldir}/images/realname0.gif" title="未认证"/>
+	    {/if}
+	    {if $_G.user_info.email_status=="1"}
+	    <img border="0" src="{$tpldir}/images/email.gif" title="已认证"/>
+	    {else}<img border="0" src="{$tpldir}/images/email0.gif" title="未认证"/>
+	    {/if}	  
+		{articles module="approve" function="GetSmsOne" user_id="$var.user_id" var="pvar"}
+	    {if $pvar.status=="1"}
+	    <img border="0" src="{$tpldir}/images/phone1.gif" title="已认证"/>
+	    {else}<img border="0" src="{$tpldir}/images/phone0.gif" title="未认证"/>
+	    {/if}	  
+		{/articles}
+	    {if $_G.user_info.video_status=="1"}
+	     <img border="0" src="{$tpldir}/images/video1.gif" title="已认证"/>
+	    {else}<img border="0" src="{$tpldir}/images/video0.gif" title="未认证"/>
+	   {/if}
+	</td>
+    </tr>
+</table></div>
+          </div>
+ </div>
+     </div>
+     <div class="cle"></div>
+    </div>
+    </div>
+    
+<div class="conbox t10">
+<div class="main_r_bor">
+ <div class="m_r_title">
+   <h1>借款者信用信息</h1></div>
+   <div class="con">
+      <p style="color:#5e5e5e;border-bottom:1px dotted #5E5E5E; font-weight:bold">基本信息</p>
+	  {articles module="rating" function="GetInfoOne" var="Ivar" user_id="$var.user_id"}
+	  {articles module="approve" function="GetEduOne" var="Evar" user_id="$var.user_id"}
+   <div style="margin:3px 0">
+     <div class="t10">
+      <p style="float:left;width:179px">性别：{$Ivar.sex|linkages:"rating_sex"|default:"未填"}</p>
+      <p style="float:left;width:179px">出生日期：{$Ivar.rating_birthday_year|linkages:"rating_birthday_year"}{$Ivar.rating_birthday_mouth|linkages:"rating_birthday_mouth"}{$Ivar.rating_birthday_day|linkages:"rating_birthday_day"|default:"未填"}</p>
+      <p style="float:left;width:179px">是否结婚：{$Ivar.marry|linkages:"rating_marry"|default:"未填"}</p>
+{articles module="rating" function="GetJobOne" var="Jvar" user_id="$var.user_id"}
+      <p style="float:left;width:179px">工作城市：{$Jvar.work_city|areas:"p,c"|default:"未填"}</p>
+     </div>
+   <div class="clearfix">
+   <p style="float:left;width:179px">文化程度：{if $Evar.degree!=''}{$Evar.degree|default:"未填"}{else}{$Ivar.edu|linkages:"rating_education"|default:"未填"}{/if}</p>
+   <p style="float:left;width:179px"> </p>
+   <p style="float:left;width:179px"></p>
+   <p style="float:left;width:179px">月收入：{$Ivar.income|linkages:"rating_income"|default:"未填"}</p>
+   <p style="float:left;width:179px"></p>
+     </div>
+{/articles}
+                    {/articles}
+{articles module="rating" function="GetFinanceOne" var="Ivar" user_id="$var.user_id"}
+  <div class="clearfix">
+    <p style="float:left;width:179px">住房条件：
+     {$Ivar.house|linkages:"rating_house"|default:"未填"}</p>
+       <p style="float:left;width:179px">房产价值：{$Ivar.house_value|default:"未填"}{if $Ivar.house_value!='' }元{/if}
+                            </p>
+       <p style="float:left;width:179px">有无购车：
+                                    {$Ivar.is_car|linkages:"rating_car"|default:"未填"}
+                            </p>
+		<p style="float:left;width:179px">车辆价值：
+                                    {$Ivar.car_value|default:"未填"}{if $Ivar.car_value!='' }元{/if}
+       </p>
+       </div>
+
+					
+                    <div class="clearfix">
+                        <p style="float:left;width:180px">参股企业出资额：{$Ivar.cangu_account|default:"未填"}{if $Ivar.cangu_account!='' }元{/if}                                
+                            </p>
+                            <p style="float:left;width:205px">
+                                其他资产：
+                                    {$Ivar.describe|default:"未填"}
+                            </p>
+                    </div>
+					{/articles}
+                </div>
+                
+             {/articles}   
+				<div class="cle"></div></div>
+   </div>
+</div>
+<div class="conbox t10">
+		<div class="main_r_bor">
+		 <div class="m_r_title">
+		   <h1>借款详情</h1></div>
+		   <div class="con">
+		   {$var.borrow_contents}
+			</div>
+		   </div>
+</div>
+<div class="conbox t10">
+  <div class="main_r_bor">
+ <div class="m_r_title">
+   <h1>审核记录</h1></div>
+   <div class="con">
+			<div style="margin:10px 0 0">
+                <table width="768" border="0" cellpadding="0" cellspacing="1" bgcolor="#CCCCCC" style="width: 918px;">
+                    <tbody>
+                        <tr style="height: 30px;">
+                            <td width="46%" style="background: #F6F6F6;">
+                                <div align="center">
+                                    审核项目
+                                </div>
+                            </td>
+                            <td width="30%" style="background: #F6F6F6;">
+                                <div align="center">
+                                    状态
+                                </div>
+                            </td>
+                            <td width="24%" style="background: #F6F6F6;">
+                                <div align="center">
+                                    通过时间
+                                    
+                                </div>
+                            </td>
+                        </tr>
+{articles module="approve" function="GetSmsOne" status=1 var="Svar"  user_id="$var.user_id"}
+{if $Svar.status==1}
+						<tr style="height: 30px;">
+                                <td bgcolor="#FFFFFF">
+                                    <div align="left" style="padding: 0 5px;">
+                                     手机认证  
+                                    </div>
+                              </td>
+                                <td bgcolor="#FFFFFF">
+                                    <div align="center" style="padding: 0 5px;">
+                                        {if $Svar.status==1}
+										<img alt="通过" src="{$tpldir}/images/answer_success.jpg">
+										 {else}
+										<img alt="未通过" src="{$tpldir}/images/answer_success.jpg">
+										{/if}
+                                    </div>
+                              </td>
+                                <td bgcolor="#FFFFFF">
+                                    <div align="center" style="padding: 0 5px;">
+                                      {$Svar.addtime|date_format:Y-m-d"}
+                                    </div>
+                              </td>
+                            </tr>
+		{/if}
+		{/articles}
+		
+		{list module="attestations" function="GetAttestationsList" var="loop" user_id="$var.user_id"  status="1"}
+		{foreach from="$loop.list" item="bvar"}
+                        
+                            <tr style="height: 30px;">
+                                <td bgcolor="#FFFFFF">
+                                    <div align="left" style="padding: 0 5px;">
+                                        {$bvar.type_name}
+                                    </div>
+                              </td>
+                                <td bgcolor="#FFFFFF">
+                                    <div align="center" style="padding: 0 5px;">
+                                        {if $bvar.status==1}
+										<img alt="通过" src="{$tempdir}/images/answer_success.jpg">
+										{else}
+										<img alt="未通过" src="{$tempdir}/images/ca.gif">
+										{/if}
+                                    </div>
+                              </td>
+                                <td bgcolor="#FFFFFF">
+                                    <div align="center" style="padding: 0 5px;">
+                                       {$bvar.addtime|date_format:Y-m-d"}
+                                    </div>
+                              </td>
+                                <!-- <td bgcolor="#FFFFFF">
+                                    <div align="center" style="padding: 0 5px;">
+                                       {$bvar.verify_time|date_format:Y-m-d"}
+                                    </div>
+                              </td> -->
+                            </tr>
+		{/foreach}
+		{/list}					  
+                    </tbody>
+              </table>
+      </div>
+    </div>
+   </div>
+ </div>
+  
+   
+<div class="conbox t10">
+<div class="main_r_bor">
+ <div class="m_r_title">
+   <h1>最近投标记录</h1></div>
+   <div class="con">
+      <div style="margin:10px">
+        <div style="display: block;height: 50px">
+                    <div style="float: left;width: 230px;">
+                        目前投标总额：<span class="f_red">￥{$var.borrow_account_yes}</span>
+                    </div>
+                    <div style="float: left;width: 230px">
+                        剩余投标金额：<span class="f_red">￥{$var.borrow_account_wait}</span>
+                    </div>
+                    <div style="float: left;width: 230px">
+                       <!--  剩余投标时间：
+                        <span class="f_red">
+                                {$var.borrow_account_time}
+                        </span> -->
+                    </div>
+                    <div style="float: right;width: 141px;">
+	                              		{if $_G.user_id == $var.user_id }
+			  <a href="javascript:alert('不能投自己的标')"  >
+			  {else}
+			  <a href="javascript:void(0)"  class="borrow_type_class">
+			  {/if}
+	 <img src="{$tpldir}/dyp2p/borrow_status_{$var.borrow_status_nid}.gif" /></a>                    </div>
+             </div>
+             <table border="0" cellpadding="0" cellspacing="1" bgcolor="#CCCCCC" width="100%">
+                 <tbody>
+                     <tr style="height: 30px;">
+                         <td width="20%" style="background: #F6F6F6;">
+                             <div align="center">
+                                 投标人
+                             </div>
+                         </td>
+                         <td width="20%" style="background: #F6F6F6;">
+                             <div align="center">
+                                 投标金额
+                             </div>
+                         </td>
+                         <td width="20%" style="background: #F6F6F6;">
+                             <div align="center">
+                                 投标时间
+                             </div>
+                         </td>
+                     </tr>
+					  {loop module="borrow" plugins="Tender" function="GetTenderList" limit="all" var="vat" borrow_nid="$_G.article_id" }              	
+                        	
+                        		 <tr style="height: 30px;">
+	                                <td bgcolor="#FFFFFF">
+	                                    <div align="center" style="padding: 0 5px;">
+	                                        <!-- <a href="/u/{$vat.user_id}" target="_blank"> -->{$vat.username|truncate:2}***
+	                                    </div>
+                                   </td>
+	                                <td bgcolor="#FFFFFF">
+	                                    <div align="right" style="padding: 0 130px 0px 0px;color:red">
+	                                        ￥{$vat.account}
+	                                    </div>
+                                   </td>
+	                                <td bgcolor="#FFFFFF">
+	                                    <div align="center" style="padding: 0 5px;">
+	                                        {$vat.addtime|date_format:"Y-m-d H:i:s"}
+	                                    </div>
+                                   </td>
+                            </tr>
+						{/loop}
+                 </tbody>
+        </table>
+        </div>
+		 </div>
+   </div>
+   </div>
+   
+<div class="conbox t10">
+<div class="main_r_bor">
+ <div class="m_r_title">
+   <h1>留言板</h1></div>
+   <div class="con">
+      <div style="padding:0 5px 0;">
+	  <div>
+				<table cellspacing="0" border="0" style="border-width:0px;border-style:None;width:930px;border-collapse:collapse;">
+					{loop module="comment" function="GetList" limit="8" var="vat" code="borrow" article_id="$magic.request.article_id" }
+					<tr class="comment_tr">
+						<td width="10%" height="60px" align="center"><img src="{$vat.user_id|avatar}" width="50" height="50" /></td>
+						<td width="10%" height="60px" align="center"><!-- <a href="/u/{$vat.user_id}" target=_blank> -->{$vat.username}</td>
+						<td width="60%" height="60px" align="left">{$vat.contents}</td>
+						<td width="20%" height="60px" align="center">{$vat.addtime|date_format:"Y-m-d H:i:s"}</td>
+					</tr>
+					{/loop}
+				</table>
+			</div>
+			<span class="back" style="width: 780px; margin: 10px 0 0 15px; height: 25px">
+				咨询或评论：<span class="hidden" style="color:Red;">(字数在1-120之间)</span>
+			</span>
+			<div style="clear: both;">
+				<textarea name="contents" id="contents" rows="5" cols="20" class="textbook" style="width:920px;"></textarea>
+			</div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="100%" align="right">
+					{if $_G.user_id!=""}
+						<div style="height: 30px; margin-top: 8px; text-align: right;">
+							<input type="submit" value="提 交" onclick="return sentcomment()" class="bbs_input" style="margin-right: 5px" />
+						</div>
+					{/if}
+					</td>
+				</tr>
+			</table>
+</div>
+   </div>
+   </div>
+   </div>
+   
+<script>
+var article = {$magic.request.article_id};
+var borrow_user = {$var.user_id};
+var borrow_nid = {$var.borrow_nid};
+{literal}
+function sentcomment(){
+	var con=$("#contents").val();
+	if (con==""){
+		alert("留言内容不能为空！");
+		return false;
+	}
+	$.post("/?user&q=code/comment/new",{contents:con,article_id:article,borrow_user:borrow_user,borrow_nid:borrow_nid},function(result){
+		alert("留言成功");
+		history.go(0);
+	});
+}
+
+function delcom(num){
+	$.post("/?user&q=code/comment/del",{id:num},function(result){
+		if (result==true){
+			alert("删除成功");
+			history.go(0);
+		}else{
+			alert("删除失败");
+		}
+	});
+}
+{/literal}
+</script>
+   
+<script>
+var borrow_status_nid='{$var.borrow_status_nid}';
+var borrow_userid='{$var.user_id}';
+var borrow_nid='{$var.borrow_nid}';
+{articles module="borrow" plugins="Loan" function="GetLoanStep" user_id="$_G.user_id" var="var"}
+var step = {$var.status};
+var url = '/{$var.url}';
+{/articles}
+{literal}deayou.use("borrow",function(e){e.borrow_content(step,url,borrow_status_nid,borrow_nid,borrow_userid);});</script>{/literal}
+{/articles}
+{/if}
+{include file="footer.html"}

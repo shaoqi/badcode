@@ -1,0 +1,272 @@
+{include file="header.html"}
+{literal}
+<script>
+var con_id = Array();
+function checkFormAll(form) {	
+	if(form.allcheck.checked==true){
+		con_id.length=0;
+	}
+	for (var i=1;i<form.elements.length;i++){
+		 if(form.elements[i].type=="checkbox"){ 
+            e=form.elements[i]; 
+            e.checked=(form.allcheck.checked)?true:false; 
+			if(form.allcheck.checked==true){
+				con_id[con_id.length] = e.value;
+			}else{
+				con_id.length=0;
+			}
+        } 
+	}
+}
+function on_submit(path,id){
+	//$('#type').val(id);
+	$('input[name=type]').attr('value',id);
+	$('#form1').action=path;
+	$('#form1').submit();
+}
+</script>
+{/literal}
+<div class="conbox t20">
+		{include file="user_menu.html"}
+	<div class="user_right">
+	   <div>
+		   <div class="m_change">
+			<ul>
+				<li><a href="{$_U.query_url}" {if $_U.query_type=="list" || $_U.query_type=="view"} class="onn"{/if}>收件箱</a></li>
+				<li><a href="{$_U.query_url}/sented" {if $_U.query_type=="sented" || $_U.query_type=="viewed"} class="onn"{/if}>已发送</a></li>
+				<li><a href="{$_U.query_url}/sent" {if $_U.query_type=="sent"} class="onn"{/if}>发信息</a></li>
+			</ul>
+			</div>
+		
+		<div class="us_r_bor1" >
+		<!--收件箱 开始-->
+		{if $_U.query_type=="list"}
+		<div class="user_main_title1">
+		<input type="button"  value="删除" class="press_mode" onclick="on_submit('/?user&q=code/message/sented',1)" />
+		<input type="button" value="标记已读"  class="press_mode" onclick="on_submit('{$_G.query_url}/sented',2)"/>
+		<!-- <input type="button" value="标记未读" onclick="on_submit('{$_G.query_url}/sented',3)"/>-->
+		</div>
+		
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<form action="{$_U.query_url}/senteds" method="post" id="form1">
+				<tr class="ytit1" >
+					<td><input type="checkbox" name="allcheck" onclick="checkFormAll(this.form)"/><input type="hidden" name="type" id="type" value="0" /></td>
+					<td>发件人 </td>
+					<td>标题</td>
+					<td>发送时间 </td>
+					<td>操作</td>
+				</tr>
+				{ list  module="message" function="GetMessageReceiveList" username='$_G.user_result.username' var="loop" }
+
+			{foreach from="$loop.list" item="item"}
+				<tr  {if $key%2==1} class="ynow"{/if}>
+				<td><input type="checkbox" name="id[{$key}]" value="{$item.id}" id="id"/></td>
+				<td>{ $item.send_username|default:"系统"}</td>
+				<td><a href="{$_U.query_url}/view&id={$item.id}">{if $item.status==0}<strong>{ $item.name}</strong>{else}{ $item.name}{/if}</a></td>
+				<td>{ $item.addtime|date_format:"Y-m-d H:i"}</td>
+				<td><a href="/?user&q=code/message/deled&id={$item.id}">删除</a></td>
+				</tr>
+				{ /foreach}
+				<tr >
+					<td colspan="11" class="page">
+						<div class="user_list_page">{$loop.pages|showpage}<input type="hidden" value="0" id="type" name="type" /></div>
+					</td>
+				</tr>
+
+				{/list}
+			</form>	
+			</table>
+			<!--收件箱 结束-->
+		</div>
+		
+		<!--发件箱 开始-->
+		{elseif $_U.query_type=="sented"}
+		<div class="user_main_title1" ><input type="button"  value="删除" class="press_mode" onclick="on_submit('{$_G.query_url}/sented',1)" /></div>
+		<form action="{$_U.query_url}/sentdeled" method="post" id="form1">
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+				<tr class="ytit1" >
+				<td><input type="checkbox" name="allcheck" onclick="checkFormAll(this.form)"/></td>
+				<td>收件人 </td>
+				<td>标题</td>
+				<td>发送时间 </td>
+				</tr>
+					{ list  module="message" function="GetMessageList" username='$_G.user_result.username' var="loop" status="1"}
+
+			{foreach from="$loop.list" item="item"}
+
+
+				<tr  {if $key%2==1} class="ynow"{/if}>
+
+
+				<td><input type="checkbox" name="id[{$key}]" value="{$item.id}"/></td>
+
+
+				<td>{ $item.receive_username|default:"admin"}</td>
+
+
+				<td><a href="{$_U.query_url}/viewed&id={$item.id}">{ $item.name}</a></td>
+
+
+				<td>{ $item.addtime|date_format:"Y-m-d H:i"}</td>
+
+
+				</tr>
+
+
+				{ /foreach}
+				<tr >
+					<td colspan="5" class="page">
+						<div class="user_list_page">{$_U.show_page}</div>
+					</td>
+				</tr>
+				{/list}
+				<input type="hidden" name="type" id="type" value="0" />
+			</form>	
+			</table>
+			<!--发件箱 结束-->
+		</div>
+		<!--发件箱 开始-->
+		{elseif $_U.query_type=="sent"}
+		<form method="post" action="" >
+		<div class="user_right_border">
+			<div class="l">发件人：</div>
+			<div class="c">
+				{$_G.user_result.username}
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l">收件人：</div>
+			<div class="c">
+				<input type="text" name="receive_user" value="{$magic.request.receive}" tabindex="1" />
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l">标题：</div>
+			<div class="c">
+				<input type="text" name="name"  tabindex="2" />
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l">内容：</div>
+			<div class="c">
+				<textarea name="contents" rows="7" cols="50"  tabindex="3"></textarea>
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">验证码：</div>
+			<div class="c">
+				<input name="valicode" type="text" size="11" maxlength="4"  tabindex="4"/>&nbsp;<img src="/?plugins&q=imgcode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l">&nbsp;</div>
+			<div class="c">
+				<input name="sented" type="checkbox" value="1"  tabindex="5"/>保存到发件箱
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l">&nbsp;</div>
+			<div class="c">
+				<input type="submit"   value="确认提交" size="30" class="press_mode" tabindex="6" /> 
+			</div>
+		</div>
+		</form>
+		<div class="user_right_foot">
+		* 温馨提示：如果要发送给网站管理员，请在收件人栏目输入admin
+		</div>
+		
+		
+		<!--查看 开始-->
+		{elseif $_U.query_type=="view"}
+		<div class="user_main_title1" ><input type="button" class="press_mode" onclick="javascript:location.href='{$_U.query_url}'" value="返回" /> <input type="button" value="删除" class="press_mode" onclick="javascript:location.href='{$_U.query_url}/del&id={$_U.message_result.id}'"/></div>
+		<form method="post" action="" >
+		<div class="user_right_border">
+			<div class="l">标题：</div>
+			<div class="c">
+				{$_U.message_result.name}
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">发送人：</div>
+			<div class="c">
+				{$_U.message_result.send_username|default:"admin"}
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">发送时间：</div>
+			<div class="c">
+				{$_U.message_result.addtime|date_format:"Y-m-d H:i"}
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">发送内容：</div>
+			<div class="c">
+				{$_U.message_result.contents}
+			</div>
+		</div>
+		{if $_U.message_result.send_username!="" && $_U.message_result.send_username!=0}
+		<div class="user_right_border">
+			<div class="l">回复：</div>
+			<div class="c">
+				<textarea name="contents" rows="7" cols="50"></textarea>
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				<input type="hidden" name="id" value="{$_U.message_result.id}" />
+				<input type="hidden" name="receive_user" value="{$_U.message_result.send_username}" />
+				<input type="submit" class="press_mode" value="回复"  /> 
+			</div>
+		</div>
+		{/if}
+		</form>
+		<!--查看 结束-->
+		
+		<!--查看 开始-->
+		{elseif $_U.query_type=="viewed"}
+		<div class="user_main_title1" ><input type="button" class="press_mode"  onclick="javascript:location.href='{$_U.query_url}/sented'" value="返回" /> <input type="button" class="press_mode" value="删除" onclick="javascript:location.href='{$_U.query_url}/deled&id={$_U.message_result.id}'"/></div>
+		<div class="user_right_border">
+			<div class="l">标题：</div>
+			<div class="c">
+				{$_U.message_result.name}
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">收件人：</div>
+			<div class="c">
+				{$_U.message_result.receive_username|default:"admin"}
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">发送时间：</div>
+			<div class="c">
+				{$_U.message_result.addtime|date_format:"Y-m-d H:i"}
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">发送内容：</div>
+			<div class="c">
+				{$_U.message_result.contents}
+			</div>
+		</div>
+		
+		<!--查看 结束-->
+		
+		{/if}
+	</div>
+	</div>
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<div class="cle"></div>
+{include file="footer.html"}

@@ -1,0 +1,37 @@
+{include file="header.html"}
+
+{if $_G.site_result.nid=="help"}
+<script language="javascript" type="text/javascript">
+	window.location.href="/cjwt/index.html"; 
+</script>
+{/if}
+  <div class="conbox t10">
+  <div class="location"><span>你当前位置：<a href="/">{$_G.system.con_webname}</a> ><a href="/help/index.html">帮助中心</a> >{$_G.site_result.name}</span></div></div>
+  <div class="conbox t10">
+	      <div class="con_box">
+
+  {include file="help_left.html"}  
+	<div class="user_right"> 
+     <div class="main_box">
+		           <div class="us_cen1">
+		             <h1>{$_G.site_result.name}</h1>
+                    
+        </div>
+ <div class="m_r_list">  
+<div class="notice_list">
+{list module="articles" function="GetList" epage="20" site_id="this" var="loop"}
+			   {foreach from="$loop.list" item="item" }
+	<ul>
+    <li><h1>·<a href="/{$_G.site_result.nid}/a{$item.id}.html">{$item.name}</a></h1><span>{$item.addtime|date_format:"Y-m-d H:i:s"}</span></li>
+   </ul>
+				{/foreach}
+{/list}
+						 <div class="pages">{$loop.pages|showpage}</div>
+					  </div>
+</div>
+          </div>
+          </div>
+          <div class="cle"></div>
+   </div>
+	</div>
+{include file="footer.html"}

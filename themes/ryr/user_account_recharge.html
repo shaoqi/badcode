@@ -1,0 +1,44 @@
+    <div class="us_r_bor1">
+     {articles module="account" function="GetRechargeCount" var="var" user_id='$_G.user_id'}
+    <div  style="margin:10px"><span class="daochu" style="float:right"><a href="{$_U.query_url}/recharge&excel=true">导出数据</a>&nbsp;</span>成功充值<strong> {$var.account|default:0.00}</strong> 元，成功到账 <strong>{$var.account_balance|default:0.00}</strong> 元，充值费用 <strong>{$var.account_fee|default:0.00}</strong> 元. </div>
+    <div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+        <tr class="ytit">
+          <td colspan="8"><select style="float:right; margin-top:6px;"  onchange="location.href='{$_U.query_url}/recharge&status='+this.value">
+              <option value="">全部</option>
+              <option value="1" {if $magic.request.status==1} selected="selected"{/if}>成功充值</option>
+              <option value="0"  {if $magic.request.status=="0"} selected="selected"{/if}>待审核</option>
+              <option value="2"  {if $magic.request.status==2} selected="selected"{/if}>充值失败</option>
+            </select>
+            充值记录</td>
+        </tr>
+        <form action="" method="post">
+          <tr class="ytit1" >
+            <td>订单号</td>
+            <td>类型</td>
+            <td>支付方式</td>
+            <td>充值金额</td>
+            <td>充值时间</td>
+            <td>备注</td>
+            <td>状态</td>
+            <td>管理备注</td>
+          </tr>
+          {list module="account" function="GetRechargeList" showpage="3" var="loop" user_id="$_G.user_id" epage=20 status=$magic.request.status }
+          { foreach  from=$loop.list key=key item=item}
+          <tr  {if $key%2==1} class="ynow"{/if}>
+            <td>{$item.nid}</td>
+            <td>{if $item.type==1}网上充值{else}线下充值{/if}</td>
+            <td>{ $item.payment_name|default:"手动充值"}</td>
+            <td><font color="#FF0000">￥{ $item.money}</font></td>
+            <td>{ $item.addtime|date_format:"Y-m-d H:i"}</td>
+            <td>{ $item.remark}</td>
+            <td>{if $item.status==0}审核中{elseif  $item.status==1} 充值成功 {elseif $item.status==2}充值失败{/if}</td>
+            <td>{ $item.verify_remark|default:"-"}</td>
+          </tr>
+          { /foreach}
+        </form>
+      </table>
+    </div>
+    <div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+  </div>
+{/list}

@@ -1,0 +1,41 @@
+{include file="header.html"}	
+<div class="conbox t20">
+	     <div>
+	      <div class="con_bor">
+	        <div class="pos_bor">
+			<span>你的位置><a href="/">急速贷</a> ><a href="#">我要借款</a>>申请额度</span>
+			</div>
+            <div class="t40">
+              <div style="text-align:center">
+			        <img src="{$tpldir}/images/step3.gif" />
+		      </div> 
+		  </div>
+          <div class="ch_content">
+          {include file="users_borrow_amount.html"}
+	   </div>
+          </div>
+{literal}
+<script>
+function formck(){
+	var msg = "";
+	if ($("#amount_account").val()==""){
+		msg+="请填写申请金额"+'\n';		
+	}
+	if($('#content').val()==''){
+		msg+="请填写借款说明"+'\n';
+	}
+	if(msg!=''){
+		alert(msg);
+		return false;
+	}
+	
+}
+</script>
+{/literal}
+          
+	      </div>
+	   </div>
+	</div>
+{include file="footer.html"}
+</body>
+</html>

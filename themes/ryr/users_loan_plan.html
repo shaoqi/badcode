@@ -1,0 +1,93 @@
+<div class="user_right">
+<div class="main_box">
+<div class="us_cen1">
+		             <h1>还款安排</h1>
+                    
+        </div>
+ <div  style="padding:10px 20px 30px 20px">
+    <div class="remind t20"><span> 尊敬的融易融用户，以下是您在融易融的还款安排，敬请咨询审阅。 </span>
+    </div>
+   <div class="t20">
+					     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+  <tr>
+    <td colspan="5" style="text-align:left">&nbsp;&nbsp;借款偿还安排标注了您在将来如约还款的时间以及还款余额，您目前应还款总额是：<font class="red">￥{$_U.borrow_plan.repay_wait_account|default:"0.00"}</font>，共<font class="red">{$_U.borrow_plan.borrow_success_num|default:"0"}</font>笔借款。</td>
+  </tr>
+  <tr class="ytit1">
+    <td width="20%">&nbsp;</td>
+    <td width="20%">未来一个月</td>
+    <td width="20%">未来三个月</td>
+    <td width="20%">未来半年</td>
+    <td width="20%">全部</td>
+    </tr>
+  {list module="borrow" var="loop" plugins="loan" function ="GetRepayList"  user_id="0" keywords="request" dotime1="request" dotime2="request" dodate="request" order="repay_time" repay_status="0" }
+   <tr>
+     <td>待还本息总额</td>
+     <td>{$loop.onemonth|default:"0.00"}</td>
+     <td>{$loop.threemonth|default:"0.00"}</td>
+     <td>{$loop.sixmonth|default:"0.00"}</td>
+     <td>{$loop.allmonth|default:"0.00"}</td>
+   </tr>
+  </table>
+		  </div>
+                 
+                 
+                 <div class="t30">
+					     <table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tabyel1">
+  <tr>
+    <td colspan="7">查询我的明细还款安排：</td>
+  </tr>
+  <tr>
+    <td width="12%" align="right">快捷查询：</td>
+    <td colspan="6">
+	<a href="/?user&q=code/borrow/loan&p=plan&dodate=onemonth">未来一个月</a>
+	<a href="/?user&q=code/borrow/loan&p=plan&dodate=threemonth">未来三个月</a>
+	<a href="/?user&q=code/borrow/loan&p=plan&dodate=sixmonth">未来半年</a>
+	<a href="/?user&q=code/borrow/loan&p=plan">全部</a></td>
+    </tr>
+  
+   <tr>
+     <td height="31" align="right">自定义查询：</td>
+     <td width="4%" align="right">从：</td>
+     <td width="16%" align="right"><input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/></td>
+     <td width="5%" align="center">至</td>
+     <td width="16%" align="right"><input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/></td>
+     <td width="13%" align="right">
+	 <input  type="image" src="{$tpldir}/images/chakan.gif" onclick="sousuo('{$_U.query_url}/&q=code/borrow/loan&p=plan')" width="81" height="31" />
+	 <!-- <a href="#"><img src="{$tpldir}/images/chakan.gif" width="81" height="31" /></a> --></td>
+     <td width="34%" align="left"></td>
+   </tr>
+  </table>
+</div>
+                 
+                 <div class="t10">
+					     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+  <tr class="ytit1">
+    <td width="15%">借款标题</td>
+    <td width="15%">还款日期</td>
+    <td width="15%">还款金额</td>
+    <td width="20%">本金+利息</td>
+    <td width="21%">本期/总期数</td>
+    <td width="14%">合同</td>
+    </tr>
+  
+    {foreach from="$loop.list" item="item"}
+   <tr>
+     <td><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.borrow_name}</a></td>
+     <td>{$item.repay_time|date_format:"Y-m-d"}</td>
+     <td>{$item.repay_account}</td>
+     <td>{$item.repay_account}</td>
+     <td>{$item.repay_period}/{$item.borrow_period}</td>
+     <td><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议</a></td>
+   </tr>
+   {/foreach}
+   
+  </table></div>
+  <div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>{/list}
+ </div>
+ 
+     <div class="cle"></div>
+	 </div>
+ </div>
+
+

@@ -1,0 +1,122 @@
+<script src="{$tpldir}/js/jquery.js" type="text/javascript"></script>
+<script src="{$tpldir}/js/jquery.form.js" type="text/javascript"></script>
+<script src="{$tpldir}/js/lhgdialog.min.js" type="text/javascript"></script>
+<link href="{$tpldir}/css/dialog.css" rel="stylesheet" type="text/css" />
+<script>
+var url = "/?user&q=code/borrow/loan&p=repays_advance&borrow_nid={$magic.request.borrow_nid}";
+var aurl = "/?user&q=code/borrow/loan&p=views&borrow_nid={$magic.request.borrow_nid}";
+{literal}
+var api = frameElement.api, W = api.opener;
+</script>{/literal}
+
+ <div style=" height:auto; overflow:hidden">
+{articles module="borrow" plugins="loan" function="GetRepayAdvance" repay_status=0 borrow_nid='$magic.request.borrow_nid' user_id="$_G.user_id" var="view_var" }
+
+ {if $_U.repay_result!=""}
+        {if $_U.repay_result.result==2}
+        <script>alert("{$_U.repay_result.name}");history.go(-1);</script>
+        {elseif $_U.repay_result.result==0}
+         <script>alert("还款成功");W.location.href=aurl;</script>
+    {/if}
+ {/if}
+  {if $view_var.borrow_name==""}<br /><br />
+   <div class="daeyou_dialog">
+        <div class="title">还款操作：</div>
+        <div class="content">此标已还完</div>
+ </div>
+   <script>W.location.href=aurl;</script>
+  
+  {elseif $_U.repay_result.result=="1"}<br /><br /><br /><br />
+   <div class="daeyou_dialog">
+        <div class="title">还款操作：</div>
+        <div class="content">{$_U.repay_result.name}</div>
+ </div>
+   <script>location.href=url+"&step={$_U.repay_result.step}&period={$_U.repay_result.period}&key={$_U.repay_result.key}";</script>
+  {else}
+ <div class="daeyou_dialog">
+        <div class="title">借款标题：</div>
+        <div class="content">{$view_var.borrow_name}</div>
+ </div>
+ {foreach from="$view_var.repay" item="_item"}
+ <div class="daeyou_dialog">
+        <div class="title">提前还款期数：</div>
+        <div class="content">第{$_item.repay_period}期【应还本金：{$_item.repay_capital}】</div>
+ </div>
+ {/foreach}
+ 
+ <div class="daeyou_dialog">
+        <div class="title">还款总本金：</div>
+        <div class="content">￥{$view_var.repay_capital}</div>
+ </div>
+ {if $view_var.repay_status==1}
+ <div class="daeyou_dialog">
+        <div class="title">还款状态：</div>
+        <div class="content">{if $view_var.repay_days==0}正常还款{$view_var.repay_days>0}逾期还款{else}提前还款{/if}</div>
+ </div>
+ <div class="daeyou_dialog">
+        <div class="title">还款总额：</div>
+        <div class="content">￥{$view_var.repay_account_all}</div>
+ </div>
+ <div class="daeyou_dialog">
+        <div class="title">还款时间：</div>
+        <div class="content">￥{$view_var.repay_yestime|date_format}</div>
+ </div>
+ {else}
+ {foreach from=$view_var.fee item="item"}
+ <div class="daeyou_dialog">
+        <div class="title">{$item.name}：</div>
+        <div class="content">￥{$item.account}</div>
+ </div>
+ {/foreach}
+ 
+ <div class="daeyou_dialog">
+        <div class="title">还款总额：</div>
+        <div class="content">￥{$view_var.repay_all}</div>
+ </div>
+ <div class="daeyou_dialog">
+        <div class="title">可用余额：</div>
+        <div class="content">￥{$view_var.account.balance} </div>
+ </div>
+ {if $view_var.account.balance<$view_var.repay_all}
+  <div class="daeyou_dialog">
+        <div class="title">提醒：</div>
+        <div class="content"> 您的可用余额不足还款，请先<a href="/?user&q=code/account/recharge_new" target="_blank">充值</a></div>
+ </div>
+ {else}
+ <div class="daeyou_dialog">
+        <div class="title">支付密码：</div>
+        <div class="content">{if $_G.user_result.paypassword==""}<a style="color:#0000FF" target="_blank" href="/?user&q=code/users/paypwd">请先设置交易密码</a>{else}<input type="password" style="width:150px; border:#BFBFBF solid 1px; height:18px;" name="paypassword" id="paypassword">  {/if} <font color="#FF0000">*</font>
+ </div>
+ {/if}
+ 
+ </form>
+ </div>	
+{/articles}
+
+{/if}			
+{/if}
+{if $view_var.account.balance>$view_var.repay_all}
+{literal}<script>
+api.button({
+    id:'okrepay',
+	name:'提交还款',
+	callback:check_form1,
+    foucs:false
+});
+api.button({
+    id:'close',
+	name:'关闭',
+    foucs:true
+});
+
+function check_form1(){
+    if ($("#paypassword").val()==""){
+        alert("支付密码不能为空");
+    }else{
+       location.href=url+'&paypassword='+$("#paypassword").val();
+    }
+     return false;
+}
+
+	</script>{/literal}
+    {/if}

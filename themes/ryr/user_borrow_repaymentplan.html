@@ -1,0 +1,115 @@
+
+		<!--还款明细 开始-->
+
+		
+		<div class="t20">
+		<div>
+
+
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+
+
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/repaymentplan')" />
+
+
+		</div>
+
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+				<tr class="ytit">
+					<td colspan="10">还款明细</td>
+				</tr>
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >第几期</td>
+
+
+					<td  >应还款日期</td>
+
+
+					<td  >本期应还本息</td>
+
+
+					<td  >利息</td>
+
+
+					<td  >逾期利息</td>
+
+
+					<td  >逾期天数</td>
+
+
+					<td  >还款状态</td>
+
+					<td  >当期还款</td>
+
+					<td  >提前全额还款</td>
+
+
+				</tr>
+				
+				{articles module="users" plugins="vip" function="GetUsersVip" var="Vvar" user_id="$_G.user_id"}
+				{list module="borrow" var="loop" function ="GetBorrowRepayList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" order="repay_time" repay_status="0"  }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+					<td title="{$item.borrow_name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.borrow_name|truncate:8}</a></td>
+
+
+					<td  >{$item.repay_period+1}/{$item.borrow_period}</td>
+
+
+					<td  >{$item.repay_time|date_format:"Y-m-d"}</td>
+
+
+					<td  >￥{$item.repay_account}</td>
+
+
+					<td  >￥{$item.repay_interest}</td>
+
+
+					<td  >￥{$item.late_interest}</td>
+
+
+					<td  >{$item.late_days}天</td>
+
+
+					<td  >{if $item.repay_web==1}网站垫付{elseif $item.repay_vouch==1}担保者垫付{elseif $item.repay_status==1}已还款{else}未还款{/if}</td>
+
+
+					<td  >{if $item.repay_status!=1}<a href="#" onclick="javascript:if(confirm('你确定要偿还此借款吗？')) location.href='{$_U.query_url}/repays&id={$item.id}&borrow_nid={$item.borrow_nid}'">还款</a>{else}-{/if}</td>
+					<td>
+					{if $item.repay_status!=1 and $item.late_days==0}
+						<a href="#" onclick="javascript:if(confirm('提前还款将一次性偿还剩余本金，且按剩余本金*1%计算违约金')) location.href='{$_U.query_url}/repay&borrow_nid={$item.borrow_nid}'">提前全额还款</a>
+					{else}
+						-
+					{/if}
+					</td> 
+
+
+				</tr>
+
+
+				{/foreach}
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		{/list}
+		{/articles}
+		<!--还款明细 结束-->

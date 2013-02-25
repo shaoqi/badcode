@@ -1,0 +1,20 @@
+
+	<div class="deayou_ajax_div">
+		<div >
+				手机号码：<input type="text" name="ajax_phone" id="ajax_phone" onkeyup="value=value.replace(/[^0-9Xx]/g,'')" /> <input type="button" id="ajax_phone_get" value="获取验证码" />
+		</div>
+	</div>
+	<div class="deayou_ajax_div">
+		<div >
+				验 证 码 ：<input type="text" name="ajax_phone_code" id="ajax_phone_code" onkeyup="value=value.replace(/[^0-9Xx]/g,'')" /> 
+		</div>
+	</div>
+	<div class="deayou_ajax_div">
+		<div ><input type="hidden" value="{$magic.request.type}" name="borrow_type" id="borrow_type" />
+				<input type="submit" value="确认认证" id="ajax_phone_submit" /> <span style="color:red" id="ajax_phone_msg"></span>
+		</div>
+	</div>
+	
+<script>
+
+{literal}deayou.use("rating",function(e){e.check_phone();});</script>{/literal}

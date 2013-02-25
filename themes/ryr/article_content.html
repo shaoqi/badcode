@@ -1,0 +1,24 @@
+{include file="header.html"}
+<div class="conbox t10">
+     <div class="weizhi">您的位置：<a href="/">{$_G.site_result.name}</a> > <a href="/{$_G.site_result.nid}/index.html">{$_G.site_result.name}</a></div>
+</div>
+<div class="conbox t20"> 
+		   {include file='help_left.html'}  
+   <div class="help_right1">
+   <div class="main_box1">
+			     <div class="title_bor" ><h1>{$_G.site_result.name}</h1></div>
+				 <div class="content_h3" align="center"><h3>{$_G.articles.name}</h3></div>
+				 <br>
+
+				 <div align="center" class="content_div"> 发布者：admin &nbsp;&nbsp;  发布时间：2012-11-08 09:36:39 &nbsp;&nbsp;  点击次数：999 </div>	
+				 <br>
+				 <div class="us_r_bor2">
+		           <div class="content">
+		             {$_G.articles.contents}
+	               </div>
+		         </div> 
+		  </div>
+	</div>
+	<div class="cle"></div>
+	  </div>
+{include file="footer.html"}

@@ -1,0 +1,10 @@
+<?
+	$code = "linkages";
+	$name = "联动模块";
+	$description = "表单的联动模块";
+	$version = "3.0";
+	$author = "dycms";
+	$date = "2011-08-01";
+	$update = "";
+	$type = "linkages";
+?>

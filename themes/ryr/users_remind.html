@@ -1,0 +1,39 @@
+<!--提醒设置 开始-->
+<div>消息提示</div>
+<div class="user_help">请勾选设置来收取您所需要的消息提醒。
+为了您的交易安全，部分重要信息不能取消接收。 手机消息服务即将开启，敬请期待。<br />
+</div>
+		<table  border="0"  cellspacing="1" class="tabyel" style="width:98%">
+			  <form action="" method="post">
+			  {foreach from= $_U.remind_list item="item"}
+				<tr class="head" >
+					<td  colspan="4">{$item.name}</td>
+				</tr>
+				{foreach from=$item.list item="var"}
+				<tr  >
+					<td>{$var.name}</td>
+					<td>
+						<input type="checkbox"  {if $var.message==1 || $var.message==3}checked="checked" {/if} name="message_{$var.nid}" id="message_{$var.nid}" value="1"{if $var.message==1 || $var.message==2} disabled="disabled"{/if}/>
+						<label for=message_{$var.nid}>站内信提醒</label>
+					</td>
+				<!-- <td>
+				<input type="checkbox"  {if $var.email==1 || $var.email==3}checked="checked"{/if} name="email_{$var.nid}" id="email_{$var.nid}" value="1" {if $var.email==1 || $var.email==2} disabled="disabled"{/if}/>
+				<label for=email_{$var.nid}>邮件提醒 </label></span> </td>
+				<td>
+					<input type="checkbox" {if $var.phone==1 || $var.phone==3}checked="checked"{/if} name="phone_{$var.nid}" id="phone_{$var.nid}" value="1" {if $var.phone==1 || $var.phone==2 }  disabled="disabled"{/if}/>
+				<label for=phone_{$var.nid}>手机提醒</label></span> </td> -->
+				</tr>
+				{/foreach}
+			{/foreach }				
+		</table>
+		<div class="user_submit t10" align="center">
+				<input type="hidden" name="type" value="1" />
+				<input type="submit" name="name"  value="确认提交" size="30" class="press_mode"/> 
+			
+		</div>
+		</form>
+		
+		<!-- <div class="user_right_foot">
+		* 温馨提示：如果手机短信功能没空的话，所有的短信功能将不能使用
+		</div> -->
+		<!--提醒设置 结束-->

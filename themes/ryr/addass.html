@@ -1,0 +1,28 @@
+{if $magic.request.edit!=""}
+<form action="/?user&q=code/rating/addassets&edit={$magic.request.edit}" method="post">
+{else}
+<form action="/?user&q=code/rating/addassets" method="post">
+{/if}
+	{articles module="rating" function="GetAssetsOne" user_id="$_G.user_id" var="var" id="$magic.request.edit"}
+	<div class="user_main_title1"><font color="#FF0000">*</font>请填写您的支出信息<br /></div>
+	<div class="user_right_border">
+		<div>类别：{linkages name="assetstype" nid="rating_assetstype" type="value" value="$var.assetstype"} <font color="#ff0000">*</font></div>
+	</div>
+	<div class="user_right_border">
+		<div>名称：<input type="text" name="name" value="{$var.name}" id="name"> <font color="#ff0000">*</font></div>
+	</div>
+	<div class="user_right_border">
+		<div>金额：<input type="text" name="account" value="{$var.account}" id="account"> <font color="#ff0000">*</font></div>
+	</div>
+	<div class="user_right_border">
+		<div>其他：<textarea cols="30" rows="5" name="other">{$var.other}</textarea><font color="#ff0000">*</font></div>
+	</div>
+	<div class="user_right_border">
+		<div class="l">&nbsp;<input type="hidden" name="web" value="amount"></div>
+		<div class="c"><input type="hidden" name="submit" value="submit"><input type="submit" name="submit" value="提交"></div>
+	</div>
+	<div class="user_right_foot">
+		* 温馨提示：我们将严格对用户的所有资料进行保密
+	</div>
+</form>
+{/articles}

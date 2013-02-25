@@ -1,0 +1,82 @@
+<div class="main_box">
+<div class="us_r_bor1">
+		<!--借款明细 开始-->
+		<div >
+			<div> 
+			投资者：<input type="text" name="username" id="username" size="15" value="{$magic.request.username|urldecode}" /> 
+			<input value="搜索" type="submit" class="press_mode" onclick="sousuo('{$_U.query_url}/loan&p=repay&type=tender')" />
+			</div>
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+				
+			<tr class="ytit">
+				<td colspan="8">借款明细账</td>
+			</tr>
+
+				<tr class="ytit1" >
+
+
+					<td  >投资者 </td>
+					<td  >借款标题 </td>
+
+
+					<td  >借入总额</td>
+
+
+					<td  >已还本金</td>
+
+
+					<td  >已还利息</td>
+					
+
+					<td  >待还总额</td>
+
+
+					<td  >待还利息</td>
+                    
+
+				</tr>
+
+
+				{list module="borrow" var="loop" plugins="tender" function ="GetTenderList" showpage="3" borrow_status=3 borrow_userid='$_G.user_id' username="request"}
+
+				{foreach from="$loop.list" item="item"}
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td  >{$item.username}</td>
+					<td  ><a href="/invest/a{$item.borrow_nid}.html">{$item.borrow_name}</a></td>
+
+					<td  ><font color="#FF0000">￥{$item.account}</font></td>
+
+
+					<td  >￥{$item.recover_account_capital_yes|default:0.00}</td>
+
+
+					<td  >￥{$item.recover_account_interest_yes|default:0.00}</td>
+
+
+					<td  >￥{$item.recover_account_wait|default:0.00 }</td>
+
+
+					<td  >￥{$item.recover_account_interest_wait|default:0.00}</td>
+
+
+				</tr>
+
+
+				{/foreach}
+			</form>	
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+				{/list}
+</div>
+				</div>
+		<!--借款明细 结束-->

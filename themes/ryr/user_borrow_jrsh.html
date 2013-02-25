@@ -1,0 +1,205 @@
+{articles module="borrow" plugins="Loan" function="GetLoanStep" user_id="$_G.user_id" var="var"}
+{if $var.status==0}
+<script>alert("您还未进行安全信息验证，请先进入验证");location.href="{$var.url}"</script>
+{/if}
+{/articles}
+<div class="user_right">
+<div class="main_box">
+ <div class="us_cen1">
+		             <h1>借入并审核</h1>
+                    
+        </div>
+ <div  style="padding:10px 20px 30px 20px">
+    <div class="remind t20"><span> 通过提交您的详细个人资料，融易融将进行初步审核</span>
+    </div>
+   <div style=" margin: 20px 0;">
+{if $magic.request.type=="basic"}
+<div class="shenhe_tit se_tit01">
+{elseif $magic.request.type=="contact"}
+<div class="shenhe_tit se_tit02">
+{elseif $magic.request.type=="job"}
+<div class="shenhe_tit se_tit03">
+{elseif $magic.request.type=="finance"}
+<div class="shenhe_tit se_tit04">
+{elseif $magic.request.type=="lianbao"}
+<div class="shenhe_tit se_tit05">
+{elseif $magic.request.type=="avatar"}
+<div class="shenhe_tit se_tit06">
+{elseif $magic.request.type=="list"}
+<div class="shenhe_tit se_tit07">
+{elseif $magic.request.type=="amount"}
+<div class="shenhe_tit se_tit08">
+{/if}
+		<ul>
+			<li {if $magic.request.type=="basic"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=basic">个人资料</a></li>
+			<li {if $magic.request.type=="contact"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=contact">联系方式</a></li>
+			<li {if $magic.request.type=="job"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=job">单位资料</a></li>
+			<li {if $magic.request.type=="finance"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=finance">财务状况</a></li>
+			<li {if $magic.request.type=="lianbao"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=lianbao">联保情况</a></li>
+			<li {if $magic.request.type=="avatar"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=avatar">商业图片</a></li>
+			<li {if $magic.request.type=="list"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=list">资料上传</a></li>
+			<li {if $magic.request.type=="amount"}class="selected"{/if}><a href="/?user&q=code/borrow/jrsh&type=amount">申请额度</a></li>
+		</ul>
+</div>
+						
+{if $magic.request.type=="basic"}		
+				{include file="user_rating_basic.html"}
+ {elseif $magic.request.type=="contact"}
+				{include file="user_rating_contact.html"}
+ {elseif $magic.request.type=="job"}
+				{include file="user_rating_job.html"}
+ {elseif $magic.request.type=="finance"}
+				{include file="user_rating_finance.html"}
+ {elseif $magic.request.type=="lianbao"}
+				{include file="user_rating_lianbao.html"}
+ {elseif $magic.request.type=="avatar"}
+				{include file="users_borrow_businesspic.html"} 
+ {elseif $magic.request.type=="list"}
+		<div class="us_r_bor1">
+			<form action="/?user&q=code/attestations/one" name="form1" method="post" onsubmit="return check_form()" enctype="multipart/form-data">		
+			<div class="user_right_border">
+
+				<div>资料上传：<input type="file" name="pic[]" tabindex="1" /> 上传最大的图片为500K，上传的格式为jpg.gif</div>
+
+			</div>
+<br>
+			<div class="user_right_border">
+
+				<div>上传类型：					
+					<select name="type_id"  tabindex="2">
+
+					{loop module="attestations" function="GetAttestationsTypeList" limit="all" }
+						<option value="{$var.id}" {if $magic.request.nid==$var.nid} selected="selected"{/if}>{$var.name}</option>
+					{/loop}
+
+					</select>
+			  </div>
+
+			</div>
+			<br>
+				<div class="c">
+					<input type="hidden" name="type"  value="{$magic.request.type}" /> 
+					<input type="submit" name="submit"  value="上传" size="30" /> 
+				</div>
+	             <div class="user_right_foot1">
+		            <font style=" color:#FF0000">* 温馨提示：我们将严格对用户的所有资料进行保密</font>
+		         </div>	
+			</form>			
+		
+</div>		
+			
+			{literal}
+			<script>
+
+				function check_form(){
+
+					 var frm = document.forms['form1'];
+
+					 var file = frm.elements['litpic'].value;
+
+					 var errorMsg = '';
+
+					  if (file.length == 0 ) {
+
+						errorMsg += '* 图片不能为空' + '\n';
+
+					  }
+
+					 
+
+					  if (errorMsg.length > 0){
+
+						alert(errorMsg); return false;
+
+					  } else{  
+
+						return true;
+
+					}
+
+				
+
+				}
+
+			</script>{/literal}
+
+			
+
+		
+		<div class="us_r_bor1">
+		
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+			<form action="" method="post" id="form1">
+
+				<tr class="head" >
+
+				<td>说明信息 </td>
+
+				<td>资料类型</td>
+
+				<td>上传时间 </td>
+
+				<!-- <td>审核时间</td>
+
+				<td>审核说明</td>
+
+				<td>积分 </td>
+
+				<td>状态</td> -->
+
+				<td>操作</td>
+
+				</tr>
+
+			{list module="attestations" function="GetAttestationsList" var="_loop" user_id="$_G.user_id" epage=20}
+
+				{ foreach from=$_loop.list item=item}
+				<tr  {if  $key==0} class="trtdcolor"{elseif $key%2==1} class="ynow"{/if}>
+
+				<td>{$item.name|default:-}</td>
+
+				<td>{$item.type_name}</td>
+
+				<td>{ $item.addtime|date_format:"Y-m-d H:i"}</td>
+
+				<!-- <td>{ $item.verify_time|date_format:"Y-m-d H:i"|default:-}</td>
+
+				<td>{$item.verify_remark|default:-}</td>
+
+				<td>{$item.credit|default:0} 分</td>
+
+				<td>{if $item.status==0}未审核{elseif $item.status==2}审核失败{else}已审核{/if}</td> -->
+
+				<td><a href="{$item.fileurl}" target="_blank">查看</a></td>
+				</tr>
+				{ /foreach}
+
+				<tr >
+
+					<td colspan="11" class="page">
+
+						{$_loop.pages|showpage}
+
+					</td>
+
+				</tr>
+
+				{/list}
+
+			</form>	
+
+			</table>		
+</div>
+<span style="float:right">
+<a href="/?user&q=code/borrow/jrsh&type=amount"><img src="{$tpldir}/images/askfordcon.gif"></a>
+</span>
+{elseif $magic.request.type=="amount"}
+				{include file="users_borrow_amount.html"}
+{/if} 
+</div>
+</div>
+ </div>
+     <div class="cle"></div>
+   </div>
+   </div>

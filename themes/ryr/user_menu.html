@@ -1,0 +1,68 @@
+     <div class="user_left">
+	      <div class="main_box">
+			   <div class="us_cen">
+			     <h1>个人中心</h1></div>
+                 <div class="us_sort">
+					 <ul>
+					     <li>·<a href="/?user" {if $_U.query_class=="list"}style="color:#ff7e00; font-weight:bold"; font-weight:bold"{/if}>我的首页</a></li>
+						 <li>·<a href="/?user&q=code/users/avatar" {if $_U.query_class=="users" && ($_U.query_type=="userpwd"||$_U.query_type=="paypwd"||$_U.query_type=="renzheng"||$_U.query_type=="avatar")}style="color:#ff7e00; font-weight:bold"{/if} >个人资料</a></li>
+						 <li>·<a href="/?user&q=code/users/vip" {if $_U.query_type=="vip"}style="color:#ff7e00; font-weight:bold";{/if}>会员服务</a></li>
+						 <li>·<a href="/?user&q=code/users/remind" {if $_U.query_type=="remind"}style="color:#ff7e00; font-weight:bold"{/if} >消息设置</a></li>
+                         <li>·<a href="/?user&q=code/approve/realname" {if $_U.query_class=="approve" && ($_U.query_type=="realname" || $_U.query_type=="email"|| $_U.query_type=="phone") }style="color:#ff7e00; font-weight:bold"{/if} >安全中心</a></li>
+                         <li>·<a href="/?user&q=code/message" {if $_U.query_class=="message" }style="color:#ff7e00; font-weight:bold"{/if}>系统消息</a></li>
+					</ul>
+			   </div>
+		  </div>
+          
+          	      <div class="main_box t10">
+			   <div class="us_cen">
+			     <h1>我的资金</h1></div>
+                 <div class="us_sort">
+					 <ul>
+					     <li>·<a href="/?user&q=code/account/detail" {if $_U.query_class=="account" && ($_U.query_type=="detail"||$_U.query_type=="log")}style="color:#ff7e00; font-weight:bold"{/if}>资金统计</a></li>
+						 <li>·<a href="/?user&q=code/account/recharge_new" {if $_U.query_class=="account" && ($_U.query_type=="recharge_new" || $_U.query_type=="recharge" )}style="color:#ff7e00; font-weight:bold"{/if}>我要充值</a></li>
+						 <li>·<a href="/?user&q=code/account/cash_new" {if $_U.query_class=="account" && ( $_U.query_type=="cash_new"||$_U.query_type=="cash" )}style="color:#ff7e00; font-weight:bold"{/if}>我要提现</a></li>
+						 <li>·<a href="/?user&q=code/account/bank_new"{if $_U.query_class=="account" && ($_U.query_type=="bank_new"|| $_U.query_type=="bank" )}style="color:#ff7e00; font-weight:bold"{/if}>银行账号</a></li>
+					</ul>
+			   </div>
+		  </div>
+          
+          <div class="main_box t10">
+			   <div class="us_cen">
+			     <h1>我是投资者</h1></div>
+                 <div class="us_sort">
+					 <ul>
+					     <li>·<a href="/?user&q=code/account/tender_count" {if $_U.query_type=="tender_count"}style="color:#ff7e00; font-weight:bold";{/if}>投资总表</a></li>
+						 <li>·<a href="/?user&q=code/borrow/xinbiao" {if $_U.query_type=="xinbiao"}style="color:#ff7e00; font-weight:bold";{/if}>新标提醒</a></li>
+						 <li>·<a href="/?user&q=code/borrow/auto" {if $_U.query_class=="borrow" && ($_U.query_type=="auto" || $_U.query_type=="auto_new"|| $_U.query_type=="auto_list")}style="color:#ff7e00; font-weight:bold"{/if}>自动投标</a></li>
+						 <li>·<a href="/?user&q=code/borrow/tender&p=now"   {if $_U.query_type=="tender"  && ( $magic.request.p=="now" || $magic.request.p=="recover" || $magic.request.p=="yes" || $magic.request.p=="detail"|| $magic.request.p=="over"|| $magic.request.p=="late") }style="color:#ff7e00; font-weight:bold"{/if} >我要投资</a></li>
+                         <li>·<a href="/?user&q=code/borrow/tender&p=wait" {if $_U.query_type=="tender" && $magic.request.p=="wait"}style="color:#ff7e00; font-weight:bold";{/if}>回款计划</a></li>
+                         <li>·<a href="/?user&q=code/borrow/tender&p=agreement" {if $_U.query_type=="tender" && $magic.request.p=="agreement" }style="color:#ff7e00; font-weight:bold";{/if}>合同备份</a></li>
+					</ul>
+			   </div>
+		  </div>
+		  
+          <div class="main_box t10">
+			   <div class="us_cen">
+			     <h1>我是借入者</h1></div>
+                 <div class="us_sort">
+					 <ul>
+					     <li>·<a href="/?user&q=code/borrow/jrsh&type=basic" {if $_U.query_type=="jrsh"}style="color:#ff7e00; font-weight:bold";{/if}>借入并审核</a></li>
+						 <li>·<a href="/?user&q=code/borrow/loan&p=count" {if $_U.query_type=="loan" && $magic.request.p=="count"}style="color:#ff7e00; font-weight:bold"{/if} >借入总表</a></li>
+						 <li>·<a href="/?user&q=code/borrow/loan&p=repay" {if $_U.query_type=="loan" && $magic.request.p=="repay" && $magic.request.type!="detail" }style="color:#ff7e00; font-weight:bold"{/if} >借入记录</a></li>
+						 <li>·<a href="/?user&q=code/borrow/loan&p=plan" {if $_U.query_type=="loan" && $magic.request.p=="plan"}style="color:#ff7e00; font-weight:bold";{/if}>还款安排</a></li>
+					</ul>
+			   </div>
+		  </div>
+          
+          <div class="main_box t10">
+			   <div class="us_cen">
+			     <h1>我是推广者</h1></div>
+                 <div class="us_sort">
+					 <ul>
+					     <li>·<a href="/?user&q=code/users/reginvite" {if $_U.query_class=="users" && ($_U.query_type=="reginvite"|| $_U.query_type=="myfriend") }style="color:#ff7e00; font-weight:bold"{/if} >注册理财师</a></li>
+					     <li>·<a href="/?user&q=code/users/jiangjin" {if $_U.query_type=="jiangjin"}style="color:#ff7e00; font-weight:bold";{/if}>奖金查询</a></li> 
+					</ul>
+			   </div>
+		  </div>
+         </div>

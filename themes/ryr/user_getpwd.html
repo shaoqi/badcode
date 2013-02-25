@@ -1,0 +1,80 @@
+{include file="header.html"}
+{if $magic.request.id==""}
+ <div class="conbox t20">
+           <div class="main_box1">
+             <div class="title_bor1"><span>你当前位置：<a href="/">{$_G.system.con_webname}</a> > 找回密码</span></div>
+			<div class="ch_content">
+               <div style="text-align:center">
+			        <img src="{$tpldir}/images/zhaoh_lcon.gif" />
+		      </div>
+              <div class="us_r_text t30">
+<form action="" method="post">
+<table width="80%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="15%" height="54" align="right" valign="middle">输入邮箱：</td>
+    <td valign="middle"><input name="email" id="email" type="text" class="in_name" /><input type="hidden" name="pwdtype" value="1" /></td>
+    </tr>
+	<tr>
+    <td width="15%" height="54" align="right" valign="middle">用户名：</td>
+    <td valign="middle"><input name="username" id="username" type="text" class="in_name" /></td>
+    </tr>
+	<tr>
+    <td class="tex_left"><font class="red">*</font> 验证码：</td>
+    <td>
+	<input type="text" name="valicode" style="border:#C2C2C2 solid 1px; background:#fff; height:20px; width:50px"> <img src="/?plugins&q=imgcode" id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" /></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><p>登录您的邮箱查收，并重新填写新密码。</p></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td height="54" valign="bottom">
+	<input name="Submit" type="image" src="{$tpldir}/images/for_pass.gif" class="btn" width="184" height="32" />
+	</td>
+  </tr>
+</table>
+</form>
+              </div>
+              <div class="us_caution t30" style="padding-left:180px">
+               <h1>请注意以下事项</h1>
+               <span>1、如果30分钟内没有收到激活邮件，查看您的垃圾邮箱，依然不能收到请重新发送。<br />
+2、如果您在验证过程中，出现任何问题，请致电 <font>400-800-9900</font>，或咨询客服<font>QQ 400-800-9900</font></span>
+              </div>
+            </div>	   
+       </div>
+         
+		 
+   <div class="cle"></div>
+</div>
+{else}
+<div class="conbox t20">
+	<div class="log_bor">
+		<h1>修改密码</h1>
+			<div style="padding:20px">
+				<div class="ser_bor">
+				<form action="" method="post">
+					<table width="100%" border="0" cellspacing="5" cellpadding="0">
+						<tr>
+							<td width="39%" align="right">&nbsp;</td>
+							<td width="61%">{$_U.pwd_msg}</td>
+						</tr>
+						<tr>
+							<td width="39%" align="right">输入密码：</td>
+							<td width="61%"><input type="password" name="password" style="border:#C2C2C2 solid 1px; background:#fff; height:20px; width:200px"/></td>
+						</tr>
+						<tr>
+							<td width="39%" align="right">再次输入密码：</td>
+							<td width="61%"><input type="password" name="password1" style="border:#C2C2C2 solid 1px; background:#fff; height:20px; width:200px"/></td>
+						</tr>
+					</table>
+					<div style="margin:30px auto 0; text-align:center"><input name="Submit" type="submit" class="btn" value="提 交" /></div>
+				</form>
+				</div>
+			</div>
+	</div>
+</div>
+{/if}
+
+{include file="footer.html"}
+

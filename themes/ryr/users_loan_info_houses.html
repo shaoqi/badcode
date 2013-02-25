@@ -1,0 +1,78 @@
+            <div>
+            <div class="us_r_bor1">
+			     <div>
+			   <div class="tips" style="width: auto">亲爱的客户，<!-- <span class="f_red b">*</span>为必填内容, -->请认真填写以下信息，我们会对您的个人信息严格保密。</div><br>
+
+{articles module="rating" function="GetHousesOne" user_id="$_G.user_id" var="var"}
+ <form action="/?user&q=code/rating/houses&type=houses" method="post" name="formx" >
+			   <div class="item_group" style="width: auto">请填写你个人的房产资料相关信息
+</div>
+			   <div class="user_info_box clearfix" style="width: auto">	
+	<div class="user_info_item">
+		<span class="user_info_item_left">房产地址：</span> <span>
+		<input value="{$var.name}" class="input180 " name="name" id="name">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">建筑面积：</span> <span>
+		<input value="{$var.areas}" class="input180 " name="areas" id="areas">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">建筑年份：</span> <span> 
+		<input value="{$var.in_year}" class="input180 " name="in_year" id="in_year">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">供款状况：</span> <span>
+		<input value="{$var.repay}" class="input180 " name="repay" id="repay">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">所有权人1：</span> <span> 
+		<input value="{$var.holder1}" class="input180 " name="holder1" id="holder1">
+		</span>
+		<span >产权份额：</span> <span> 
+		<input value="{$var.right1}" class="input180 " name="right1" id="right1">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">所有权人2：</span> <span> 
+		<input value="{$var.holder2}" class="input180 " name="holder2" id="holder2">
+		</span>
+		<span >产权份额：</span> <span> 
+		<input value="{$var.right2}" class="input180 " name="right2" id="right2">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span >若房产尚在按揭中, 请填写贷款年限：</span> <span> 
+		<input value="{$var.load_year}" class="input180 " name="load_year" id="load_year">
+		</span>
+		<span >每月供款：</span> <span> 
+		<input value="{$var.repay_month}" class="input180 " name="repay_month" id="repay_month">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">尚欠贷款余额：</span> <span> 
+		<input value="{$var.balance}" class="input180 " name="balance" id="balance">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">按揭银行：</span> <span> 
+		<input value="{$var.bank}" class="input180 " name="bank" id="bank">
+		</span>
+	</div>
+	<input value="borrow" class="input180 " type="hidden" name="web">
+</div>{/articles}
+			   <div style="text-align: center; padding: 20px 0">
+			   <input value="{$magic.request.type}" class="input180 " type="hidden" name="borrow_type">
+							<input type="submit" name="submit" class="saveSettingBnt" onclick="javascript:return checkItemA()" value="保存>继续">
+							<input type="button" class="saveSettingBnt" onclick="javascript:location.href='/?user&q=code/borrow/loan_amount'" value="完成>申请额度">
+				 </div>
+			   </div>
+			</div>
+            </div>
+            </form>
+		  </div>
+	      </div>
+	   </div>

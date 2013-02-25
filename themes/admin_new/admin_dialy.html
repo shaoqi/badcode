@@ -1,0 +1,53 @@
+<div class="module_add">
+	<div class="module_title">管理员日志
+</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+		<td width="" class="main_td">ID</td>
+		<td width="*" class="main_td">模块</td>
+		<td width="*" class="main_td">类型</td>
+		<td width="*" class="main_td">操作</td>
+		<td width="*" class="main_td">操作ID</td>
+		<td width="*" class="main_td">内容</td>
+		<th width="" class="main_td">时间</th>
+		<th width="" class="main_td">IP</th>
+	</tr>
+	{list module="users" function="GetAdminlogList" var="loop" user_id='$_G.user_id'}
+	{ foreach  from=$loop.list key=key item=item}
+	<tr {if $key%2==1} class="tr2"{/if}>
+		<td class="main_td1" align="center">{ $item.id}</td>
+		<td class="main_td1" align="center">{$item.code}</td>
+		<td class="main_td1" align="center">{$item.type }</td>
+		<td class="main_td1" align="center">{$item.operating|default:-}</td>
+		<td class="main_td1" align="center">{$item.article_id}</td>
+		<td class="main_td1" align="center">{$item.content }</td>
+		<td class="main_td1" align="center" >{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+		<td class="main_td1" align="center" >{$item.addip}</td>
+	</tr>
+	{ /foreach}
+	<tr>
+			<td colspan="11" class="action">
+			<div class="floatl">
+			<script>
+	  var url = '{$_A.query_url}';
+	    {literal}
+	  	function sousuoq(){
+			var username = $("#username").val();
+			location.href=url+"&username="+username;
+		}
+	  
+	  </script>
+	  {/literal}
+			</div>
+			<div class="floatr">
+				用户名：<input type="text" name="username" id="username" value="{$magic.request.username}"/>   <input type="button" value="搜索" / onclick="sousuoq()">
+			</div>
+			</td>
+		</tr>
+	<tr>
+		<td colspan="7" class="page">
+		{$loop.pages|showpage}
+		</td>
+	</tr>
+	{/list}
+</table>

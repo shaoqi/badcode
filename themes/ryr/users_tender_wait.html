@@ -1,0 +1,109 @@
+<div class="user_right">
+<div class="main_box">
+<div class="us_cen1"><h1>回款计划</h1></div>
+ <div  style="padding:10px 20px 30px 20px">
+    <div class="remind t20"><span> 尊敬的融易融用户，以下是您在融易融的回款计划，按照还款日期排列 </span>
+    </div>
+   <div class="t20">
+					     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+  <tr>
+    <td colspan="5" style="text-align:left">&nbsp;&nbsp;您目前待收的本息总额是：<font class="red">￥{$_U.borrow_wait.recover_wait_account|default:"0.00"}</font>，共<font class="red">{$_U.borrow_wait.tender_success_num|default:"0"}</font>笔投资。</td>
+  </tr>
+   {list module="borrow" var="loop" function ="GetRecoverList" plugins="tender" user_id="$_G.user_id" keywords="request" dotime1="request" dotime2="request" money1="request" money2="request" keyworlds="request"  dodate="request" borrow_status=3 recover_status=0 order="repay_time" epage="25" change_show="1"}
+  <tr class="ytit1">
+    <td width="20%">&nbsp;</td>
+    <td width="20%">未来一个月</td>
+    <td width="20%">未来三个月</td>
+    <td width="20%">未来半年</td>
+    <td width="20%">全部</td>
+    </tr>
+   <tr>
+     <td>待收本息总额</td>
+     <td>{$loop.onemonth|round:2|default:"0.00"}</td>
+     <td>{$loop.threemonth|round:2|default:"0.00"}</td>
+     <td>{$loop.sixmonth|round:2|default:"0.00"}</td>
+     <td>{$loop.allmonth|round:2|default:"0.00"}</td>
+   </tr>
+  </table>
+		  </div>
+                 
+                 
+                 <div class="t30">
+					     <table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tabyel1">
+  <tr>
+    <td colspan="7">查询我的明细回收计划：</td>
+  </tr>
+  <tr>
+    <td width="11%">快捷查询：</td>
+    <td colspan="6"><a href="/?user&q=code/borrow/tender&p=wait&dodate=onemonth">未来一个月</a> <a href="/?user&q=code/borrow/tender&p=wait&dodate=threemonth">未来三个月</a> 
+	<a href="/?user&q=code/borrow/tender&p=wait&dodate=sixmonth">未来半年</a> 
+	<a href="/?user&q=code/borrow/tender&p=wait">全部</a></td>
+    </tr>
+  
+   <tr>
+     <td height="31" align="left">自定义查询：</td>
+     <td width="9%" align="right">时间从：</td>
+     <td width="19%" align="right">
+	 <input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" onclick="change_picktime()" /></td>
+     <td width="8%" align="center">至</td>
+     <td width="17%" align="right">
+	 <input type="text" name="dotime2" id="dotime2" value="{$magic.request.dotime2}" onclick="change_picktime()" /></td>
+     <td width="13%" align="right">&nbsp;</td>
+     <td width="23%" align="right">&nbsp;</td>
+   </tr>
+   <tr>
+     <td height="31" align="right">&nbsp;</td>
+     <td width="9%" align="right">金额从：</td>
+     <td width="19%" align="right"><input type="text" name="money1" id="money1" value="{$magic.request.money1}" /></td>
+     <td width="8%" align="center">至</td>
+     <td width="17%" align="right"><input type="text" name="money2" id="money2" value="{$magic.request.money2}" /></td>
+     <td width="13%" align="right">&nbsp;</td>
+     <td width="23%" align="right">&nbsp;</td>
+   </tr>
+   <tr>
+     <td height="31" align="right">&nbsp;</td>
+     <td width="9%" align="right">借款标题：</td>
+     <td width="19%" align="right"><input type="text" name="keywords" id="keywords" value="{$magic.request.keywords|urldecode}"/></td>
+     <td width="8%" align="center">&nbsp;</td>
+     <td width="17%" align="right"><input type="image" src="{$tpldir}/images/chakan.gif" type="submit" onclick="sousuo('{$_U.query_url}/tender&p=wait')" width="81" height="31" /></td>
+     <td width="13%" align="center">&nbsp;
+	 </td>
+     <td width="23%" align="right">&nbsp;</td>
+   </tr>
+  </table>
+				 </div>
+                 
+                 <div class="t10">
+					     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+  <tr>
+    <td colspan="7" style="text-align:left">&nbsp;&nbsp;您目前待收的本息总额是：<font class="red">￥{$_U.borrow_wait.recover_wait_account|default:"0.00"}</font>，共<font class="red">{$_U.borrow_wait.tender_success_num|default:"0"}</font>笔投资。</td>
+  </tr>
+  <tr class="ytit1">
+    <td width="13%">借款标题</td>
+    <td width="13%">回收日期</td>
+    <td width="13%">回收金额</td>
+    <td width="17%">本金+利息-佣金</td>
+    <td width="14%">剩余回款金额</td>
+    <td width="21%">本期/总期数(还款期)</td>
+    <td width="9%">合同</td>
+    </tr>
+ 
+  {foreach from="$loop.list" item="item"}
+   <tr>
+     <td><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.borrow_name}</a></td>
+     <td>{$item.recover_time|date_format:"Y-m-d"}</td>
+     <td>{$item.recover_account}</td>
+     <td>{$item.recover_capital}+{$item.recover_interest}-{$item.interest_fee}</td>
+     <td>{$item.account_wait}</td>
+     <td>{$item.recover_period}/{$item.borrow_period}</td>
+     <td><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议</a></td>
+   </tr>
+   {/foreach}   
+  </table></div>
+	<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>{/list}
+ </div>
+     <div class="cle"></div>
+	 </div>
+ </div>
+
+

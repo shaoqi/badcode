@@ -1,0 +1,62 @@
+<div>
+            <div class="us_r_bor1">
+            <div>
+<div class="user_info_box clearfix" style="width: auto">
+	{articles module="rating" function="GetJobOne" user_id="$_G.user_id" var="var"}
+    
+ <form action="/?user&q=code/rating/job" method="post" name="formx" >
+	<div class="user_info_item">
+		<span class="user_info_item_left">单位名称：</span> <span>
+		<input type="text" name="name" id="name" class="input180 " value="{$var.name}" style="width:120px; border:#BFBFBF solid 1px;" onblur="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" />
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">单位性质：</span> <span>
+		{linkages nid="rating_company_type" default="请选择" name="company_type" type="value"  value="$var.company_type" style="width:200px; border:#BFBFBF solid 1px;" }
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">职业状态：</span> <span>
+		{linkages nid="rating_job_style" default="请选择" name="work_style" type="value"  value="$var.work_style" style="width:120px; border:#BFBFBF solid 1px;" }
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">职 务：</span> <span><input type="text" name="office" id="office" value="{$var.office}" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/>
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">工作年限：</span> <span>{linkages nid="rating_workyear" default="请选择" name="work_year" type="value"  value="$var.work_year" style="width:120px; border:#BFBFBF solid 1px;" }
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">工作地址：</span> <span> 
+		{areas type="p,c" value="$var.work_city" name="work_" }
+		</span>
+	</div>
+	<div class="user_info_item">
+	<span class="user_info_item_left">月收入：</span> <span> 
+		{linkages nid="rating_income" default="请选择" name="income" type="value"  value="$var.income" style="width:120px; border:#BFBFBF solid 1px;" }
+		</span>
+	</div>
+	<div class="user_info_item">
+	<span class="user_info_item_left">工作电话：</span> <span> 
+		<input type="text" name="tel" id="tel" value="{$var.tel}" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/>格式提示：区号-号码
+		</span>
+	</div>
+	{/articles}
+    <div style="padding:10px 0; margin-left:170px"><input type="hidden" name="web"  value="borrow"/>
+				 
+			    
+    </div>	
+	</div> <div style="text-align: center; padding: 20px 0">
+							<input value="{$magic.request.type}" class="input180 " type="hidden" name="borrow_type">
+							<input type="submit" name="submit" class="saveSettingBnt" onclick="javascript:return checkItemA()" value="保存>继续">
+							<input type="button" class="saveSettingBnt" onclick="javascript:location.href='/?user&q=code/borrow/loan&p=company'" value="跳过并继续">
+				 </div>
+			</div>
+            </div>
+            </div>
+            </form>
+		  </div>
+	      </div>
+	   </div>

@@ -1,0 +1,48 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+<form action="" method="post">
+				<tr class="ytit">
+					<td colspan="6">我关注的用户</td>
+				</tr>
+
+
+				<tr class="ytit1" >
+
+
+					<td  >头像</td>
+					<td  >用户名</td>
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				
+				{list module="users" plugins="Care" function="GetUserCareList" var="loop" user_id="$_G.user_id"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if} >
+
+					<td ><a href="/u/{$item.care_user_id}" title="{$item.care_username}" target="_blank"><img src="{$item.care_userid|avatar}" height="50px" width="50px"></a></td>
+
+
+					<td  ><a href="/u/{$item.care_user_id}">{$item.care_username}</a></td>
+					
+					<td  ><a href="{$_U.query_url}/yonghu&id={$item.id}">删除</a></td>
+				</tr>
+
+
+				{/foreach}
+
+
+
+
+			</form>	
+
+
+		</table>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+		{/list}

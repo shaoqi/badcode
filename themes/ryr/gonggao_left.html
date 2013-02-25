@@ -1,0 +1,15 @@
+<div class="help_left1">
+   <div class="he_le_bor">
+		<div class="he_le_title"><h1>ÍøÕ¾¶¯Ì¬</h1></div>
+			<div class="he_le_news">
+						     <ul>
+					{loop module="articles" function="GetTypeList" var="var" limit="all" type_id="42"}
+						<li><a class="dangq1" title="{$var.name}" href="/{$_G.site_result.nid}/a{$var.id}.html">{$var.name}</a></li>
+					{/loop}
+				  </ul>
+	  </div>
+	   </div>
+              
+ 
+              <div class="cle"></div>
+</div>

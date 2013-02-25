@@ -1,0 +1,10 @@
+<?
+		$code = "links";
+		$name = "友情链接";
+		$description = "友情链接";
+		$version = "1.0";
+		$author = "hycms";
+		$date = "2010-04-03";
+		$update = "2012-02-03";
+		$type = "links";
+		?>

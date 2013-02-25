@@ -1,0 +1,9 @@
+<?
+		$code = "scrollpic";
+		$name = "¹ö¶¯Í¼Æ¬";
+		$description = "¹ö¶¯Í¼Æ¬";
+		$version = "1.0";
+		$author = "hycms";
+		$date = "2010-12-03";
+		$type = "scrollpic";
+		?>

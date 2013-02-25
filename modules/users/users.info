@@ -1,0 +1,10 @@
+<?
+	$code =        "users";
+	$name =        "用户信息管理";
+	$description = "用户信息管理";
+	$version =     "3.0";
+	$date =   "2011-09-01";
+	$author =      "dycms";
+	$update =      "";
+	$type =      "system";
+?>

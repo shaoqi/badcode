@@ -1,0 +1,104 @@
+
+		{if $_G.user_info.education_status==1} 
+
+		<div class="user_main_title1">注意：您已经通过了学历认证，如要修改请跟客服联系。</div>		
+		<div class="user_info_item">
+		<span class="user_info_item_left">用户名：</span> <span>
+		{$_G.user_result.username} 
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">真实姓名：</span> <span>
+		{$_U.edu_result.realname} 
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">毕业院校：</span> <span>
+		{$_U.edu_result.graduate} 
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">专业：</span> <span>
+		{$_U.edu_result.speciality}
+		</span>
+		</div>			
+		<div class="user_info_item">
+		<span class="user_info_item_left">学历：</span> <span>
+		{$_U.edu_result.degree}
+		</span>
+		</div>			
+		<div class="user_info_item">
+		<span class="user_info_item_left">入学时间：</span> <span>
+		{$_U.edu_result.enrol_date}
+		</span>
+		</div>		
+		<div class="user_info_item">
+		<span class="user_info_item_left">毕业时间：</span> <span>
+		{$_U.edu_result.graduate_date}
+		</span>
+		</div>	
+
+		{else}
+
+		
+
+		<form action="" name="form1" method="post" enctype="multipart/form-data">
+
+		<div class="user_main_title1">{if $_G.user_result.edu_status==2}您的学历认证审核中，请耐心等待。{else}学历认证申请。{/if}</div>
+
+		<div class="user_info_item">
+		<span class="user_info_item_left">用户名：</span> <span>
+		{$_G.user_result.username} 
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">真实姓名：</span> <span>
+		{$_U.edu_result.realname} 
+		</span>
+		</div>		
+		<div class="user_info_item">
+		<span class="user_info_item_left">毕业院校：</span> <span>
+		<input type="text" name="graduate" id="graduate" value="{$_U.edu_result.graduate}">
+		</span>
+		</div>		
+		<div class="user_info_item">
+		<span class="user_info_item_left">专业：</span> <span>
+		<input type="text" name="speciality" id="speciality" value="{$_U.edu_result.speciality}">
+		</span>
+		</div>				
+		<div class="user_info_item">
+		<span class="user_info_item_left">学历：</span> <span>
+		<input type="text" name="degree" id="degree" value="{$_U.edu_result.degree}">
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">入学时间：</span> <span>
+		<input type="text" name="enrol_date" id="enrol_date" value="{$_U.edu_result.enrol_date}">
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">毕业年份：</span> <span>
+		<input type="text" name="graduate_date" id="graduate_date" value="{$_U.edu_result.graduate_date}">
+		</span>
+		</div>		
+		<div class="user_info_item">
+		<span class="user_info_item_left">上传证书：</span> <span>
+		<input type="file" name="edu_pic" id="edu_pic">{if $_U.edu_result.edu_pic_url!=""}<a href="./{ $_U.edu_result.edu_pic_url}" target="_blank" title="有图片"><img src="/{ $_U.edu_result.edu_pic_url}" border="0" width="30"  /></a>{/if}  
+		</span>
+		</div>	
+		<div class="user_info_item">
+		<span class="user_info_item_left">&nbsp;</span> <span>
+		<input type="submit" name="name"  value="确认提交" size="30" />
+		</span>
+		</div>
+		<div class="cle"></div>
+
+		<div class="user_right_foot">注：学历认证每次2元，请不要重复提交；将直接通过ID5查找国家教育部学历学位系统，仅限2001年后毕业的高等院校教育信息核实；
+		     </div>
+		</form>
+		{/if}
+		<div class="cle"></div>
+		<div class="user_right_foot">
+		<b style=" color:#FF0000">* 温馨提示：我们将严格对用户的所有资料进行保密</b>
+		</div>
+		<!--学历认证 结束-->

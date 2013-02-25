@@ -1,0 +1,144 @@
+{if $magic.request.tender=="ok"}
+
+<body>
+	<div class="conbox t20">
+     <div>
+	      <div class="con_bor">
+		       <div class="pos_bor"><span><a href="#">我要理财</a> > <a href="#">借款列表</a> > <a href="#">借款详情</a> > 马上投标</span></div>
+			   <div class="con">
+			   <div style="padding: 10px 85px;">
+                <div style="font-weight: bold; color: #494949; padding: 10px 0; font-size: 14px">确认借款信息</div>
+                <table width="100%" height="200" border="0" cellpadding="0" cellspacing="1" bgcolor="#E4E4E4">
+                    <tbody>
+                        <tr height="27">
+                            <td width="14%" align="right" bgcolor="#EEF4FE">借款标题：</td>
+                          <td width="86%" bgcolor="#FFFFFF"><div style="padding-left: 5px">公司扩大经营和生产 技术研究投入</div></td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#EEF4FE">借款金额：</td>
+                          <td bgcolor="#FFFFFF" style="padding-left: 5px;color: #ff0000">￥150,000</td>
+                        </tr>
+                        <tr height="27">
+                            <td align="right" bgcolor="#EEF4FE">借款年利率：</td>
+                            <td bgcolor="#FFFFFF" style="padding-left: 5px; color: #ff0000">15.00%</td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#EEF4FE">还款方式：</td>
+                            <td bgcolor="#FFFFFF">
+                                <div style="padding-left: 5px">每月还款</div>
+                          </td>
+                        </tr>
+                        <tr height="27">
+                            <td align="right" bgcolor="#EEF4FE">已完成：</td>
+                            <td bgcolor="#FFFFFF">
+                                &nbsp;<span class="loading"><em style="width:66%"></em></span>66%
+                          </td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#EEF4FE">剩余投标金额：</td>
+                          <td bgcolor="#FFFFFF" style="color: #ff0000"><div style="padding-left: 5px">￥50,800</div></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:10px">
+				     <table width="100%" height="141" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="left" valign="middle">投标金额：<input type="text" name="textfield" style="width:70px; border:#BFBFBF solid 1px; height:18px;"/>元   <span style="color:#999999">(最低投标金额为50元,并且是50的倍数)</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle">我的可用余额：<b style="color:#FF0000">￥102.17</b>   <a href="#" style="color:#0000FF">我要充值</a></td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle">请输入交易密码：
+      <input type="text" name="textfield2" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/>                        
+      如还未设置交易密码，“<a href="#" style="color:#0000FF">请先设置交易密码</a>”</td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle"><a href="#"><img src="{$tpldir}/images/gogo.gif" width="151" height="35" border="0" /></a></td>
+  </tr>
+</table>
+
+				</div>
+                <br />
+			   </div>
+			   </div>
+	   </div>
+     </div>
+</div>
+	<div class="footer">
+     <div class="conbox"><span>Copyright Reserved 2007-2022&copy; 急速贷 | 粤ICP备12023838号</span></div>
+</div>
+</body>
+
+
+
+{elseif $magic.request.vouch=="ok"}
+<div class="conbox t20">
+     <div>
+	      <div class="con_bor">
+		       <div class="pos_bor"><span><a href="#">我要理财</a> > <a href="#">借款列表</a> > <a href="#">借款详情</a> > 马上担保</span>	</div>
+			   <div class="con">
+			   <div style="padding: 10px 85px;">
+                <div style="font-weight: bold; color: #494949; padding: 10px 0; font-size: 14px">确认借款信息</div>
+                <table width="100%" height="200" border="0" cellpadding="0" cellspacing="1" bgcolor="#E4E4E4">
+                    <tbody>
+                        <tr height="27">
+                            <td width="14%" align="right" bgcolor="#FEFDEF">借款标题：</td>
+                          <td width="86%" bgcolor="#FFFFFF"><div style="padding-left: 5px">公司扩大经营和生产 技术研究投入</div></td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#FEFDEF">借款金额：</td>
+                          <td bgcolor="#FFFFFF" style="padding-left: 5px;color: #ff0000">￥150,000</td>
+                        </tr>
+                        <tr height="27">
+                            <td align="right" bgcolor="#FEFDEF">借款年利率：</td>
+                            <td bgcolor="#FFFFFF" style="padding-left: 5px; color: #ff0000">15.00%</td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#FEFDEF">还款方式：</td>
+                            <td bgcolor="#FFFFFF">
+                                <div style="padding-left: 5px">每月还款</div>
+                          </td>
+                        </tr>
+                        <tr height="27">
+                            <td align="right" bgcolor="#FEFDEF">已完成：</td>
+                            <td bgcolor="#FFFFFF">
+                                <div style="padding-left: 5px">
+                                    <div style="float:left" class="greenProcessBar progressBar">
+                                        <div class="p"><div style="width: 66.133%;" class="c"></div></div>
+                                    </div>66%
+                                </div>
+                          </td>
+                        </tr>
+                        <tr >
+                            <td align="right" bgcolor="#FEFDEF">剩余投标金额：</td>
+                          <td bgcolor="#FFFFFF" style="color: #ff0000"><div style="padding-left: 5px">￥50,800</div></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:10px">
+				     <table width="100%" height="141" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="left" valign="middle">投标金额：<input type="text" name="textfield" style="width:70px; border:#BFBFBF solid 1px; height:18px;"/>元   <span style="color:#999999">(最低投标金额为50元,并且是50的倍数)</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle">我的可用余额：<b style="color:#FF0000">￥102.17</b>   <a href="#" style="color:#0000FF">我要充值</a></td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle">请输入交易密码：
+      <input type="text" name="textfield2" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/>                        
+      如还未设置交易密码，“<a href="#" style="color:#0000FF">请先设置交易密码</a>”</td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle"><a href="#"><img src="{$tpldir}/images/gogo.gif" width="151" height="35" border="0" /></a></td>
+  </tr>
+</table>
+
+				</div>
+                <br />
+			   </div>
+			   </div>
+	   </div>
+     </div>
+</div>
+{/if}

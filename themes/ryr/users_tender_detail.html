@@ -1,0 +1,108 @@
+<div class="main_box">
+<div class="us_r_bor1">
+	<div>
+	   关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+		<input value="搜索" type="submit"class="press_mode" onclick="sousuo('{$_U.query_url}/tender&p=detail')" />
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+				<tr class="ytit">
+					<td colspan="11">借出明细账</td>
+				</tr>
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >借款者</td>
+
+
+					<td  >借款标</td>
+
+
+					<td  >借出总额</td>
+
+
+					<td  >应收总额</td>
+
+
+					<td  title="已收本金+已收利息+提前还款罚金+逾期罚金">已收总额</td>
+
+
+					<td  >待收总额</td>
+
+
+					<td  >已收利息</td>
+
+
+					<td  >待收利息</td>
+
+
+					<td  >已还期数/总期数</td>
+
+
+					<td  >备注</td>
+
+
+				</tr>
+
+
+			{list module="borrow" var="loop" plugins="tender" function ="GetTenderList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" }
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td  ><!-- a href="/u/{$item.user_id}" target="_blank"> -->{$item.borrow_username}</td>
+
+
+					<td  ><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.borrow_name|truncate:8}</a></td>
+
+
+					<td  >￥{$item.account}</td>
+
+
+					<td  >￥{$item.recover_account_all}</td>
+
+
+					<td  title="已收本金[{$item.recover_account_capital_yes}]+已收利息[{$item.recover_account_interest_yes}]+提前还款罚金[{$item.recover_advance_fee}]+逾期罚金[{$item.recover_late_fee}]" >{$item.recover_account_yes+$item.recover_account_interest_yes+$item.recover_advance_fee+$item.recover_late_fee}</td>
+
+
+					<td  >{if $item.change_status==1}0.00{else}￥{$item.recover_account_wait|default:0.00}{/if}</td>
+
+
+					<td  >{if $item.change_status==1}￥{$item.recover_interest_yes_all|default:0.00}{else}￥{$item.recover_account_interest_yes|default:0.00}{/if}</td>
+
+
+					<td  >{if $item.change_status==1}0.00{else}￥{$item.recover_account_interest_wait|default:0.00}{/if}</td>
+
+
+					<td  >
+					{if $item.change_status==1}{$item.count_all|default:0}期/{$item.borrow_period}期{else}{$item.recover_times|default:0}期/{if $item.borrow_type=="roam"}1{else}{$item.borrow_period}{/if}期{/if}</td>
+
+
+					<td  >{if $item.change_status==1}已转让{else}-{/if}</td>
+
+				</tr>
+
+
+				{/foreach}
+
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+		{/list}
+</div>
+</div>
+		<!--借出明细 结束-->

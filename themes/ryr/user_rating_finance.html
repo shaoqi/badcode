@@ -1,0 +1,75 @@
+<br>
+<div class="us_cen1">财务状况</div>
+<form action="/?user&q=code/rating/addpayment" method="post" name="formx" onsubmit="return formcheck();">
+<div class="user_info_box clearfix" style="width: auto">
+{articles module="rating" function="GetFinanceOne" user_id="$_G.user_id" var="var"}
+<div class="user_info_item">
+		<span class="user_info_item_left">月均收入:</span> <span>
+		<input value="{$var.month_income}" class="input180 " name="month_income" id="month_income">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">收入构成描述:</span> <span>
+		<input value="{$var.month_income_describe}" class="input180 " name="month_income_describe" id="month_income_describe">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">月均支出:</span> <span>
+		<input value="{$var.month_pay}" class="input180 " name="month_pay" id="month_pay">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">支出构成描述:</span> <span>
+		<input value="{$var.month_pay_describe}" class="input180 " name="month_pay_describe" id="month_pay_describe">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">住房条件：</span> <span>{linkages nid="rating_house" name="house" value="$var.house" type="value"  style="width:150px; border:#BFBFBF solid 1px; height:18px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">房产价值：</span> <span><input value="{$var.house_value}" class="input180 " name="house_value" id="house_value">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">是否购车：</span> 
+		<span><select name='is_car' id="is_car"  style='width:120px;' >
+			<option value='1' {if $var.is_car==1 } selected="selected"{/if} >有</option>
+			<option value='2' {if $var.is_car==2 || $var.is_car=='' } selected="selected"{/if}>无</option>
+			</select>
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">车辆价值：</span> <span><input value="{$var.car_value}" class="input180 " name="car_value" id="car_value">元
+			
+			</select>
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">参股企业名称:</span> <span>
+		<input value="{$var.cangu}" class="input180 " name="cangu" id="cangu">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">参股企业出资额：</span> <span>
+		<input value="{$var.cangu_account}" class="input180 " name="cangu_account" id="cangu_account">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">其他资产描述：</span> <span> 
+		<input value="{$var.describe}" class="input180 " name="describe" id="describe">
+		</span>
+	</div>
+	{/articles}
+    <div style="padding:10px 0; margin-left:170px">
+		<input type="hidden" name="type" value="{$magic.request.type}" />
+	{if $magic.request.type=='finance'}
+	<input type="image" src="{$tpldir}/images/saveandcon.gif" />
+	<input type="hidden" name="submit" id="submit" value="提交" />
+	<a href="/?user&q=code/borrow/jrsh&type=lianbao"><img src="{$tpldir}/images/skipdcon.gif"></a>	
+	{else}
+	<input type="submit" name="submit" id="submit" value="提交" class="press_mode" />
+	{/if}
+    </div>
+	</div>
+ </form>

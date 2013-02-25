@@ -1,0 +1,282 @@
+{include file="header.html"}
+	{articles module="users" function="GetUsersVip" user_id=$_G.user_id var="Vvar"}
+		{if $Vvar.status!=1 && $magic.request.type==4}
+			<script>
+			alert("发起担保标需申请VIP");
+			location.href='/vip/index.html';
+			</script>
+		{/if}
+	{/articles}
+<script>
+	var user_id = '{$_G.user_id}';
+	var realname_status = '{$_G.user_info.realname_status|default:0}';
+	var phone_status = '{$_G.user_info.phone_status|default:0}';
+	var edu_status = '{$_G.user_info.education_status|default:0}';
+	var video_status = '{$_G.user_info.video_status|default:0}';
+	{articles module="attestations" function="GetAttestationsUserCredit" user_id=$_G.user_id var="user_att"}
+	var gongzi_num = '{$user_att.gongzi.num}';
+	var gongzi_name = '{$user_att.gongzi.name}';
+	var work_num = '{$user_att.work.num}';
+	var work_name = '{$user_att.work.name}';
+	var income_num = '{$user_att.income.num}';
+	var income_name = '{$user_att.income.name}';
+	var xinyong_num = '{$user_att.xinyong.num}';
+	var xinyong_name = '{$user_att.xinyong.name}';
+	{/articles}
+	{articles module="borrow" function="GetAmountUsers" user_id=$_G.user_id var="user_amount"}
+	var edu = '{$user_amount.borrow_use}';
+	{/articles}
+	{articles module="rating" function="GetInfoOne" user_id="$_G.user_id" var="Ivar"}
+		 var iuser='{$Ivar.user_id}';
+	{/articles}
+	{articles module="rating" function="GetJobOne" user_id="$_G.user_id" var="Jvar"}
+		 var juser='{$Jvar.user_id}';
+	{/articles}
+	{articles module="rating" function="GetContactOne" user_id="$_G.user_id" var="Tvar"}
+		 var tuser='{$Tvar.user_id}';
+	{/articles}
+
+	{articles module="rating" function="GetCompanyOne" user_id="$_G.user_id" var="Cvar"}
+		var cuser='{$Cvar.user_id}';
+	{/articles}
+
+	{articles module="rating" function="GetAssetsOne" user_id="$_G.user_id" var="Avar"}
+		var auser='{$Avar.user_id}';
+	{/articles}
+	{literal}
+	if (user_id==""){
+		alert("你还没有登录，请先登录");
+		location.href='/?user&q=action/login';
+		
+	}else if(realname_status=="0"){
+		alert("你还未进行实名认证");
+		location.href='/?user&q=code/approve/realname';
+		
+	}else if(phone_status=="0"){
+		alert("还未进行手机认证");
+		location.href='/?user&q=code/approve/phone';
+		
+	}else if(edu_status=="0"){
+		alert("还未进行学历认证");
+		location.href='/?user&q=code/approve/education';
+		
+	}else if(video_status=="0"){
+		alert("还未进行视频认证");
+		location.href='/?user&q=code/approve/video';
+	}else if(iuser==""){
+		alert("请填写个人资料");
+		location.href='/amount_apply/index.html';
+	}else if(juser=="" && cuser==""){
+		alert("请填写工作资料或私营业主信息");
+		location.href='/amount_work/index.html';
+	}else if(tuser==""){
+		alert("请填写联系人资料");
+		location.href='/amount_lianxi/index.html';
+	}else if(auser==""){
+		alert("请填写财务状况");
+		location.href='/amount_caiwu/index.html';
+	}
+	/*else if(edu <= "0"){		
+		alert("您的借款额度为0，请先申请。");
+		location.href='/amount_apply/index.html';
+	}*/
+	else if(gongzi_num=="0" || gongzi_num==""){
+		alert("您还未通过"+gongzi_name);
+		location.href='/upload_att/index.html';
+		
+	}else if(work_num=="0" || work_num==""){
+		alert("您还未通过"+work_name);
+		location.href='/upload_att/index.html';
+		
+	}else if(income_num=="0" || income_num==""){
+		alert("您还未通过"+income_name);
+		location.href='/upload_att/index.html';
+		
+	}else if(xinyong_num=="0" || xinyong_num==""){
+		alert("您还未通过"+xinyong_name);
+		location.href='/upload_att/index.html';
+		
+	}
+</script>
+{/literal}
+
+{list module="borrow" function="GetList" user_id="$_G.user_id" var="var" status="1,0"}
+	{if $var.total>0}
+	<script>alert("您有借款正在招标，不能发布新的借款！");location.href='/?user&q=code/borrow/publish';</script>
+	{/if}
+{/list}
+{articles module="borrow" function="GetAmountUsers" user_id=$_G.user_id var="user_amount"}
+<div class="conbox t10">
+	<div class="d_con">
+	<form name="form1" method="post" action="/index.php?user&q=code/borrow/add" enctype="multipart/form-data" id="loan_form">
+	<div class="title"><h2><img src="{$tempdir}/images/icon5.gif" align="absmiddle" />&nbsp;&nbsp;发布{if $magic.request.type==1}信用标{elseif $magic.request.type==2}抵押标{elseif $magic.request.type==3}天标{elseif $magic.request.type==4}担保标{/if}</h2></div>	{if $magic.request.type==1}
+		<div class="warning1" style=" margin:20px 40px;">
+			<b>我的信用积分：<span style="font-size:14px; color:#FF0000">{$_G.user_credit.approve_credit|credit:"borrow"}（{$_G.user_credit.approve_credit}）</span></b>通过上传真实信用认证资料，可提高您的信用等级和额度我的&nbsp;&nbsp;<b>信用额度： <span style="font-size:14px; color:#FF0000">{$user_amount.borrow} ( 可用额度：{$user_amount.borrow_use})</span></b>
+		</div>
+	{elseif $magic.request.type==2}
+		{articles module="attestations" function="GetAttestationsUserCredit" user_id=$_G.user_id var="user_att"}			
+			{if $user_att.dywzp.status!=1}
+			<script>alert("您还没有抵押物，请先上传。");location.href='/upload_att/index.html';</script>
+			{/if}
+		{/articles}
+		{if $user_amount.once_amount<=0}
+			<script>alert("您的一次性额度为0，请先申请。");location.href='/?user&q=code/borrow/amount';</script>
+		{/if}
+		<div class="warning1" style=" margin:20px 40px;">
+		<b>一次性额度：<span style="font-size:14px; color:#FF0000">{$user_amount.once_amount}</span></b>
+		</div>
+	{elseif $magic.request.type==3}
+		<div class="warning1" style=" margin:20px 40px;">
+			<b>我的信用积分：<span style="font-size:14px; color:#FF0000">{$_G.user_credit.approve_credit}（{$_G.user_credit.approve_credit|credit:"borrow"}）</span></b>通过上传真实信用认证资料，可提高您的信用等级和额度我的&nbsp;&nbsp;<b>信用额度： <span style="font-size:14px; color:#FF0000">{$user_amount.borrow} ( 可用额度：{$user_amount.borrow_use})</span></b>
+		</div>
+	{elseif $magic.request.type==4}
+		<div class="warning1" style=" margin:20px 40px;">
+		{if $user_amount.vouch_borrow_use==0 || $user_amount.vouch_borrow_use==""}
+			<script>alert("您的担保借款额度为0，请先申请。");location.href='/?user&q=code/borrow/amount';</script>
+		{/if}
+			<b>担保借款额度： <span style="font-size:14px; color:#FF0000">{$user_amount.vouch_borrow} ( 可用担保借款额度：{$user_amount.vouch_borrow_use})</span></b>
+		</div>
+	{/if}
+		  <div class="t20" style=" padding-bottom:20px;">
+					<table width="100%" cellspacing="0" cellpadding="0" border="0" class="jk_tab">
+  <tbody>
+  <tr>
+    <td width="19%" align="right" valign="top"><span></span>借款用途：</td>
+    <td width="81%" align="left">
+	    <div class="use_bor">
+		     <ul>
+			     <li><h1><input name="borrow_use" type="radio" value="1" checked="checked"/></h1><span class="fbicon1">销售</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="2" /></h1><span class="fbicon2">买车</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="3" /></h1><span class="fbicon3">买房</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="4" /></h1><span class="fbicon4">装修</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="5" /></h1><span class="fbicon5">旅游</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="6" /></h1><span class="fbicon6">公司周转-扩大</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="7" /></h1><span class="fbicon7">创业</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="8" /></h1><span class="fbicon8">电商</span></li>
+				 <li><h1><input name="borrow_use" type="radio" value="9" /></h1><span class="fbicon9">其他</span></li>
+			 </ul>
+			 <div style="clear:both"></div>
+		</div>
+	</td>
+  </tr>
+  <tr>
+    <td width="19%" align="right"><span></span>借款类型：</td>
+    <td width="81%" align="left">
+		{if $magic.request.type==1}
+			<input type="radio" name="borrow_type" id="borrow_type" value="1" checked="checked"/>信用借款
+		{elseif $magic.request.type==2}
+			<input type="radio" name="borrow_type" id="borrow_type" value="2" checked="checked"/>网站抵押标
+			<input type="radio" name="borrow_type" id="borrow_type" value="3"/>质押标
+		{elseif $magic.request.type==3}
+			<input type="radio" name="borrow_type" id="borrow_type" value="4" checked="checked"/>天标
+		{elseif $magic.request.type==4}
+			<input type="radio" name="borrow_type" id="borrow_type" value="5" checked="checked"/>担保标
+		{/if}
+  </tr>
+  <tr>
+    <td width="19%" align="right">借款标题：</td>
+    <td width="81%" align="left"><input type="text" name="name" id="borrow_name" style="width:300px; border:#BFBFBF solid 1px; height:18px;"/></td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">借款金额：</td>
+    <td width="81%" align="left"><input type="text" name="account"  id="borrow_account"  style="width:100px; border:#BFBFBF solid 1px; height:18px;"/> 元（借款金额不得低于3000，需为100的倍数） </td>
+  </tr>
+  <tr>
+    <td width="19%" valign="top" align="right">年利率：</td>
+    <td width="81%" align="left"><input type="text" name="borrow_apr" id="borrow_apr" style="width:50px; border:#BFBFBF solid 1px; height:18px;"/>
+    % （利率精确到小数点后一位，范围{$_G.system.con_borrow_apr_min}%-{$_G.system.con_borrow_apr_max}%之间） <br>
+借款最低利率由您的借款期限确定，一般来说借款利率越高，借款速度越快。</td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">还款方式：</td>
+    <td width="81%" align="left">
+	{if $magic.request.type==3}
+		到期全额还款
+		<input type="hidden" name="borrow_style" value="2">
+	{else}
+		<input type="hidden" name="borrow_style" value="0">
+		按月还款
+	{/if}</td>
+  </tr>
+  {if $magic.request.type==3}
+  <tr>
+    <td width="19%" align="right">借款期限：</td>
+    <td width="81%" align="left">
+	<select name="borrow_day">
+	{literal}
+	<?php
+		for($i=5;$i<31;$i++){
+			echo "<option value=".$i.">".$i."天</option>";
+		}
+	?>
+	{/literal}
+	</select>
+	</td>
+  </tr>
+  {else}
+  <tr>
+    <td width="19%" align="right">借款期限：</td>
+    <td width="81%" align="left">{linkages name="borrow_period" nid="borrow_period" type="value"}</td>
+  </tr>
+  {/if}
+  {if $magic.request.type==4}
+  <tr>
+    <td width="19%" align="right">筹标期限：</td>
+    <td width="81%" align="left">4天</td>
+  </tr>
+  {else}
+  <tr>
+    <td width="19%" align="right">筹标期限：</td>
+    <td width="81%" align="left">{linkages name="borrow_valid_time" nid="borrow_valid_time" type="value"}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td width="24%" align="right">借款描述：</td>
+    <td width="76%" align="left"><textarea name="borrow_contents" style="width:400px; height:100px;"></textarea></td>
+  </tr>
+  {if $magic.request.type==2}
+  <tr>
+    <td width="24%" align="right">抵押物描述：</td>
+    <td width="76%" align="left"><textarea name="diya_contents" style="width:400px; height:100px;"></textarea></td>
+  </tr>
+  {/if}
+  <tr>
+    <td width="24%" align="right">验证码：</td>
+    <td width="76%" align="left"><input name="valicode" id="valicode" type="text" class="in_text" style="width:50px;"/> <img src="/?plugins&q=imgcode" id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="image" src="{$tempdir}/images/dlgo1.gif" width="72" height="29" /></td>
+  </tr>
+</tbody></table>
+</div>
+</form>
+</div>
+</div>
+{/articles}
+<script>
+var amount='{$user_amount.once_amount}';
+var apr_min='{$_G.system.con_borrow_apr_min}';
+var apr_max='{$_G.system.con_borrow_apr_max}';
+{literal}
+			function formcheck(){
+				 var frm = document.forms['formx'];
+				 var borrow_account = frm.elements['borrow_account'].value;
+				 var borrow_apr = frm.elements['borrow_apr'].value;
+				 var errorMsg = '';
+					  if (borrow_account> amount) {
+						errorMsg += '* 借款金额不能大于一次性额度' + '\n';
+					  if (borrow_apr<apr_min) {
+						errorMsg += '* 年利率不在范围内' + '\n';
+					  }else if(borrow_apr>apr_max){
+						errorMsg += '* 年利率不在范围内' + '\n';
+					  }
+					  if (errorMsg.length > 0){
+						alert(errorMsg); return false;
+					  } else{  
+						return true;
+					  }
+			}
+</script>
+{/literal}
+{include file="footer.html"}

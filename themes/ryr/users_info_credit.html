@@ -1,0 +1,30 @@
+<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			{list module="credit" function="GetLogList" user_id="$_G.user_id" type="credit" showpage="3" epage="10" var="loop"}
+			<tr class="ytit1" >
+
+				<td  width="50%">名称</td>
+
+				<td  width="25%">积分</td>
+				
+				<td  width="25%">获得时间</td>
+
+			</tr>
+			{foreach from="$loop.list" item="item"}
+			{if $item.credit!=0}
+			<tr {if $key%2==1} class="ynow"{/if} >
+
+				<td>{$item.type_name}</td>
+
+				<td>{$item.credit}分</td>
+				
+				<td>{$item.addtime|date_format:"Y-m-d"}</td>
+			</tr>
+			{/if}
+			{/foreach}		
+			
+			
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		{/list}

@@ -1,0 +1,38 @@
+<div>	
+<div style="width:auto" class="us_cen1 t20">我的相册</div>
+ <div class="us_sy_album t20">
+  <ul>
+  {list module="users" function="GetUserImagesList" var="_loop" user_id="$_G.user_id" epage=4}
+     { foreach from=$_loop.list item=item}
+		<li><img src="{$item.fileurl}" width=140 height=140 /><h1><a href="javascript:void(0)" onclick="javascript:if(confirm('确定要删除图片')) location.href='/?user&q=code/users/delimages&id={$item.id}'">删除</a><h1></li>
+	{ /foreach}
+ {/list}
+  </ul>
+ </div>
+<div style="width: auto" class="us_cen1 t20">上传图片</div>
+			<div class="t20" style="padding-left:20px">
+            <form action="/?user&q=code/users/images" name="form1" method="post" onsubmit="return check_form()" enctype="multipart/form-data">		
+			<div class="user_right_border">
+				<div>图片上传：<input type="file" id="images" name="images" tabindex="1" /> 上传最大的图片为500K，上传的格式为jpg.gif</div>
+			</div>
+			<br>
+				<div class="c">
+					<input type="hidden" name="type"  value="{$magic.request.type}" /> 
+					<input type="submit" name="submit"  value="上传" size="30" /> 
+				</div>
+	             <div class="user_right_foot1 t10">
+		            <font style=" color:#FF0000">* 温馨提示：我们将严格对用户的所有资料进行保密</font>
+		         </div>	
+			</form>		
+			</div>	
+{literal}
+<script>
+function check_form(){
+	if($("#images").val()==''){
+		alert("图片不能为空");
+		return false;
+	}
+}
+</script>
+{/literal}		
+</div>

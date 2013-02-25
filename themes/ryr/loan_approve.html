@@ -1,0 +1,9 @@
+{if $magic.request.type=="realname"}
+	{include file="approve_realname.html"} 
+{elseif $magic.request.type=="phone"}
+	{include file="approve_phone.html"} 
+{elseif $magic.request.type=="email"}
+	{include file="approve_email.html"} 
+{elseif $magic.request.type=="success"}
+	{include file="approve_success.html"} 
+{/if}

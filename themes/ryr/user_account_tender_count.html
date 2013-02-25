@@ -1,0 +1,72 @@
+
+{articles module="borrow" plugins="count" function="GetUsersRecoverCount" var="recover_var" user_id="$_G.user_id"}
+    <div class="us_r_bor1">
+		
+		<div class="t20" style=" margin:10px 20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4">投标统计</td>
+			</tr>
+			<tr>
+				<td width="25%" title="目前正在投标中，尚未确定投资的金额">投标中的金额</td>
+				<td width="25%"><font>￥{ $recover_var.tender_now_account|default:0.00}/{ $recover_var.tender_now_num|default:0}笔</font><a href="/?user&q=code/borrow/tender&p=now">[列表]</a></td>
+				<td width="25%">&nbsp;</td>
+				<td width="25%">&nbsp;</td>
+			</tr>
+			<tr>
+				<td width="25%" title="目前已经投资，正在回收中的投资总额">回收中的投资</td>
+				<td width="25%"><font>￥{ $recover_var.recover_wait_account|default:0.00}/{ $recover_var.recover_wait_times|default:0}笔</font><a href="/?user&q=code/borrow/tender&p=recover">[列表]</a></font></td>
+				<td width="25%" title="=各笔收益率的加权平均">待回收本息</td>
+				<td width="25%">￥{ $recover_var.recover_wait_account|default:0.00}/{ $recover_var.recover_wait_num|default:0}期</td>
+			</tr>
+			<tr>
+				<td width="25%" title="已经全部收回的投资的本金总额">已收完的投资</td>
+				<td width="25%"><font>￥{ $recover_var.recover_yes_account|default:0.00}/{ $recover_var.recover_yes_times|default:0}笔</font><a href="/?user&q=code/borrow/tender&p=over">[列表]</a></font></td>
+				<td width="25%" title="=已经全部收回的投资的本息总额">已回收本息</td>
+				<td width="25%">￥{ $recover_var.recover_yes_account|default:0.00}/{ $recover_var.recover_yes_num|default:0}期</td>
+			</tr>
+			<tr>
+				<td width="25%" title="已经投资并逾期未收回的">逾期的投资</td>
+				<td width="25%"><font>￥{ $recover_var.tender_late_account|default:0.00}/{ $recover_var.tender_late_num|default:0} 笔</font><a href="/?user&q=code/borrow/tender&p=late">[列表]</a></font></td>
+				<td width="25%" title="逾期并由网站代偿的投资">网站垫付的投资</td>
+				<td width="25%"><font>￥{ $recover_var.recover_web_account|default:0.00} </td>
+			</tr>
+		</table>
+		</div>
+		<div class="t20" style=" margin:10px 20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4">回报统计</td>
+			</tr>
+						<tr>
+				<td width="25%" title="累计投资的总额">总投资金额</td>
+				<td width="25%"><font>￥{ $recover_var.tender_success_account|default:0.00}</font></td>
+				<td width="25%" title="注册至今，已经回收的利息总额">已赚利息</td>
+				<td width="25%"><font>￥{ $recover_var.recover_yes_interest|default:0.00}</font></td>
+			</tr>
+			<tr>
+				<td width="25%" title="注册至今，已经收到的投资奖励总额">已赚奖励</td>
+				<td width="25%"><font>￥{ $recover_var.tender_award_account|default:0.00}</font></td>
+				<td width="25%" title="因借款人逾期还款而收到的罚息总额">已赚罚息</td>
+				<td width="25%"><font>￥{ $recover_var.recover_fee_account|default:0.00}</font></td>
+			</tr>
+			<tr>
+			    <td width="12%" valign="top" >提前还款罚金收入</td>
+                <td width="12%" valign="top" >
+				￥{ $recover_var.tender_advance_account|default:0.00}</td>
+                <td width="12%" valign="top" >损失利息总额 </td>
+                <td width="12%" valign="top" > 
+				￥{ $recover_var.recover_loss_account|default:0.00}</td>
+			</tr>
+
+			<tr>
+			<td width="25%" title="=各笔收益率的加权平均">平均收益率</td>
+				<td width="25%"><font>{ $recover_var.tender_recover_scale|default:0.00}%</font></td>
+				<td width="25%" title="=逾期的投资 / 累计投资金额">坏账率</td>
+				<td width="25%"><font>{ $recover_var.tender_false_scale|default:0.00}%</font></td>
+			</tr>
+
+		</table>
+		</div>
+	
+		</div>{/articles}

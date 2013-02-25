@@ -1,0 +1,289 @@
+
+    <div class="us_r_bor1">
+    
+<!-- <div class="user_main_title1">{$_G.system.con_webname}禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。 
+		1、所有投标保证金将由第三方平台托管。</br>
+		2、线上、线下充值手续费全免，充值金额由第三方平台收取。</br>
+		3、请注意您的银行卡充值限制，以免造成不便。</br>
+		4、如果充值金额没有及时到账，请与客服联系。（线下充值客户请务必通知客服）</br>
+		5、{$_G.system.con_webname}禁止信用卡套现、虚假交易等行为，一经发现将予以处罚，包括但不限于:限制收款、冻结账户，永久停止服务等。
+		</div> -->
+		<form action="" method="post" name="form1"  onsubmit = "return check();" >	
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td>充值方式</td>
+			</tr>
+			<tr>
+				<td style="padding:10px;">
+				
+		<div class="user_right_border">
+			<div class="l">充值方式：</div>
+			<div class="c">
+				<input type="radio" name="type"  id="type"  class="input_border" checked="checked" onclick="change_type(1)" value="1"  tabindex="1" /> 网上充值 
+				<!-- <input type="radio" name="type"  id="type" class="input_border"  value="0"  onclick="change_type(2)" tabindex="1" /> 线下充值  -->
+			</div>
+		</div>
+		<div id="type_net">
+			<div class="user_right_border">
+				<div class="l">充值类型：</div>
+				<div class="c" style="width:500px;">
+					{foreach from=$_U.account_payment_list item="var"}
+					{if $var.nid!="offline"}
+					
+					<input type="radio" name="payment1"  class="input_border" checked="checked" value="{$var.id}"  onclick="change_type1('{$var.nid}')" id="payment" alt="{$var.nid}"   tabindex="3"/> {$var.name} <input type="hidden" name="payname{$var.id}" value="{$var.name}" /><input type="hidden" id="paymentnid{$var.id}" value="{$var.nid}" /><br />
+					
+					{/if}
+					{/foreach}
+				<div id="B2C_Banks" style="width:500px;">
+
+					<input type="radio" name="bankCode"  class="input_border"  value="ICBC" id="bankCode"  checked="checked" /> <img src="/data/images/payment/img_bankicbc.gif" border="0" />		              <input type="radio" name="bankCode"  class="input_border"  value="ABC" id="bankCode" /> <img src="/data/images/payment/img_bankabc.gif" border="0"   />   	                    
+
+					<input type="radio" name="bankCode"  class="input_border"  value="BOC" id="bankCode"  /> <img src="/data/images/payment/img_bankboc.gif" border="0" /><br/>
+
+					<input type="radio" name="bankCode"  class="input_border"  value="CCB" id="bankCode" /> <img src="/data/images/payment/img_bankccb.gif" border="0"/>
+
+					<input type="radio" name="bankCode"  class="input_border"  value="CMB" id="bankCode"  /> <img src="/data/images/payment/img_bankcmb.gif" border="0" />				
+
+					<input type="radio" name="bankCode"  class="input_border"  value="BOCOM" id="bankCode"  /> <img src="/data/images/payment/img_bankbocom.gif" border="0" /><br/>
+
+					<input type="radio" name="bankCode"  class="input_border"  value="GDB" id="bankCode"  /> <img src="/data/images/payment/img_bankgdb.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="CMBC" id="bankCode"  /> <img src="/data/images/payment/img_bankcmbc.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="HXBC" id="bankCode"  /> <img src="/data/images/payment/img_bankhxbc.gif" border="0" /><br/>
+
+					<input type="radio" name="bankCode"  class="input_border"  value="CIB" id="bankCode"  /> <img src="/data/images/payment/img_bankcib.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="SPDB" id="bankCode"  /> <img src="/data/images/payment/img_bankspdb.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="CEB" id="bankCode"  /> <img src="/data/images/payment/img_bankceb.gif" border="0" /><br/>
+
+					<input type="radio" name="bankCode"  class="input_border"  value="SDB" id="bankCode"  /> <img src="/data/images/payment/img_bankspb.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="PSBC" id="bankCode"  /> <img src="/data/images/payment/img_bankpsbc.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="CITIC" id="bankCode"  /> <img src="/data/images/payment/img_bankcitic.gif" border="0" /><br/>
+
+					<input type="radio" name="bankCode"  class="input_border"  value="BOBJ" id="bankCode"  /> <img src="/data/images/payment/img_bankbobj.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="TCCB" id="bankCode"  /> <img src="/data/images/payment/img_banktccb.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="BOS" id="bankCode"  /> <img src="/data/images/payment/img_bankbos.gif" border="0" /><br/>
+
+					<input type="radio" name="bankCode"  class="input_border"  value="SRCB" id="bankCode"  /> <img src="/data/images/payment/img_banksrcb.gif" border="0" />
+
+					<input type="radio" name="bankCode"  class="input_border"  value="PAB" id="bankCode"  /> <img src="/data/images/payment/img_bankpab.gif" border="0" />
+
+				</div>
+				<!--<div id="ips_Banks" style="width:500px;">
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00026" id="bankCode_ips" width="125px" height="32px"  checked="checked" /> <img src="{$tempdir}/images/ICBC.jpg" border="0"  width="125px" height="32px"/>
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00017" id="bankCode_ips" width="125px" height="32px" /> <img src="{$tempdir}/images/ABC.jpg" border="0"  width="125px" height="32px"  />
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00083" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/BOC.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00015" id="bankCode_ips" width="125px" height="32px" /> <img src="{$tempdir}/images/CCB.jpg" border="0"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00021" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CMB.jpg" border="0"  width="125px" height="32px"/>				
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00005" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/COMM.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00052" id="bankCode_ips" width="125px" height="32px" /> <img src="{$tempdir}/images/CGB.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00013" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CMBC.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00041" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/HXB.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00016" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CIB.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00032px" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/SPDB.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00054" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/ECITIC.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00051" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/PSBC.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00057" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CEB.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00056" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/BEIJING.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00050" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CBHB.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00095" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/HKBEA.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00052" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/HZ.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00013" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/NJCB.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00021" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/ZJCZ.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00094" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CZ.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00056" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/BJRCB.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00032" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/SHANGHAI.jpg" border="0"  width="125px" height="32px"/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00084" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/SDB.jpg" border="0"  width="125px" height="32px"/><br/>
+
+					<input type="radio" name="bankCode_ips"  class="input_border"  value="00085" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/PINGAN.jpg" border="0"  width="125px" height="32px"/>
+				</div>-->
+			</div>
+		</div>
+		</div>
+		
+		<div id="type_now" class="dishide" style="display:none">
+			<div class="user_right_border">
+				<div class="l">充值银行：</div>
+				<div class="c">
+					<table width="100%">
+						{foreach from=$_U.account_payment_list item="var" key=_key}
+						{if $var.nid=="offline"}
+						<tr>
+							<td width="10%" align="center"><input type="radio" name="payment2"  class="input_border" value="{$var.id}" {if $_key==1} checked="checked"{/if}  tabindex="3"/></td>
+							<td width="30%" align="center"><img src="{$var.litpic}" width="120px" height="35px"></td>
+							<td width="60%" align="center">{$var.description}</td>
+						</tr>
+						{/if}
+						{/foreach}
+					</table>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">交易编号：</div>
+				<div class="c">
+					<input type="text" name="remark"  class="input_border" value="" size="30"  tabindex="4" onkeyup="value=value.replace(/[^0-9.]/g,'')"/> <br/>填写网上交易流水号或ATM机汇款交易号或其他号码，只供查询用
+				</div>
+			</div>
+            
+			<div class="user_right_border">
+				<div class="l">线下充值备注：</div>
+				<div class="c">
+					<input type="text" name="beizhu"  class="input_border" value="" size="60"  tabindex="5"/><br/>
+                    请注明您的用户名，转账银行卡和转账流水号，以及转账时间
+				</div>
+			</div>
+		</div>
+		</td></tr></table>
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td>充值金额</td>
+			</tr>
+			<tr>
+				<td style="padding:10px;">
+					<div class="user_right_border">
+						<div class="l">充值金额：</div>
+						<div class="c">
+							<input type="text" name="money" id="rc_money" onkeyup="commit(this)" class="input_border" value="" size="10" onkeyup="value=value.replace(/[^0-9.]/g,'')" maxlength="9"  tabindex="2"/> 元
+						</div>
+					</div>
+					<!-- <div class="user_right_border">
+						<div class="l">充值手续费：</div>
+						<div class="c">
+						
+							<font color="#FF0000" id="real_money">0</font> 元
+						</div>
+					</div> -->
+					<div class="user_right_border">
+						<div class="l">实际到账金额：</div>
+						<div class="c">						
+							<font color="#FF0000" id="r_money">0.00</font> 元
+						</div>
+					</div>
+					{articles module="account" function="GetOne" var="var" user_id="$_G.user_id"}
+					<div class="user_right_border">
+						<div class="l">目前账户可用余额:</div>
+						<div class="c">						
+							<font color="#FF0000" id="use_money">{$var.balance|default:0.00}</font> 元
+						</div>
+					</div>
+					<div class="user_right_border">
+						<div class="l">充值后账户可用余额:</div>
+						<div class="c">						
+							<font color="#FF0000" id="total_money">{$var.balance|default:0.00}</font> 元
+						</div>
+					</div>
+					{/article}
+					<div class="user_right_border">
+						<div class="l">验证码：</div>
+						<div class="c">
+							<input name="valicode" type="text" size="11" maxlength="4"  tabindex="5"/>&nbsp;<img src="/?plugins&q=imgcode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+						</div>
+					</div>
+					<div class="user_right_border">
+						<div class="l"></div>
+						<div class="c">
+							<!-- <input type="hidden" name="type"  value="1"/>  -->
+							<input type="submit" name="name" class="press_mode" value="充值" size="30"  tabindex="6"/> 
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+		
+		</div></form>		
+		<script>
+		var recharge_fee={$_G.system.con_recharge_fee|default:0};	
+		{articles module="account" function="GetOne" var="Avar" user_id="$_G.user_id"}
+		var use = "{$Avar.balance}";
+		{/articles}
+		{literal}
+        if(use==''){use=0;}
+		function commit(obj) {
+			if (parseFloat(obj.value) > 0 ) 
+			{	
+				var realMoney=parseFloat(obj.value);				
+				var sum2= realMoney;
+				var sum3 = use+realMoney;
+				var sum4 = parseFloat(use)+parseFloat(sum2);				
+				$("#r_money").text(sum2.toFixed(2));
+				$("#total_money").text(sum4.toFixed(2));
+			}else{
+				var realMoney=parseFloat(obj.value);				
+				$("#r_money").text('0.00');
+				$("#total_money").text(use);
+			}
+		}
+		function change_type(type){
+			if (type==2){
+				$("#type_now").show();
+				$("#type_net").hide();
+			}else{
+				$("#type_now").hide();
+				$("#type_net").show();
+			}
+            $("#rc_money").val("");
+            $("#real_money").html("0.00");
+            $("#r_money").html("0.00");
+		}
+		
+		function change_type1(type){
+			if (type=='gopay'){
+				$("#B2C_Banks").show();
+				$("#ips_Banks").hide();
+			}else{
+				$("#B2C_Banks").hide();
+				$("#ips_Banks").show();
+			}
+		}
+		
+		function check(){
+			if ($("#rc_money").val()<=0){
+				alert("充值金额不能小于等于0");
+				return false;
+			}
+			return true;
+		}
+		</script>
+		{/literal}
+		
+		<div class="user_right_foot">
+		温馨提示：<br/>
+1.	充值无最低金额限制，充值手续费全免。<br/>
+2.	网银充值过程中请耐心等待，充值成功后，请不要关闭浏览器,充值成功后返回融易融页面。充值成功后资金会立刻划拨到您的账户。<br/>
+3.	{$_G.system.con_webname}禁止信用卡套现、虚假交易等行为，一经发现将予以处罚，包括但不限于：限制收款、冻结账户，永久停止服务等。</br>
+4.	在您使用以上各家银行充值之前，请注意各个银行的支付金额的上限。具体各个银行的支付限额请参阅：<a href="/bank.html" title="各银行的网上银行支付限额总表" target="_blank">各银行的网上银行支付限额总表</a>
+
+		</div>
+		
+		<!--账号充值 结束-->
+		</div>

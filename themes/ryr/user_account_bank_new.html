@@ -1,0 +1,64 @@
+<div class="us_r_bor1" >
+{if $_G.user_info.realname_status!=1}
+	<div class="user_main_title1">{$_G.system.con_webname}禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。
+	</div>
+	<div style="text-align:center; padding-top:50px; padding-bottom:50px;">
+	你还没有进行实名认证，不能绑定银行卡号等相关信息。<br />
+	开始进行 <a href="/?user&q=code/approve/realname"><strong style="color:#FF0000; font-size:18px">实名认证</strong></a>
+	</div>
+{else}
+<div class="user_main_title1">
+</div>
+		<div class="user_right_border">
+			<div class="l">真实姓名：</div>
+			<div class="c">
+				{$_G.user_info.realname}
+			</div>
+		</div>
+		
+		<form action="" method="post">
+	
+	
+	<div class="user_right_border">
+		<div class="l">所属银行：</div>
+		<div class="c">
+		{linkages nid="account_bank" name="bank" type="value" value="$_U.account_bank_result.bank"}
+			
+		</div>
+	</div>
+	
+	<div class="user_right_border">
+		<div class="l">所在地：</div>
+		<div class="c">
+			{areas type="p,c" value="$_U.account_bank_result.city"}
+		</div>
+	</div>
+		<div class="user_right_border">
+			<div class="l">开户行支行名称：</div>
+			<div class="c">
+				<input type="text" name="branch" value="{$_U.account_bank_result.branch}" /><br />
+<span>**分行**支行**分理处或营业部(如：上海分行杨浦支行控江路分理处),如果您无法确定,建议您致电您的开户银行客服进行询问。 </span>
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">银行账号：</div>
+			<div class="c">
+				<input type="text" name="account" value="{$_U.account_bank_result.account}" /><br />
+<span>特别提醒：上述银行卡号的开户人姓名必须为“<!--{$_U.account_bank_result.realname}-->{$_G.user_info.realname}”, 个人银行账号必须填写正确,否则你的提现资金将存在风险。 如果要修改的话必须要补全, 可以任何时候修改以您的姓名开户的银行卡号。</span>
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				{if $magic.request.id!=""}<input type="hidden" name="id" value="{$magic.request.id}" />{/if}
+				<input type="hidden" name="user_id" value="{$_G.user_id}" />
+				<input type="submit" name="name"  value="确认提交" size="30" class="press_mode" /> 
+			</div>
+		</div>
+		</form>
+		<div class="cle"></div>
+		<div class="user_right_foot">* 温馨提示：{$_G.system.con_webname}禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。</div>
+		{/if}
+</div>

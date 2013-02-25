@@ -1,0 +1,495 @@
+{include file="header.html"}
+
+{if $_G.user_id==""}
+
+	<script>alert("你还没有登录，请先登录再查看");location.href='/index.php?user';</script>
+
+{/if}
+
+{article module="borrow" function="GetInvest" article_id="0" hits="auto"}
+
+
+
+{if $var.user.user_id==""}
+
+<script>alert("您的操作有误");location.href='/index.php?user';</script>
+
+{/if}
+
+
+
+{if $magic.request.detail=="true"}
+
+{if $var.user.user_id==$_G.user_id}
+
+	<script>alert("不能投自己的标");location.href='/invest/a{$var.borrow.borrow_nid}.html';</script>
+
+
+
+{elseif $var.borrow.is_vouch==1 && $var.borrow.account != $var.borrow.vouch_account}
+
+<script>alert("此标为担保标，担保额度还没满");location.href='/invest/a{$var.borrow.borrow_nid}.html';</script>
+
+{elseif $var.borrow.account<=$var.borrow.account_yes}
+
+<script>alert("此标已满标，不能再进行投标");location.href='/invest/a{$var.borrow.borrow_nid}.html';</script>
+
+{elseif $var.borrow.status<=0}
+
+<script>alert("此标正在审核中，或申请失败，不能投标");location.href='/invest/a{$var.borrow.borrow_nid}.html';</script>
+
+{/if}
+
+
+
+<div class="con_box t10">
+
+     <div class="invest_left">
+
+	 <div>
+
+	     <div class="g_320">
+
+        <ul class="b_caption">
+
+          <li><span>确认借款信息</span></li>
+
+          <li class="more"><span></span></li>
+
+        </ul>	
+
+</div>
+
+<div class="list_invest">
+
+    <div class="content" style="height:240px; overflow:hidden">
+
+				<div class="content_left1" style="margin-left:20px;">
+
+					<ul>
+
+					<li><img src="{$var.user.user_id|avatar:"middle"|imgurl_format}" border="0" class="picborder" height="117" width="117"/></li>
+
+					<li>用 户 名：{$var.user.username}</li>
+
+					
+
+					<li>性 &nbsp; 别&nbsp;：{if $var.user.sex==1}男{else}女{/if}</li>
+
+					<li>真实姓名：{$var.user.realname}</li>
+
+					<li>信用积分：<img src="{$_G.system.con_credit_picurl}{ $var.user.credit_pic}" title="{$var.user.credit_jifen}分"  /></li>
+
+					<li>居住城市: {$var.userinfo.area|default:$var.user.area|area}</li>
+
+					</ul>
+
+				</div>
+
+				<div class="content_right1">
+
+				<ul>
+
+					<li>借款标题：<strong><a href="a{$var.borrow.borrow_nid}.html">{$var.borrow.name|truncate:14}</a></strong></li>
+
+					<li>借款金额：<strong><font color="#FF0000">￥{$var.borrow.account}</font></strong></li>
+
+					<li>借款年利率: {$var.borrow.borrow_apr}%</li>
+
+					<li>已经完成：
+
+						
+
+						<span >&nbsp;{$var.borrow.borrow_account_scale}%</span>
+
+					</li>
+
+					<li>还需借款: <font color="#FF0000">￥{$var.borrow.borrow_account_wait}</font></li>
+
+					<li>借款期限: {$var.borrow.borrow_period}个月</li>
+
+					<li>投资奖励: {if $var.borrow.award_status==1}￥{$var.borrow.award_account}{elseif $var.borrow.award_status==2}{$var.borrow.award_scale}%{else}无奖励{/if}</li>
+
+					<li>还款方式: {$var.borrow.borrow_style|linkages:"borrow_style"}</li>
+
+					<li>有效时间: {$var.borrow.borrow_valid_time}天</li>
+
+					<li>交易类型: 在线交易</li>
+
+				  </ul>
+
+				</div>
+
+		</div>
+
+</div>
+
+</div>
+
+  </div>
+
+     <div class="invest_right">
+
+	 <div>
+
+	     <div class="g_320">
+
+        <ul class="b_caption">
+
+          <li><span>确认投标金额</span></li>
+
+          <li class="more"><span></span></li>
+
+        </ul>	
+
+</div>
+
+<div class="list_invest">
+
+  <div class="content" style="height:240px; overflow:hidden">
+
+   <form action="/index.php?user&q=code/borrow/tender" name="form1" onsubmit="return check_form({$var.borrow.lowest_account|default:0},{$var.borrow.most_account|default:0},{$var.user_account.use_money|default:0})" method="post">
+
+				<ul>
+
+					
+
+					<li>您的帐户总额： {$var.user_account.total|default:0} 元 <a href="/index.php?user&q=code/account/recharge_new" target="_blank"><font color="#FF0000">我要充值</font></a> </li>
+
+					<li>您的可用余额： {$var.user_account.use_money|default:0}  元  </li>
+
+					<li><strong><font color="#FF0000">请填写并确认下面投标金额</font></strong></li>
+
+					<li>最多投标总额：<font color="#FF0000">{if $var.borrow.most_account<=0}不限制{else}{$var.borrow.most_account}元{/if}</font> 当前年利率: {$var.borrow.borrow_apr}%</li>
+
+					<li>投标金额：<input type="text" name="money" size="11" onkeyup="value=value.replace(/[^0-9.]/g,'')" tabindex="1"> 
+
+ 元</li>
+
+					<li>支付密码：{if $_G.user_result.paypassword==""}<a href="/index.php?user&q=code/user/paypwd&referurl={$_G.url_now|urlencode}" ><font color="red">请先设一个支付交易密码</font></a>{else}<input type="password" name="paypassword" size="11" tabindex="2"/>{/if}</li>
+
+					
+
+					<li>投资理由：<input type="text" name="contents" size="36" tabindex="3"/> </li>
+
+					<li>验 证&nbsp;码&nbsp;： <input name="valicode" type="text" size="11" maxlength="4"  tabindex="4"/>&nbsp;<img src="/plugins/index.php?q=imgcode" alt="点击刷新" onClick="this.src='/plugins/index.php?q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" /> </li>
+
+					<li style="margin-top:8px;"><input type="hidden" name="borrow_nid" value="{$_G.article_id}" /><input type="image" src="{$tempdir}/images/button_invest.gif"  align="absmiddle" tabindex="5"/> 注意：点击按钮表示您将确认投标金额并同意支付贷款</li>
+
+					</ul>
+
+				</form>
+
+  </div>
+
+</div>
+
+</div>
+
+  </div>
+
+     <div style="clear:both"></div>
+
+</div>
+
+
+
+{literal}
+
+<script>
+
+	function check_form(lowest,most,use_money){
+
+		 var frm = document.forms['form1'];
+
+		 var account = frm.elements['money'].value;
+
+		 var valicode = frm.elements['valicode'].value;
+
+		 if (account==""){
+
+		 	alert("投标金额不能为空");
+
+			return false;
+
+		 }else if (account>use_money ){
+
+		 	alert("您的可用余额小于您的投标额，要投标请先充值。");
+
+			return false;
+
+		}else if (account>most && most>0){
+
+		 	alert("投标金额不能大于最大限额"+most+"元");
+
+			return false;
+
+		 }else if(account<lowest && lowest>0){
+
+			 alert("投标金额不能低于最小限额"+lowest+"元");
+
+			return false;
+
+		 }
+
+		  if (valicode==""){
+
+		 	alert("验证码不能为空");
+
+			return false;
+
+		 }
+
+		if(confirm('确定要投标'+account+'元，确定了将不能取消')){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+		 
+
+	}
+
+</script>
+
+{/literal}
+
+
+
+{elseif $magic.request.detail=="vouch"}
+
+{if $var.user.user_id==$_G.user_id}
+
+	<script>alert("不能担保自己的标");location.href='/invest/a{$var.borrow.borrow_nid}.html';</script>
+
+
+
+{elseif $var.borrow.account<=$var.borrow.account_yes}
+
+<script>alert("此标已满标，不能再进行投标");location.href='/invest/a{$var.borrow.borrow_nid}.html';</script>
+
+{elseif $var.borrow.status<=0}
+
+<script>alert("此标正在审核中，或申请失败，不能投标");location.href='/invest/a{$var.borrow.borrow_nid}.html';</script>
+
+{/if}
+
+
+
+
+
+<div class="con_box t10">
+
+     <div class="invest_left">
+
+	 <div>
+
+	     <div class="g_320">
+
+        <ul class="b_caption">
+
+          <li><span>确认借款信息</span></li>
+
+          <li class="more"><span></span></li>
+
+        </ul>	
+
+</div>
+
+<div class="list_invest">
+
+    <div class="content">
+
+	
+
+	<div class="content_left">
+
+					<ul>
+
+					<li><img src="{$var.user.user_id|avatar|imgurl_format}" border="0" class="picborder"/></li>
+
+					<li>用 户 名：{$var.user.username}</li>
+
+					<li>真实姓名：{$var.user.realname}</li>
+
+					<li>信用积分：<img src="{$_G.system.con_credit_picurl}{ $var.user.credit_pic}" title="{$var.user.credit_jifen}分"  /></li>
+
+					<li>居住城市: {$var.userinfo.area|default:$var.user.area|area}</li>
+
+					
+
+					</ul>
+
+				</div>
+
+				<div class="content_right">
+
+				<ul>
+
+					<li>借款标题：<strong><a href="a{$var.borrow.borrow_nid}.html">{$var.borrow.name}</a></strong></li>
+
+					<li>借款担保金额：<strong><font color="#FF0000">￥{$var.borrow.vouch_account}</font></strong></li>
+
+					<li>借款年利率: {$var.borrow.borrow_apr}%</li>
+
+					<li>担保完成：
+
+						
+
+						<span >&nbsp;{$var.borrow.vouch_account_scale}%</span>
+
+					</li>
+
+					<li>还需担保: <font color="#FF0000">￥{$var.borrow.vouch_account_wait}</font></li>
+
+					<li>借款期限: {$var.borrow.borrow_period}个月</li>
+
+					<li>还款方式: {$var.borrow.borrow_style|linkages:"borrow_style"}</li>
+
+					<li>交易类型: 在线交易</li>
+
+				  </ul>
+
+				</div>
+
+				
+
+		</div>
+
+</div>
+
+</div>
+
+  </div>
+
+     <div class="invest_right">
+
+	 <div>
+
+	     <div class="g_320">
+
+        <ul class="b_caption">
+
+          <li><span>确认担保的金额</span></li>
+
+          <li class="more"><span></span></li>
+
+        </ul>	
+
+</div>
+
+<div class="list_invest">
+
+  <div class="content">
+
+   <form action="/index.php?user&q=code/borrow/vouch" name="form1" onsubmit="return check_form(500,{$var.amount.tender_vouch|default:0},{$var.amount.tender_vouch_use|default:0})" method="post">
+
+				<ul>
+
+					
+
+					<li>您的担保总额： {$var.amount.tender_vouch|default:0} 元 <a href="/index.php?user&q=code/borrow/limitapp&type=tender_vouch" target="_blank"><font color="#FF0000">我要申请</font></a> </li>
+
+					<li>您的可用担保余额： {$var.amount.tender_vouch_use|default:0}  元  </li>
+
+					<li><strong><font color="#FF0000">请填写并确认下面担保金额</font></strong></li>
+
+					<li>担保额度：<input type="text" name="money" size="11" onkeyup="value=value.replace(/[^0-9]/g,'')" tabindex="1" /> 元</li>
+
+					<li>支付密码：{if $_G.user_result.paypassword==""}<a href="/index.php?user&q=code/user/paypwd" target="_blank"><font color="red">请先设一个支付交易密码</font></a>{else}<input type="password" name="paypassword" size="11" tabindex="2" //>{/if}</li>
+
+					<li>验 证 码&nbsp;&nbsp;：<input name="valicode" type="text" size="11" maxlength="4"  tabindex="3"/>&nbsp;<img src="/plugins/index.php?q=imgcode" alt="点击刷新" onClick="this.src='/plugins/index.php?q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" /> </li>
+
+					<li>担保理由：<input type="text" name="contents" size="36" tabindex="4" //> </li>
+
+					<li><input type="hidden" name="borrow_nid" value="{$_G.article_id}" /><input type="image" src="{$tempdir}/images/button_vouch.gif"  align="absmiddle" /> 注意：点击按钮表示您奖确认担保金额，并同意担保</li>
+
+					</ul>
+
+				</form>
+
+  </div>
+
+</div>
+
+</div>
+
+  </div>
+
+     <div style="clear:both"></div>
+
+</div>
+
+{literal}
+
+<script>
+
+	function check_form(lowest,most,use_money){
+
+		 var frm = document.forms['form1'];
+
+		 var account = frm.elements['money'].value;
+
+		 var valicode = frm.elements['valicode'].value;
+
+		 if (account==""){
+
+		 	alert("担保金额不能为空");
+
+			return false;
+
+		 }else if (account>use_money ){
+
+		 	alert("您的可用担保余额小于您的担保额，请先申请。");
+
+			return false;
+
+		 }
+
+		 if (valicode==""){
+
+		 	alert("验证码不能为空");
+
+			return false;
+
+		 }
+
+		if(confirm('确定要担保'+account+'元，确定了将不能取消')){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+		 
+
+	}
+
+</script>
+
+{/literal}
+
+
+
+{else}
+
+
+
+{include file="detail.html"}
+
+
+
+
+
+{/if}
+
+{/article}
+
+{include file="footer.html"}

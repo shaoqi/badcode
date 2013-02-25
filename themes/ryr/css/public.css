@@ -1,0 +1,236 @@
+
+/* 分页样式 */
+.pages {margin: 20px auto 0px;padding: 10px 0 5px;text-align: center;width: 550px; font-family:Arial, Helvetica, sans-serif; }
+.pages span {font-size: 14px; margin: 0 3px;padding: 5px 8px;text-decoration: none;font-weight:bold}
+.pages a {background: none repeat scroll 0 0 #FFFFFF;border: 1px solid #D6D6D6;font-size: 12px;margin: 0 3px;padding: 4px 7px; font-size:14px;}
+.pages a:hover {background: none repeat scroll 0 0 #ff7e00;color: #FFFFFF; text-decoration: none;  }
+.pages em{ font-family:"宋体"; font-style:normal; font-weight:bold; font-size:12px ; color:#000000;}
+.jiangli{
+float:left;background-image: url(../images/jiang.png);width:36px; height:17px;padding-left:21px;font-size:12px;font-family:黑体;font-weight:bold;color:#FFFFFF;background-color:#FF6000;
+}
+.g-topnav {
+    background: none repeat scroll 0 0 #F5F5F5;
+    border-bottom: 1px solid #D0D0D0;
+    color: #C6C6C6;
+    font-family: SimSun;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1987;
+}
+.g-topnav .g-grid {
+    height: 27px;
+    position: relative;
+}
+.g-grid {
+    margin: 0 auto;
+    position: relative;
+    width: 980px;
+}
+.g-grid:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+.g-fix:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+.top-links, .top-menu {
+    padding-top: 5px;
+}
+.top-links a, .top-menu a {
+    padding: 0 8px;
+}
+.top-links {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    width: 65%;
+}
+.top-links a.last {
+    padding-right: 0;
+}
+.top-menu li {
+    float: left;
+    position: relative;
+}
+.top-menu .menu-hd {
+    border: 1px solid #F5F5F5;
+    float: left;
+    margin-top: -1px;
+    padding-right: 24px;
+}
+.top-menu .menu-hd:hover {
+    text-decoration: none !important;
+}
+.top-menu .menu-bd {
+    background-color: #FFFFFF;
+    border: 1px solid #D6D6D6;
+    position: absolute;
+    right: 4px;
+    top: 15px;
+    z-index: 998;
+}
+.top-menu .menu-bd a {
+    display: block;
+    padding: 4px 0 4px 6px;
+}
+.top-menu .menu-bd a:hover {
+    background-color: #F5F5F5;
+    text-decoration: none;
+}
+.top-menu .weibo {
+    background: url("../images/weibo.png") no-repeat scroll 8px center transparent;
+    padding-left: 22px;
+}
+.top-menu .toolbox .menu-bd {
+    width: 72px;
+}
+.top-menu .toolbox .menu-bd a {
+    width: 66px;
+}
+.top-menu i.arrow {
+    border-color: #666666 #F5F5F5 #F5F5F5;
+    border-style: solid;
+    border-width: 4px;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    position: absolute;
+    right: 12px;
+    top: 7px;
+    width: 0;
+}
+.top-menu .hover .menu-hd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #FFFFFF;
+    border-color: #D6D6D6 #D6D6D6 -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    left: -4px;
+    padding-left: 12px;
+    padding-top: 2px;
+    position: relative;
+    top: -2px;
+    z-index: 999;
+}
+.top-menu .hover .menu-bd {
+    display: block;
+}
+.top-menu .hover i.arrow {
+    border-color: #FFFFFF #FFFFFF #666666;
+    top: 5px;
+}
+  #facebox {
+ 
+    /* overlay is hidden before loading */
+    display:none;
+ 
+    /* standard decorations */
+    width:400px;
+    border:10px solid #666;
+ 
+    /* for modern browsers use semi-transparent color on the border. nice! */
+    border:10px solid rgba(82, 82, 82, 0.698);
+ 
+    /* hot CSS3 features for mozilla and webkit-based browsers (rounded borders) */
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+  }
+ 
+  #facebox #do-login {
+    padding:10px;
+    border:1px solid #F15A00;
+    background-color:#fff;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif
+  }
+ 
+  #facebox h2 {
+    margin:-11px;
+    margin-bottom:0px;
+    color:#fff;
+    background:linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+    padding:5px 10px;
+    border:1px solid #F15A00;
+    font-size:20px;
+  }
+
+  #facebox .ui-form-label {
+    color: #333333;
+    display: inline-block;
+    text-align: right;
+}
+#facebox .ui-form-line {
+    height: 28px;
+    line-height: 28px;
+    margin-top: 12px;
+    position: relative;
+}
+#facebox .ui-form-line .ui-tip {
+    padding-bottom: 1px;
+}
+#facebox .ui-form-input {
+    border: 1px solid #B6C4CD;
+    border-radius: 2px 2px 2px 2px;
+    height: 24px;
+    line-height: 24px;
+    padding: 1px 3px;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+#facebox .ui-form-input:focus {
+    border: 1px solid #4BA1F0;
+    box-shadow: 1px 1px 3px rgba(20, 20, 20, 0.2) inset;
+    outline: medium none;
+}
+#facebox .ui-form-action {
+    height: 38px;
+    margin-top: 20px;
+}
+.ui-button {
+    border: 1px solid transparent;
+    border-radius: 2px 2px 2px 2px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Simsun;
+    font-size: 14px;
+    font-weight: 700;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    width: 98px;
+}
+.ui-button:hover {
+    text-decoration: none;
+}
+.ui-button-orange {
+    background: linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+    border-color: #F15A00;
+    color: #FFFFFF !important;
+}
+.ui-button-orange:hover {
+    background: linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+    border-color: #DE3300;
+}
+.ui-button-blue {
+    background: linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+    border-color: #2D7AAC;
+}
+.ui-button-blue:hover {
+    background: linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+    border-color: #1971AA;
+}

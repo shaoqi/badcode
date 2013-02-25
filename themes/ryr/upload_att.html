@@ -1,0 +1,109 @@
+{include file="header.html"}
+{articles module="attestations" function="GetAttestationsUserCredit" user_id=$_G.user_id var="user_att"}
+<div class="conbox t10">
+     <div class="d_con">
+		  <div class="title"><h2><img src="{$tempdir}/images/icon5.gif" align="absmiddle" />&nbsp;&nbsp;上传材料</h2></div>
+		  <div style="padding:40px">
+		       <div style="text-align:center">
+			        <img src="{$tempdir}/images/step22.gif" />
+			   </div>
+		    <div class="t20"></div>
+			   
+			   <div class="t20">
+			        <div style="width:780px; margin:0px auto">
+					        <div class="warning1">
+							<span style="color:#FF0000">温馨提示：</span>昆明贷对于用户上传的所有信息，都将进行加密处理。您可以在此放心上传个人材料，您的个人信用将不会被以任何形式外泄。<br>上传图片格式要求为.jpg或.gif,大小为500K以内。<br>
+	
+							</div>
+							<div class="t20">
+							<div class="sm_tit">必要信用认证(以下四项必要村料均需上传并认证通过，缺失其中一项均无法发起借款。)
+	</div>
+							<div class="xy_list">
+							     <ul>
+									 <li>
+									 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody><tr>
+    <td width="23%"><img src="{$tempdir}/images/ic2.gif" width="46" height="46"></td>
+    <td width="77%">
+	    <b style="font-size:14px">工作认证({if $user_att.work.status==""}<font color="#ff0000">待上传</font>{elseif $user_att.work.status==0}<font color="#ff0000">待审核</font>{elseif $user_att.work.num>0}审核通过{elseif $user_att.work.status==2}<font color="#ff0000">未通过，请重新上传</font>{/if})</b>
+        <a href="javascript:void(0);" onClick="tipsWindown('工作认证','url:get?/addatt/index.html?nid=work','600','320','true','','true','text');"><img src="{$tempdir}/images/upload.gif" width="74" height="22" border="0"></a></td>
+  </tr>
+</tbody></table>
+									 </li>
+									 <li>
+									 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody><tr>
+    <td width="23%"><img src="{$tempdir}/images/ic3.gif" width="46" height="46"></td>
+    <td width="77%">
+	    <b style="font-size:14px">收入证明({if $user_att.income.status==""}<font color="#ff0000">待上传</font>{elseif $user_att.income.status==0}<font color="#ff0000">待审核</font>{elseif $user_att.income.num>0}审核通过{elseif $user_att.income.status==2}<font color="#ff0000">未通过，请重新上传</font>{/if})</b>
+        <a href="javascript:void(0);" onClick="tipsWindown('收入证明','url:get?/addatt/index.html?nid=income','600','320','true','','true','text');"><img src="{$tempdir}/images/upload.gif" width="74" height="22" border="0"></a> </td>
+  </tr>
+</tbody></table>
+									 </li>
+									 <li>
+									 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody><tr>
+    <td width="22%"><img src="{$tempdir}/images/ic4.gif" width="46" height="46"></td>
+    <td width="78%">
+	    <b style="font-size:14px">工资卡流水({if $user_att.gongzi.status==""}<font color="#ff0000">待上传</font>{elseif $user_att.gongzi.status==0}<font color="#ff0000">待审核</font>{elseif $user_att.gongzi.num>0}审核通过{elseif $user_att.gongzi.status==2}<font color="#ff0000">未通过，请重新上传</font>{/if})</b>
+        <a href="javascript:void(0);" onClick="tipsWindown('工资卡流水','url:get?/addatt/index.html?nid=gongzi','600','320','true','','true','text');"><img src="{$tempdir}/images/upload.gif" width="74" height="22" border="0"></a> </td>
+  </tr>
+</tbody></table>
+									 </li>
+									 <li>
+									 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody><tr>
+    <td width="23%"><img src="{$tempdir}/images/ic5.gif" width="46" height="46"></td>
+    <td width="77%">
+	    <b style="font-size:14px">信用报告({if $user_att.xinyong.status==""}<font color="#ff0000">待上传</font>{elseif $user_att.xinyong.status==0}<font color="#ff0000">待审核</font>{elseif $user_att.xinyong.num>0}审核通过{elseif $user_att.xinyong.status==2}<font color="#ff0000">未通过，请重新上传</font>{/if})</b>
+        <a href="javascript:void(0);" onClick="tipsWindown('信用报告','url:get?/addatt/index.html?nid=xinyong','600','320','true','','true','text');"><img src="{$tempdir}/images/upload.gif" width="74" height="22" border="0"></a> </td>
+  </tr>
+</tbody></table>
+									 </li>
+								 </ul>
+								 <div class="cle"></div>
+							</div>
+							</div>
+							
+							<div class="t20" id="kexuan">
+							<div class="sm_tit">可选信用认证(
+	你可选择上传以下认证项目，通过可选认证，将会提高您的信用等级和借款额度。)</div>
+							<div class="rz_list">
+							     <ul>
+								     <li>·<a href="javascript:void(0);" onClick="tipsWindown('户口认证','url:get?/addatt/index.html?nid=hukou','600','320','true','','true','text');">户口认证</a>({if $user_att.hukou.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.hukou.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.hukou.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.hukou.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('毕业证','url:get?/addatt/index.html?nid=biye','600','320','true','','true','text');">毕业证</a>({if $user_att.biye.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.biye.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.biye.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.biye.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('社保卡','url:get?/addatt/index.html?nid=shebao','600','320','true','','true','text');">社保卡</a>({if $user_att.shebao.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.shebao.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.shebao.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.shebao.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('房产证','url:get?/addatt/index.html?nid=fangchan','600','320','true','','true','text');">房产证</a>({if $user_att.fangchan.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.fangchan.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.fangchan.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.fangchan.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('行车证','url:get?/addatt/index.html?nid=xingche','600','320','true','','true','text');">行车证</a>({if $user_att.xingche.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.xingche.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.xingche.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.xingche.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('驾驶证','url:get?/addatt/index.html?nid=jiashi','600','320','true','','true','text');">驾驶证</a>({if $user_att.jiashi.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.jiashi.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.jiashi.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.jiashi.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('信用卡','url:get?/addatt/index.html?nid=xinyongka','600','320','true','','true','text');">信用卡</a>({if $user_att.xinyongka.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.xinyongka.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.xinyongka.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.xinyongka.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('其它资产证明','url:get?/addatt/index.html?nid=otherzc','600','320','true','','true','text');">其它资产证明</a>({if $user_att.otherzc.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.otherzc.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.otherzc.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.otherzc.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('现场认证','url:get?/addatt/index.html?nid=xianchang','600','320','true','','true','text');">现场认证</a>({if $user_att.xianchang.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.xianchang.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.xianchang.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.xianchang.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('家属身份证','url:get?/addatt/index.html?nid=jiashu','600','320','true','','true','text');">家属身份证</a>({if $user_att.jiashu.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.jiashu.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.jiashu.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.jiashu.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('住址证明','url:get?/addatt/index.html?nid=zhuzhi','600','320','true','','true','text');">住址证明</a>({if $user_att.zhuzhi.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.zhuzhi.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.zhuzhi.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.zhuzhi.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('手机话单','url:get?/addatt/index.html?nid=huadian','600','320','true','','true','text');">手机话单</a>({if $user_att.huadian.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.huadian.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.huadian.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.huadian.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('结婚证','url:get?/addatt/index.html?nid=marry','600','320','true','','true','text');">结婚证</a>({if $user_att.marry.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.marry.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.marry.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.marry.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('股权证','url:get?/addatt/index.html?nid=guquan','600','320','true','','true','text');">股权证</a>({if $user_att.guquan.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.guquan.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.guquan.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.guquan.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('商铺照片','url:get?/addatt/index.html?nid=photo','600','320','true','','true','text');">商铺照片</a>({if $user_att.photo.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.photo.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.photo.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.photo.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('本税副本','url:get?/addatt/index.html?nid=fuben','600','320','true','','true','text');">本税副本</a>({if $user_att.fuben.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.fuben.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.fuben.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.fuben.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('营业执照','url:get?/addatt/index.html?nid=zhizhao','600','320','true','','true','text');">营业执照</a>({if $user_att.zhizhao.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.zhizhao.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.zhizhao.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.zhizhao.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('国税副本','url:get?/addatt/index.html?nid=guosui','600','320','true','','true','text');">国税副本</a>({if $user_att.guosui.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.guosui.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.guosui.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.guosui.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+									 
+									 <li>·<a href="javascript:void(0);" onClick="tipsWindown('其他有价值的认证','url:get?/addatt/index.html?nid=other','600','320','true','','true','text');">其他有价值的认证</a>({if $user_att.other.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.other.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.other.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.other.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})</li>
+								 </ul>
+								 <div class="cle"></div>
+								 <div style="padding:10px 0 0 10px; font-family:宋体">
+								 ·<a href="javascript:void(0);" style="font-weight:bold; color:#ff0000" onClick="tipsWindown('抵押物','url:get?/addatt/index.html?nid=dywzp','600','320','true','','true','text');">质/抵押认证
+</a>({if $user_att.dywzp.status==""}<img src="{$tempdir}/images/tick3.gif" title="待完成">{elseif $user_att.dywzp.status==0}<img src="{$tempdir}/images/Tick2.gif" title="待审核">{elseif $user_att.dywzp.num>0}<img src="{$tempdir}/images/Tick.gif" title="已通过">{elseif $user_att.dywzp.status==2}<img src="{$tempdir}/images/Tick1.gif" title="未通过">{/if})（您选择质/抵押标请先上传图片，稍后好贷517客服会及时和您联系）
+								 </div>
+							</div>
+							</div>
+							
+							<div class="t20">注意：如果文件较大或数量较多，<!--<a href="/amount_finish/index.html" color="#0000ff"></a>-->您可以通过邮件发送到好贷517客服。</div>
+					   </div>
+			   </div>
+		  </div>
+	 </div>
+</div>
+{/articles}
+{include file="footer.html"}

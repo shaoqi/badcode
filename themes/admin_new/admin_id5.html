@@ -1,0 +1,79 @@
+
+<div class="module_add">
+<form action="" method="post"  enctype="multipart/form-data" >
+	<div class="module_title"><strong>ID5认证设置</strong></div>
+	
+	<div class="module_border">
+	<div class="d">是否开启id5：</div>
+		<div class="c">
+			{input type="radio" name="con_id5_status" value="0|否,1|是"  checked="$_G.system.con_id5_status}
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="d">ID5用户名：</div>
+		<div class="c">
+			<input type="text" name="con_id5_username" value="{$_G.system.con_id5_username}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+	<div class="d">ID5密码：</div>
+		<div class="c">
+			<input type="text" name="con_id5_password" value="{$_G.system.con_id5_password}"/>
+		</div>
+	</div>
+	
+	<div class="module_title"><strong>ID5实名认证设置</strong></div>
+	
+	<div class="module_border">
+	<div class="d">是否开启ID5实名认证：</div>
+		<div class="c">
+			{input type="radio" name="con_id5_realname_status" value="0|否,1|是"  checked="$_G.system.con_id5_realname_status}
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="d">实名认证费用：</div>
+		<div class="c">
+			<input type="text" name="con_id5_realname_fee" value="{$_G.system.con_id5_realname_fee}"/>
+		</div>
+	</div>
+	
+	
+	<div class="module_border">
+		<div class="d">实名认证前几次免费：</div>
+		<div class="c">
+			<input type="text" name="con_id5_realname_times" value="{$_G.system.con_id5_realname_times}"/>次 
+		</div>
+	</div>
+	
+	
+	<div class="module_title"><strong>ID5学历认证设置</strong></div>
+	
+	<div class="module_border">
+	<div class="d">是否开启ID5学历认证：</div>
+		<div class="c">
+			{input type="radio" name="con_id5_edu_status" value="0|否,1|是"  checked="$_G.system.con_id5_edu_status}
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="d">学历认证费用：</div>
+		<div class="c">
+			<input type="text" name="con_id5_edu_fee" value="{$_G.system.con_id5_edu_fee}"/>
+		</div>
+	</div>
+	
+	
+	<div class="module_border">
+		<div class="d">学历认证前几次免费：</div>
+		<div class="c">
+			<input type="text" name="con_id5_edu_times" value="{$_G.system.con_id5_edu_times}"/>次 
+		</div>
+	</div>
+	
+	<div class="module_submit"><input type="submit" value="{$MsgInfo.admin_name_submit}"  class="submit_button" /></div>
+		</form>
+	</div>
+</div>

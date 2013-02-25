@@ -1,0 +1,30 @@
+{include file="admin_head.html"}
+<div class="module_add">
+	<div class="module_title"><strong>系统信息</strong></div>
+	<div class="module_border"  style="text-align:center;">
+		<br />
+			<strong>{ $_A.showmsg.msg }</strong> <br /><br />
+	
+	<div class="module_border" style="text-align:center" id="msg_content">
+			<a href="{ $_A.showmsg.url }">{$_A.showmsg.content}</a><br /><br />
+	</div>
+</div>
+</div>
+<script> 
+var url = '{ $_A.showmsg.url }';
+var content = '{ $_A.showmsg.content }';
+{literal}
+if (url == ""){
+	document.getElementById('msg_content').innerHTML = "<a href='javascript:history.go(-1)'>"+content+"</a>";
+}else{
+	document.getElementById('msg_content').innerHTML = "<a href='"+url+"'>"+content+"</a>";
+}
+setInterval("testTime()",5000); 
+function testTime() { 
+		if (url == ""){
+			history.go(-1);
+		}else{
+        location.href = url; //#设定跳转的链接地址
+		}
+} 
+</script>{/literal}

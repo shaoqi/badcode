@@ -1,0 +1,28 @@
+{include file="header.html"}
+<div class="conbox t10">
+     <div class="weizhi">您的位置：<a href="http://jsd.dyp2p.net/">{$_G.system.con_webname}</a> > <a href="/{$_G.site_result.nid}/index.html">{$_G.site_result.name}</a> >  列表</div>
+</div>
+
+<div class="conbox t20">
+ {include file="articles_list_left.html"}    
+ <div class="help_right1">
+		       <div class="main_box1">
+			     <div class="title_bor"><h1>{$_G.site_result.name}列表</h1></div>
+		         <div class="us_r_bor2">
+				      <div class="notice_list">
+ {list module="articles" function="GetList" var="loop"  site_id="this" }
+  <ul>
+ {foreach from="$loop.list" item="var"}
+    <li><h1>·<a href="/{$_G.site_result.nid}/a{$var.id}.html">{$var.name}</a></h1><span>{$var.addtime|date_format:"Y-m-d H:i:s"}</span></li>
+    {/foreach}
+  </ul>
+			<div class="pages">{$loop.pages|showpage:"3,dy"}</div>
+			  </div>
+	        </div>
+		  </div>
+	  </div>
+  {/list}
+		  
+		  <div class="cle"></div>
+</div>
+{include file="footer.html"}

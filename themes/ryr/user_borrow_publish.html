@@ -1,0 +1,51 @@
+<!--正在招标 开始-->
+		<div class="t20">
+		<div>
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/publish')" />
+		</div>
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<form action="" method="post">
+			<tr class="ytit">
+				<td colspan="11">正在招标的借款</td>
+			</tr>
+			<tr class="ytit1" >
+				<td  >标题</td>
+				<td  >类型</td>
+				<td  >还款方式</td>
+				<td  >金额(元)</td>
+				<td  >年利率</td>
+				<td  >期限</td>
+				<td  >发布时间</td>
+				<td  >进度</td>
+				<td  >状态</td>
+				<td  >操作</td>
+			</tr>
+			{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" status="0,1,2,4,5,6" }
+			{foreach from="$loop.list" item="item"}
+			<tr {if $key%2==1} class="ynow"{/if} >
+				<td ><a href="/invest/a{$item.borrow_nid}.html" title="{$item.name}" target="_blank">{$item.name|truncate:8}</a></td>
+				<!--<td  >{if $item.vouch_status==1}担保标{elseif $item.fast_status==1}快借标{else}普通标{/if}</td>-->
+				<td  >{$item.borrow_type|linkages:"borrow_all_type"}</td>
+				<td  >{$item.borrow_style|linkages:"borrow_style"}</td>
+				<td  >{$item.account}元</td>
+				<td  >{$item.borrow_apr} %</td>
+				{if $item.borrow_type==4}
+				<td  >{$item.borrow_day}天</td>
+				{else}
+				<td  >{$item.borrow_period} 个月</td>
+				{/if}
+				<td  >{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+				<td  >{$item.borrow_account_scale}%</td>
+				<td  >{if $item.status==0}发布审批中{elseif $item.status==1}{if $item.borrow_account_scale==100}满标审核中{else}正在募集{/if}{elseif $item.status==2}审核失败{elseif $item.status==3}已满标{elseif $item.status==4}满标审核失败{elseif $item.status==5}撤回{/if}</td>
+				<td  >{if $item.status==0 && $item.status!=3 }<a href="#" onclick="javascript:if(confirm('确定要撤回此招标')) location.href='{$_U.query_url}/cancel&borrow_nid={$item.borrow_nid}'">撤回</a>{else}-{/if}</td>
+			</tr>
+			{/foreach}
+			</form>
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		{/list}
+		

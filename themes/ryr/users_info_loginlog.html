@@ -1,0 +1,33 @@
+
+		<div class="user_main_title1" >这里是您的登录记录。</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			{list module="users" function="GetLoginLog" user_id="$_G.user_id" showpage="3" epage="15" var="loop"}
+			<tr class="ytit1" >
+
+				<td  >登录时间</td>
+
+				<td  >登录IP</td>
+
+				<td  >IP所在地</td>
+
+				<td  >登录状态</td>
+
+			</tr>
+			{foreach from="$loop.list" item="item"}
+			<tr {if $key%2==1} class="ynow"{/if} >
+
+				<td>{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+
+				<td>{$item.addip}</td>
+
+				<td>{$item.addip|iparea}</td>
+
+				<td>{if $item.result==1}成功{else}失败{/if}</td>
+				
+			</tr>
+			{/foreach}
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		{/list}

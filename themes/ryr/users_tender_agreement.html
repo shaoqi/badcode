@@ -1,0 +1,81 @@
+<div class="user_right">
+<div class="main_box">
+<div class="us_cen1"><h1>合同备份</h1> </div>
+ <div  style="padding:10px 20px 30px 20px">
+    <div class="remind t20"><span> 尊敬的融易融用户，您可以在本页查询和下载您在融易融的合同</span>
+    </div>
+	<div class="t30">
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tabyel1">
+  <tr>
+    <td colspan="7">查询我的合同：</td>
+  </tr>
+  <tr>
+    <td width="10%" align="right">快捷日期：</td>
+    <td colspan="6">
+	<a href="/?user&q=code/borrow/tender&p=agreement&dodate=oneweek">过去一周</a>
+	<a href="/?user&q=code/borrow/tender&p=agreement&dodate=twoweek">过去两周</a>
+	<a href="/?user&q=code/borrow/tender&p=agreement&dodate=onemonth">过去一个月</a></td>
+    </tr>
+  
+   <tr>
+     <td width="35" align="right">自定义日期：</td>
+     <td width="5%" align="right">从：</td>
+     <td width="16%" align="right"><input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/></td>
+     <td width="7%" align="center"></td>
+     <td width="6%" align="center">至</td>
+     <td width="16%" align="right"><input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/></td>
+     <td width="12%" align="right">
+	 <input type="image" src="{$tpldir}/images/us_tijiao.gif" type="submit" onclick="sousuo('{$_U.query_url}/tender&p=agreement')" width="81" height="31" />	 
+	 </td>
+     <td width="10%" align="right">&nbsp;</td>
+   </tr>
+   <tr>
+     <td height="31" align="right">&nbsp;</td>
+     <td width="5%" align="right">&nbsp;</td>
+     <td colspan="5" align="left">温馨提示：自定义日期的时间跨度不得超过一个月，如果要查看一个月之前的合同，请自定义日期，如&ldquo;2012-01-01&rdquo;至&ldquo;2012-01-31&rdquo;并选择&ldquo;提交&rdquo;后下载合同。 </td>
+     </tr>
+      <tr>
+        <td height="31" align="right">&nbsp;</td>
+        <td width="5%" align="right">&nbsp;</td>
+        <td colspan="5" align="left">合同为PDF格式文档，推荐使用 <a href="#" target="_blank">Adobe Reader</a> 或 <a href="#">Foxit Reader</a> 查看。</td>
+      </tr>
+  </table>
+</div>
+                 
+                 <div class="t10">
+					     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+  <tr>
+    <td colspan="7" style="text-align:left">&nbsp;&nbsp;您目前待收的本息总额是：<font class="red">￥{$_U.borrow_wait.recover_wait_account|default:"0.00"}</font>，共<font class="red">{$_U.borrow_wait.tender_success_num|default:"0"}</font>笔投资。</td>
+  </tr>
+  <tr class="ytit1">
+    <td width="13%">借款标号</td>
+    <td width="13%">借入人</td>
+    <td width="13%">投资日期</td>
+    <td width="11%">我的投资金额</td>
+    <td width="9%">年化利率</td>
+    <td width="21%">本期/总期数(还款期)</td>
+    <td width="20%">合同</td>
+    </tr>
+  {list module="borrow" var="loop" plugins="tender" function ="GetTenderList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" dodate="request" }
+  {foreach from="$loop.list" item="item"}
+   <tr>
+     <td>{$item.borrow_nid}</td>
+     <td><!-- <a href="/u/{$item.user_id}" target="_blank"> -->{$item.borrow_username}</td>
+     <td>{$item.addtime|date_format:"Y-m-d"}</td>
+     <td>{$item.account_tender}</td>
+     <td>{$item.borrow_apr}</td>
+     <td>{$item.borrow_period}/{$item.borrow_period}({$item.recover_times})</td>
+     <td><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议</a>
+	 /<a href="/?user&q=code/borrow/downpdf&nid={$item.borrow_nid}" >下载</a></td>
+   </tr>
+   {/foreach}
+   {/list}
+  </table>
+ </div>
+           <!--  <div class="t40" style="text-align:center"><img src="{$tpldir}/images/us_down_con.gif" width="220" height="40" /></div> -->
+ </div>
+ 
+     
+     <div class="cle"></div>
+	 </div>
+  </div>

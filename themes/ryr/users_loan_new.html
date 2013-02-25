@@ -1,0 +1,287 @@
+{include file='header.html'}
+<script src="/plugins/dyeditor/dyeditor.js" type="text/javascript"></script>
+<script src="/plugins/dyeditor/lang/cn.js" type="text/javascript"></script>
+<div class="conbox t20">
+		<div>
+		<div class="con_bor">
+		<div class="pos_bor">
+			<span>你的位置><a href="/">{$_G.system.con_webname}</a> ><a href="/borrow/index.html">我要借款</a>>{$_U.borrow_type_result.name}</span>
+		</div>
+		<div class="t40">
+			<div style="text-align:center"></div> 
+		</div>
+          <div style="padding:0px 10px">
+	   <div class="warning1">	  
+		<b>我的信用积分：<span style="font-size:14px; color:#FF0000">{$_G.user_credit.credit_total}（{$_G.user_credit.credit_total|credit:"borrow"}）</span></b>通过上传真实信用认证资料，可提高您的信用等级和额度，&nbsp;
+
+		{if $_U.borrow_type_result.amount_type=="credit" }
+			<b>我的信用额度： <span style="font-size:14px; color:#FF0000">{$_U.users_amount_result.credit}</span> ( 可用信用额度：{$_U.users_amount_result.credit_use}。)<a href="/?user&q=code/borrow/amount&type=credit">【申请额度】</a>
+			<input type="hidden"  id="amount_use" value="{$user_amount.borrow_use}" />
+			</span></b>
+		{elseif $_U.borrow_type_result.amount_type=="vouch" }
+			<b>我的担保额度： <span style="font-size:14px; color:#FF0000">{$_U.users_amount_result.vouch}</span> ( 可用担保额度：{$_U.users_amount_result.vouch_use}。)<a href="/?user&q=code/borrow/amount&type=vouch">【申请额度】</a>
+			<input type="hidden"  id="amount_use" value="{$user_amount.borrow_use}" />
+			</span></b>
+   
+		{elseif $_U.borrow_type_result.amount_type=="pawn" }
+			<b>我的抵押额度： <span style="font-size:14px; color:#FF0000">{$_U.users_amount_result.pawn}</span> ( 可用抵押额度：{$_U.users_amount_result.pawn_use}。)<a href="/?user&q=code/borrow/amount&type=pawn">【申请额度】</a>
+			<input type="hidden"  id="amount_use" value="{$user_amount.borrow_use}" />
+			</span></b>
+   
+		{elseif $_U.borrow_type_result.amount_type=="vest" }
+			<b>我的授信额度： <span style="font-size:14px; color:#FF0000">{$_U.users_amount_result.vest}</span> ( 可用授信额度：{$_U.users_amount_result.vest_use}。)<a href="/?user&q=code/borrow/amount&type=vest">【申请额度】</a>
+			<input type="hidden"  id="amount_use" value="{$user_amount.borrow_use}" />
+			</span></b>
+   
+		{elseif $_U.borrow_type_result.amount_type=="worth" }
+			<b>
+				我的净值额度： <span style="font-size:14px; color:#FF0000">{$_U.users_amount_result.worth}</span> 
+				<input type="hidden"  id="amount_use" value="{$user_amount.worth}" />
+				</span>
+			</b>
+            {/if}
+			</div>
+	    <div style="padding:20px">
+         
+<form name="loan_form" id="loan_form"  method="post" action="" enctype="multipart/form-data" >
+		 <table width="100%" cellspacing="10" cellpadding="0" border="0" class="jk_tab">
+  <tbody>
+  <tr>
+    <td width="19%" align="right"><span></span>借款类型：</td>
+    <td width="81%" align="left">
+	{$_U.borrow_type_result.name}
+	<input name="borrow_type"  id="borrow_type" type="hidden" value="{$magic.request.type_nid}" />
+	</td>
+  </tr>  
+  <tr>
+    <td width="19%" align="right">借款标题：</td>
+    <td width="81%" align="left"><input type="text" name="name" id="name" style="width:200px; border:#BFBFBF solid 1px; height:18px;"></td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">借款用途：</td>
+    <td width="81%" align="left">{linkages nid="borrow_use" value="$var.borrow_use" name="borrow_use" type="value"}</td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">借款金额：</td>
+    <td width="81%" align="left"><input type="text" name="account" id="account" style="width:100px; border:#BFBFBF solid 1px; height:18px;"  onkeyup="value=value.replace(/[^0-9.]/g,'')" /> 元（借款金额{$_U.borrow_type_result.amount_first}元-{$_U.borrow_type_result.amount_end}元{if $_U.borrow_type_result.account_multiple>0}，需为{$_U.borrow_type_result.account_multiple}的倍数{/if}） </td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">借款期限：</td>
+    <td width="81%" align="left">{if $_U.borrow_type_result.period_first==$_U.borrow_type_result.period_end}
+	<input type="hidden" name="borrow_period"  id="borrow_period"  value="{$_U.borrow_type_result.period_first}" />{$_U.borrow_type_result.period_first}个月
+    {else}
+	<select name="borrow_period">
+	{foreach from=$_U.borrow_type_result.period_result key=key item=item}<option value='{$item.value}'>{$item.name}</option>{/foreach}
+	</select>
+    {/if}	
+	</td>
+  </tr>
+  <tr>
+    <td width="19%" valign="top" align="right">年利率：</td>
+    <td width="81%" align="left"><input type="text" name="borrow_apr" id="borrow_apr" style="width:50px; border:#BFBFBF solid 1px; height:18px;" onkeyup="value=value.replace(/[^0-9.]/g,'')" />% 
+	
+		（利率精确到小数点后两位，范围{$_U.borrow_type_result.apr_first}%-{$_U.borrow_type_result.apr_end}%之间）
+
+	<br>
+<font style="color:#999999">一般来说借款利率越高，借款速度越快。</font> </td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">还款方式：</td>
+    <td width="81%" align="left">
+    
+	<select name='borrow_style' >{foreach from=$_U.borrow_type_result.style_result key=key item=item}<option value='{$item.nid}'>{$item.name}</option>{/foreach}</select>
+
+	</td>
+  </tr>
+ 
+  {if $magic.request.type_nid!="roam"}
+   <tr>
+    <td width="19%" align="right">筹标期限：</td>
+    <td width="81%" align="left">
+    	<select name='borrow_valid_time' >{foreach from=$_U.borrow_type_result.validate_result key=key item=item}<option value='{$item.value}'>{$item.name}</option>{/foreach}</select>
+    </td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">最低投标金额：</td>
+    <td width="81%" align="left">	<select name='tender_account_min' >{foreach from=$_U.borrow_type_result.tender_account_min_result key=key item=item}<option value='{$item}'>{if $item==0}不限{else}{$item}元{/if}</option>{/foreach}</select></td>
+  </tr>
+  <tr>
+    <td width="19%" align="right">最多投标总额：</td>
+    <td width="81%" align="left">
+    	<select name='tender_account_max' >{foreach from=$_U.borrow_type_result.tender_account_max_result key=key item=item}<option value='{$item}'>{if $item==0}不限{else}{$item}元{/if}</option>{/foreach}</select>
+        </td>
+  </tr>
+  {/if}
+  {if $_U.borrow_type_result.award_status==1}
+  <tr>
+    <td width="19%" align="right">借款奖励：</td>
+    <td width="81%" align="left">
+    <input type="radio" value="0" name="award_status" checked="" onclick="change_award(0)"/>不奖励
+    <input type="radio" value="1" name="award_status" onclick="change_award(1)"/>按金额奖励
+    <input type="radio" value="2" name="award_status" onclick="change_award(2)" />按比例奖励
+        </td>
+  </tr>
+  
+  <tr id="award_scale_id" style="display: none;">
+    <td width="19%" align="right">按借款金额比例：</td>
+    <td width="81%" align="left">
+  <input type="text" name="award_scale" id="award_scale" style="width:100px; border:#BFBFBF solid 1px; height:18px;"  onkeyup="value=value.replace(/[^0-9.]/g,'')" /> %(奖励比例在{$_U.borrow_type_result.award_scale_first}~{$_U.borrow_type_result.award_scale_end}%区间【本金的比例】)
+        </td>
+  </tr>
+  
+ 
+  <tr id="award_account_id" style="display: none;">
+    <td width="19%" align="right">按借款金额：</td>
+    <td width="81%" align="left">
+  <input type="text" name="award_account" id="award_account" style="width:100px; border:#BFBFBF solid 1px; height:18px;"  onkeyup="value=value.replace(/[^0-9.]/g,'')" />元(奖励金额在{$_U.borrow_type_result.award_account_first}~{$_U.borrow_type_result.award_account_end}元区间)
+        </td>
+  </tr>
+  
+   {if $_U.borrow_type_result.password_status==1}
+   <tr id="award_false_id" >
+    <td width="19%" align="right">借款投资密码：</td>
+    <td width="81%" align="left">
+    <input type="password" name="borrow_password" id="borrow_password" style="width:100px; border:#BFBFBF solid 1px; height:18px;"   /> 
+     <font style="color:#999999">（有填写，则投资人投标时需输入此密码）</font>
+        </td>
+  </tr>
+  {/if}
+  
+   {if $_U.borrow_type_result.award_false_status==1}
+   <tr id="award_false_id" style="display: none;">
+    <td width="19%" align="right">借款失败是否也奖励：</td>
+    <td width="81%" align="left">
+    <input type="radio" value="0" name="award_false" />是
+    <input type="radio" value="1" name="award_false"  checked="" />否
+        </td>
+  </tr>
+  {/if}
+  {/if}
+  {if $magic.request.type_nid=="pawn"}
+   <tr >
+    <td width="19%" align="right">外观图片:</td>
+    <td width="81%" align="left"><input type="file" name="borrow_pawn_app"  id="borrow_pawn_app" value=""/></td>
+  </tr>
+  <tr >
+    <td width="19%" align="right">权证信息:</td>
+    <td width="81%" align="left"><input type="file" name="borrow_pawn_auth"  id="borrow_pawn_auth" value=""/></td>
+  </tr>
+  <tr >
+    <td width="19%" align="right">借款手续:</td>
+    <td width="81%" align="left"><input type="file" name="borrow_pawn_formalities"  id="borrow_pawn_formalities" value=""/></td>
+  </tr>
+  <tr >
+    <td width="19%" align="right">抵押物类型:</td>
+    <td width="81%" align="left"><input type="text" name="borrow_pawn_type" id="borrow_pawn_type" value=""/></td>
+  </tr>
+  <tr >
+    <td width="19%" align="right">取得时间:</td>
+    <td width="81%" align="left"><input type="text" name="borrow_pawn_time"  id="borrow_pawn_time" value=""/></td>
+  </tr>
+  <tr >
+    <td width="19%" align="right">抵押物情况描述:</td>
+    <td width="81%" align="left"><textarea name="borrow_pawn_description" id="borrow_pawn_description" cols="70" rows="5" style="height:80px"></textarea></td>
+  </tr>
+  
+  {/if}
+  {if $magic.request.type_nid=="roam"}
+    <tr >
+    <td width="19%" align="right">最小流转单位：</td>
+    <td width="81%" align="left"><input type="text" name="account_min"  id="account_min" value="" onkeyup="value=value.replace(/[^0-9]/g,'')" />元</td>
+  </tr>
+    <tr >
+    <td width="19%" align="right">担保机构：</td>
+    <td width="81%" align="left"><input type="text" name="voucher"  id="voucher" value=""/></td>
+  </tr>
+    <tr >
+    <td width="19%" align="right">反担保方式：</td>
+    <td width="81%" align="left"><input type="text" name="vouch_style"  id="vouch_style" value=""/></td>
+  </tr>
+    <tr >
+    <td width="19%" align="right">借款方商业概述：</td>
+    <td width="81%" align="left">
+     <textarea id="borrow_contents" name="borrow_contents"  style="width:530px;height:200px;visibility:hidden;">{$_U.share_result.contents}</textarea>	
+	
+    </td>
+  </tr>
+    <tr >
+    <td width="19%" align="right">借款方资产情况：</td>
+    <td width="81%" align="left">
+     <textarea id="borrow_account" name="borrow_account"  style="width:530px;height:200px;visibility:hidden;">{$_U.share_result.borrow_account}</textarea>	
+	
+    </td>
+  </tr>
+   <tr >
+    <td width="19%" align="right">借款方资金用途：</td>
+    <td width="81%" align="left">
+     <textarea id="borrow_account_use" name="borrow_account_use"  style="width:530px;height:200px;visibility:hidden;">{$_U.share_result.borrow_account_use}</textarea>	
+	
+    </td>
+  </tr>
+   <tr >
+    <td width="19%" align="right">风险控制措施：</td>
+    <td width="81%" align="left">
+     <textarea id="risk" name="risk"  style="width:530px;height:200px;visibility:hidden;">{$_U.share_result.risk}</textarea>
+    </td>
+  </tr>
+  {literal}
+<script>	
+var editor;
+DyEditor.ready(function(D) {
+editor = D.create('#borrow_contents,#borrow_account,#borrow_account_use,#risk',{filterMode : true,
+htmlTags:{
+       span : [],
+div : [],
+img : ['src', 'width', 'height', 'border', 'align',  '/'],
+hr : ['/'],
+br : ['/'],
+'p,ol,ul,li' : ['align'],
+'strong,b,sub,sup,em,i,u,strike' : []
+},
+					items : [
+						'undo', 'redo', '|',  'bold', 'italic', 'underline',
+						'removeformat', '|',   'image', 'multiimage','emoticons','|','link','unlink','|','about']
+				});})</script>
+	{/literal}
+    {else}
+    
+  <tr >
+    <td width="19%" align="right">借款描述：</td>
+    <td width="81%" align="left"><textarea rows="5" cols="70" name="borrow_contents"></textarea></td>
+  </tr>
+  
+  {/if}
+  <tr >
+    <td width="19%" align="right">验证码：</td>
+    <td width="81%" align="left"><input name="valicode" type="text" class="in_text" style="width:50px;"/>
+
+      <img src="/?plugins&q=imgcode" id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" /><em>看不清？<a href="javascript:void(0)" onClick="$('#valicode').attr('src','/?plugins&q=imgcode&t=' + Math.random());">换一张！</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" name="submit" value="提 交" style="background:#44B2D7; color:#FFFFFF; font-size:14px; font-weight:bold; padding:5px 10px; border:none; cursor:pointer"></td>
+  </tr>
+</tbody></table>
+		    </div>
+	   </div>
+          </form>
+	      </div>
+	   </div>
+	</div>
+{literal}
+<script>
+function change_award(id){
+   $("#award_account_id").hide();
+   $("#award_scale_id").hide();
+   $("#award_false_id").hide();
+   if (id==2){
+    $("#award_scale_id").show();
+     $("#award_false_id").show();
+   }else if (id==1){
+    $("#award_account_id").show();
+    $("#award_false_id").show();
+   }
+}
+</script>
+{/literal}
+{include file="footer.html"}

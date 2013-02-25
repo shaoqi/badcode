@@ -1,0 +1,57 @@
+{if $_P.uploadResponse!=""}
+<uploadResponse>
+	<message>{if $_P.status=="success"}{else}{$uploadfiles}{/if}</message>
+	<status>{$_P.status}</status>
+	<proid>{$_P.proid}</proid>
+	<albumid>{$_P.albumid}</albumid>
+	<picid>{$_P.picid}</picid>
+	{if $_P.fileurl}<filepath>{$_P.fileurl}</filepath>{/if}
+</uploadResponse>
+{else}
+<parameter>
+	<allowsExtend>
+		<extend depict="All Image File(*.jpg,*.jpeg,*.gif,*.png)">*.jpg,*.gif,*.png,*.jpeg</extend>
+	</allowsExtend>
+	<language>
+		<create>创建</create> 
+  <notCreate>取消</notCreate> 
+  <albumName>相册名</albumName> 
+  <createTitle>创建新相册</createTitle> 
+  <categoryDesc>相册分类</categoryDesc> 
+  <categoryPrompt>请选择相册分类</categoryPrompt> 
+  <okbtn>继续</okbtn> 
+  <cancelbtn>查看</cancelbtn> 
+  <fileName>文件名</fileName> 
+  <depict>描述(单击修改)</depict> 
+  <size>文件大小</size> 
+  <stat>上传进度</stat> 
+  <aimAlbum>上传到:</aimAlbum> 
+  <browser>浏览</browser> 
+  <delete>删除</delete> 
+  <upload>上传</upload> 
+  <okTitle>上传完成</okTitle> 
+  <okMsg>所有文件上传完成!</okMsg> 
+  <uploadTitle>正在上传</uploadTitle> 
+  <uploadMsg1>总共有</uploadMsg1> 
+  <uploadMsg2>个文件等待上传,正在上传第</uploadMsg2> 
+  <uploadMsg3>个文件</uploadMsg3> 
+  <bigFile>文件过大</bigFile> 
+  <uploaderror>上传失败</uploaderror> 
+
+	</language>
+	<config>
+		<userid>{$_G.user_id}</userid> 
+		<hash>7408f59938e16974e9787c980ac99de3</hash> 
+		<maxupload>20971520</maxupload> 
+		<uploadurl>/index.php%3fplugins%26ac=swfupload</uploadurl> 
+		<feedurl>http%3A%2F%2Fdzx.com%2Fhome.php%3Fmod%3Dmisc%26ac%3Dswfupload%26op%3Dfinish%26random%3DLP45BmiU%26albumid%3D</feedurl> 
+		<albumurl>index.php%3Fuser%26q%3Dcode%2Falbums%2Fview%26albums_id%3D</albumurl> 
+		<categoryStat>0</categoryStat> 
+		<categoryRequired>0</categoryRequired> 
+	</config>
+	<albums>
+	  <album id="0">系统默认相册</album> 
+		
+	  </albums>
+</parameter>
+{/if}

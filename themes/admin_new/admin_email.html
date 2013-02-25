@@ -1,0 +1,192 @@
+
+<ul class="nav3"> 
+<li><a href="{$_A.query_url}" {if $_A.query_status==""&& $_A.query_type!="log"&& $_A.query_type!="active"}id="c_so"{/if}>{$MsgInfo.admin_email_name}</a></li> 
+<li><a href="{$_A.query_url}/log" {if $_A.query_type=="log"}id="c_so"{/if}>{$MsgInfo.admin_email_log_name}</a></li> 
+<li><a href="{$_A.query_url}/active" {if $_A.query_type=="active"}id="c_so"{/if}>{$MsgInfo.admin_email_active_name}</a></li>
+</ul> 
+
+<div class="module_add">
+{if $_A.query_type == "log"}
+
+	<div class="module_title"><strong>{$MsgInfo.admin_email_log_name}</strong></div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+		<td width="" class="main_td">{$MsgInfo.admin_email_name_id}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_username}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_email}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_sendemail}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_title}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_status}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_msg}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_addtime}</td>
+		<th width="" class="main_td">{$MsgInfo.admin_email_name_addip}</th>
+	</tr>
+	{ list module="users" function="GetEmailLogList" var="loop" username=request email=request}
+		{foreach from=$loop.list item="item"}
+	<tr {if $key%2==1} class="tr2"{/if}>
+		<td class="main_td1" align="center">{ $item.id}</td>
+		<td class="main_td1" align="center">{$item.username|default:-}</td>
+		<td class="main_td1" align="center">{$item.email}</td>
+		<td class="main_td1" align="center">{$item.send_email}</td>
+		<td class="main_td1" align="center" >{$item.title}</td>
+		<td class="main_td1" align="center" >{if $item.status==0}{$MsgInfo.admin_name_wait}{elseif $item.status==1}<font color="#009900">{$MsgInfo.admin_name_success}</font>{else}<font color="#FF0000">{$MsgInfo.admin_name_false}</font>{/if}</td>
+		<td class="main_td1" align="center" >	<a href="javascript:void(0)" onclick='tipsWindown("邮箱信息查看","url:get?{$_A.query_url}/log_id&id={$item.id}",500,230,"true","","true","text");'>查看</a></td>
+		<td class="main_td1" align="center" >{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+		<td class="main_td1" align="center" >{$item.addip}</td>
+	</tr>
+	{/foreach}
+	{ /list}
+	<tr>
+			<td colspan="11" class="action">
+			<div class="floatl">
+			<script>
+	  var url = '{$_A.query_url}/log';
+	    {literal}
+	  	function sousuo(){
+			var username = $("#username").val();
+			var email = $("#email").val();
+			location.href=url+"&username="+username+"&email="+email;
+		}
+	  
+	  </script>
+	  {/literal}
+			</div>
+			<div class="floatr">
+				{$MsgInfo.users_name_username}：<input type="text" name="username" id="username" value="{$magic.request.username|urldecode}"/>  {$MsgInfo.users_name_email}：<input type="text" name="email" id="email" value="{$magic.request.email}"/>   <input type="button" value="{$MsgInfo.users_name_sousuo}" / onclick="sousuo()">
+			</div>
+			</td>
+		</tr>
+	<tr align="center">
+		<td colspan="10" align="center"><div align="center">{$loop.pages|showpage}</div></td>
+	</tr>
+</table>
+<!--邮箱记录 结束-->
+
+
+<!--激活记录 开始-->
+
+{elseif $_A.query_type == "active"}
+
+	<div class="module_title"><strong>{$MsgInfo.admin_email_active_name}</strong></div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+		<td width="" class="main_td">{$MsgInfo.admin_email_name_id}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_username}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_activeemail}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_status}</td>
+		<td width="*" class="main_td">{$MsgInfo.admin_email_name_addtime}</td>
+		<th width="" class="main_td">{$MsgInfo.admin_email_name_addip}</th>
+	</tr>
+	{ list module="users" function="GetEmailActiveList" var="loop" username=request email=request}
+		{foreach from=$loop.list item="item"}
+	<tr {if $key%2==1} class="tr2"{/if}>
+		<td class="main_td1" align="center">{ $item.id}</td>
+		<td class="main_td1" align="center">{$item.username|default:-}</td>
+		<td class="main_td1" align="center">{$item.email}</td>
+		<td class="main_td1" align="center" >{if $item.status==0}{$MsgInfo.admin_name_wait}{elseif $item.status==1}<font color="#009900">{$MsgInfo.admin_name_success}</font>{else}<font color="#FF0000">{$MsgInfo.admin_name_false}</font>{/if}</td>
+		<td class="main_td1" align="center" >{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+		<td class="main_td1" align="center" >{$item.addip}</td>
+	</tr>
+	{/foreach}
+	{ /list}
+	<tr>
+			<td colspan="11" class="action">
+			<div class="floatl">
+			<script>
+	  var url = '{$_A.query_url}/log';
+	    {literal}
+	  	function sousuo(){
+			var username = $("#username").val();
+			var email = $("#email").val();
+			location.href=url+"&username="+username+"&email="+email;
+		}
+	  
+	  </script>
+	  {/literal}
+			</div>
+			<div class="floatr">
+				{$MsgInfo.users_name_username}：<input type="text" name="username" id="username" value="{$magic.request.username|urldecode}"/>  {$MsgInfo.users_name_email}：<input type="text" name="email" id="email" value="{$magic.request.email}"/>   <input type="button" value="{$MsgInfo.users_name_sousuo}" / onclick="sousuo()">
+			</div>
+			</td>
+		</tr>
+	<tr align="center">
+		<td colspan="10" align="center"><div align="center">{$loop.pages|showpage}</div></td>
+	</tr>
+</table>
+<!--激活记录 结束-->
+
+{else}
+	<form action="" method="post"  enctype="multipart/form-data" >
+	<div class="module_title"><strong>{$MsgInfo.admin_email_name}</strong></div>
+	
+	
+	<div class="module_border">
+	<div class="d">{$MsgInfo.admin_email_con_host}：</div>
+		<div class="c">
+			<input type="text" name="con_email_host" value="{$_A.system_result.con_email_host}"/>
+		</div>
+	</div>
+	<div class="module_border">
+	<div class="d">端口号：</div>
+		<div class="c">
+			<input type="text" name="con_email_port" value="{$_A.system_result.con_email_port}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="d">{$MsgInfo.admin_email_con_auth}：</div>
+		<div class="c">
+			{input type="radio" name="con_email_auth" value="1|是,0|否" checked="$_A.system_result.con_email_auth"}
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="d">是否启用立即发送：</div>
+		<div class="c">
+			{input type="radio" name="con_email_now" value="1|是,0|否" checked="$_A.system_result.con_email_now"}(启用的话将会很占服务器)
+		</div>
+	</div>
+	
+	<div class="module_border">
+	<div class="d">{$MsgInfo.admin_email_con_url}：</div>
+		<div class="c">
+			<input type="text" name="con_email_url" value="{$_A.system_result.con_email_url}"/>
+		</div>
+	</div>
+	
+	
+	<div class="module_border">
+	<div class="d">{$MsgInfo.admin_email_con_password}：</div>
+		<div class="c">
+			<input type="password" name="con_email_password" value="{$_A.system_result.con_email_password}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+	<div class="d">{$MsgInfo.admin_email_con_from}：</div>
+		<div class="c">
+			<input type="text" name="con_email_from" value="{$_A.system_result.con_email_from}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+	<div class="d">{$MsgInfo.admin_email_con_from_name}：</div>
+		<div class="c">
+			<input type="text" name="con_email_from_name" value="{$_A.system_result.con_email_from_name}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+	<div class="d">{$MsgInfo.admin_email_con_check}：</div>
+		<div class="c">
+			{input type="radio" name="con_email_check" value="0|否,1|是" }
+		</div>
+	</div>
+	
+	<div class="module_submit"><input type="submit" value="{$MsgInfo.admin_name_submit}"  /></div>
+		</form>
+	</div>
+</div>
+{/if}
+
+		 

@@ -1,0 +1,72 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+<form action="" method="post">
+				<tr class="ytit">
+					<td colspan="6">我关注的借款</td>
+				</tr>
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >类型</td>
+
+
+					<td  >金额(元)</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >进度</td>
+
+
+				</tr>
+
+
+				
+				{list module="users" function="GetCareList" var="loop" user_id="$_G.user_id"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if} >
+
+
+					<td ><a href="/invest/a{$item.borrow_nid}.html" title="{$item.name}" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td  >{$item.borrow_type|linkages:"borrow_all_type"}</td>
+
+
+					<td  >{$item.account}元</td>
+
+
+					<td  >{$item.borrow_apr} %</td>
+
+
+					<td  >{if $item.borrow_type==4}{$item.borrow_day}天{else}{$item.borrow_period}个月{/if}</td>
+
+
+					<td  >{$item.borrow_account_scale}%</td>
+				</tr>
+
+
+				{/foreach}
+
+
+
+
+			</form>	
+
+
+		</table>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+		{/list}

@@ -1,0 +1,91 @@
+			<form action="/?user&q=code/attestations/one" name="form1" method="post" onsubmit="return check_form()" enctype="multipart/form-data">
+
+			<div class="user_main_title1">
+			<font color="#FF0000">*</font>必须是本人的相关资料<br/>
+			<font color="#FF0000">*</font>真实 有效<br />
+			<font color="#FF0000">*</font>审核时间：3个工作日<br/>
+			</div>
+
+			<div class="user_right_border">
+
+				<div>资料上传：<input type="file" name="pic[]" tabindex="1" /> 上传最大的图片为500K，上传的格式为jpg.gif</div>
+
+			</div>
+
+			<div class="user_right_border">
+
+				<div>上传类型：					
+					<select name="type_id"  tabindex="2">
+
+					{loop module="attestations" function="GetAttestationsTypeList" limit="all" }
+						<option value="{$var.id}" {if $magic.request.nid==$var.nid} selected="selected"{/if}>{$var.name}</option>
+					{/loop}
+
+					</select>
+			  </div>
+
+			</div>
+
+			<div class="user_right_border" style="height:100px; overflow:hidden">
+
+				<div>备注说明：<textarea cols="50" rows="5" name="name" style="width:400px; height:80px;"  tabindex="3"></textarea></div>			
+
+			</div>
+
+			
+
+
+			  <div class="l">&nbsp;<input type="hidden"  value="{$magic.request.type}" name="upload" /></div>
+
+				<div class="c">
+
+					<input type="submit"  value="确认提交" size="30" /> 
+
+				</div>
+	             <div class="user_right_foot1">
+		            <font style=" color:#FF0000">* 温馨提示：我们将严格对用户的所有资料进行保密</font>
+		         </div>	
+
+			</form>			
+		
+
+			
+			
+			
+			
+			{literal}
+			<script>
+
+				function check_form(){
+
+					 var frm = document.forms['form1'];
+
+					 var file = frm.elements['litpic'].value;
+
+					 var errorMsg = '';
+
+					  if (file.length == 0 ) {
+
+						errorMsg += '* 图片不能为空' + '\n';
+
+					  }
+
+					 
+
+					  if (errorMsg.length > 0){
+
+						alert(errorMsg); return false;
+
+					  } else{  
+
+						return true;
+
+					}
+
+				
+
+				}
+
+			</script>{/literal}
+
+			

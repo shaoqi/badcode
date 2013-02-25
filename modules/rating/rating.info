@@ -1,0 +1,10 @@
+<?
+	$code =        "rating";
+	$name =        "评级系统";
+	$description = "评级系统";
+	$version =     "1.0";
+	$date =   "2012-01-29";
+	$author =      "dycms";
+	$update =      "";
+	$type =      "rating";
+?>

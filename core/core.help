@@ -1,0 +1,21 @@
+1，common.inc.php  系统的数据库和授权码配置文件
+
+2，config.inc.php 系统的基本信息初始化
+
+3，function.inc.php 系统只要用到的参数，包含在config.inc.php里面
+
+4，magic.class.php 帝友模块引擎文件，包含在config.inc.php里面
+
+5，mysql.class.php 数据库的管理文件
+
+6，safe.inc.php 帝友系统安全文件，只要是防止sql注入
+
+7，showpage.class.php 帝友系统分页文件
+
+8，upload.class.php 帝友系统上传类文件
+
+9，index.html 防止列表文件
+
+10，core.help 核心文件的帮助文档。
+
+附注：inc.php表示相对应的配置文件 ，class.php 类文件说明

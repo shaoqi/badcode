@@ -1,0 +1,106 @@
+
+ {articles module="users" plugins="vip" function="GetUsersVip" var="Vvar" user_id="$_G.user_id"}
+ <div  style="padding:10px 20px 30px 20px">
+ <form action="/?user&q=code/users/applyvip" method="post" onsubmit="return checkvip();">
+ <div class="log_content">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="reg_tab">
+  <tr>
+    <td width="20%" align="right" valign="top">VIP会员服务说明：</td>
+    <td width="80%"><font style="font-size:14px; color:#eb790d">{$_G.system.con_webname}VIP会员可以享受到本息无忧保障计划及更多专享服务。<br /><a href="/hyxt/index.html">会员服务体系详情 </a></font></td>
+  </tr>
+  <tr>
+    <td align="right">状态：</td>
+    <td>{if $Vvar.status==0}未申请
+	{elseif $Vvar.status==-1}审核中
+	{elseif $Vvar.status==1} <strong style="color:blue">VIP会员</strong> {/if}</td>
+  </tr>
+  {if $Vvar.status==0}
+  <tr>
+    <td align="right">升级类型：</td>
+    <td>VIP会员<input type="hidden" name="vip_type" value="1" onclick="change(1);"/></td>
+  </tr>
+  <tr>
+    <td align="right">会员费：</td>
+    <td><font style="font-size:14px; color:#FF0000">{$_G.system.con_vip_fee}元/年</font></td>
+  </tr>
+  {else}
+   <tr>
+    <td align="right">会员费：</td>
+    <td><font style="font-size:14px; color:#FF0000">{$_G.system.con_vip_fee}元/年</font></td>
+  </tr>
+  {/if}
+  <tr>{articles module="account"function="GetOne"var="var"user_id="$_G.user_id"}
+    <td align="right">当前可用余额：</td>
+    <td>{$var.balance|default:0} 元 <a href="/?user&q=code/account/recharge_new"  style="color:#145CC9">我要充值</a></td>
+  </tr>{/articles}
+  {if $Vvar.status!=1}
+  <tr>
+    <td align="right">请输入交易密码：</td>
+    <td>{if $_G.user_result.paypassword==""}<a style="color:#145CC9" target="_blank" href="/?user&q=code/users/paypwd">请先设置交易密码</a>{else}<input type="password" style="width:150px; border:#BFBFBF solid 1px; height:18px;" name="paypassword" id="paypassword">  {/if}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+      <input type="submit" name="submit" id="submit" class="press_mode" value="立即申请" />
+  </td>
+  </tr>
+  {/if}
+</table>
+    </div>
+    <div class="main_box t10">
+            <div class="m_r_title1">
+		<h1>会员历史记录</h1></div>
+			 <div class="t20" style="padding:20px 20px">
+			      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+  <tr>
+    <td colspan="3" align="center" style="text-align:left"><font class="red"> &nbsp;尊敬的{$_G.system.con_webname}用户，以下内容是您在{$_G.system.con_webname}的会员历史记录，敬请仔细审阅</font></td>
+  </tr>
+  <tr class="ytit1">
+    <td width="35%">开始时间</td>
+    <td width="35%">到期时间</td>
+    <td width="30%">会员状态</td>
+    </tr>
+  {loop module="users" plugins="vip" function="GetUsersVipLogList" limit="all" var="var" user_id="$_G.user_id" }
+   <tr>
+     <td>{$var.first_time|date_format:"Y-m-d"}</td>
+     <td>{$var.end_time|date_format:"Y-m-d"}</td>
+      <td>{if $Vvar.status==0}未申请
+	{elseif $Vvar.status==-1}审核中
+	{elseif $Vvar.status==1} <strong style="color:blue">VIP会员</strong> {/if}</td>
+   </tr>
+   {/loop}
+     </table>
+				 </div>
+	    </div>
+ </div>
+
+     {/articles}
+     <div class="cle"></div>
+	 </div>
+     </div>
+     <div class="cle"></div>
+   </div>
+   
+   <script>
+var vip_fee={$_G.system.con_vip_fee};
+{articles module="credit" function="GetGoldCount" var="Gvar" user_id="$_G.user_id"}
+	var gold = {$Gvar.total|default:0};
+{/articles}
+{articles module="account" function="GetOne" var="var" user_id="$_G.user_id"}
+	var use_money = {$var.balance|default:0};
+{/articles}
+{literal}
+function checkvip(){
+	if (use_money<vip_fee){
+		alert("您的余额不足"+vip_fee+"元，无法申请VIP会员。请充值后申请！");
+		location.href="/?user&q=code/account/recharge_new";
+		return false;
+	}
+	if ($("#paypassword").val()==""){
+		alert("请填写您的交易密码。");
+		return false;
+	}
+	return true;
+}
+</script>
+{/literal}

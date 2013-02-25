@@ -1,0 +1,512 @@
+{if $_A.query_type=="list"}
+<form action="" method="post">
+<div class="module_add">
+	<div class="module_title"><strong>站点管理</strong>所属菜单：
+	<select onchange="change_menu(this.value)" name="menu_id" id="menu_id">
+	{ loop module="admin" function="GetSiteMenuList" var="item" limit="all" }
+	<option value="{$item.id}" {if $item.id==$magic.request.menu_id} selected="selected"{/if}>{$item.name}</option>
+	{/loop}
+	</select>
+	
+	<input type="submit" value="修改排序" /></div>
+</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+		<td width="" class="main_td">ID</td>
+		<td width="" class="main_td">名称</td>
+		<td width="*" class="main_td">别名</td>
+		<td width="*" class="main_td">类型</td>
+		<td width="*" class="main_td">状态</td>
+		<td width="*" class="main_td">排序</td>
+		<td width="*" class="main_td">操作</td>
+	</tr>
+	{ loop module="admin" function="GetSite" var="item" limit="all" menu_id="$magic.request.menu_id" }
+	<tr {if $key%2==1} class="tr2"{/if}>
+		<td class="main_td1" align="center">{ $item.id}</td>
+		<td class="main_td1" align="center">{$item.type_name}</td>
+		<td class="main_td1" align="center">{$item.nid}</td>
+		<td class="main_td1" align="center">{if $item.type=="url"}跳转{elseif $item.type=="article"}文章{elseif $item.type=="page"}页面{else}模块{/if}</td>
+		<td class="main_td1" align="center">{if $item.status=="1"}显示{else}隐藏{/if}</td>
+		<td class="main_td1" align="center"><input type="text" size="5" value="{$item.order}" name="order[]" /><input type="hidden"  value="{$item.id}" name="id[]" /></td>
+		<td class="main_td1" align="center"><a href="{$_A.query_url}/new&action={$item.type}&edit={$item.id}">修改</a>/<a href="#" onClick="javascript:if(confirm('确定要删除吗?删除后将不可恢复')) location.href='{$_A.query_url}/new&action={$item.type}&menu_id={$item.menu_id}&del={$item.id}'">删除</a></td>
+	</tr>
+	{/loop}
+</table>
+<!--菜单列表 结束-->
+</form>
+<script language="javascript">
+var url = "{$_A.query_url_all}";
+{literal}
+ function change_menu(obj){
+  window.location.href=url+"&menu_id="+obj
+ }
+</script>
+{/literal}
+{elseif $_A.query_type=="new" }
+
+<script language="javascript">
+var url = "{$_A.query_url_all}&action={$magic.request.action}";
+{literal}
+ function change_menu(obj){
+  window.location.href=url+"&menu_id="+obj
+ }
+</script>
+{/literal}
+<ul class="nav3"> 
+<li><a href="{$_A.query_url_all}&action=article" {if $magic.request.action=="article"}id="c_so"{/if}>文章站点</a></li> 
+<li><a href="{$_A.query_url_all}&action=page" {if $magic.request.action=="page"}id="c_so"{/if}>页面站点</a></li> 
+<li><a href="{$_A.query_url_all}&action=code" {if $magic.request.action=="code"}id="c_so"{/if}>模块站点</a></li> 
+<li><a href="{$_A.query_url_all}&action=url" {if $magic.request.action=="url"}id="c_so"{/if}>跳转站点</a></li> 
+</ul> 
+<div class="module_add">
+	<form action="{$_A.query_url_all}&action={$magic.request.action}" method="post">
+	
+	<div style="border:1px solid #CCCCCC;">
+	{if $magic.request.action=="url"}
+	<div class="module_title"><strong>{if $magic.request.edit!=""}<input type="hidden" name="id" value="{$_A.site_result.id}" />修改跳转地址 （<a href="{$_A.query_url_all}">添加</a>）{else}添加跳转地址{/if}<input type="hidden" name="type" value="url" /></strong> (
+	<select onchange="change_menu(this.value)" name="menu_id" id="menu_id">
+	{ loop module="admin" function="GetSiteMenuList" var="item" limit="all" }
+	<option value="{$item.id}" {if $item.id==$magic.request.menu_id || $item.id==$_G.site_menu_id} selected="selected"{/if}>{$item.name}</option>
+	{/loop}
+	</select>)</div>
+	
+	
+	<div class="module_border">
+		<div class="l">名&nbsp;&nbsp;称：</div>
+		<div class="c">
+			<input type="text" name="name" value="{$_A.site_result.name}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">别&nbsp;&nbsp;名：</div>
+		<div class="c">
+			<input type="text" name="nid" value="{$_A.site_result.nid}"  onkeyup="value=value.replace(/[^a-z0-9_]/g,'')"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">地&nbsp;&nbsp;址：</div>
+		<div class="c">
+			<input type="text" name="value" value="{$_A.site_result.value}"/>
+		</div>
+	</div>
+	
+	
+	<div class="module_border">
+		<div class="l">父&nbsp;&nbsp;级：</div>
+		<div class="c">
+			<select name="pid">
+			<option>跟目录</option>
+			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" lgnore="$_A.site_result.id" }
+			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
+			{/loop}
+			</select>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">排&nbsp;&nbsp;序：</div>
+		<div class="c">
+			<input type="text" name="order" value="{$_A.site_result.order|default:10}" size="6"/>
+		</div>
+	</div>
+	
+	{elseif $magic.request.action=="code"}
+	<div class="module_title"><strong>{if $magic.request.edit!=""}<input type="hidden" name="id" value="{$_A.site_result.id}" />修改模块栏目 （<a href="{$_A.query_url_all}">添加</a>）{else}添加模块站点{/if}<input type="hidden" name="type" value="code" /></strong> (
+	<select onchange="change_menu(this.value)" name="menu_id" id="menu_id">
+	{ loop module="admin" function="GetSiteMenuList" var="item" limit="all" }
+	<option value="{$item.id}" {if $item.id==$magic.request.menu_id || $item.id==$_G.site_menu_id} selected="selected"{/if}>{$item.name}</option>
+	{/loop}
+	</select>)</div>
+	<div class="module_border">
+		<div class="l">名&nbsp;&nbsp;称：</div>
+		<div class="c">
+			<input type="text" name="name" value="{$_A.site_result.name}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">别&nbsp;&nbsp;名：</div>
+		<div class="c">
+			<input type="text" name="nid" value="{$_A.site_result.nid}"  onkeyup="value=value.replace(/[^a-z0-9_]/g,'')"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">所属模块：</div>
+		<div class="c">
+			{select result="$_G.module" name="name" value="nid" select_name="value" selected="$_A.credit_type_result.code" }
+		</div>
+	</div>
+	
+	
+	<div class="module_border">
+		<div class="l">父&nbsp;&nbsp;级：</div>
+		<div class="c">
+			<select name="pid">
+			<option>跟目录</option>
+			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" lgnore="$_A.site_result.id" }
+			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
+			{/loop}
+			</select>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">排&nbsp;&nbsp;序：</div>
+		<div class="c">
+			<input type="text" name="order" value="{$_A.site_result.order|default:10}" size="6"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">首页模板：</div>
+		<div class="c">
+			<input type="text" name="index_tpl" value="{$_A.site_result.index_tpl}" size="15"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">列表模板：</div>
+		<div class="c">
+			<input type="text" name="list_tpl" value="{$_A.site_result.list_tpl}" size="15"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">文章模板：</div>
+		<div class="c">
+			<input type="text" name="content_tpl" value="{$_A.site_result.content_tpl}" size="15"/>
+		</div>
+	</div>	
+	
+	<div class="module_border">
+		<div class="l">关键字 ：</div>
+		<div class="c">
+			<input type="text" name="keywords" value="{$_A.site_result.keywords}" size="20"/>
+		</div>
+	</div>
+	<div class="module_border">
+		<div class="l">SEO标题 ：</div>
+		<div class="c">
+			<input type="text" name="seotitle" value="{$_A.site_result.seotitle}" size="20" title="用于长尾关键词，不参与面包屑"/>
+		</div>
+	</div>	
+	<div class="module_border">
+		<div class="l">站点描述 ：</div>
+		<div class="c">
+			<textarea cols="30" rows="4" name="description">{$_A.site_result.description|html_format}</textarea>
+		</div>
+	</div>
+	
+	{elseif $magic.request.action=="article" || $magic.request.action==""}
+	
+	<div class="module_title"><strong>{if $magic.request.edit!=""}<input type="hidden" name="id" value="{$_A.site_result.id}" />修改文章站点 （<a href="{$_A.query_url_all}">添加</a>）{else}添加文章站点{/if}<input type="hidden" name="type" value="article" /></strong> (
+	<select onchange="change_menu(this.value)" name="menu_id" id="menu_id">
+	{ loop module="admin" function="GetSiteMenuList" var="item" limit="all" }
+	<option value="{$item.id}" {if $item.id==$magic.request.menu_id || $item.id==$_G.site_menu_id} selected="selected"{/if}>{$item.name}</option>
+	{/loop}
+	</select>)</div>
+	
+	<div class="module_border">
+		<div class="l">名&nbsp;&nbsp;称：</div>
+		<div class="c">
+			<input type="text" name="name" value="{$_A.site_result.name}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">别&nbsp;&nbsp;名：</div>
+		<div class="c">
+			<input type="text" name="nid" value="{$_A.site_result.nid}"  onkeyup="value=value.replace(/[^a-z0-9_]/g,'')"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">分类栏目：</div>
+		<div class="c">
+			<select name="value">
+			{loop module="articles" function="GetTypeMenu" var="item" }
+			<option value="{$item.id}" {if $_A.site_result.value==$item.id}  selected="selected"{/if}>{$item._name}</option>
+			{/loop}
+			</select>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">	父&nbsp;&nbsp;级：</div>
+		<div class="c">
+			<select name="pid">
+			<option>跟目录</option>
+			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" lgnore="$_A.site_result.id" }
+			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
+			{/loop}
+			</select>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">排&nbsp;&nbsp;序：</div>
+		<div class="c">
+			<input type="text" name="order" value="{$_A.site_result.order|default:10}" size="6"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">首页模板：</div>
+		<div class="c">
+			<input type="text" name="index_tpl" value="{$_A.site_result.index_tpl}" size="15"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">列表模板：</div>
+		<div class="c">
+			<input type="text" name="list_tpl" value="{$_A.site_result.list_tpl}" size="15"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">文章模板：</div>
+		<div class="c">
+			<input type="text" name="content_tpl" value="{$_A.site_result.content_tpl}" size="15"/>
+		</div>
+	</div>	
+	
+	<div class="module_border">
+		<div class="l">关键字 ：</div>
+		<div class="c">
+			<input type="text" name="keywords" value="{$_A.site_result.keywords}" size="20"/>
+		</div>
+	</div>
+	<div class="module_border">
+		<div class="l">SEO标题 ：</div>
+		<div class="c">
+			<input type="text" name="seotitle" value="{$_A.site_result.seotitle}" size="20" title="用于长尾关键词，不参与面包屑"/>
+		</div>
+	</div>
+	<div class="module_border">
+		<div class="l">站点描述 ：</div>
+		<div class="c">
+			<textarea cols="30" rows="4" name="description">{$_A.site_result.description|html_format}</textarea>
+		</div>
+	</div>
+	
+	
+	{elseif $magic.request.action=="page"}
+	<div class="module_title"><strong>{if $magic.request.edit!=""}<input type="hidden" name="id" value="{$_A.site_result.id}" />修改页面站点 （<a href="{$_A.query_url_all}">添加</a>）{else}添加页面站点{/if}<input type="hidden" name="type" value="page" /></strong> (
+	<select onchange="change_menu(this.value)" name="menu_id" id="menu_id">
+	{ loop module="admin" function="GetSiteMenuList" var="item" limit="all" }
+	<option value="{$item.id}" {if $item.id==$magic.request.menu_id || $item.id==$_G.site_menu_id} selected="selected"{/if}>{$item.name}</option>
+	{/loop}
+	</select>)</div>
+	<div class="module_border">
+	
+	<div class="module_border">
+		<div class="l">名&nbsp;&nbsp;称：</div>
+		<div class="c">
+			<input type="text" name="name" value="{$_A.site_result.name}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">别&nbsp;&nbsp;名：</div>
+		<div class="c">
+			<input type="text" name="nid" value="{$_A.site_result.nid}"  onkeyup="value=value.replace(/[^a-z0-9_]/g,'')"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">所属页面：</div>
+		<div class="c">
+			<select name="value">
+			{loop module="articles" function="GetPageMenu" var="item" }
+			{if $item.pid!=$_A.site_result.value}
+			<option value="{$item.id}" {if $_A.site_result.value==$item.id}  selected="selected"{/if}>{$item._name}</option>
+			{/if}
+			{/loop}
+			</select>
+		</div>
+	</div>
+	
+	
+	<div class="module_border">
+		<div class="l">父&nbsp;&nbsp;级：</div>
+		<div class="c">
+			<select name="pid">
+			<option>跟目录</option>
+			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" }
+			{if $_A.site_result.pid==0 }
+			{if $_A.site_result.id!=$item.id}
+			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
+			{/if}
+			{else}
+			{if $_A.site_result.id!=$item.pid}
+			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
+			{/if}
+			{/if}
+			{/loop}
+			</select>
+		</div>
+	</div>
+	<div class="module_border">
+		<div class="l">排&nbsp;&nbsp;序：</div>
+		<div class="c">
+			<input type="text" name="order" value="{$_A.site_result.order|default:10}" size="6"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">首页模板：</div>
+		<div class="c">
+			<input type="text" name="index_tpl" value="{$_A.site_result.index_tpl}" size="15"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">列表模板：</div>
+		<div class="c">
+			<input type="text" name="list_tpl" value="{$_A.site_result.list_tpl}" size="15"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">文章模板：</div>
+		<div class="c">
+			<input type="text" name="content_tpl" value="{$_A.site_result.content_tpl}" size="15"/>
+		</div>
+	</div>	
+	
+	<div class="module_border">
+		<div class="l">关键字 ：</div>
+		<div class="c">
+			<input type="text" name="keywords" value="{$_A.site_result.keywords}" size="20"/>
+		</div>
+	</div>
+	<div class="module_border">
+		<div class="l">SEO标题 ：</div>
+		<div class="c">
+			<input type="text" name="seotitle" value="{$_A.site_result.seotitle}" size="20" title="用于长尾关键词，不参与面包屑"/>
+		</div>
+	</div>	
+	<div class="module_border">
+		<div class="l">站点描述 ：</div>
+		<div class="c">
+			<textarea cols="30" rows="4" name="description">{$_A.site_result.description|html_format}</textarea>
+		</div>
+	</div>
+	{/if}
+	
+	<div class="module_border">
+		<div class="l">显&nbsp;&nbsp;示：</div>
+		<div class="c">
+			{input type="radio" name="status" value="1|显示,0|隐藏" checked="$_A.site_result.status"}
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="l">备&nbsp;&nbsp;注：</div>
+		<div class="c">
+			<textarea cols="30" rows="5" name="remark">{$_A.site_result.remark|html_format}</textarea>
+		</div>
+	</div>
+	
+	
+	<div class="module_submit"><input type="submit" value="确认提交" class="submit_button" /></div>
+	
+	</form>
+	</div>
+</div>
+<!--菜单列表 结束-->
+
+{elseif $_A.query_type == "menu"}
+<div class="module_add">
+	<div class="module_title"><strong>菜单管理</strong></div>
+	<div style="margin-top:10px;">
+	<div style="float:left; width:30%;">
+		
+	<div style="border:1px solid #CCCCCC; ">
+	
+	<form action="{$_A.query_url_all}" method="post">
+	<div class="module_title"><strong>{if $magic.request.edit!=""}<input type="hidden" name="id" value="{$_A.site_menu_result.id}" />修改菜单 （<a href="{$_A.query_url_all}">添加</a>）{else}添加菜单{/if}</strong></div>
+	<div class="module_border">
+		<div class="c">
+			名&nbsp;&nbsp;称：<input type="text" name="name" value="{$_A.site_menu_result.name}"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="c">
+			别&nbsp;&nbsp;名：<input type="text" name="nid" value="{$_A.site_menu_result.nid}" onkeyup="value=value.replace(/[^a-z0-9_]/g,'')"/>
+		</div>
+	</div>
+	
+	<div class="module_border">
+		<div class="c">
+			排&nbsp;&nbsp;序：<input type="text" name="order" value="{$_A.site_menu_result.order|default:10}" size="6" onkeyup="value=value.replace(/[^0-9]/g,'')"/>
+		</div>
+	</div>
+	
+	{if $_A.site_menu_result.checked!=1}
+	<div class="module_border">
+		<div class="c">
+			默&nbsp;&nbsp;认：{input type="radio" name="checked" value="0|否,1|是" checked="$_A.site_menu_result.checked"}
+		</div>
+	</div>
+	{else}
+	<input type="hidden" name="checked" value="1" />
+	{/if}
+	
+	<div class="module_border">
+		<div class="c">
+			内&nbsp;&nbsp;容：<textarea cols="30" rows="5" name="contents">{$_A.site_menu_result.contents|html_format}</textarea>
+		</div>
+	</div>
+	
+	<div class="module_border_ajax" >
+		<div class="c">
+			验证码：<input name="valicode" type="text" size="11" maxlength="4"  onClick="$('#valicode').attr('src','/?plugins&q=imgcode&t=' + Math.random())"/>
+		
+			<img src="/?plugins&q=imgcode" id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+		</div>
+	</div>
+	
+	
+	<div class="module_submit"><input type="submit" value="确认提交" class="submit_button" /></div>
+		</form>
+	</div>
+	</div>
+		</div>
+	<div style="float:right; width:67%; text-align:left">
+	<div class="module_add">
+	<div class="module_title"><strong>菜单列表</strong></div>
+	</div>
+<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+	<tr >
+		<td width="" class="main_td">ID</td>
+		<td width="" class="main_td">名称</td>
+		<td width="*" class="main_td">别名</td>
+		<td width="*" class="main_td">排序</td>
+		<td width="*" class="main_td">是否默认</td>
+		<td width="*" class="main_td">操作</td>
+	</tr>
+	{ loop module="admin" function="GetSiteMenuList" var="item" limit="all" }
+	<tr {if $key%2==1} class="tr2"{/if}>
+		<td class="main_td1" align="center">{ $item.id}</td>
+		<td class="main_td1" align="center">{$item.name}</td>
+		<td class="main_td1" align="center">{$item.nid}</td>
+		<td class="main_td1" align="center">{$item.order}</td>
+		<td class="main_td1" align="center">{if $item.checked==1}是{else}<a href="{$_A.query_url_all}&checked={$item.id}" title="设为默认">否</a>{/if}</td>
+		<td class="main_td1" align="center"><a href="{$_A.query_url}/list&menu={$item.id}">查看站点</a>/<a href="{$_A.query_url}/menu&edit={$item.id}">修改</a>/<a href="#" onClick="javascript:if(confirm('确定要删除吗?删除后将不可恢复')) location.href='{$_A.query_url}/menu&del={$item.id}'">删除</a></td>
+	</tr>
+	{/loop}
+	
+</table>
+<!--菜单列表 结束-->
+</div>
+</div>
+
+{/if}
+
+

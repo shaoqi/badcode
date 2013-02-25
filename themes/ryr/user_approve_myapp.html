@@ -1,0 +1,257 @@
+
+              <div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+                  <tr class="ytit">
+                    <td colspan="8">信用等级及对应信用分数</td>
+                  </tr>
+                  <tr class="ytit1">
+                    <td width="20%">信用等级</td>
+                    <td width="10%"><img src="{$tempdir}/images/AA.png" width="28" height="20" /></td>
+                    <td width="10%"><img src="{$tempdir}/images/A.png" width="28" height="20" /></td>
+                    <td width="10%"><img src="{$tempdir}/images/B.png" width="28" height="20" /></td>
+                    <td width="10%" ><img src="{$tempdir}/images/C.png" width="28" height="20" /></td>
+                    <td width="10%"><img src="{$tempdir}/images/D.png" width="28" height="20" /></td>
+                    <td width="10%"><img src="{$tempdir}/images/E.png" width="28" height="20" /></td>
+                    <td width="10%"><img src="{$tempdir}/images/HR.png" width="28" height="20" /></td>
+                  </tr>
+                  <tr>
+                    <td> 信用分数 </td>
+                    <td>160及以上</td>
+                    <td>159-145</td>
+                    <td>144-130</td>
+                    <td>129-120 </td>
+                    <td>119-110 </td>
+                    <td>109-100 </td>
+                    <td>99-0 </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="t20">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+                  <tr class="ytit"> 
+		{articles module="borrow" plugins="Amount" function="GetAmountUsers" user_id=$_G.user_id var="var"}
+                    <td colspan="6">信用总分（等级）：{$_G.user_credit.credit_total}（{$_G.user_credit.credit_total|credit:"borrow"}）&nbsp;&nbsp;信用额度：{if $var.credit<0}0{else}{$var.credit}{/if}( 可用额度：{if $var.credit_use<0}0{else}{$var.credit_use}{/if} ) </td>
+                    {/articles} </tr>
+                  <tr class="ytit1">
+                    <td width="13%">&nbsp;</td>
+                    <td width="17%">项目</td>
+                    <td width="15%">状态</td>
+                    <td width="13%">信用分数</td>
+                    <td width="13%">操作</td>
+					<td width="13%">多件上传</td>
+                  </tr>
+				  {articles module="attestations" function="GetAttestationsUserCredit" var="Avar" user_id=$_G.user_id}
+                  <tr>
+					{articles module="approve" function="GetSmsOne" user_id="$_G.user_id" var="pvar"}				  
+                    <td rowspan="3">基本信息</td>
+                    <td>手机绑定</td>
+                    <td> {if $pvar.status==1}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if} </td>
+                    <td>{if $pvar.status==1}<strong style="color:#ff0000">
+					{articles module="credit" function="GetTypeOne" var="Tvar" nid="phone"}
+					{$Tvar.value}分
+					{/articles}
+					</strong>{else}0分{/if}</td>
+					<td><a href="/?user&q=code/approve/phone" >{if $pvar.status==1}修改{else}进行认证{/if}</a></td>
+					<td rowspan="31"><a href="/?user&q=code/attestations/more">多张上传</a></td>
+					{/articles}
+				  </tr>
+                  <tr>
+                    <td>身份认证</td>
+					<td>{if $_G.user_info.realname_status==1}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $_G.user_info.realname_status==0&&$_G.user_info.realname!=''}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $_G.user_info.realname_status==1}<strong style="color:#ff0000">{articles module="credit" function="GetTypeOne" var="Tvar" nid="realname"}
+					{$Tvar.value}分
+					{/articles}</strong>{else}0分{/if}</td>
+					<td><a href="/?user&q=code/approve/realname">{if $_G.user_info.realname_status==1}查看{elseif $_G.user_info.realname_status==0&&$_G.user_info.realname!=''}修改{else}身份认证{/if}</a></td>
+                  </tr>
+				  <tr>
+				  {articles module="rating" function="GetInfoOne" user_id="$_G.user_id" var="Ivar"}
+                    <td>完善个人信息</td>
+                    <td>{if $Ivar.user_id>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Ivar.user_id>0}<strong style="color:#ff0000">
+					{articles module="credit" function="GetTypeOne" var="Tvar" nid="info_credit"}
+					{$Tvar.value}分
+					{/articles}</strong>{else}0分{/if}</td>
+					<td><a href="/?user&q=code/rating/basic">{if $Ivar.user_id>0}修改{else}填写资料{/if}</td>
+				{/articles}
+                  </tr>
+				  
+				   <tr> 
+				   <td rowspan="4">必要信用认证</td>
+                    <td>工作认证</td>
+					<td>{if $Avar.work.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.work.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.work.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.work.num>0}<strong style="color:#ff0000">{$Avar.work.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('工作认证','url:get?/addatt/index.html?nid=work&type=1','600','320','true','','true','text');">{if $Avar.work.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>收入认证</td>
+                    <td>{if $Avar.income.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.income.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.income.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.income.num>0}<strong style="color:#ff0000">{$Avar.income.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('收入认证','url:get?/addatt/index.html?nid=income&type=1','600','320','true','','true','text');">{if $Avar.income.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>工资卡流水</td>
+                    <td>{if $Avar.gongzi.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.gongzi.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.gongzi.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.gongzi.num>0}<strong style="color:#ff0000">{$Avar.gongzi.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('工资卡流水','url:get?/addatt/index.html?nid=gongzi&type=1','600','320','true','','true','text');">{if $Avar.gongzi.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>信用报告</td>
+                   <td>{if $Avar.xinyong.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.xinyong.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.xinyong.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.xinyong.num>0}<strong style="color:#ff0000">{$Avar.xinyong.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('信用报告','url:get?/addatt/index.html?nid=xinyong&type=1','600','320','true','','true','text');">{if $Avar.xinyong.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+                  <tr>
+				  <td rowspan="21">可选信用审核</td>
+					<td>视频认证</td>
+					<td>{if $_G.user_info.video_status==1}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $_G.video_result.status==5}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if} </td>
+					<td>{if $_G.user_info.video_status==1}<strong style="color:#ff0000">
+					{articles module="credit" function="GetTypeOne" var="Tvar" nid="video"}
+					{$Tvar.value}分
+					{/articles}
+					</strong>{else}0分{/if}</td>
+					<td><a href="?user&q=code/approve/video">{if $_G.video_result.status==5||$_G.video_result.status==1}修改{else}视频认证{/if}</a></td>
+				</tr>
+				<tr>
+                    <td>学历认证</td>
+					<td>{if $Avar.edu.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.edu.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.edu.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.edu.num>0}<strong style="color:#ff0000">{$Avar.edu.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('学历认证','url:get?/addatt/index.html?nid=edu&type=1','600','320','true','','true','text');">{if $Avar.edu.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				 <tr>
+                    <td>毕业证</td>
+					<td>{if $Avar.biye.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.biye.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.biye.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.biye.num>0}<strong style="color:#ff0000">{$Avar.biye.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('毕业证','url:get?/addatt/index.html?nid=biye&type=1','600','320','true','','true','text');">{if $Avar.biye.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>社保卡</td>
+					<td>{if $Avar.shebao.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.shebao.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.shebao.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.shebao.num>0}<strong style="color:#ff0000">{$Avar.shebao.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('社保卡','url:get?/addatt/index.html?nid=shebao&type=1','600','320','true','','true','text');">{if $Avar.shebao.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>房产证</td>
+                   <td>{if $Avar.fangchan.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.fangchan.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.fangchan.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.fangchan.num>0}<strong style="color:#ff0000">{$Avar.fangchan.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('房产证','url:get?/addatt/index.html?nid=fangchan&type=1','600','320','true','','true','text');">{if $Avar.fangchan.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>行车证</td>
+                   <td>{if $Avar.xingche.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.xingche.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.xingche.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.xingche.num>0}<strong style="color:#ff0000">{$Avar.xingche.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('行车证','url:get?/addatt/index.html?nid=xingche&type=1','600','320','true','','true','text');">{if $Avar.xingche.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>驾驶证</td>
+                   <td>{if $Avar.jiashi.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.jiashi.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.jiashi.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.jiashi.num>0}<strong style="color:#ff0000">{$Avar.jiashi.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('驾驶证','url:get?/addatt/index.html?nid=jiashi&type=1','600','320','true','','true','text');">{if $Avar.jiashi.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>信用卡</td>
+                   <td>{if $Avar.xinyongka.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.xinyongka.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.xinyongka.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.xinyongka.num>0}<strong style="color:#ff0000">{$Avar.xinyongka.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('信用卡','url:get?/addatt/index.html?nid=xinyongka&type=1','600','320','true','','true','text');">{if $Avar.xinyongka.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>其它借款(每个5分)</td>
+                   <td>{if $Avar.otherloan.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.otherloan.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.otherloan.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.otherloan.num>0}<strong style="color:#ff0000">{$Avar.otherloan.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('其它借款','url:get?/addatt/index.html?nid=otherloan&type=1','600','320','true','','true','text');">{if $Avar.otherloan.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>其它资产证明</td>
+                   <td>{if $Avar.otherzc.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.otherzc.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.otherzc.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.otherzc.num>0}<strong style="color:#ff0000">{$Avar.otherzc.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('其它资产证明','url:get?/addatt/index.html?nid=otherzc&type=1','600','320','true','','true','text');">{if $Avar.otherzc.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>现场认证</td>
+                    <td>{if $Avar.xianchang.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.xianchang.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.xianchang.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.xianchang.num>0}<strong style="color:#ff0000">{$Avar.xianchang.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('现场认证','url:get?/addatt/index.html?nid=xianchang&type=1','600','320','true','','true','text');">{if $Avar.xianchang.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>家属身份证</td>
+                    <td>{if $Avar.jiashu.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.jiashu.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.jiashu.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.jiashu.num>0}<strong style="color:#ff0000">{$Avar.jiashu.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('家属身份证','url:get?/addatt/index.html?nid=jiashu&type=1','600','320','true','','true','text');">{if $Avar.jiashu.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>                   
+                    <td>户口本</td>
+                    <td>{if $Avar.hukou.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.hukou.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.hukou.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.hukou.num>0}<strong style="color:#ff0000">{$Avar.hukou.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('户口本','url:get?/addatt/index.html?nid=hukou&type=1','600','320','true','','true','text');">{if $Avar.hukou.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				<tr>
+                    <td>住址证明</td>
+                    <td>{if $Avar.zhuzhi.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.zhuzhi.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.zhuzhi.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.zhuzhi.num>0}<strong style="color:#ff0000">{$Avar.zhuzhi.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('住址证明','url:get?/addatt/index.html?nid=zhuzhi&type=1','600','320','true','','true','text');">{if $Avar.zhuzhi.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>手机话单</td>
+                    <td>{if $Avar.huadian.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.huadian.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.huadian.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.huadian.num>0}<strong style="color:#ff0000">{$Avar.huadian.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('手机话单','url:get?/addatt/index.html?nid=huadian&type=1','600','320','true','','true','text');">{if $Avar.huadian.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+                  <tr>
+                    <td>结婚证明</td>
+                    <td>{if $Avar.marry.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.marry.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.marry.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.marry.num>0}<strong style="color:#ff0000">{$Avar.marry.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('结婚证明','url:get?/addatt/index.html?nid=marry&type=1','600','320','true','','true','text');">{if $Avar.marry.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>股权证</td>
+                    <td>{if $Avar.guquan.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.guquan.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.guquan.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.guquan.num>0}<strong style="color:#ff0000">{$Avar.guquan.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('股权证','url:get?/addatt/index.html?nid=guquan&type=1','600','320','true','','true','text');">{if $Avar.guquan.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>商铺照片</td>
+                    <td>{if $Avar.photo.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.photo.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.photo.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.photo.num>0}<strong style="color:#ff0000">{$Avar.photo.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('商铺照片','url:get?/addatt/index.html?nid=photo&type=1','600','320','true','','true','text');">{if $Avar.photo.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>本税副本</td>
+                    <td>{if $Avar.fuben.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.fuben.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.fuben.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.fuben.num>0}<strong style="color:#ff0000">{$Avar.fuben.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('本税副本','url:get?/addatt/index.html?nid=fuben&type=1','600','320','true','','true','text');">{if $Avar.fuben.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  <tr>
+                    <td>营业执照</td>
+                    <td>{if $Avar.zhizhao.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.zhizhao.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.zhizhao.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.zhizhao.num>0}<strong style="color:#ff0000">{$Avar.zhizhao.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('营业执照','url:get?/addatt/index.html?nid=zhizhao&type=1','600','320','true','','true','text');">{if $Avar.zhizhao.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+                   <tr>
+                    <td>其他有价值的认证（每个2分）</td>
+                    <td>{if $Avar.other.num>0}<img width="20px" height="14px" title="已完成" alt="已完成" src="{$tempdir}/images/gg.gif" />{elseif $Avar.other.status=="0"}<img width="32px" height="32px" title="待审核" alt="待审核" src="{$tempdir}/images/deng.gif" />{elseif $Avar.other.status==2}未通过{else}<img width="32px" height="32px" title="待完成" alt="待完成" src="{$tempdir}/images/credit_warning.png" />{/if}</td>
+					<td>{if $Avar.other.num>0}<strong style="color:#ff0000">{$Avar.other.num}分</strong>{else}0分{/if}</td>
+					<td><a href="javascript:void(0);" onClick="tipsWindown('其他有价值的认证','url:get?/addatt/index.html?nid=other&type=1','600','320','true','','true','text');">{if $Avar.other.addtime==""}上传资料{else}修改{/if}</a></td>	
+                  </tr>
+				  {/articles} 
+                  <tr>
+                    <td colspan="5" style="padding-left:15px; text-align:left">辅助积分代表在本网站的投标，还款情况：</td>
+                  </tr>
+{articles module="borrow" plugins="count" function="GetUsersCreditCount" var="credit_var" user_id="$_G.user_id"}  
+                  <tr>
+                    <td>投标记录</td>
+                    <td colspan="2">成功投标，每1000元积1分</td>
+                    <td>{$credit_var.tender_credit*1000|default:"0"}</td>
+                    <td>{$credit_var.tender_credit|default:"0"}</td>
+                  </tr>
+				  <tr>
+                    <td>还款记录</td>
+                    <td colspan="2">成功还款，每1000元积1分</td>
+                    <td>{$credit_var.borrow_credit*1000|default:"0"}</td>
+                    <td>{$credit_var.borrow_credit|default:"0"}</td>
+                  </tr>
+{/articles} 
+                </table>
+              </div>
+            </div>
+          </div>
+
+  

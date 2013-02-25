@@ -1,0 +1,15 @@
+<div class="help_left1">
+   <div class="he_le_bor">
+		<div class="he_le_title"><h1>机构列表</h1></div>
+			<div class="he_le_news">
+					<ul>
+					{list module="articles" function="GetList" epage="40" site_id="this" var="loop"}
+						{foreach from="$loop.list" item="item" }
+							<li><a class="dangq1" title="{$item.name}" href="/{$_G.site_result.nid}/a{$item.id}.html" target="_blank">{$item.name}</a></li>
+						{/foreach}
+					{/list}
+				  </ul>
+			</div>
+	   </div>
+    </div>
+</div>

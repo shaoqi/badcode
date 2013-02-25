@@ -1,0 +1,38 @@
+{include file="header.html"}
+<div class="conbox t20">
+	     <div>
+	      <div class="con_bor">
+	        <div class="pos_bor"><span>你的位置><a href="/">急速贷</a> ><a href="#">我要借款</a>>填写资料</span></div>
+            <div class="t40">
+              <div style="text-align:center">
+			        <img src="{$tpldir}/images/step2.gif" />
+		      </div> 
+		  </div>
+          <div class="ch_content">
+		  <div class="m_change">
+			         <ul>
+					    <li><a {if $magic.request.p=="info"}class="onn"{/if} href="/?user&q=code/borrow/loan&p=info&type={$magic.request.type}">基本信息</a></li>
+						 <li><a {if $magic.request.p=="work"}class="onn"{/if} href="/?user&q=code/borrow/loan&p=work&type={$magic.request.type}" >单位资料</a></li>
+						 <li><a  {if $magic.request.p=="company"}class="onn"{/if} href="/?user&q=code/borrow/loan&p=company&type={$magic.request.type}">私营业主</a></li>
+                         <li><a {if $magic.request.p=="contact"}class="onn"{/if} href="/?user&q=code/borrow/loan&p=contact&type={$magic.request.type}">联系方式</a></li>
+                         <li><a {if $magic.request.p=="finance"}class="onn"{/if}  href="/?user&q=code/borrow/loan&p=finance&type={$magic.request.type}">财务状况</a></li>
+                         <li><a {if $magic.request.p=="houses"}class="onn"{/if}  href="/?user&q=code/borrow/loan&p=houses&type={$magic.request.type}">房产资料</a></li>
+					 </ul>
+		    </div>	
+			{if $magic.request.p=="info"}
+            {include file="users_loan_info_base.html" }
+            {elseif $magic.request.p=="work"}
+            {include file="users_loan_info_work.html" }   
+            {elseif $magic.request.p=="company"}
+            {include file="users_loan_info_company.html" }
+            {elseif $magic.request.p=="contact"}
+            {include file="users_loan_info_contact.html" }
+            {elseif $magic.request.p=="finance"}
+            {include file="users_loan_info_finance.html" }
+            {elseif $magic.request.p=="houses"}
+            {include file="users_loan_info_houses.html" }
+             {/if} 
+	</div>
+{include file="footer.html"}
+</body>
+</html>

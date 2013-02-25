@@ -1,0 +1,182 @@
+{include file="header.html"}
+<div class="conbox t20">
+	{include file="user_menu.html"}
+	<div class="user_right">
+	   <div>
+		   <div class="m_change">
+			{if $_U.query_type=="basic"  || $_U.query_type=="contact" || $_U.query_type=="lianbao" || $_U.query_type=="finance"  || $_U.query_type=="job"}
+
+			<ul>
+
+				<li><a href="{$_U.query_url}/basic" {if $_U.query_type=="basic"} class="onn"{/if}>基本信息</a></li>
+
+				<li><a href="{$_U.query_url}/contact" {if $_U.query_type=="contact"} class="onn"{/if}>联系方式</a></li>
+
+				<li><a href="{$_U.query_url}/job" {if $_U.query_type=="job"} class="onn"{/if}>单位资料</a></li>
+				
+				<li><a href="{$_U.query_url}/finance" {if $_U.query_type=="finance"} class="onn"{/if}>财务状况</a></li>
+				
+				<li><a href="{$_U.query_url}/lianbao" {if $_U.query_type=="lianbao"} class="onn"{/if}>联保情况</a></li>
+
+			</ul>
+			
+			{elseif $_U.query_type=="addpayment"}
+			
+			<ul>
+				<li><a href="{$_U.query_url}/addpayment" {if $_U.query_type=="addpayment"} class="onn"{/if}>添加支出状况</a></li>
+			</ul>
+			{elseif $_U.query_type=="addrevenue"}
+			<ul>
+				<li><a href="{$_U.query_url}/addrevenue" {if $_U.query_type=="addrevenue"} class="onn"{/if}>添加收入状况</a></li>
+			</ul>
+			{elseif $_U.query_type=="addassets"}
+			<ul>
+				<li><a href="{$_U.query_url}/addassets" {if $_U.query_type=="addassets"} class="onn"{/if}>添加资产状况</a></li>
+			</ul>
+			{/if}
+		</div>
+		<div class="main_box1">
+		<div class="us_r_bor1">
+			{if $_U.query_type=="basic"}
+			
+			{include file="user_rating_basic.html"}
+			
+			{elseif $_U.query_type=="job"}
+			
+				{include file="user_rating_job.html"}
+			
+			{elseif $_U.query_type=="contact"}
+			
+				{include file="user_rating_contact.html"}
+				
+			{elseif $_U.query_type=="lianbao"}
+			
+				{include file="user_rating_lianbao.html"}
+				
+			{elseif $_U.query_type=="finance"}
+			
+				{include file="user_rating_finance.html"}
+				
+			{elseif $_U.query_type=="houses"}
+			
+				{include file="user_rating_houses.html"}
+			
+			{elseif $_U.query_type=="assets"}
+			<div class="user_main_title1" >
+				<font color="#ff0000">*</font>为必填资料，所有资料均会严格保密
+			</div>
+			
+			<div class="t20">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+				<tr class="ytit">
+					<td colspan="5"><a href="{$_U.query_url}/addassets">添加资产状况</a></td>
+				</tr>
+				<tr class="ytit1" >
+					<td  >负债类型</td>
+					<td  >负债名称</td>
+					<td  >金额</td>
+					<td  >其他说明</td>
+					<td  >操作</td>
+				</tr>
+				{list module="rating" var="loop" function ="GetAssetsList" user_id="0"}
+				{foreach from="$loop.list" item="item"}
+				<tr {if $key%2==1} class="tr1"{/if} >
+					<td>{$item.assetstype|linkages:"rating_assetstype"}</td>
+					<td>{$item.name}</td>
+					<td>{$item.account}</td>
+					<td>{$item.other}</td>
+					<td><a href="{$_U.query_url}/addassets&edit={$item.id}">编辑</a>/<a href="#" onClick="javascript:if(confirm('确定要删除吗?删除后将不可恢复')) location.href='{$_U.query_url}/{$_U.query_type}&del={$item.id}'">删除</a></td>
+				</tr>
+				{/foreach}
+				{/list}
+			</table>
+			</div>		
+				
+			{elseif $_U.query_type=="addassets"}
+			<form action="" method="post">
+			<div class="user_right_border">
+				<div class="l">负债类别：</div>
+				<div class="c">{linkages name="assetstype" nid="rating_assetstype" type="value" value="$_U.rating_result.assetstype"} <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">负债名称：</div>
+				<div class="c"><input type="text" name="name" value="{$_U.rating_result.name}" id="name"> <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">金额：</div>
+				<div class="c"><input type="text" name="account" value="{$_U.rating_result.account}" id="account"> <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">其他：</div>
+				<div class="c"><textarea cols="30" rows="5" name="other">{$_U.rating_result.other}</textarea><font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l"></div>
+				<div class="c"><input type="hidden" name="submit" value="submit"><input type="submit" name="submit" value="提交"></div>
+			</div>
+			{elseif $_U.query_type=="addpayment"}
+			<form action="" method="post">
+			<div class="user_right_border">
+				<div class="l">支出类别：</div>
+				<div class="c">{linkages name="type" nid="rating_payment" type="value" value="$_U.rating_result.type"} <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">支出名称：</div>
+				<div class="c"><input type="text" name="name" value="{$_U.rating_result.name}" id="name"> <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">金额：</div>
+				<div class="c"><input type="text" name="account" value="{$_U.rating_result.account}" id="account"> <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">其他：</div>
+				<div class="c"><textarea cols="30" rows="5" name="other">{$_U.rating_result.other}</textarea><font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l"><input type="hidden" name="use_type" value="2" id="use_type"></div>
+				<div class="c"><input type="hidden" name="submit" value="submit"><input type="submit" name="submit" value="提交"></div>
+			</div>
+			{elseif $_U.query_type=="addrevenue"}
+			<form action="" method="post">
+			<div class="user_right_border">
+				<div class="l">收入类别：</div>
+				<div class="c">{linkages name="type" nid="rating_revenue" type="value" value="$_U.rating_result.type"} <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">收入名称：</div>
+				<div class="c"><input type="text" name="name" value="{$_U.rating_result.name}" id="name"> <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">金额：</div>
+				<div class="c"><input type="text" name="account" value="{$_U.rating_result.account}" id="account"> <font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l">其他：</div>
+				<div class="c"><textarea cols="30" rows="5" name="other">{$_U.rating_result.other}</textarea><font color="#ff0000">*</font>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l"><input type="hidden" name="use_type" value="1" id="use_type"></div>
+				<div class="c"><input type="hidden" name="submit" value="submit"><input type="submit" name="submit" value="提交"></div>
+			</div>
+			{/if}
+			</form>
+		</div>
+	</div>
+	</div>
+	
+</div>
+<div style="clear:both;"></div>
+
+{include file="footer.html"}

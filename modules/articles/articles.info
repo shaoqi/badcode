@@ -1,0 +1,10 @@
+<?
+	$code = "articles";
+	$name = "文章模块";
+	$description = "文章管理模块";
+	$version = "3.0";
+	$author = "dycms";
+	$date = "2010-06-06";
+	$update = "2012-06-10";
+	$type = "system";
+?>

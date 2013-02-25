@@ -1,0 +1,121 @@
+<div class="main_right">
+		       <div>
+			       <div class="main_r_bor">
+				        <div class="m_r_title1"><h1>按条件搜索</h1></div>
+						<table width="100%" border="0" cellspacing="10" cellpadding="0">
+						<form action="" method="get">
+  <tr>
+    <td width="41%" align="right">借款类型</td>
+    <td width="59%">{linkages name="borrow_type" nid="borrow_all_type" type="value" default="不限" value="$magic.request.borrow_type"}</td>
+  </tr>
+  <tr>
+    <td align="right">金额范围</td>
+    <td>
+		{linkages name="account_status" nid="account_status" type="value" value="$magic.request.account_status"  default="不限" style="width:90px"}
+	</td>
+  </tr>
+  <tr>
+    <td align="right">按利率</td>
+    <td>{linkages name="borrow_interestrate" nid="borrow_interestrate" type="value" value="$magic.request.borrow_interestrate" default="不限" style="width:90px"}</td>
+  </tr>
+  <tr>
+    <td align="right">按期限</td>
+    <td>{linkages name="borrow_period" nid="borrow_period" type="value" value="$magic.request.borrow_period" default="不限" style="width:90px"}</td>
+  </tr>
+ <!--  <tr>
+    <td align="right">按剩余时间</td>
+    <td><select name="select5" style="width:90px;">
+      <option value="1">不限</option>
+    </select></td>
+  </tr> -->
+  <tr>
+    <td align="right">关键字</td>
+    <td><input type="text" name="keywords" style="width:90px; border:#BFBFBF solid 1px; height:18px;" value="{$magic.request.keywords|urldecode}"/></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" name="Submit" value="查询" /></td>
+  </tr>
+  </form>
+</table>
+				   </div>
+				   <div class="bbot">
+				        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left"><img src="{$tpldir}/images/botleft.gif" width="11" height="12" /></td>
+    <td align="right"><img src="{$tpldir}/images/botright.gif" width="11" height="12" /></td>
+  </tr>
+</table>
+
+				   </div>
+			  </div>
+
+{literal}
+<?
+$account = isset($_REQUEST['show_account'])?$_REQUEST['show_account']:"";
+$lilv = isset($_REQUEST['show_apr'])?$_REQUEST['show_apr']:"";
+$times = isset($_REQUEST['show_time'])?$_REQUEST['show_time']:"";
+$style = isset($_REQUEST['style'])?$_REQUEST['style']:"";
+?>
+{/literal}
+			  
+			  <div class="t10">
+			       <div class="main_r_bor">
+				        <div class="m_r_title1"><h1>借出计算器</h1></div>
+						<div>
+						<form action="" method="get">
+				<table width="100%" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td width="41%" align="right">初始投资</td>
+    <td width="59%"><input type="text" name="show_account" value="{$magic.request.show_account}" style="width:60px; border:#BFBFBF solid 1px; height:18px;"/>
+      元</td>
+  </tr>
+  <tr>
+    <td align="right">年利率</td>
+    <td><input type="text" name="show_apr" value="{$magic.request.show_apr}" style="width:60px; border:#BFBFBF solid 1px; height:18px;"/>
+      %</td>
+  </tr>
+  <tr>
+    <td align="right">投资期限</td>
+    <td><input type="text" name="show_time" value="{$magic.request.show_time}" style="width:60px; border:#BFBFBF solid 1px; height:18px;"/>
+      月</td>
+  </tr>
+  <tr>
+	<td align="right">还款方式</td>
+	<td><select name="style"><option value="0" >按月还款</option><option value="1" >按月还息</option></select></td>
+   </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" name="Submit" value="查询" /></td>
+  </tr>
+</table>
+</form>
+{literal}
+				<?
+					require_once(ROOT_PATH."modules/borrow/borrow.class.php");
+					$data['account'] = $account;
+					$data['apr'] = $lilv;
+					$data['period'] = $times;
+					$data['style'] = $style;
+					$data['time'] = time();
+					$list = EqualInterest($data);
+					$data['type'] = "all";
+					$result = EqualInterest($data);
+					if ($result!="" && is_array($list)){
+				?>
+			<div style="text-align:center"><b>到期价值</b> <font style="color:#FF0000"><span id="show"><? echo $result['account_total'];?></span>元</font></div>
+			<? }?>
+			{/literal}
+				</div>
+				   </div>
+				   <div class="bbot">
+				        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left"><img src="{$tpldir}/images/botleft.gif" width="11" height="12" /></td>
+    <td align="right"><img src="{$tpldir}/images/botright.gif" width="11" height="12" /></td>
+  </tr>
+</table>
+
+				   </div>
+			  </div>
+		  </div>

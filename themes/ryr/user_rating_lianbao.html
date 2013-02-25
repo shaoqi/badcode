@@ -1,0 +1,47 @@
+<br>
+<form action="/?user&q=code/rating/lianbao" method="post" name="formx" onsubmit="return formcheck();">
+{articles module="rating" function="GetLianbaoOne" user_id="$_G.user_id" var="var"}
+<div class="us_cen1" style="width: auto">第一联保人：</div>
+<div class="user_info_box clearfix" style="width: auto">
+	<div class="user_info_item">
+		<span class="user_info_item_left">姓名：</span> <span> 
+		<input value="{$var.name1}" class="input180 " name="name1" id="name1">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">关系：</span> <span> 
+		 {linkages nid="rating_relation" name="relationship5" type="value" value="$var.relationship5"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">手机：</span> <span> 
+		<input value="{$var.tel1}" class="input180 " name="tel1" id="tel1">
+		</span>
+	</div></div><br/>
+<div class="us_cen1" style="width: auto">第二联保人：</div>
+<div class="user_info_box clearfix" style="width: auto">
+	<div class="user_info_item">
+		<span class="user_info_item_left">姓名：</span> <span> 
+		<input value="{$var.name2}" class="input180 " name="name2" id="name2">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">关系：</span> <span> 
+		 {linkages nid="rating_relation" name="relationship6" type="value" value="$var.relationship6"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">手机：</span> <span> 
+		<input value="{$var.tel2}" class="input180 " name="tel2" id="tel2">
+		</span>
+	</div></div>
+	<div style="padding:10px 0; margin-left:170px">
+		<input type="hidden" name="type" value="{$magic.request.type}" />
+	{if $magic.request.type=='lianbao'}
+	<input type="image" src="{$tpldir}/images/saveandcon.gif" /><input type="hidden" name="submit" id="submit" value="提交" />
+	<a href="/?user&q=code/borrow/jrsh&type=avatar"><img src="{$tpldir}/images/skipdcon.gif"></a>	
+	{else}
+	<input type="submit" name="submit" id="submit" value="提交" class="press_mode" />
+	{/if}
+    </div>
+  </form>      

@@ -1,0 +1,3002 @@
+{include file="header.html"}
+  <div class="conbox t20">
+	      <div>
+	{include file="user_menu.html"}
+	<div class="user_right">
+			
+				{if $_U.query_type=="loan" && $magic.request.p=="repay"  && $magic.request.type!="detail" }
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/loan&p=repay" {if $magic.request.type==""}class="onn"{/if}>偿还中</a></li>
+					<li><a href="{$_U.query_url}/loan&p=repay&type=now" {if $magic.request.type=="now"}class="onn"{/if}>发标中</a></li>
+					<li><a href="{$_U.query_url}/loan&p=repay&type=tender" {if $magic.request.type=="tender"} class="onn"{/if}>借款明细</a></li>
+					<li><a href="{$_U.query_url}/loan&p=repay&type=yes" {if $magic.request.type=="yes"} class="onn"{/if}>已还清</a></li>
+					<li><a href="{$_U.query_url}/loan&p=repay&type=late" {if $magic.request.type=="late"} class="onn"{/if}>逾期列表</a></li>
+				</ul>
+				</div>
+                  {elseif $_U.query_type=="loan" && $magic.request.p=="repay"  && $magic.request.type=="detail" }	
+				  <div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/loan&p=repay&type=detail" {if $magic.request.type=="detail"} class="onn"{/if}>还款明细账</a></li>
+					
+				</ul>
+				</div>
+				      
+               	{elseif $_U.query_type=="loan" && $magic.request.p=="views" }
+				<div class="m_change">
+				<ul>
+					<!-- <li><a href="{$_U.query_url}/loan&p=views&borrow_nid={$maigc.request.borrow_nid}" class="onn">还款明细</a></li> -->
+					<li><a href="javascript:void(0);" class="onn">还款明细</a></li>
+				</ul>
+				</div>
+				{elseif $_U.query_type=="amount" ||  $magic.request.p=="amount_log"}	
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/amount" {if $magic.request.p==""} class="onn"{/if} >额度申请</a></li>
+					<li><a href="{$_U.query_url}/amount&p=log" {if $magic.request.p=="log"}class="onn"{/if}>额度记录</a></li>
+				</ul> 
+				</div>
+                {elseif $_U.query_type=="tender" &&   $magic.request.p!="wait" &&   $magic.request.p!="agreement"}	
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/tender&p=now" {if $magic.request.p=="now"} class="onn"{/if}/>投标中</a></li>
+					<li><a href="{$_U.query_url}/tender&p=recover"  {if $magic.request.p=="recover"} class="onn"{/if}>回收中</a></li>
+					<!--<li><a href="{$_U.query_url}/tender&p=wait"  {if $magic.request.p == "wait" } class="onn"{/if}>未收款明细</a></li>-->
+					<li><a href="{$_U.query_url}/tender&p=yes" {if $magic.request.p=="yes"} class="onn"{/if} >已收款明细</a></li>
+					<li><a href="{$_U.query_url}/tender&p=detail" {if $magic.request.p=="detail"} class="onn"{/if}>借出明细</a></li>
+					<li><a href="{$_U.query_url}/tender&p=over" {if $magic.request.p=="over"} class="onn"{/if}>回收完</a></li>
+					<li><a href="{$_U.query_url}/tender&p=late" {if $magic.request.p=="late"} class="onn"{/if}>逾期列表</a></li>
+				</ul>
+				</div>  
+                 
+				{elseif  $_U.query_type=="change" }
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/change" {if $magic.request.p==""} class="onn"{/if} >可以转让的债权</a></li>
+					<li><a href="{$_U.query_url}/change&p=now"  {if $magic.request.p=="now"} class="onn"{/if} >正在转让的债权</a></li>
+					<li><a href="{$_U.query_url}/change&p=success"  {if $magic.request.p=="success"} class="onn"{/if}>成功转让的债权</a></li>
+					<li><a href="{$_U.query_url}/change&p=buy"  {if $magic.request.p=="buy"} class="onn"{/if}>成功购买的债权</a></li>
+					<li><a href="{$_U.query_url}/change&p=wait"  {if $magic.request.p=="wait"} class="onn"{/if}>回收中的债权</a></li>
+				</ul>
+                </div>
+                	{elseif  $_U.query_type=="debt" || $_U.query_type=="move_success" || $_U.query_type=="wait" || $_U.query_type=="buy_success" || $_U.query_type=="debting"}
+					<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/debting" {if $_U.query_type=="debting"} class="onn"{/if} >可以转让的债权</a></li>
+					<li><a href="{$_U.query_url}/debt_move" {if $_U.query_type=="debt_move"} class="onn"{/if} >正在转让的债权</a></li>
+					<li><a href="{$_U.query_url}/move_success" {if $_U.query_type=="move_success"} class="onn"{/if}>成功转让的债权</a></li>
+					<li><a href="{$_U.query_url}/buy_success" {if $_U.query_type=="buy_success"} class="onn"{/if}>成功购买的债权</a></li>
+					<li><a href="{$_U.query_url}/wait&type=change" {if $_U.query_type=="wait"} class="onn"{/if}>回收中的债权</a></li>
+				</ul>
+                </div>
+                {elseif $_U.query_type=="borrow" ||  $magic.request.p=="count" }
+				<div class="m_change">	
+				<ul>
+					<li><a href="{$_U.query_url}/loan&p=count"  class="onn" >借款统计</a></li>					
+				</ul>
+				</div>
+				{elseif $_U.query_type=="borrow" ||  $magic.request.p=="now" }	
+				<div class="m_change">
+				<ul>
+					<li>
+					<a href="{$_U.query_url}/loan&p=now"  class="onn" >发布的借款</a>
+					</li>					
+				</ul>
+				</div>
+				{elseif  $_U.query_type=="bid"}
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/bid" class="onn">正在投标的借款</a></li>
+				</ul>
+			    </div>
+				{elseif  $_U.query_type=="full_check"}
+				<div class="m_change">
+				<ul>
+
+					<li><a href="{$_U.query_url}/full_check" class="onn">满标复审的借款</a></li>
+				</ul>
+                </div>
+				{elseif  $_U.query_type=="auto" || $_U.query_type=="auto_list" || $_U.query_type=="auto_new" }
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/auto" {if $_U.query_type=="auto"} class="onn"{/if} >自动投标</a></li>
+					<li><a href="{$_U.query_url}/auto_new" {if $_U.query_type=="auto_new"} class="onn"{/if}>添加自动投标</a></li>
+					<li><a href="{$_U.query_url}/auto_list" {if $_U.query_type=="auto_list"} class="onn"{/if}>自动投标记录</a></li>
+				</ul>
+				</div>
+
+				{elseif  $_U.query_type=="otherloan" || $_U.query_type=="otherloan_new"  }
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/otherloan" {if $_U.query_type=="otherloan"} class="onn"{/if} >其他网站借款</a></li>
+					<li><a href="{$_U.query_url}/otherloan_new" {if $_U.query_type=="otherloan_new"} class="onn"{/if}>添加其他借款</a></li>
+				</ul>
+				</div>
+				{elseif  $_U.query_type=="black" || $_U.query_type=="yqblack"}
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/black" {if $_U.query_type=="black"} class="onn"{/if} >我的黑名单</a></li>
+					<li><a href="{$_U.query_url}/yqblack" {if $_U.query_type=="yqblack"} class="onn"{/if} >我的逾期黑名单</a></li>
+				</ul>
+                </div>
+				{elseif  $_U.query_type=="xinbiao"|| $_U.query_type=="huikuan"|| $_U.query_type=="hetong"|| $_U.query_type=="jrsh"|| $_U.query_type=="hkap"|| $_U.query_type=="jiangjin"}
+				{elseif $_U.query_type=="jiangjin" || $_U.query_type=="tender_vouch_finish" }
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/tender_vouch" {if $_U.query_type=="tender_vouch"} class="onn"{/if} >我担保的借款</a></li>
+					<li><a href="{$_U.query_url}/tender_vouch_finish" {if $_U.query_type=="tender_vouch_finish" &&  $magic.request.status!="0" && $magic.request.status!="1"} class="onn"{/if}>投标/复审担保标</a></li>
+					<li><a href="{$_U.query_url}/tender_vouch_finish&status=0" {if $magic.request.status=="0"} class="onn"{/if}>还款中的担保标</a></li>
+					<li><a href="{$_U.query_url}/tender_vouch_finish&status=1" {if $magic.request.status=="1"} class="onn"{/if}>已还完的担保标</a></li>
+				</ul>
+                </div>
+				{elseif $_U.query_type=="myuser" || $_U.query_type=="myuserrepay" || $_U.query_type=="myuserborrow" || $_U.query_type=="myuser_account" }
+				<div class="m_change">
+				<ul>
+					<li><a href="index.php?user&q=code/user/myuser" {if $_U.query_type=="myuser"} class="onn"{/if}>我的客服</a></li>
+					<li><a href="index.php?user&q=code/borrow/myuser" {if $_U.query_type=="myuserrepay" || $_U.query_type=="myuser"} class="onn"{/if}>客户借款</a></li>
+					<li><a href="index.php?user&q=code/borrow/myuserborrow" {if $_U.query_type=="myuserborrow" } class="onn"{/if}>客户投资</a></li>
+					<li><a href="index.php?user&q=code/borrow/myuser_account" {if $_U.query_type=="myuser_account"} class="onn"{/if}>统计信息</a></li>
+				</ul>
+                </div>
+				{elseif $_U.query_type=="borrow_vouch" ||  $_U.query_type=="borrow_vouched"}
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/borrow_vouch" {if $_U.query_type=="borrow_vouch"} class="onn"{/if}>担保的借款</a></li>
+					<li><a href="{$_U.query_url}/borrow_vouched" {if $_U.query_type=="borrow_vouched"} class="onn"{/if}>已通过担保的借款</a></li>
+				</ul>
+                </div>
+				{elseif $_U.query_type=="care" || $_U.query_type=="yonghu"}
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/care" {if $_U.query_type=="care"} class="onn"{/if}>我关注的借款</a></li>
+					<li><a href="{$_U.query_url}/yonghu" {if $_U.query_type=="yonghu"} class="onn"{/if}>我关注的用户</a></li>
+					
+					<!--<li><a href="{$_U.query_url}/borrow_reply" {if $_U.query_type=="borrow_reply"} class="onn"{/if}>贷款者回复</a></li>-->
+				</ul>
+                </div>
+
+				{elseif $_U.query_type=="repaylog"}	
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/repaylog" class="onn">借款统计</a></li>
+				</ul>
+				</div>
+				{elseif $_U.query_type=="repays"}	
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/repays" class="onn">正在还款中</a></li>
+				</ul>
+				</div>
+				{elseif $magic.request.p!="plan" && $magic.request.p!="wait" &&   $magic.request.p!="agreement" }
+				<div class="m_change">
+				<ul>
+					<li><a href="{$_U.query_url}/publish" {if $_U.query_type=="publish"} class="onn"{/if}>正在招标的借款</a></li>
+				</ul>
+				</div>
+				{/if}
+
+		{if $_U.query_type=="amount"}
+		{include file="users_borrow_amount.html"}
+        
+        
+		{elseif $_U.query_type=="loan"}
+            {if $magic.request.p=='repay' && $magic.request.type!='now'}
+    		  {include file="users_loan_repay.html"}
+			  
+            {elseif $magic.request.p=='now'}
+    		  {include file="users_loan_now.html"}
+			  
+			{elseif $magic.request.p=='count'}
+    		  {include file="users_loan_count.html"}
+              
+              
+			{elseif $magic.request.p=='views'}
+    		  {include file="users_loan_views.html"}
+              
+              
+			{elseif $magic.request.p=='view'}
+    		  {include file="users_loan_view.html"}
+			    
+			{elseif $magic.request.p=='repay' && $magic.request.type=='now'}
+    		  {include file="users_loan_now.html"}
+			
+			{elseif $magic.request.p=='plan'}
+    		  {include file="users_loan_plan.html"}
+			{/if}
+            
+            
+            
+		 {elseif $_U.query_type=="tender"}
+            {if $magic.request.p=='success'}
+    		  {include file="users_tender_success.html"}
+			  
+            {elseif $magic.request.p=='now'}
+    		  {include file="users_tender_now.html"}
+			  
+			{elseif $magic.request.p=='recover'}
+    		  {include file="users_tender_recover.html"}
+              
+			{elseif $magic.request.p=='wait'}
+    		  {include file="users_tender_wait.html"}
+              
+			{elseif $magic.request.p=='yes'}
+    		  {include file="users_tender_yes.html"}
+              
+			{elseif $magic.request.p=='detail'}
+    		  {include file="users_tender_detail.html"}
+              
+			{elseif $magic.request.p=='over'}
+    		  {include file="users_tender_over.html"}
+			
+			{elseif $magic.request.p=='late'}
+    		  {include file="users_tender_late.html"}
+			{elseif $magic.request.p=='agreement'}
+    		  {include file="users_tender_agreement.html"}			
+			{/if}
+            
+        
+            
+		 {elseif $_U.query_type=="change"}
+            {if $magic.request.p==''}
+    		  {include file="users_change_can.html"}
+			  
+            {elseif $magic.request.p=='now'}
+    		  {include file="users_change_now.html"}
+			  
+			{elseif $magic.request.p=='success'}
+    		  {include file="users_change_success.html"}
+              
+			{elseif $magic.request.p=='buy'}
+    		  {include file="users_change_buy.html"}
+              
+			{elseif $magic.request.p=='wait'}
+    		  {include file="users_change_wait.html"}
+              
+			{/if}
+            
+            
+                
+            
+            
+                   
+		{elseif $_U.query_type=="limitapp"}
+		{include file="user_borrow_amount.html"}
+		
+		{elseif $_U.query_type=="xinbiao"}
+		{include file="user_borrow_xinbiao.html"}
+		
+		{elseif $_U.query_type=="huikuan"}
+		{include file="user_borrow_huikuan.html"}
+		
+		{elseif $_U.query_type=="hetong"}
+		{include file="user_borrow_hetong.html"}
+		
+		{elseif $_U.query_type=="jiangjin"}
+		{include file="user_borrow_jiangjin.html"}
+		
+		{elseif $_U.query_type=="jrsh"}
+		{include file="user_borrow_jrsh.html"}
+		
+		{elseif $_U.query_type=="hkap"}
+		{include file="user_borrow_hkap.html"}
+		
+		{elseif $_U.query_type=="repaymentplan"}
+		{include file="user_borrow_repaymentplan.html"}
+		
+		{elseif $_U.query_type=="care"}
+		{include file="user_borrow_care.html"}
+		
+		{elseif $_U.query_type=="yonghu"}
+		{include file="user_borrow_care_yonghu.html"}
+		
+		{elseif $_U.query_type=="amount" ||  $_U.query_type=="amount_log"}
+		{include file="users_borrow_amount.html"}
+
+
+		{elseif $_U.query_type=="repayment_view"}
+		{include file="user_borrow_repayment_view.html"}
+
+		{elseif $_U.query_type=="repays"}
+		{include file="user_borrow_repays.html"}
+		<!--正在招标 结束-->
+		{elseif $_U.query_type=="repaylog"}
+		
+		{articles module="borrow" function="GetUserCount" user_id="$_G.user_id" var="item"}
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4">个人借款统计</td>
+			</tr>
+			<tr>
+				<td width="25%">总借入金额</td>
+				<td width="25%">{$item.borrow_account|default:0.00}元</td>
+				<td width="25%">发布借款笔数</td>
+				<td width="25%">{$item.borrow_times|default:0}笔</td>
+			</tr>
+			<tr>
+				<td>已还本息</td>
+				<td>{$item.borrow_repay_yes|default:0.00}元</td>
+				<td>成功借款笔数</td>
+				<td>{$item.borrow_success_times|default:0}笔</td>
+			</tr>
+			<tr>
+				<td>待还本息</td>
+				<td>{ $item.borrow_repay_wait|default:0.00}元</td>
+				<td>正常还清期数</td>
+				<td>{ $item.borrow_repay_yes_times|default:0}期</td>
+			</tr>
+			<tr>
+				<td>待还期数</td>
+				<td>{ $item.borrow_repay_wait_times|default:0}期</td>
+				<td>加权平均利率</td>
+				<td>{ $item.borrow_interest_scale|default:0}%</td>
+			</tr>
+		</table>
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4">借款逾期统计</td>
+			</tr>
+			<tr>
+				<td width="25%">逾期次数</td>
+				<td width="25%">{$item.late_nums|default:0}次</td>
+				<td width="25%">逾期罚息</td>
+				<td width="25%">{$item.latemoney|default:0.00}元</td>
+			</tr>
+		</table>
+		</div>
+		
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="4">提前还款统计</td>
+			</tr>
+			<tr>
+				<td width="25%">提前还款期数</td>
+				<td width="25%">{ $item.advance_repay_times|default:0}期</td>
+				<!--<td width="25%">提前还款违约金</td>
+				<td width="25%">{ $item.borrow_weiyue|default:0.00}元</td>-->
+			</tr>
+		</table>
+		</div>
+		{/articles}
+		
+
+
+		
+
+
+		<!--尚未发布 开始-->
+
+
+		{elseif $_U.query_type=="unpublish"}
+		<div class="t20">
+		<div>
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/unpublish')" />
+		</div>
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+		  <form action="" method="post">
+			<tr class="ytit">
+				<td colspan="6">尚未发布的借款</td>
+			</tr>
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >金额(元)</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >发布时间</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" status="-1"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					
+
+
+					<td title="{$item.name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td  >{$item.account}(元)</td>
+
+
+					<td  >{$item.borrow_apr} %</td>
+
+
+					<td  >{$item.borrow_period} 个月</td>
+
+
+					<td  >{$item.addtime|date_format:"Y-m-d"}</td>
+
+
+					<td  ><a href="/publish/index.html?article_id={$item.id}">编辑</a> <a href="#" onclick="javascript:if(confirm('确定要删除此招标')) location.href='{$_U.query_url}/del&id={$item.id}'">删除</a></td>
+
+
+				</tr>
+
+
+				{/foreach}
+			</form>	
+		</table>
+		</div>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		
+
+		{/list}
+		<!--尚未发布 结束-->
+
+
+		
+
+
+		{elseif $_U.query_type=="repayment" ||  $_U.query_type=="repaymentyes"}
+
+
+		<!--正在还款的借款 开始-->
+
+		<div class="t20">
+		<div> 
+
+
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+
+
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/{$_U.query_type}')" />
+
+
+		</div>
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+			  <form action="" method="post">
+
+
+				
+
+
+				{if $_U.query_type=="repayment"}
+				
+			<tr class="ytit">
+				<td colspan="11">正在还款的借款</td>
+			</tr>
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >协议</td>
+
+
+					<td  >借款类型</td>
+
+
+					<td  >借款金额</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >还款期限</td>
+
+
+					<td  >借款时间</td>
+
+
+					<td  >偿还本息</td>
+
+
+					<td  >已还本息</td>
+
+
+					<td  >未还本息</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" query_type="repay_no" status="3"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td title="{$item.name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td  ><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议</a></td>
+
+
+					<td  >{$item.borrow_type|linkages:"borrow_all_type"}</td>
+
+
+					<td  >{$item.account}(元)</td>
+
+
+					<td  >{$item.borrow_apr} %</td>
+
+
+					<td  >{if $item.borrow_type==4}{$item.borrow_day}天{else}{$item.borrow_period}个月{/if}</td>
+
+
+					<td  >{$item.addtime|date_format:"Y-m-d"} </td>
+
+
+					<td  >￥{$item.repay_account_all}</td>
+
+
+					<td  >￥{$item.repay_account_yes|default:0.00}</td>
+
+
+					<td  >￥{$item.repay_account_wait}</td>
+
+
+					<td  ><a href="{$_U.query_url}/repayment_view&borrow_nid={$item.borrow_nid}">还款明细</a></td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+				{else}
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" query_type="repay_yes" status="3"}
+					
+				<tr class="ytit">
+					<td colspan="11">已还完的借款</td>
+				</tr>
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >协议</td>
+
+
+					<td  >借款类型</td>
+
+
+					<td  >借款金额</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >还款期限</td>
+
+
+					<td  >借款时间</td>
+
+
+					<td  >偿还本息</td>
+
+
+					<td  >已还本息</td>
+
+
+					<td  >已还逾期罚息</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td title="{$item.name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td  ><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议</a></td>
+
+
+					<td  >{$item.borrow_type|linkages:"borrow_all_type"}</td>
+
+
+					<td  >{$item.account}(元)</td>
+
+
+					<td  >{$item.borrow_apr} %</td>
+
+
+					<td  >{$item.borrow_period} 个月</td>
+
+
+					<td  >{$item.addtime|date_format:"Y-m-d"}</td>
+
+
+					<td  >￥{$item.repay_account_all}</td>
+
+
+					<td  >￥{$item.repay_account_yes|default:0.00}</td>
+
+
+					<td  >￥{$item.late_interest|default:0.00}</td>
+
+
+					<td  ><a href="{$_U.query_url}/repayment_view&borrow_nid={$item.borrow_nid}" >还款明细</a></td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+				{/if}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		
+
+
+				{/list}
+
+		<!--正在还款的借款 结束-->
+
+
+		
+
+		{elseif $_U.query_type=="loandetail"}
+
+
+
+		{elseif $_U.query_type=="full_check"}
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="9">满标审核</td>
+			</tr>
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >类型</td>
+
+
+					<td  >还款方式</td>
+
+
+					<td  >金额(元)</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >发布时间</td>
+
+
+					<td  >进度</td>
+
+
+					<td  >状态</td>
+
+				</tr>
+
+
+				{list module="borrow" function ="GetList" showpage="3" user_id="$_G.user_id" var="loop"  query_type="full_status"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if} >
+
+
+					<td ><a href="/invest/a{$item.borrow_nid}.html" title="{$item.name}" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td  >{if $item.vouch_status==1}担保标{elseif $item.fast_status==1}快速标{else}普通标{/if}</td>
+
+
+					<td  >{$item.borrow_style|linkages:"borrow_style"}</td>
+
+
+					<td  >{$item.account}元</td>
+
+
+					<td  >{$item.borrow_apr} %</td>
+
+
+					<td  >{$item.borrow_period} 个月</td>
+
+
+					<td  >{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+
+
+					<td  >{$item.borrow_account_scale}%</td>
+
+
+					<td  >{if $item.status==3}复审成功{elseif $item.status==4}复审失败{else}等待复审{/if}</td>
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+
+				{/list}
+
+		
+
+
+		{elseif $_U.query_type=="borrow_reply"}
+
+
+		<!--贷款者回复 开始-->
+		<div class="t20">
+		您现在查看的是:<select name="status" id="status"> <option value="" {if $magic.request.status==""}selected{/if}>所有回复</option> <option value="0" {if $magic.request.status=="0"}selected{/if}>等我回复</option> <option value="1" {if $magic.request.status=="1"}selected{/if}>已回复</option></select>
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/borrow_reply')"/>
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+			<tr class="ytit">
+				<td colspan="4">贷款者回复</td>
+			</tr>
+
+
+				<tr class="ytit1" >
+
+
+					<td  >我的留言</td>
+
+
+					<td  >回复内容</td>
+
+
+					<td  >回复时间</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetBorrowComment" showpage="3" code="borrow" user_id=0 status="request"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td  >{$item.contents} </td>
+
+
+					<td  >{$item.reply_remark|default:"未回复"} </td>
+
+
+					<td  >{$item.addtime|date_format} </td>
+
+
+					<td  ><a href="/invest/a{$item.article_id}.html" target="_blank">查看留言的借款</a></td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		{/list}
+		<!--投资者留言 结束-->
+
+
+		
+
+
+		
+
+
+		{elseif $_U.query_type=="tender_comment"}
+
+
+		{if $magic.request.id!=""}
+
+
+		<div> 
+
+
+		你可以在此回复投资者的提问，建议写得详细点。
+
+
+		</div>
+
+
+		<form action="" method="post">
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e"> 留言者：</div>
+
+
+			<div class="c">
+
+
+				{$_U.comment_result.username}
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e"> 留言时间：</div>
+
+
+			<div class="c">
+
+
+				{$_U.comment_result.addtime|date_format}
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e"> 留言内容：</div>
+
+
+			<div class="c">
+
+
+				{$_U.comment_result.comment}<input type="hidden" name="article_userid" value="{$_U.comment_result.article_userid}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e"> 状态：</div>
+
+
+			<div class="c">
+
+
+				{if $_U.comment_result.reply_status==1}已回复{else}未回复{/if}
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">回复：</div>
+
+
+			<div class="c">
+
+
+				<textarea rows="5" cols="40" name="reply_remark">{$_U.comment_result.reply_remark}</textarea>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e"></div>
+
+
+			<div class="c">
+
+
+				<input type="submit" name="name"  value="确认提交" size="30" /> 
+
+
+			</div>
+
+
+		</div>
+
+
+		</form>
+
+
+		{else}
+
+
+		<!--投资者留言 开始-->
+
+
+		<div class="t20">
+
+
+		您现在查看的是:<select name="reply_status"  id="reply_status"> <option value="">所有回复</option> <option value="0" {if $magic.request.reply_status==0} selected="selected"{/if}>等我回复</option> <option value="1" {if $magic.request.reply_status==1} selected="selected"{/if}>已回复</option></select>
+
+
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/tender_comment')"/>
+
+
+		</div>
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >留言者</td>
+
+
+					<td  >留言内容</td>
+
+
+					<td  >留言时间</td>
+
+
+					<td  >留言状态</td>
+
+
+					<td  >留言回复</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetBorrowComment" showpage="3" type="tender" user_id=0  reply_status="request"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td  ><a href="/u/{$item.user_id}" target="_blank">{$item.username}</a></td>
+
+
+					<td  >{$item.comment} </td>
+
+
+					<td  >{$item.addtime|date_format:"Y-m-d"} </td>
+
+
+					<td  >{if $item.reply_status==0}未回复{else}已回复{/if}</td>
+
+
+					<td  >{$item.reply_remark|default:-} </td>
+
+
+					<td  ><a href="/?user&q=code/borrow/tender_comment&id={$item.id}">回复留言</a></td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+				<tr >
+
+
+					<td colspan="8" class="page">
+
+
+						{$loop.pages|showpage}
+
+
+					</td>
+
+
+				</tr>
+
+
+				{/list}
+
+
+			</form>	
+
+
+		</table>
+
+
+		<!--贷款者回复 结束-->
+
+
+		{/if}
+
+
+	
+		{elseif $_U.query_type=="gettender" }
+		
+
+
+		{elseif $_U.query_type=="tender_vouch" }
+
+
+		<!--成功担保 开始-->
+		<div class="t20"> 
+
+
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+
+
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/tender_vouch')" />
+
+
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="8">我担保的借款</td>
+			</tr>
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >借款者</td>
+
+
+					<td  >借款总额</td>
+
+
+					<td  >借款期限</td>
+
+
+					<td  >担保奖励</td>
+
+
+					<td  >担保总额</td>
+
+
+					<td  >担保时间</td>
+
+
+					<td  >状态</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetVouchList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" type="$magic.request.type" }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td title="{$item.borrow_name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.borrow_name|truncate:8}</a></td>
+
+
+					<td  ><a href="/index.php?user&q=code/message/sent&receive={$item.borrow_username}">{$item.borrow_username}</a></td>
+
+
+					
+
+
+					<td  >￥{$item.borrow_account}</td>
+
+					
+					{if $item.borrow_type == "4"}
+					<td>{$item.borrow_day}天</td>
+					{else}
+					<td>{$item.borrow_period|linkages:"borrow_period"|default:"$item.borrow_period"}个月</td>
+					{/if}
+					<!--<td  >{$item.borrow_period}个月</td>-->
+
+
+					<td  >￥{$item.award_account}</td>
+
+
+					<td  >￥{$item.account}</td>
+
+
+					<td  >{$item.addtime|date_format}</td>
+
+
+					<td  >{if $item.status==1}成功{elseif $item.status==2}<font color="#FF0000">失败</font>{else}待审核{/if}</td>
+
+
+				</tr>
+
+
+				{/foreach}
+				
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		{/list}
+
+		<!--担保明细 结束-->
+
+
+		{elseif $_U.query_type=="tender_vouch_finish"}
+
+
+		
+
+
+		<div class="t20">
+
+
+		收款时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+
+
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/tender_vouch_finish')" />
+
+
+		</div>
+		<div class="t20">
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+				
+			<tr class="ytit">
+				<td colspan="7">已担保的借款</td>
+			</tr>
+
+				<tr class="ytit1" >
+
+
+					<td  >借款者</td>
+
+
+					<td  >借款标题</td>
+
+
+					<td  >应还日期</td>
+
+
+					<td  >第几期/总期数</td>
+
+
+					<td  >总额</td>
+
+
+					<td  >担保总额</td>
+
+
+					<td  >状态</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetVouchRepayList" showpage="3" vouch_userid="$_G.user_id" keywords="request" dotime1="request" dotime2="request" borrow_status=3 status="$magic.request.status" order="repay_time" }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td  >{$item.borrow_username}</td>
+
+
+					<td  ><a href="/invest/a{$item.borrow_nid}.html" target="_blank" title="{$item.borrow_name}">{$item.borrow_name|truncate:8}</a></td>
+
+
+					<td  >{$item.repay_time|date_format:"Y-m-d"}</td>
+
+
+					<td  >{$item.order+1}/{$item.borrow_period}</td>
+
+
+					<td  >￥{$item.repay_account }</td>
+
+
+					<td  >￥{$item.repay_account }</td>
+
+
+					<td  >{if $item.status==1  }<font color="#666666">已还</font>{else}<font color="#FF0000">未还</font>{/if}</td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+
+		{/list}
+
+		<!--担保明细 结束-->
+
+
+		{elseif $_U.query_type=="borrow_vouch" }
+
+		<div class="t20"> 
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/borrow_vouch')" />
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="7">担保的借款</td>
+			</tr>
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >借款类型</td>
+
+
+					<td  >担保金额</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >发布时间</td>
+
+
+					<td  >担保进度</td>				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" type="$magic.request.type" status="1" vouch_status=1}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td title="{$item.name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<!--<td  >{$item.borrow_style|linkage:"borrow_style"}</td>-->
+					<td  >{$item.borrow_type|linkage:"borrow_all_type"|default:"$item.borrow_type"}</td>
+					
+
+					<td  >￥{$item.account}</td>
+
+
+					<td  >{$item.borrow_apr}%</td>
+
+
+					<!--<td  >{$item.borrow_period}个月</td>-->
+					{if $item.borrow_type == "4"}
+					<td>{$item.borrow_day}天</td>
+					{else}
+					<td>{$item.borrow_period|linkages:"borrow_period"}个月</td>
+					{/if}
+
+
+					<td  >{$item.addtime|date_format}</td>
+
+
+					<td  align="center" ><div style="margin-left:10px; float:left"><div class="rate_bg ">
+
+
+							<div class="rate_tiao" style=" width:{$item.vouch_account_scale|default:0.00}%"></div>
+
+
+						</div></div><div style="float:left">{$item.vouch_account_scale|default:0.00}%</div></td>
+
+
+					
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+		{/list}
+
+
+		<!--成功投资 结束-->
+
+
+		
+
+
+		{elseif $_U.query_type=="borrow_vouched" }
+
+
+		<!--担保完成借款 开始-->
+
+
+		
+
+
+		<div class="t20"> 
+
+
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+
+
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/borrow_vouch')" />
+
+
+		</div>
+
+		<div class="t20"> 
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="7">已通过担保的借款</td>
+			</tr>
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >借款类型</td>
+
+
+					<td  >担保金额</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >发布时间</td>
+
+
+					<td  >担保进度</td>				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" type="$magic.request.type" status="3" vouch_status=1}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td title="{$item.name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td  >{$item.borrow_type|linkage:"borrow_all_type"|default:"$item.borrow_type"}</td>
+
+
+					<td  >￥{$item.account}</td>
+
+
+					<td  >{$item.borrow_apr}%</td>
+
+
+					<!--<td  >{$item.borrow_period}个月</td>-->
+					{if $item.borrow_type == "4"}
+					<td>{$item.borrow_day}天</td>
+					{else}
+					<td>{$item.borrow_period|linkages:"borrow_period"}个月</td>
+					{/if}
+
+
+					<td  >{$item.addtime|date_format}</td>
+
+
+					<td  align="center" ><div style="margin-left:10px; float:left"><div class="rate_bg ">
+
+
+							<div class="rate_tiao" style=" width:{$item.vouch_account_scale|default:0.00}%"></div>
+
+
+						</div></div><div style="float:left">{$item.vouch_account_scale|default:0.00}%</div></td>
+
+
+					
+
+
+				</tr>
+
+
+				{/foreach}
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+		{/list}
+
+
+
+		<!--担保完成借款 结束-->
+
+
+		{elseif $_U.query_type=="gathering"}
+
+		<!--收款明细 结束-->
+		{elseif $_U.query_type=="before"}
+
+
+		<div class="t20">
+		应收日期：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/before')" />
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="10">转让前收款明细</td>
+			</tr>
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >借款标题</td>
+
+
+					<td  >应收日期</td>
+
+
+					<td  >借款者</td>
+
+
+					<td  >第几期/总期数</td>
+
+
+					<td  >收款总额</td>
+
+
+					<td  >应收本金</td>
+
+
+					<td  >应收利息</td>
+
+
+					<td  >逾期利息</td>
+
+
+					<td  >逾期天数</td>
+
+
+					<td  >状态</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" plugins="Recover" function="GetRecoverList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" borrow_status=3 type="$magic.request.type" order="repay_time" change="1" style="change"}
+
+
+				{foreach from="$loop.change" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td  ><a href="/invest/a{$item.borrow_nid}.html" target="_blank" title="{$item.borrow_name}">{$item.borrow_name|truncate:8}</a></td>
+
+
+					<td  >{$item.recover_time|date_format:"Y-m-d"}</td>
+
+
+					<td  ><a href="/u/{$item.borrow_userid}">{$item.borrow_username}</a></td>
+
+
+					<td  >{$item.recover_period+1}/{$item.borrow_period}</td>
+
+
+					<td  >￥{$item.recover_account }</td>
+
+
+					<td  >￥{$item.recover_capital  }</td>
+
+
+					<td  >￥{$item.recover_interest  }</td>
+
+
+					<td  >￥{$item.late_interest|default:0.00  }</td>
+
+
+					<td  >{$item.late_days|default:0.00  }天</td>
+
+
+					<td  >{if $item.recover_status==1  }<font color="#666666">已还</font>{else}<font color="#FF0000">未还</font>{/if}</td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+		{/list}
+
+		
+
+
+		
+
+
+		{elseif $_U.query_type=="lenddetail"}
+	
+
+		{elseif $_U.query_type=="debting"}
+		
+		
+
+
+		{elseif $_U.query_type=="bid"}
+
+
+		<!--正在投标的借款 开始-->
+
+
+		<div class="t20">
+			投标时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" />
+			<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/bid')" />
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+			<tr class="ytit">
+				<td colspan="7">正在投标的借款</td>
+			</tr>
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >借款者</td>
+
+
+					<td  >总借款额/借款利率</td>
+
+
+					<td  >投标/有效金额</td>
+
+
+					<td  >信用积分/投标时间 </td>
+
+
+					<td  >进度</td>
+
+
+					<td  >状态 </td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetTenderList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" borrow_status="1" }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td style="line-height:21px;"><a href="/invest/a{$item.borrow_nid}.html" target="_blank" title="{$item.borrow_name}">{$item.borrow_name|truncate:8}</a> </td>
+
+
+					<td  style="line-height:21px;"><a  href="/u/{$item.borrow_userid}" target="_blank">{$item.borrow_username}</a></td>
+
+
+					<td style="line-height:21px;">总借款额:￥{$item.borrow_account}<br />借款利率:<font color="#FF0000">{$item.borrow_apr}%</font></td><td style="line-height:21px;">投标金额:￥{$item.account_tender}<br />有效金额:<font color="#FF0000">￥{$item.account}</font></td>
+
+
+					
+
+
+					<td style="line-height:25px;"><span>{$item.credit.approve_credit|credit:"borrow"}</span><br />{$item.addtime|date_format:"Y-m-d H:i:s"}</td>
+
+
+					
+
+
+					<td style="line-height:21px;"><div class="rate_bg floatl" align="left">
+
+
+							<div class="rate_tiao" style=" width:{$item.borrow_account_scale|default:0.00}%"></div>
+
+
+						</div><span class="floatl">{$item.borrow_account_scale}%</span></td>
+
+
+					<td style="line-height:21px;">{if $item.status==2}投标失败{elseif $item.status==3}借款被撤回{else}{if $item.account_tender==$item.account}全部通过{else}部分通过{/if}{/if}</td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+				
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+
+		{/list}
+		<!--正在投标的借款 结束-->
+
+
+		
+
+
+		{elseif $_U.query_type=="appraisal"}
+
+		<div class="t20">
+			发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+			<input value="搜索" type="submit" />
+		</div>
+		
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标题      </td>
+
+
+					<td  >借款者</td>
+
+
+					<td  >投标金额</td>
+
+
+					<td  >完成时间</td>
+
+
+					<td  >评价结果</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td ><strong>短期借款，提前还款</strong> </td>
+
+
+					<td  >op6778</td>
+
+
+					<td><img src="/pic/rank_4.gif" /></td>
+
+
+					<td  >18%</td>
+
+
+					<td  >1个月</td>
+
+
+					<td  >50</td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+
+		{/list}
+
+
+		<!--我的评价 结束-->
+
+
+		
+
+
+		
+
+
+		{elseif $_U.query_type=="attention"}
+
+
+		<!--我关注的借款 开始-->
+
+
+		<div> 
+
+
+		<select><option>进行中的借款</option><option>已结束的借款</option></select> 发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+
+
+		<input value="搜索" type="submit" onclick="sousuo('{$_U.query_url}/publish')" />
+
+
+		</div>
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >图片                  </td>
+
+
+					<td  >标题</td>
+
+
+					<td  >金额(元)</td>
+
+
+					<td  >进度</td>
+
+
+					<td  >期限</td>
+
+
+					<td  >信用等级</td>
+
+
+					<td  >操作</td>
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td ><strong>短期借款，提前还款</strong> </td>
+
+
+					<td  >op6778</td>
+
+
+					<td><img src="/pic/rank_4.gif" /></td>
+
+
+					<td  >18%</td>
+
+
+					<td  >1个月</td>
+
+
+					<td  >50</td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+				<tr >
+
+
+					<td colspan="8" class="page">
+
+
+						{$loop.pages|showpage}
+
+
+					</td>
+
+
+				</tr>
+
+
+				{/list}
+
+
+			</form>	
+
+
+		</table>
+
+
+		<!--我关注的借款 结束-->
+
+
+		
+
+
+		
+
+
+		{elseif $_U.query_type=="tender_reply"}
+
+
+		<!--投资者留言 开始-->
+
+
+		<div> 
+
+
+		您现在查看的是:<select name="status"> <option value="">所有回复</option> <option value="0">等我回复</option> <option value="1">已回复</option></select>
+
+
+		<input value="搜索" type="submit" />
+
+
+		</div>
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >标的标题</td>
+
+
+					<td  >留言者</td>
+
+
+					<td  >留言内容</td>
+
+
+					<td  >留言时间</td>
+
+
+					<td  >留言状态</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td ><strong>短期借款，提前还款</strong> </td>
+
+
+					<td  >op6778</td>
+
+
+					<td><img src="/pic/rank_4.gif" /></td>
+
+
+					<td  >18%</td>
+
+
+					<td  >1个月</td>
+
+
+					<td  >50</td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+				<tr >
+
+
+					<td colspan="8" class="page">
+
+
+						{$loop.pages|showpage}
+
+
+					</td>
+
+
+				</tr>
+
+
+				{/list}
+
+
+			</form>	
+
+
+		</table>
+
+
+		<!--投资者留言 结束-->
+
+
+		
+
+
+		
+
+
+		
+
+
+		{elseif $_U.query_type=="myuser"}
+
+
+		<!--我的客户 结束-->
+
+
+		<div class="user_main_title1" > 
+
+
+		{list  module="borrow" function="GetMyuserList" var="loop" user_id="0" showpage=3 epage=20 suser_id = "$magic.request.user_id"}
+
+
+			
+
+
+		<strong>总借款数：</strong> {$loop.total} 个
+
+
+		</div>
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >用户名</td>
+
+
+					<td  >真实姓名</td>
+
+
+					<td  >标题</td>
+
+
+					<td  >借款金额</td>
+
+
+					<td  >借款时间</td>
+
+
+					<td  >成功借款时间</td>
+
+
+					<td  >状态</td>
+
+
+				</tr>
+
+
+					{foreach from="$loop.list" item="item"}
+
+
+				<tr >
+
+
+					<td><a href="/u/{$item.user_id}" target="_blank">{$item.username}</a></td>
+
+
+					<td><a href="{$_U.query_url}/myuser&user_id={$item.user_id}">{$item.realname}</a> </td>
+
+
+					<td title="{$item.name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td>￥{$item.account}</td>
+
+
+					<td>{$item.addtime|date_format}</td>
+
+
+					<td>{$item.success_time|date_format|default:"-"}</td>
+
+
+					<td>{if $item.status==5}取消{elseif $item.status==3}借款成功{elseif $item.status==2}审核失败{elseif $item.status==4}满标审核失败{elseif $item.status==1}正在招标中{/if}</td>
+
+
+				</tr>
+
+
+				{/loop}
+
+
+				<tr >
+
+
+					<td colspan="8" class="page">
+
+
+						<div class="list_table_page">{$loop.pages|showpage}</div>
+
+
+					</td>
+
+
+				</tr>
+
+
+			</form>	
+
+
+		</table>
+
+
+		{/list}
+
+
+		<!--我的客户 结束-->
+
+
+		
+
+
+		{elseif $_U.query_type=="myuserborrow"}
+
+
+		<!--我的客户 结束-->
+
+
+		<div class="user_main_title1" > 
+
+
+		{list  module="borrow" function="GetTenderList" var="loop" user_id="$_G.user_id" showpage=3 epage=20 }
+
+
+			
+
+
+		<strong>总投资数：</strong> {$loop.total} 个
+
+
+		</div>
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >用户名</td>
+
+
+					<td  >标题</td>
+
+
+					<td  >投资金额</td>
+
+
+					<td  >有效金额</td>
+
+
+					<td  >投资时间</td>
+
+
+					<td  >状态</td>
+
+
+				</tr>
+
+
+					{foreach from="$loop.list" item="item"}
+
+
+				<tr >
+
+
+					<td><a href="/u/{$item.user_id}" target="_blank">{$item.username}</a></td>
+
+
+					<td><a href="/invest/a{$item.id}.html" target="_blank">{$item.borrow_name}</a></td>
+
+
+					<td>￥{$item.tender_account}</td>
+
+
+					<td>￥{$item.tender_money}</td>
+
+
+					<td>{$item.addtime|date_format}</td>
+
+
+					<td>{if $item.status==0}待审核{elseif $item.status==2}取消{elseif $item.status==1}成功{/if}</td>
+
+
+				</tr>
+
+
+				{/loop}
+
+
+				<tr >
+
+
+					<td colspan="8" class="page">
+
+
+						<div class="list_table_page">{$loop.pages|showpage}</div>
+
+
+					</td>
+
+
+				</tr>
+
+
+			</form>	
+
+
+		</table>
+
+
+		{/list}
+
+
+		<!--我的客户 结束-->
+
+
+		
+
+
+		{elseif $_U.query_type=="myuser_account"}
+
+
+		<!--我的客户统计 结束-->
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >时间</td>
+
+
+					<td  >成功借款</td>
+
+
+					<td  >成功投资</td>
+
+
+					<td  >VIP数</td>
+
+
+				</tr>
+
+
+					{loop  module="borrow" function="GetMyuserAcount" var="var" user_id="0" }
+
+
+				<tr >
+
+
+					<td>{$key|date_format:"Y-m"}</td>
+
+
+					<td>￥{$var.borrow|default:0.00}</td>
+
+
+					<td>￥{$var.tender|default:0.00}</td>
+
+
+					<td>{$var.vip|default:0}个</td>
+
+
+				</tr>
+
+
+				{/loop}
+
+
+			</form>	
+
+
+		</table>
+
+
+		{/list}
+
+
+		<!--我的客户统计 结束-->
+
+
+		
+
+
+		
+
+
+		
+
+
+
+
+
+		<!--自动投标 开始-->
+
+
+		{elseif $_U.query_type=="auto" || $_U.query_type=="auto_list"}		
+
+		 {include file="user_borrow_auto.html"}
+
+		{elseif $_U.query_type=="auto_new"}
+		
+		{include file="user_borrow_auto_new.html"}
+
+		
+
+
+		{elseif $_U.query_type=="otherloan"}
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >序号</td>
+
+
+					<td  >借款机构</td>
+
+
+					<td  >注册用户名</td>
+
+
+					<td  >链接地址</td>
+
+
+					<td  >信用额度/担保额度</td>
+
+
+					<td  >还款明细</td>
+
+
+					<td  >备注</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{list module="borrow" var="loop" function ="GetOtherloanList" showpage="3" user_id="0"   }
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if} >
+
+
+					<td  >{$item.id}</td>
+
+
+					<td  >{$item.agency}</td>
+
+
+					<td  >{$item.username}</td>
+
+
+					<td  >{$item.url}</td>
+
+
+					<td  >￥{$item.amount_credit}/￥{$item.amount_vouch}</td>
+
+
+					<td  >{$item.repay_month}</td>
+
+
+					<td  >{$item.remark|default:-}</td>
+
+
+					<td  ><a href="{$_U.query_url}/otherloan_new&id={$item.id}" target="_blank">修改</a> <a href="#" onclick="javascript:if(confirm('你确定要删除此信息')) location.href='{$_U.query_url}/otherloan_del&id={$item.id}'">删除</a></td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		{/list}
+		{elseif $_U.query_type=="yqblack"}
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >头像</td>
+
+					<td  >资料</td>
+
+					<td  >联系方式</td>
+
+					<td  >公开财务</td>
+
+				</tr>
+
+
+				{list module="borrow" function="GetLateList" var="loop"  late_days="31"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if} >
+
+					<td  ><a href="/u/{$item.user_id}" target="_blank" ><img src="{$item.user_id|avatar}" border="0" class="picborder"/></a></td>
+
+					<td  >
+						<ul class="li" style="text-align:left;">
+							<li class="cu" style="height:30px; overflow:hidden"><a href="/u/{$item.user_id}" title="{$item.username}">{$item.username}</a></li>
+							<li>性别：{if $item.sex==1 }男{else}女{/if}</li>
+							<li>身份证号：{$item.card_id }</li>
+							<li>所 在 地：{$item.city|areas:"p,c"}</li>
+						</ul>
+					</td>
+
+					<td  >
+						<ul class="li" style="text-align:left;">
+							<li class="cu"><font color="#FF0000">欠款总额：￥{$item.late_account}</font></li>
+							<li >Email：{$item.email}</li>
+							<li>电话：{$item.phone}</li>
+							<li>QQ：{$item.qq}</li>
+						</ul>
+					</td>
+
+					<td  >
+						<ul class="li" style="text-align:left;">
+						<li class="cu"><font color="#FF0000">逾期笔数：{$item.late_num}笔</font></li>
+						<li>网站代还笔数：{$item.late_webnum|default:0}</li>
+						<li>最长逾期天数：{$item.late_numdays}天</li>
+						<li >更新时间：{$_G.nowtime|date_format:"Y-m-d H:i:s"}</li>
+						</ul>
+					</td>
+				</tr>
+
+
+				{/foreach}
+
+
+				<tr >
+
+
+					<td colspan="10" class="page">
+
+
+						{$loop.pages|showpage}
+
+
+					</td>
+
+
+				</tr>
+
+
+				{/list}
+
+
+			</form>	
+
+
+		</table>
+		{elseif $_U.query_type=="black"}
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >头像</td>
+
+					<td  >资料</td>
+
+					<td  >联系方式</td>
+
+					<td  >公开财务</td>
+
+				</tr>
+
+
+				{list module="users" function="GetBlackList" var="loop"  user_id="$_G.user_id"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if} >
+
+					<td  ><a href="/u/{$item.blackuser_id}"><img src="{$item.blackuser_id|avatar}" border="0" class="picborder"/></a></td>
+
+					<td  >
+						<ul class="li" style="text-align:left;">
+							<li class="cu"><a href="/u/{$item.blackuser_id}"><b>{$item.blackuser}</b></a></li>
+							<li>性别：{if $item.sex==1 }男{else}女{/if}</li>
+							<li>身份证号：{$item.card_id }</li>
+							<li>所 在 地：{$item.city|areas:"p,c"}</li>
+						</ul>
+					</td>
+
+					<td  >
+						<ul class="li" style="text-align:left;">
+							<li class="cu"><font color="#FF0000">欠款总额：￥{$item.late_account}</font></li>
+							<li >Email：{$item.email}</li>
+							<li>电话：{$item.phone}</li>
+							<li>QQ：{$item.qq}</li>
+						</ul>
+					</td>
+
+					<td  >
+						<ul class="li" style="text-align:left;">
+						<li class="cu"><font color="#FF0000">逾期笔数：{$item.late_num}笔</font></li>
+						<li>网站代还笔数：{$item.late_webnum|default:0}</li>
+						<li>最长逾期天数：{$item.late_numdays}天</li>
+						<li >更新时间：{$_G.nowtime|date_format:"Y-m-d H:i:s"}</li>
+						</ul>
+					</td>
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+
+
+		{/list}
+		{elseif $_U.query_type=="otherloan_new"}
+
+
+		<div class="t20"> 
+
+
+		请填写其他网站的借款信息
+
+
+		</div>
+
+
+		<form action="" method="post">
+
+
+		
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">机构名称：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="agency" value="{$_U.otherloan_result.agency}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">网站用户名：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="username" value="{$_U.otherloan_result.username}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">网站链接：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="url" value="{$_U.otherloan_result.url}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">信用额度：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="amount_credit" value="{$_U.otherloan_result.amount_credit}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">担保额度：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="amount_vouch" value="{$_U.otherloan_result.amount_vouch}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">未还总额：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="repay_nouse" value="{$_U.otherloan_result.repay_nouse}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">每月还款总额：</div>
+
+
+			<div class="c">
+
+
+				<input type="text" name="repay_month" value="{$_U.otherloan_result.repay_month}" />
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e">备注：</div>
+
+
+			<div class="c">
+
+
+				<textarea rows="5" cols="40" name="remark">{$_U.otherloan_result.remark}</textarea>
+
+
+			</div>
+
+
+		</div>
+
+
+		
+
+
+		<div class="user_right_border">
+
+
+			<div class="e"></div>
+
+
+			<div class="c">
+
+
+				<input type="submit" name="name"  value="确认提交" size="30" /> 
+
+
+			</div>
+
+
+		</div>
+
+
+		</form>
+
+
+		{/if}
+
+		<script>
+
+
+var url = "{$_U.query_url}/{$_U.query_type}";
+
+
+{literal}
+
+
+function sousuo(urla){
+
+
+	if (urla!="") url = urla;
+
+
+	var _url = "";
+	var dotime1 = $("#dotime1").val();
+	var dotime2 = $("#dotime2").val();
+	var keywords = $("#keywords").val();
+	var username = $("#username").val();
+	var status = $("#status").val();
+	var reply_status = $("#reply_status").val();
+	var tender_username = $("#tender_username").val();
+	var borrow_username = $("#borrow_username").val();
+	var borrow_nid = $("#borrow_nid").val();
+	var money1 = $("#money1").val();
+	var money2 = $("#money2").val();
+	var yestime1 = $("#yestime1").val();
+	var yestime2 = $("#yestime2").val();
+	
+	if (money1!=null){
+		 _url += "&money1="+money1;
+	}
+	if (money2!=null){
+		 _url += "&money2="+money2;
+	}
+	if (borrow_username!=null){
+		 _url += "&borrow_username="+borrow_username;
+	}
+	if (borrow_nid!=null){
+		 _url += "&borrow_nid="+borrow_nid;
+	}
+	
+	if (username!=null){
+		 _url += "&username="+username;
+	}
+	if (tender_username!=null){
+		 _url += "&tender_username="+tender_username;
+	}
+	if (status!=null){
+		 _url += "&status="+status;
+	}
+	if (reply_status!=null){
+		 _url += "&reply_status="+reply_status;
+	}
+	if (keywords!=null){
+		 _url += "&keywords="+keywords;
+	}
+	if (dotime1!=null){
+		 _url += "&dotime1="+dotime1;
+	}
+	if (dotime2!=null){
+		 _url += "&dotime2="+dotime2;
+	}
+	if (yestime1!=null){
+		 _url += "&yestime1="+yestime1;
+	}
+	if (yestime2!=null){
+		 _url += "&yestime2="+yestime2;
+	}
+	location.href=url+_url;
+
+
+}
+
+
+
+
+
+</script>
+
+
+{/literal}
+</div>
+</div>
+</div>
+<div style="clear:both;"></div>
+{include file="footer.html"}

@@ -1,0 +1,149 @@
+<!--实名认证密码 开始-->
+
+{if $_G.user_info.realname_status==1} 
+
+<div class="user_main_title1">您已经通过身份认证。</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">用户名：</span> <span>
+		{$_G.user_result.username} 
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">真实姓名：</span> <span>
+		{$_U.realname_result.realname}
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">性别：</span> <span>
+		{$_U.realname_result.sex}&nbsp;
+		</span>
+		</div>
+		<div class="user_info_item">
+		<span class="user_info_item_left">身份证：</span> <span>
+		{$_U.realname_result.card_id}
+		</span>
+		</div>		
+		<div class="user_info_item">
+		<span class="user_info_item_left">身份证正面图片：</span> <span>
+		{if $_U.realname_result.card_pic1!=""}<a href="./{ $_U.realname_result.card_pic1_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}&nbsp;
+		</span>
+		</div>	
+		
+		<div class="user_info_item">
+		<span class="user_info_item_left">身份证背面图片：</span> <span>
+		{if $_U.realname_result.card_pic2!=""}<a href="./{ $_U.realname_result.card_pic2_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}&nbsp;
+		</span>
+		</div>	
+{else}
+
+	<div class="user_main_title1">注意：请认真填写以下的内容，一旦通过实名认证以下信息将不能修改。<br /><strong>通过身份认证(直接对接全国公民身份信息系统)，您可以获得以下:</strong><br /> 通过身份认证的用户借款成功率增加了<strong style="color:red">60%</strong>。<br />
+		
+
+通过身份认证的用户借款完成速度提高了<strong style="color:red">50%</strong>。<br />同时也将得到的关注度是未通过身份用户的<strong style="color:red">3倍</strong>。<br />上传最大的图片为512kB，上传的格式为jpg.gif。
+{if $_G.system.con_id5_status==1 && $_G.system.con_id5_realname_status==1 && $_G.system.con_realname_fee!=0}
+<br />实名认证费用为<strong style="color:red">{$_G.system.con_realname_fee}元</strong>。你现在的可用<strong style="color:red">余额为{$_G.user_result.use_money|default:"0"} [<a href="/?user&q=code/account/recharge_new" target="_blank">我要充值</a>]</strong>。
+{else}
+<br /><strong style="color:#FF0000">当前实名认证不收取任何费用，请及时认证。</strong>
+{/if}
+
+</div>
+{if $_U.realname_result.status==2}
+<div class="user_main_title1" style="margin-top:10px;">
+审核备注：{$_U.realname_result.verify_remark}（{$_U.realname_result.verify_time|date_format}）
+</div>
+{/if}
+		<form action="" method="post" onsubmit="return formcheck();" enctype="multipart/form-data" name="formx" id="formx" >
+			<div class="user_main_title1" >
+			<font color="#ff0000">*</font>为必填资料，所有资料均会严格保密
+			</div> 
+	<div class="user_info_item">
+		<span class="user_info_item_left">
+			用户名：
+		</span> 
+		<span> 
+			{$_G.user_result.username}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">
+			真实姓名：
+		</span> 
+		<span> 
+			<input type="text" name="realname" id="realname" value="{$_U.realname_result.realname}" /> <font color="#FF0000">*</font> 
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">
+			性 别 ：
+		</span> 
+		<span> 
+			<input type="radio" name="sex"  id="sex" value="男" {if $_U.realname_result.sex=="男" || $_U.realname_result.sex==""}checked="checked" {/if} />男 <input type="radio"  id="sex" name="sex" value="女"  {if $_U.realname_result.sex=="女"}checked="checked" {/if} />女 <font color="#FF0000">*</font> 
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">
+			证件号码：
+		</span> 
+		<span> 
+			<input type="text" name="card_id"  id="card_id" value="{$_U.realname_result.card_id}" />  <font color="#FF0000">*</font> 
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">
+			身份证正面上传：
+		</span> 
+		<span> 
+			<input type="file" name="card_pic1" size="15" class="input_border"/>{if $_U.realname_result.card_pic1!=""}<a href="./{ $_U.realname_result.card_pic1_url}" target="_blank" title="有图片"><img src="/{ $_U.realname_result.card_pic1_url}" border="0" width="30"  /></a>{/if}  上传最大的图片为512kB，上传的格式为jpg.gif<font color="#FF0000">*</font> 
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">
+			身份证背面上传：
+		</span> 
+		<span> 
+			<input type="file" name="card_pic2" size="15" class="input_border"/> {if $_U.realname_result.card_pic2_url!=""}<a href="./{ $_U.realname_result.card_pic2_url}" target="_blank" title="有图片"><img src="{ $_U.realname_result.card_pic2_url}" border="0" width="30"  /></a>{/if} 上传最大的图片为512kB，上传的格式为jpg.gif <font color="#FF0000">*</font> 
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">&nbsp;			
+		</span> 
+		<span> 
+			<input type="submit" name="name"  value="确认提交" size="30" class="press_mode" />
+		</span>
+	</div>
+	</form>
+		<script>
+		var money='{$_G.user_result.use_money|default:0}';
+		{literal}		
+			function formcheck(){
+				 var frm = document.forms['formx'];
+				 var realname = frm.elements['realname'].value;
+				 var card_id = frm.elements['card_id'].value;
+				 var card_pic1 = frm.elements['card_pic1'].value;
+				 var card_pic2 = frm.elements['card_pic2'].value;
+				 var errorMsg = '';
+					  if (realname.length == 0 ) {
+						errorMsg += '* 真实姓名不能为空' + '\n';
+					  }
+					  if (card_id.length == 0 ) {
+						errorMsg += '* 身份证号码不能为空' + '\n';
+					  }
+					   if (card_pic1.length == 0 ) {
+						errorMsg += '* 身份证正面不能为空' + '\n';
+					  }
+					   if (card_pic2.length == 0 ) {
+						errorMsg += '* 身份证背面不能为空' + '\n';
+					  }
+					  if (errorMsg.length > 0){
+						alert(errorMsg); return false;
+					  } else{  
+						return true;
+					  }
+			}
+			</script>
+			{/literal}
+		<div class="user_right_foot"><strong style=" color:#FF0000">* 温馨提示：我们将严格对用户的所有资料进行保密</strong></div>
+	</div>
+{/if}
+
+<script>{literal}deayou.use("approve",function(e){e.realname()});</script>{/literal}

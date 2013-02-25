@@ -1,0 +1,48 @@
+<br>
+<div class="us_cen1">单位资料</div>
+<form action="/?user&q=code/rating/job" method="post" name="formx" onsubmit="return formcheck();">
+<div class="user_info_box clearfix" style="width: auto">
+	{articles module="rating" function="GetJobOne" user_id="$_G.user_id" var="var"}
+	<div class="user_info_item">
+		<span class="user_info_item_left">单位名称：</span> <span>
+		<input type="text" name="name" id="name" class="input180 " value="{$var.name}" style="width:120px; border:#BFBFBF solid 1px;" onblur="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" />
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">工作年限：</span> <span>{linkages nid="rating_workyear" default="请选择" name="work_year" type="value"  value="$var.work_year" style="width:120px; border:#BFBFBF solid 1px;" }
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">工作地址：</span> <span> 
+		{areas type="p,c" value="$var.work_city" name="work_" }
+		</span>
+	</div>
+	<div class="user_info_item">
+	<span class="user_info_item_left">工作电话：</span> <span> 
+		<input type="text" name="tel" id="tel" value="{$var.tel}" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/>格式提示：区号-号码
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">证明人：</span> <span> 
+		<input type="text" name="reterence" id="reterence" class="input180 " 
+		value="{$var.reterence}" style="width:120px; border:#BFBFBF solid 1px;" />
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">证明人电话：</span> <span> 
+		<input type="text" name="reterence_tel" id="reterence_tel" class="input180 " value="{$var.reterence_tel}" style="width:120px; border:#BFBFBF solid 1px;" />
+		</span>
+	</div>
+	{/articles}
+    <div style="padding:10px 0; margin-left:120px">
+	<input type="hidden" name="type" value="{$magic.request.type}" />
+	{if $magic.request.type=='job'}
+	<input type="image" src="{$tpldir}/images/saveandcon.gif" /><input type="hidden" name="submit" id="submit" value="提交" />
+	<a href="/?user&q=code/borrow/jrsh&type=finance"><img src="{$tpldir}/images/skipdcon.gif"></a>	
+	{else}
+	<input type="submit" name="submit" id="submit" value="提交" class="press_mode"/>
+	{/if}
+			    
+    </div>
+	</div>
+      </form>         

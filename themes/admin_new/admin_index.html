@@ -1,0 +1,58 @@
+{include file="admin_head.html"}
+
+			 <table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+			  
+				
+			  <tr>
+					<td colspan="2" bgcolor="#ffffff" class="main_td2" >
+					<div class="main_title">系统基本运行条件</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">php版本:</td>
+					<td class="main_td1" align="left">5.2及以上版本</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">mysql数据库:</td>
+					<td class="main_td1" align="left">5.0及以上版本</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">硬盘数据:</td>
+					<td class="main_td1" align="left">50G及以上</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">内存:</td>
+					<td class="main_td1" align="left">2G及以上</td>
+				</tr>
+			  <tr>
+					<td colspan="2" bgcolor="#ffffff" class="main_td2" >
+					<div class="main_title">系统基本信息</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">php版本:</td>
+					<td class="main_td1" align="left">{$_A.php_info.phpv}</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">是否安全模式:</td>
+					<td class="main_td1" align="left">{$_A.php_info.sp_safe_mode}</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">服务器操作系统:</td>
+					<td class="main_td1" align="left">{$_A.php_info.sp_os}</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">服务器IP:</td>
+					<td class="main_td1" align="left">{ $_A.php_info.sp_host}</td>
+				</tr>	
+				<tr>
+					<td colspan="2" bgcolor="#ffffff" class="main_td2" >
+					<div class="main_title">使用帮助</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="main_td1" align="right" width="15%">官方网站:</td>
+					<td class="main_td1" align="left"><a href="http://www.deayou.com" target="_blank">帝友系统</a></td>
+				</tr>
+				
+	      </table>

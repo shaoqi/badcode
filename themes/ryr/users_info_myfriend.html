@@ -1,0 +1,122 @@
+
+
+		<!--好友 开始-->
+		<div class="user_main_title1" >这里是您的好友。</div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+
+			  <form action="" method="post">
+
+
+				<tr class="ytit1" >
+
+
+					<td  >邀请的好友</td>
+
+
+					<td  >注册时间 </td>
+
+
+					<td  >获得的金额</td>
+
+
+				</tr>
+
+
+				{list  module="users" function="GetFriendsInvite" var="loop" user_id="$_G.user_id" showpage="3"}
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr >
+
+
+					<td>{$item.friend_username}</td>
+
+
+					<td>{$item.friend_reg_time|date_format:"Y-m-d H:i:s"}</td>
+
+					{articles module="users" plugins="vip" function="GetUsersVip" var="Vvar" user_id="$item.friends_userid"}
+					<td>{if $Vvar.status==1}{$_G.system.con_friend_vip_money}{else}0{/if}</td>
+					{/articles}
+					
+				</tr>
+
+
+				{/foreach}
+				<tr >
+
+					<td colspan="3" align="center">{$loop.pages|showpage}</td>
+
+
+				</tr>
+
+				{/list}
+
+
+			</form>	
+
+
+		</table>
+
+
+		{literal}
+
+
+		<script>
+
+
+		
+
+
+		function doCopy(id) { 
+
+
+		  var codeid;
+
+
+		  codeid=id;
+
+
+		 if (document.all){
+
+
+		   var obj;
+
+
+		   obj=document.getElementById(codeid);
+
+
+		   window.clipboardData.setData("text",obj.innerText)
+
+
+		   alert("邀请链接地址复制成功，你可以直接复制发给你的好友");
+
+
+		 }
+
+
+		 else{
+
+
+		   alert("此功能只能在IE上有效\n\n请在文本域中用Ctrl+A选择再复制");
+
+
+		 }
+
+
+		}
+
+
+
+
+
+		</script>
+
+
+		{/literal}
+
+
+		<!--好友请求 结束-->
+

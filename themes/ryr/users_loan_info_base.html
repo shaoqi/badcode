@@ -1,0 +1,101 @@
+<div class="us_r_bor1">
+			     <div>
+			   <div class="tips" style="width: auto">亲爱的客户，<!-- <span class="f_red b">*</span>为必填内容, -->请认真填写以下信息，我们会对您的个人信息严格保密。</div><br>
+
+ <form action="/?user&q=code/rating/info&type=base" method="post" name="formx" >
+			   <div class="item_group" style="width: auto">我的基本信息</div>
+			   <div class="user_info_box clearfix" style="width: auto">
+	<div class="user_info_item">
+		<span class="user_info_item_left">
+			用户名：
+		</span> 
+		<span> 
+			{$_G.user_result.username}
+		</span>
+	</div>
+	{articles module="rating" function="GetInfoOne" user_id="$_G.user_id" var="var"}
+	
+	{articles module="approve" function="GetRealnameOne" user_id="$_G.user_id" var="rel"}
+	<div class="user_info_item">
+		<span class="user_info_item_left"><span class="f_red b">*</span>真实姓名：</span> 
+		<span>
+		<input id="realname" name="realname" {if $var.realname!=''}value="{$var.realname}"{else}value="{$rel.realname}"{/if} class="input180 " >
+		</span>		
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left"><span class="f_red b">*</span>身份证号：</span> 
+		<span>
+		<input id="card_id" name="card_id" {if $var.card_id!=''}value="{$var.card_id}"{else}value="{$rel.card_id}"{/if} class="input180 " >
+		</span>		
+	</div>
+	{/articles}	
+	<div class="user_info_item">
+	{articles module="approve" function="GetSmsOne" user_id="$_G.user_id" var="tel"}
+		<span class="user_info_item_left">手机号码：</span> 
+		<span>
+		<input type="text" name="phone" id="phone" class="input180 " value="{if $tel.phone!=''}{$tel.phone}{else}{$var.phone}{/if}" style="width:120px; border:#BFBFBF solid 1px;" />
+		</span>
+	{/articles}
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">性 别：</span>
+		<span> {linkages nid="rating_sex" name="sex" type="value" value="$var.sex"  style="width:120px; border:#BFBFBF solid 1px; height:18px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">出生日期：</span>
+		<span> {linkages nid="rating_birthday_year" name="rating_birthday_year" type="value" value="$var.rating_birthday_year" }{linkages nid="rating_birthday_mouth" name="rating_birthday_mouth" type="value" value="$var.rating_birthday_mouth" }{linkages nid="rating_birthday_day" name="rating_birthday_day" type="value" value="$var.rating_birthday_day" }
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">籍  贯：</span> <span>
+		{areas type="p,c" name="jiguan_" value="$var.jiguan_city" }
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">婚姻状况：</span> <span>
+		{linkages nid="rating_marry" name="marry" value="$var.marry" type="value"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">子  女：</span> <span>{linkages nid="rating_children" name="children" value="$var.children" type="value"  style="width:120px; border:#BFBFBF solid 1px; "}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">学  历：</span> <span> {linkages nid="rating_education" name="edu" value="$var.edu" type="value" style="width:120px; border:#BFBFBF solid 1px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">月收入：</span> <span> {linkages nid="rating_income" name="income" value="$var.income" type="value" style="width:120px; border:#BFBFBF solid 1px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">社  保：</span> <span> <select name='shebao' id="shebao"  style='width:120px;' >
+			<option value='1' {if $var.shebao==1 } selected="selected"{/if} >有</option>
+			<option value='2' {if $var.shebao==2 || $var.is_car=='' } selected="selected"{/if}>无</option>
+			</select>
+		</span>
+	</div>	
+	<div class="user_info_item">
+		<span class="user_info_item_left">住房条件：</span> <span>{linkages nid="rating_house" name="house" value="$var.house" type="value"  style="width:150px; border:#BFBFBF solid 1px; height:18px;"}
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">是否购车：</span> <span><select name='is_car' id="is_car"  style='width:120px;' >
+			<option value='1' {if $var.is_car==1 } selected="selected"{/if} >有</option>
+			<option value='2' {if $var.is_car==2 || $var.is_car=='' } selected="selected"{/if}>无</option>
+			</select>
+		</span>
+	</div>
+	<input value="borrow" class="input180 " type="hidden" name="web">
+	<input value="{$magic.request.type}" class="input180 " type="hidden" name="borrow_type">
+</div>{/articles}
+			   <div style="text-align: center; padding: 20px 0">
+							<input type="submit" name="submit" class="saveSettingBnt" onclick="javascript:return checkItemA()" value="保存>继续">
+				 </div>
+			   </div>
+			</div>
+            </div>
+            </form>
+		  </div>
+	      </div>

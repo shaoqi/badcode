@@ -1,0 +1,52 @@
+{include file="header.html"}
+<div class="conbox t20">
+		<div class="m_change">
+			<ul>
+				<li><a href="/blacklist/index.html" class="onn">逾期黑名单</a></li>
+			</ul>
+		</div>
+		<div class="us_r_bor2">
+			<div class="user_main_title1">
+				<form action="" method="get">
+					用户名：<input type="text" name="username" value="{$magic.request.username|urldecode}">
+					<input type="submit" value="搜索">
+				</form>
+			</div>
+			<div class="t20">
+			{list module="borrow" function="GetLateList" var="loop" late_day="31" username="request"}
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+				<tr class="ytit1">
+					<td width="25%" align="left">头像</td>
+					<td width="25%" align="left">公开资料</td>
+					<td width="25%" align="left">联系方式</td>
+					<td width="25%" align="left">逾期详情</td>
+				</tr>
+				{if $loop.total==0 && $magic.request.username!=""}
+					<tr class="ynow">
+						<td align="center" colspan="6">
+							<strong style="color:#ff0000">此人未逾期</strong>
+						</td>
+					</tr>
+				{elseif $loop.total==0}
+					<tr class="ynow">
+						<td align="center" colspan="6">
+							<strong style="color:#ff0000">网站无人逾期</strong>
+						</td>
+					</tr>
+				{/if}
+				{foreach from="$loop.list" item="var"}
+				<tr  {if $key%2==1} class="ynow"{/if}>
+					<td align="left" valign="middle"><img src="{$var.user_id|avatar}" height="100" width="100"></td>
+					<td align="left" valign="top">用户名：<a href="/u/{$var.user_id}" style="color:blue;">{$var.username}</a><br>真实姓名：{$var.realname}<br>身份证：{$var.card_id}<br>所在地：{$var.city|areas:"p,c"|default:"未填"}</td>
+					<td align="left" valign="top">电话：{$var.phone}<br>单位名称：{$var.job_name|default:"未填"}<br>单位地址：{$var.job_address|default:"未填"}</td>
+					<td align="left" valign="top">逾期总额：{$var.late_account|default:0}<br>逾期期数：{$var.late_num|default:0}<br>最近逾期天数：{$var.late_numdays|default:0}<br>网站代还期数：{$var.late_webnum|default:0}</td>
+				</tr>
+				{/foreach}
+			</table>
+			</div>
+			<div style="padding:20px 0; text-align:center">{$loop.pages|showpage}</div>
+		</div>
+		{/list}
+	<div class="cle"></div>
+</div>
+{include file="footer.html"}

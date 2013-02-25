@@ -1,0 +1,10 @@
+<?
+	$code = "spread";
+	$name = "推广";
+	$description = "推广";
+	$version = "1.0";
+	$author = "XiaoWu";
+	$date = "2012-04-19";
+	$update = "";
+	$type = "spread";
+?>

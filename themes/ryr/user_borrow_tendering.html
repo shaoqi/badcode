@@ -1,0 +1,33 @@
+ <form action="/index.php?user&q=code/borrow/tender&ajax=1" method="post"  id="user_borrow_tendering" >
+	  <table width="100%" border="0" cellpadding="0" cellspacing="0" height="180">
+	  <tr>
+		<td align="right" valign="middle" width="110">投标金额：</td>
+		<td  width="300"><input type="text" name="money" id="money" tabindex="1" style="width:70px; border:#BFBFBF solid 1px; height:18px;"/>元   <span style="color:#999999">(最低金额为50元,且是50的倍数)</span></td>
+	  </tr>
+	  <tr>
+		{articles module="account" function="GetOne" var="var" user_id="$_G.user_id"}
+		<td align="right" valign="middle">我的可用余额：</td><td><b style="color:#FF0000">￥{$var.balance|default:"0"}</b>   <a href="/?user&q=code/account/recharge_new" style="color:#0000FF" target="_blank">我要充值</a></td>
+		{/articles}
+	  </tr>
+	  <tr>
+		<td align="right" valign="middle">请输入交易密码：</td>
+		<td>
+		  <input type="password" name="paypassword" style="width:120px; border:#BFBFBF solid 1px; height:18px;" tabindex="2"/></td>
+	  </tr> 
+	  <tr>
+		<td align="right" valign="middle"></td>
+		<td>                        
+		 <span style="color:#999999">如还未设置交易密码，“<a href="/?user&q=code/users/paypwd" target="_blank" style="color:#0000FF">请先设置交易密码</a>”</span></td>
+	  </tr>
+	  <tr>
+		<td align="right" valign="middle">验证码：</td>
+		<td><input type="hidden" name="borrow_nid"  id="borrow_nid" value="{$magic.request.borrow_nid}" /><input type="text" name="valicode"  tabindex="3" style="width:70px; border:#BFBFBF solid 1px; height:18px;"/> <img src="/?plugins&q=imgcode" id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" style="cursor:pointer;height:18px;" align="absmiddle"/></td>
+	  </tr>
+	  <tr>
+		<td align="center" colspan="2" valign="middle"><input type="hidden" name="type" value="ajax" /><input type="image" src="{$tempdir}/images/gogo.gif" width="151" height="35" border="0" /></td>
+	  </tr>
+	</table>
+
+</form>
+
+<script>{literal}deayou.use("borrow",function(e){e.tendering();});</script>{/literal}

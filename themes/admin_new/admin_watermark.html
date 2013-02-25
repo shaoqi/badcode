@@ -1,0 +1,86 @@
+<div class="module_add">
+			<form action="" method="post"  enctype="multipart/form-data" >
+			<div class="module_title"><strong>{$MsgInfo.admin_watermark_name}</strong></div>
+			<div class="module_border">
+				<div class="d">{$MsgInfo.admin_system_con_watermark_status}£º</div>
+				<div class="c">
+					{input type="radio" name="con_watermark_status" value="1|ÊÇ,0|·ñ" checked="$_G.system.con_watermark_status"}
+					
+				</div>
+			</div>
+			
+			
+		<div class="module_border">
+			<div class="d">{$MsgInfo.admin_system_con_watermark_type}£º</div>
+			<div class="c">
+				<input type="radio" value="1"  name="con_watermark_type" {if $_G.system.con_watermark_type==1} checked="checked"{/if} onclick="$('#word').show();$('#pic').hide();"/> ÎÄ×Ö
+				<input type="radio" value="0"   name="con_watermark_type" {if $_G.system.con_watermark_type==0} checked="checked"{/if} onclick="$('#word').hide();$('#pic').show();"/> Í¼Æ¬
+				
+					
+			</div>
+		</div>
+		<div id="word" {if $_G.system.con_watermark_type!=1 || $_G.system.con_watermark_type==""}style="display:none"{/if}>
+			<div class="module_border" >
+				<div class="d">{$MsgInfo.admin_system_con_watermark_word}£º</div>
+				<div class="c">
+					<input type="text" name="con_watermark_word" value="{$_G.system.con_watermark_word}"/>
+				</div>
+			</div>
+			
+			<div class="module_border">
+				<div class="d">{$MsgInfo.admin_system_con_watermark_font}£º</div>
+				<div class="c">
+					<input type="text" name="con_watermark_font" value="{$_G.system.con_watermark_font|default:"20"}"/>
+				</div>
+			</div>
+		
+			<div class="module_border">
+			<div class="d">{$MsgInfo.admin_system_con_watermark_color}£º</div>
+				<div class="c">
+					<input type="text" value="{$_G.system.con_watermark_color|default:"#FF0000"}" name="con_watermark_color"/>
+				</div>
+			</div>
+			
+			<div class="module_border">
+			<div class="d">{$MsgInfo.admin_system_con_watermark_txtpct}£º</div>
+				<div class="c">
+					<input type="text"  name="con_watermark_txtpct" value="{$_G.system.con_watermark_txtpct|default:"50"}"/>
+				</div>
+			</div>
+		</div>
+		
+		<div id="pic" {if $_G.system.con_watermark_type!=0}style=" display:none"{/if}>
+			
+			<div class="module_border" >
+				<div class="d">Ä¬ÈÏÍ¼Æ¬£º</div>
+				<div class="c">
+				    {if $_G.system.con_watermark_file!=""}<a href="{$_A.con_watermark_file}" target="_blank"><img src="{$_A.con_watermark_file}"  /></a>{else}-{/if}
+				</div>
+			</div>
+			<div class="module_border" >
+				<div class="d">Ë®Ó¡Í¼Æ¬(Ö»ÄÜÊÇpng,gif,jpg)£º</div>
+				<div class="c">
+				 <input type="file" name="con_watermark_file" /> 
+				</div>
+			</div>
+			<div class="module_border">
+			<div class="d">{$MsgInfo.admin_system_con_watermark_imgpct}£º</div>
+				<div class="c">
+					<input type="text" value="{$_G.system.con_watermark_imgpct|default:"50"}" name="con_watermark_imgpct"/>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="module_border">
+		<div class="d">{$MsgInfo.admin_system_con_watermark_position}£º</div>
+			<div class="c">
+				{input type="radio" name="con_watermark_position" value="1|¶¥²¿¾Ó×ó,2|µ×²¿¾Ó×ó,3|¶¥²¿¾ÓÓÒ,4|µ×²¿¾ÓÓÒ" checked="$_G.system.con_watermark_position"}
+ 
+			</div>
+		</div>
+		
+		<div class="module_submit"><input type="submit" value="{$MsgInfo.admin_name_submit}"  /></div>
+			</form>
+		</div>

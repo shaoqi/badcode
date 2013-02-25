@@ -1,0 +1,10 @@
+<?
+	$code = "attestations";
+	$name = "证明材料";
+	$description = "用户上传信息后台进行审核";
+	$version = "2.0";
+	$author = "dycms";
+	$date = "2011-11-09";
+	$update = "";
+	$type = "attestations";
+?>

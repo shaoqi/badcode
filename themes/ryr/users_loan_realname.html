@@ -1,0 +1,162 @@
+{include file="header.html"}
+	
+<div class="conbox t20">
+	     <div>
+	      <div class="con_bor">
+	        <div class="pos_bor"><span>你的位置><a href="/">急速贷</a> ><a href="/borrow/index.html">我要借款</a>>{$_G.site_result.name}</span></div>
+            <div class="t40">
+              <div style="text-align:center">
+			        <img src="{$tpldir}/images/step1.gif" />
+		      </div> 
+		  </div>
+          <div class="ch_content">
+		  <div class="m_change">
+			         <ul>
+					     <li><a class="onn" href="/?user&q=code/borrow/loan&p=loan_realname">身份证认证</a></li>
+						 <li><a href="/?user&q=code/borrow/loan&p=loan_phone">手机认证</a></li>
+					 </ul>
+		    </div>
+
+            <div>
+            <div class="us_r_bor1">
+			     <div id="con_two_2  t10" >
+		
+				<!--实名认证密码 开始-->
+
+	<div class="tips">注意：请认真填写以下的内容，一旦通过实名认证以下信息将不能修改。<br /><strong>通过身份认证(直接对接全国公民身份信息系统)，您可以获得以下:</strong><br /> 通过身份认证的用户借款成功率增加了<strong style="color:red">60%</strong>。<br />
+		
+
+通过身份认证的用户借款完成速度提高了<strong style="color:red">50%</strong>。<br />同时也将得到的关注度是未通过身份用户的<strong style="color:red">3倍</strong>。<br />上传最大的图片为512kB，上传的格式为jpg.gif。
+{if $_G.system.con_realname_fee!=0}
+<br/>
+实名认证费用为<strong style="color:red">{$_G.system.con_realname_fee}元</strong>。你现在的可用<strong style="color:red">余额为{$_G.user_result.use_money|default:"0"} [<a href="/?user&q=code/account/recharge_new" target="_blank">我要充值</a>]</strong>。
+{else}
+<br /><strong style="color:#FF0000">当前实名认证费用免费,亲，请赶快认证哦.</strong>
+{/if}
+</div>
+{articles module="approve" function="GetRealnameOne" user_id="$_G.user_id" var="var"}
+{if $var.status==2} 
+<div class="tips" style="margin-top:10px;">
+审核备注：{$var.verify_remark}（{$var.verify_time|date_format}）
+</div>
+{/if}
+
+</div>
+
+{if $_G.user_info.realname_status==1} 
+  <div class="us_r_text t20">您已经通过实名认证。
+  <table width="100%" border="0" cellspacing="15" cellpadding="0">
+  <tr>
+    <td width="183" style="text-align:right"><span>*</span>用户名：</td>
+    <td width="563">{$_G.user_result.username} </td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>真实姓名：</td>
+    <td>
+      {$var.realname}
+    </td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>证件号码：</td>
+    <td>{$var.card_id}</td>
+    </tr>
+  <tr>
+    <td style="text-align:right">性别：</td>
+    <td>
+     {if $var.sex==1}男{else}女{/if}  
+    </td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>身份证正面：</td>
+    <td><span>*</span>{if $var.card_pic1!=''}<a href="./{ $var.card_pic1_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}
+    上传最大图片为<span>512KB</span>，图片格式为jpg，gif</td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>身份证背面：</td>
+    <td><span>*</span>{if $var.card_pic1!=''}<a href="./{ $var.card_pic1_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}上传最大图片为<span>512KB</span>，图片格式为jpg，gif</td>
+    </tr>
+	</table>
+</div>
+{else}
+<form  method="post" action="/?user&q=code/approve/realname" enctype="multipart/form-data"   name="formx"  onsubmit="return formcheck();">
+    <div class="us_r_text t20"><table width="100%" border="0" cellspacing="15" cellpadding="0">
+  <tr>
+    <td width="183" style="text-align:right"><span>*</span>用户名：</td>
+    <td width="563">{$_G.user_result.username} </td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>真实姓名：</td>
+    <td>
+      <label for="textfield"></label>
+      <input type="text" name="realname" id="realname"  value="{$var.realname}" />
+    </td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>证件号码：</td>
+    <td><input type="text" name="card_id"  id="card_id" value="{$var.card_id}" /></td>
+    </tr>
+  <tr>
+    <td style="text-align:right">性别：</td>
+    <td>
+     <input type="radio" name="sex"  id="sex" value="男" {if $var.sex=="男" || $var.sex==""}checked="checked" {/if} />男 <input type="radio"  id="sex" name="sex" value="女"  {if $$var.sex=="女"}checked="checked" {/if} />女  
+    </td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>身份证正面：</td>
+    <td><input type="file" name="card_pic1" size="15" class="input_border"/>
+    {if $var.card_pic1!=''}<a href="./{ $var.card_pic1_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}上传最大图片为<span>512KB</span>，图片格式为jpg，gif</td>
+    </tr>
+  <tr>
+    <td style="text-align:right"><span>*</span>身份证背面：</td>
+    <td><input type="file" name="card_pic2" size="15" class="input_border"/>
+      {if $var.card_pic2!=''}<a href="./{ $var.card_pic2_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}上传最大图片为<span>512KB</span>，图片格式为jpg，gif</td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="hidden" name="web"  value="borrow" /><input type="hidden" name="borrow_type"  value="{$magic.request.type}" />
+      <input type="submit" name="button" id="button" value="提交"class="press_mode" /><span> *温馨提示：我们将严格对用户的所有资料进行保密。</span>
+    </form></td>
+    </tr>
+</table>
+</div>
+{/articles}
+{/if}
+		      </div>
+            </div>
+<script>
+		var money='{$_G.user_result.use_money|default:0}';
+		{literal}		
+			function formcheck(){
+				 var frm = document.forms['formx'];
+				 var realname = frm.elements['realname'].value;
+				 var card_id = frm.elements['card_id'].value;
+				 var card_pic1 = frm.elements['card_pic1'].value;
+				 var card_pic2 = frm.elements['card_pic2'].value;
+				 var errorMsg = '';
+					  if (realname.length == 0 ) {
+						errorMsg += '* 真实姓名不能为空' + '\n';
+					  }
+					  if (card_id.length == 0 ) {
+						errorMsg += '* 身份证号码不能为空' + '\n';
+					  }
+					   if (card_pic1.length == 0 ) {
+						errorMsg += '* 身份证正面不能为空' + '\n';
+					  }
+					   if (card_pic2.length == 0 ) {
+						errorMsg += '* 身份证背面不能为空' + '\n';
+					  }
+					  if (errorMsg.length > 0){
+						alert(errorMsg); return false;
+					  } else{  
+						return true;
+					  }
+			}
+			</script>
+			{/literal}            
+		  </div>
+	      </div>
+	   </div>
+	</div>
+{include file="footer.html"}
+</body>
+</html>

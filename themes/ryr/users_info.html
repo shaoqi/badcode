@@ -1,0 +1,108 @@
+{include file="header.html"}
+<div class="conbox t20">
+	{include file="user_menu.html"}
+	<div class="user_right">
+	   <div>
+		   <div class="m_change">
+			{if $_U.query_type=="reginvite"  || $_U.query_type=="jiangjin" || $_U.query_type=="myfriend" || $_U.query_type=="black"}
+
+			<ul>
+				<li><a href="{$_U.query_url}/reginvite" {if $_U.query_type=="reginvite"} class="onn"{/if}>邀请好友</a></li>
+				<li><a href="{$_U.query_url}/jiangjin" {if $_U.query_type=="jiangjin"} class="onn"{/if}>奖金查询</a></li>
+				<!--<li><a href="{$_U.query_url}/request" {if $_U.query_type=="request"} class="onn"{/if}>好友请求</a></li>-->
+				<!-- <li><a href="{$_U.query_url}/myfriend" {if $_U.query_type=="myfriend"} class="onn"{/if}>我的好友</a></li> -->
+				<!--<li><a href="{$_U.query_url}/black" {if $_U.query_type=="black"} class="onn"{/if}>黑名单</a></li>-->
+			</ul>
+
+
+			{elseif $_U.query_type=="vip"  || $_U.query_type=="vip_log"}
+
+			<ul>
+				<li><a href="{$_U.query_url}/vip" class="onn">会员服务</a></li>				
+			</ul>
+			
+			{elseif $_U.query_type=="credit" || $_U.query_type=="material"}
+
+			<ul>
+				<li><a href="{$_U.query_url}/credit" {if $_U.query_type=="credit"} class="onn"{/if}>认证积分记录</a></li>
+				<!-- <li><a href="{$_U.query_url}/material" {if $_U.query_type=="material"} class="onn"{/if}>材料积分记录</a></li> -->
+			</ul>
+			
+			{elseif $_U.query_type=="avatar" ||  $_U.query_type=="userpwd"  || $_U.query_type=="paypwd" || $_U.query_type=="loginlog" || $_U.query_type=="getpaypwd" || $_U.query_type=="renzheng"  }
+			<ul>
+				<li><a href="{$_U.query_url}/avatar" {if $_U.query_type=="avatar"} class="onn"{/if} >上传头像</a></li>
+				<li><a href="{$_U.query_url}/userpwd" {if $_U.query_type=="userpwd"} class="onn"{/if}>登录密码</a></li>
+				<li><a href="{$_U.query_url}/paypwd" {if $_U.query_type=="paypwd" ||  $_U.query_type=="getpaypwd"} class="onn"{/if}>交易密码</a></li>
+				<li><a href="{$_U.query_url}/renzheng" {if $_U.query_type=="renzheng"} class="onn"{/if}>申请认证</a></li>
+			 
+				<!-- <li><a href="{$_U.query_url}/loginlog" {if $_U.query_type=="loginlog"} class="onn"{/if}>IP登录查询</a></li> -->
+			</ul>			
+			
+			{elseif $_U.query_type=="remind"}
+			<ul>
+				<li><a href="{$_U.query_url}/remind" {if $_U.query_type=="remind"} class="onn"{/if}>消息提示</a></li>
+			</ul>
+			{/if}
+
+
+		</div>
+		<div class="main_box1">
+		<div class="us_r_bor1">
+		{if $_U.query_type=="avatar"}
+		{include file="users_info_avatar.html"}
+		
+		{elseif $_U.query_type=="vip" || $_U.query_type=="vip_log"}
+		{include file="users_info_vip.html"}
+		
+		{elseif $_U.query_type=="privacy"}
+		{include file="users_info_privacy.html"}
+		
+		
+		{elseif $_U.query_type=="credit"}
+		{include file="users_info_credit.html"}
+		
+		{elseif $_U.query_type=="material"}
+		{include file="users_info_material.html"}
+		
+		{elseif $_U.query_type=="reginvite"}
+		{include file="users_info_reginvite.html"}
+		{elseif $_U.query_type=="jiangjin"}
+		{include file="user_borrow_jiangjin.html"}
+
+		{elseif $_U.query_type=="userpwd"}
+		{include file="users_info_userpwd.html"}
+		
+		{elseif $_U.query_type=="paypwd"}
+		{include file="users_info_paypwd.html"}
+		
+		{elseif $_U.query_type=="renzheng"}
+		{include file="users_info_renzheng.html"}
+		
+		{elseif $_U.query_type=="getpaypwd"}
+		{include file="users_info_getpaypwd.html"}
+		
+		{elseif $_U.query_type=="loginlog"}
+		{include file="users_info_loginlog.html"}
+
+
+		{elseif $_U.query_type=="protection"}
+		{include file="users_info_protection.html"}
+		{elseif $_U.query_type=="remind"}
+		{include file="users_remind.html"}
+
+		{/if}
+
+
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+<!--用户中心的主栏目 结束-->
+<div style="clear:both;"></div>
+
+{include file="footer.html"}

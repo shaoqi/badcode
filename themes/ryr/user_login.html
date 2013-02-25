@@ -1,0 +1,58 @@
+{include file='header.html'} 
+<div class="conbox t10">
+<div class="main_r_bor">
+ <div class="m_r_title">
+   <h1>会员登入</h1></div>
+ <div class="regist_bor">
+			      <div class="reg_left">
+	<form action="/index.php?user&q=login" method="post">
+				       <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="reg_tab">
+  <tr>
+    <td class="tex_left">账 号：</td>
+    <td>
+    <input name="keywords"  id="keywords" value="{$_U.username_cookie}" type="text" class="in_text"/>
+    <em>请输入账号</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="30%" class="tex_left">密 码：</td>
+    <td width="70%"><input name="password" type="password" class="in_text1"/> <em><a href="/?user&q=getpwd" style="color:#0063DC">忘记密码？</a></em>
+      </td>
+  </tr>
+  <tr>
+    <td class="tex_left"><font class="red">*</font> 验证码：</td>
+	<td><input name="valicode" type="text" class="in_text2" style="width:50px;"/>
+      <img src="/?plugins&q=imgcode" id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" /><em>看不清？<a href="javascript:void(0)" onClick="$('#valicode').attr('src','/?plugins&q=imgcode&t=' + Math.random());">换一张！</a></em>
+	</td>
+  </tr>
+  <tr>
+    <td class="tex_left">保存时间：</td>
+    <td><select name="cooktime" id="cooktime">
+        <option value="0.5">保存半小时</option>
+        <option value="1">一个小时</option>
+		<option value="24">一天</option>
+		<option value="168">一周</option>
+		<option value="720">一月</option>
+        </select></td>
+  </tr>
+  <tr>
+    <td class="tex_left">&nbsp;</td>
+    <td align="left"><input type="image" src="{$tpldir}/images/dlgo.gif" width="79" height="31" border="0"></td>
+  </tr>
+  <tr>
+    <td class="tex_left">&nbsp;</td>
+    <td align="left">还不是融易融会员?<a href="/?user&q=reg"  style="color:#0063DC">点击注册</a></td>
+  </tr>
+</table>
+</form>
+</div>
+				  
+<div class="reg_right" style="width:378px;">
+	<div style="margin:10px 0 0 0"><img src="{$tpldir}/images/login.gif" width="378"/></div>
+</div>
+<div class="cle"></div>
+</div>
+</div>
+</div>
+{include file='footer.html'}
+

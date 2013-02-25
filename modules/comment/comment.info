@@ -1,0 +1,9 @@
+<?
+		$code = "comment";
+		$name = "ÆÀÂÛ";
+		$description = "ÆÀÂÛ";
+		$version = "1.0";
+		$author = "dwcms";
+		$date = "2010-07-05";
+		$type = "comment";
+?>

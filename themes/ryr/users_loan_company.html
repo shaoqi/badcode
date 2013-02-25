@@ -1,0 +1,86 @@
+{include file="header.html"}
+<div class="conbox t20">
+	     <div>
+	      <div class="con_bor">
+	        <div class="pos_bor"><span>你的位置><a href="/">急速贷</a> ><a href="#">我要借款</a>>填写资料</span></div>
+            <div class="t40">
+              <div style="text-align:center">
+			        <img src="{$tpldir}/images/step2.gif" />
+		      </div> 
+		  </div>
+          <div class="ch_content">
+		  <div class="m_change">
+			         <ul>
+					     <li><a  href="/?user&q=code/borrow/loan_info">基本信息</a></li>
+						 <li><a  href="/?user&q=code/borrow/loan_work">单位资料</a></li>
+						 <li><a class="onn"  href="/?user&q=code/borrow/loan_company">私营业主</a></li>
+                         <li><a href="/?user&q=code/borrow/loan_contact">联系方式</a></li>
+                         <li><a  href="/?user&q=code/borrow/loan_finance">财务状况</a></li>
+                         <li><a  href="/?user&q=code/borrow/loan_houses">房产资料</a></li>
+					 </ul>
+		    </div>		    
+            <div>
+            <div class="us_r_bor1">
+			     <div>
+			   <div class="tips" style="width: auto">亲爱的客户，<!-- ,<span class="f_red b">*</span>为必填内容, -->请认真填写以下信息，我们会对您的个人信息严格保密。</div><br>
+{articles module="rating" function="GetCompanyOne" user_id="$_G.user_id" var="var"}
+ <form action="/?user&q=code/rating/company&type=borrow" method="post" name="formx" onsubmit="return formcheck();">
+			   <div class="item_group" style="width: auto">请填写私营业主资料
+</div>
+			   <div class="user_info_box clearfix" style="width: auto">	
+	<div class="user_info_item">
+		<span class="user_info_item_left">企业名称：</span> <span>
+		<input value="{$var.type}" class="input180 " name="type" id="type">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">成立日期：</span> <span>
+		<input value="{$var.time}" class="input180 " name="time" id="time">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">经营地址：</span> <span> 
+		<input value="{$var.address}" class="input180 " name="address" id="address">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">租金：</span> <span>
+		<input value="{$var.rent_money}" class="input180 " name="rent_money" id="rent_money">元
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">租期：</span> <span> 
+		<input value="{$var.rent_time}" class="input180 " name="rent_time" id="rent_time">月
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">税务编号：</span> <span> 
+		<input value="{$var.tax_num_guo}" class="input180 " name="tax_num_guo" id="tax_num_guo">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">工商登记号：</span> <span> 
+		<input value="{$var.tax_num_di}" class="input180 " name="tax_num_di" id="tax_num_di">
+		</span>
+	</div>
+	<div class="user_info_item">
+		<span class="user_info_item_left">全年盈利/亏损额：</span> <span> 
+		<input value="{$var.license_num}" class="input180 " name="license_num" id="license_num">元（年度）
+		</span>
+	</div>
+	<input value="borrow" class="input180 " type="hidden" name="web">
+</div>{/articles}
+			   <div style="text-align: center; padding: 20px 0">
+							<input type="submit" name="submit" class="saveSettingBnt" onclick="javascript:return checkItemA()" value="保存并继续">
+				 </div>
+			   </div>
+			</div>
+            </div>
+            </form>
+		  </div>
+	      </div>
+	   </div>
+	</div>
+{include file="footer.html"}
+</body>
+</html>

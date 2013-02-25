@@ -1,0 +1,122 @@
+<div class="main_box">
+<div class="us_r_bor1">
+<div class="t20">
+		<div> 
+
+
+		发布时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2}" id="dotime2" size="15" onclick="change_picktime()"/>  关键字：<input type="text" name="keywords" id="keywords" size="15" value="{$magic.request.keywords|urldecode}" /> 
+
+
+		<input value="搜索" type="submit" class="press_mode" onclick="sousuo('{$_U.query_url}/{$_U.query_type}')" />
+
+
+		</div>
+		</div>
+
+		<div class="t20">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
+
+			  <form action="" method="post">
+
+				{list module="borrow" var="loop" function ="GetList" showpage="3" user_id="0" keywords="request" dotime1="request" dotime2="request" query_type="repay_yes" status="3"}
+					
+				<tr class="ytit">
+					<td colspan="11">已还完的借款</td>
+				</tr>
+
+				<tr class="ytit1" >
+
+
+					<td  >标题</td>
+
+
+					<td  >协议</td>
+
+
+					<td  >借款类型</td>
+
+
+					<td  >借款金额</td>
+
+
+					<td  >年利率</td>
+
+
+					<td  >还款期限</td>
+
+
+					<td  >借款时间</td>
+
+
+					<td  >偿还本息</td>
+
+
+					<td  >已还本息</td>
+
+
+					<td  >已还逾期罚息</td>
+
+
+					<td  >操作</td>
+
+
+				</tr>
+
+
+				{foreach from="$loop.list" item="item"}
+
+
+				<tr {if $key%2==1} class="ynow"{/if}>
+
+
+					<td title="{$item.name}"><a href="/invest/a{$item.borrow_nid}.html" target="_blank">{$item.name|truncate:8}</a></td>
+
+
+					<td  ><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议</a></td>
+
+
+					<td  >{$item.borrow_type|linkages:"borrow_all_type"}</td>
+
+
+					<td  >{$item.account}(元)</td>
+
+
+					<td  >{$item.borrow_apr} %</td>
+
+
+					<td  >{$item.borrow_period} 个月</td>
+
+
+					<td  >{$item.addtime|date_format:"Y-m-d"}</td>
+
+
+					<td  >￥{$item.repay_account_all}</td>
+
+
+					<td  >￥{$item.repay_account_yes|default:0.00}</td>
+
+
+					<td  >￥{$item.late_interest|default:0.00}</td>
+
+
+					<td  ><a href="{$_U.query_url}/repayment_view&borrow_nid={$item.borrow_nid}" >还款明细</a></td>
+
+
+				</tr>
+
+
+				{/foreach}
+
+
+			</form>	
+
+
+		</table>
+		</div>
+		<div style="padding:10px 0; text-align:center">{$loop.pages|showpage}</div>
+		
+
+
+				{/list}
+				</div>
+				</div>

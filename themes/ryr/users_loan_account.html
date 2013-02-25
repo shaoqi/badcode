@@ -1,0 +1,17 @@
+{if $magic.request.type=="log"}
+{include file="users_loan_account_log.html"}
+
+{elseif $magic.request.type=="recharge_new"}
+{include file="users_loan_account_recharge_new.html"}
+
+{elseif $magic.request.type=="recharge"}
+{include file="users_loan_account_recharge.html"}
+
+{elseif $magic.request.type=="cash_new"}
+{include file="users_loan_account_cash_new.html"}
+
+{elseif $magic.request.type=="cash"}
+{include file="users_loan_account_cash.html"}
+
+
+{/if}

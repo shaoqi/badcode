@@ -1,0 +1,51 @@
+		<!--现场认证 开始-->
+
+		{if $_G.user_result.vip_status!=1}
+
+		<div class="user_main_title1">你还不是VIP会员不能做现场认证。
+
+		<div >
+
+			如要申请成为VIP会员，请点按钮提交到VIP申请页。<input type="button" onclick="javacript:location.href='/vip/index.html'" value="申请VIP会员"  /><br /><br />
+
+			
+
+		</div>
+
+		</div>
+
+		{elseif $_G.user_result.scene_status==1}
+
+		<div class="user_main_title1">您已经通过了现场认证</div>
+
+		
+
+		{elseif $_G.user_result.scene_status==2}
+
+			<div class="user_main_title1">你已经申请了现场认证，请等待管理员审核。</div>
+
+		{else}
+
+		<div class="user_main_title1">如果您需要申请现场认证，请下载现场认证申请表，填写完成后请交予您的客服 ( 
+
+<a href="{$tempdir}/down/现场认证申请表.xls"  style="color:red" target="_blank">现场认证申请表下载</a>)。<br />
+
+现场认证考察收费标准请下载以下文件 （<a href="{$tempdir}/down/现场认证收费标准.doc" style="color:red" target="_blank">现场认证收费标准下载</a>）。
+
+		<div  >
+
+			同时请点击下面的按钮，我们也会让客服直接与您联系。<form action="" method="post"><input type="submit" value="提交申请" name="submit" />
+
+				<br /></form>
+
+
+
+			
+
+		</div>
+
+		</div>
+
+		{/if}
+
+		<!--现场认证 结束-->

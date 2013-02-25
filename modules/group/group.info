@@ -1,0 +1,10 @@
+<?
+	$code = "group";
+	$name = "圈子";
+	$description = "圈子群组";
+	$version = "1.0";
+	$author = "dwcms";
+	$date = "2012-03-23";
+	$update = "";
+	$type = "group";
+?>
