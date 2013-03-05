@@ -72,6 +72,10 @@ if (isset($_POST['password'])){
 				}
 			}else{
 				SetCookies($data);
+				if ($_POST['ajax']==1){
+					echo 'ok';
+					exit;
+				}
 				header("Location: /?user"); 
 				//echo "<script>location.href='/?user';</script>";
 				//$msg = array($MsgInfo["users_login_success"],"",$_url);

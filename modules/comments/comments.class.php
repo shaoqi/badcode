@@ -7,6 +7,8 @@
  * $Update:Ahui
  * $UpdateDate:2012-06-10  
  * Copyright(c) 2010 - 2012 by deayou.com. All rights reserved
+
+ 把 {comment} 替换成 {comment}
 ******************************/
 
 if (!defined('ROOT_PATH'))  die('不能访问');//防止直接访问
@@ -81,7 +83,7 @@ class commentsClass{
 			$data['type'] = 'user';
 		}
 		
-		$sql = "insert into `{comments}` set addtime='".time()."',addip='".ip_address()."',";
+		$sql = "insert into `{comment}` set addtime='".time()."',addip='".ip_address()."',";
 		foreach($data as $key => $value){
 			$_sql[] = "`$key` = '$value'";
 		}
@@ -101,13 +103,13 @@ class commentsClass{
 		
 		if (!IsExiest($data['id'])) return "comment_id_empty";
 		if ($data['type'] == "delete"){
-			$sql = "delete from `{comments}`  where id in ({$data['id']}) or pid in ({$data['id']}) or reply_id in ({$data['id']})";
+			$sql = "delete from `{comment}`  where id in ({$data['id']}) or pid in ({$data['id']}) or reply_id in ({$data['id']})";
 			$mysql -> db_query($sql);
 		}elseif ($data['type'] == "yes"){
-			$sql = "update `{comments}`  set status=1 where id in ({$data['id']}) ";
+			$sql = "update `{comment}`  set status=1 where id in ({$data['id']}) ";
 			$mysql -> db_query($sql);
 		}elseif ($data['type'] == "no"){
-			$sql = "update `{comments}`  set status=2 where id in ({$data['id']}) ";
+			$sql = "update `{comment}`  set status=2 where id in ({$data['id']}) ";
 			$mysql -> db_query($sql);
 		}
 		return $data['id'];
@@ -131,7 +133,7 @@ class commentsClass{
 		
 		$_select = " p1.*,p2.username";
 		$_order = " order by p1.status asc,p1.id desc";
-		$sql = "select SELECT from `{comments}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id  SQL ORDER LIMIT";
+		$sql = "select SELECT from `{comment}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id  SQL ORDER LIMIT";
 		
 		//是否显示全部的信息
 		if (IsExiest($data['limit'])!=false){
@@ -173,7 +175,7 @@ class commentsClass{
 		global $mysql;
 		if (!IsExiest($data['id'])) return "comments_id_empty";
 		
-		$sql = "select p1.*,p2.username from `{comments}` as p1  left join `{users}` as p2 on p1.user_id=p2.user_id   where p1.id='{$data['id']}'";
+		$sql = "select p1.*,p2.username from `{comment}` as p1  left join `{users}` as p2 on p1.user_id=p2.user_id   where p1.id='{$data['id']}'";
 		$result = $mysql->db_fetch_array($sql);
 		if ($result==false) return "comments_empty";
 		$result["contents"] =  preg_replace('[\[\:([0-9]+)*\:\]]',"<img src=/data/images/face/$1.gif>", $result["contents"]);
@@ -217,8 +219,7 @@ class commentsClass{
 		
 		$_select = " p1.*,p2.username";
 		$_order = " order by p1.id asc";
-		$sql = "select SELECT from `{comments}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id SQL ORDER LIMIT";
-	
+		$sql = "select SELECT from `{comment}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id SQL ORDER LIMIT";
 		//是否显示全部的信息
 		if (IsExiest($data['limit'])!=false){
 			if ($data['limit'] != "all"){ $_limit = "  limit ".$data['limit']; }
@@ -238,8 +239,7 @@ class commentsClass{
 					$_result[$value['pid']]['result'][] = $value;
 				}
 			}
-			
-			return array("result"=>$_result,"num"=>count($result));
+			return array("list"=>$_result,"total"=>count($result));
 		}			 
 		
 		//判断总的条数
@@ -260,7 +260,7 @@ class commentsClass{
 		$_list = array();
 		if (count($_users)>0){
 			$_users = join(',',$_users);
-			$sql = "select p1.*,p2.username from `{comments}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id where tid in ({$_cid})";
+			$sql = "select p1.*,p2.username from `{comment}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id where tid in ({$_cid})";
 			$result = $mysql->db_fetch_arrays($sql);
 			$__list = array();
 			foreach ($result as $_key => $_value){
@@ -280,7 +280,69 @@ class commentsClass{
 		return $result;
 	}
 	
-	
+    /**
+     * 获取评论列表
+     * @param $module 模块
+     * @param $article_id 文章ID
+     * @param $statu 状态
+     * @param $page 页码
+     * @param $page_size 每页记录数
+     */
+    public static function GetList ($data = array()) {
+        global $mysql;
+		$page = empty($data['page'])?1:$data['page'];
+		$epage = empty($data['epage'])?10:$data['epage'];
+		$_sql = "where 1=1 ";//直接对文章的评论
+		
+		//判断模块
+        if(IsExiest($data['code'])!=""){
+			$_sql .= " and  c.code = '{$data['code']}' "; 
+		}
+		
+		//判断文章id
+        if(IsExiest($data['article_id'])!=""){
+			$_sql .= " and  c.article_id in ('{$data['article_id']}') "; 
+		}
+		
+		//判断评论状态
+        if(IsExiest($data['status'])!=""){
+			$_sql .= " and  c.status = '{$data['status']}' "; 
+		}
+		//判断评论人
+        if(IsExiest($data['user_id'])!=""){
+			$_sql .= " and  c.user_id = '{$data['user_id']}' "; 
+		}
+		
+		if(IsExiest($data['reply_userid'])!=""){
+			$_sql .= " and  c.user_id = '{$data['user_id']}' "; 
+		}
+		
+		$_select = "c.*, u.username";
+		 $sql = "select SELECT from {comment} as c
+                    left join {users} as u on c.user_id = u.user_id {$_sql} ";
+		$__sql = "";
+		if (IsExiest($data['limit'])!=false){
+			if ($data['limit'] != "all"){ $_limit = "  limit ".$data['limit']; }
+			return $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array($_select, $_sql, $_order, $_limit), $sql));
+		}			 
+		//判断总的条数
+		$row = $mysql->db_fetch_array(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array('count(1) as num', $_sql,'', ''), $sql));
+		$total = intval($row['num']);
+		
+		
+		//分页返回结果
+		$data['page'] = !IsExiest($data['page'])?1:$data['page'];
+		$data['epage'] = !IsExiest($data['epage'])?10:$data['epage'];
+		
+		$total_page = ceil($total / $data['epage']);
+		$_limit = " limit ".($data['epage'] * ($data['page'] - 1)).", {$data['epage']}";
+		$list = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL','ORDER', 'LIMIT'), array($_select,$_sql,$_order, $_limit), $sql));
+		
+		//返回最终的结果
+		$result = array('list' => $list?$list:array(),'total' => $total,'page' => $data['page'],'epage' => $data['epage'],'total_page' => $total_page);
+		
+		return $result;
+    }	
 
 }
 ?>

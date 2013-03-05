@@ -12,7 +12,7 @@
      <div class="jk_bor">
       <div class="jk_bor_le">
        <div class="jk_v_tit">
-          <h1><img src="{$tpldir}/images/danb.gif" width="30" height="17" /> {$var.name}</h1>
+          <h1><img src="{$tpldir}/images/{$var.borrow_type}.gif" width="30" height="17" /> {$var.name}</h1>
         </div>
         <div class="jk_v_in" style="padding:18px 10px">
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -419,7 +419,7 @@ document.getElementById(CID).innerHTML = sTime;
       <div style="padding:0 5px 0;">
 	  <div>
 				<table cellspacing="0" border="0" style="border-width:0px;border-style:None;width:930px;border-collapse:collapse;">
-					{loop module="comment" function="GetList" limit="8" var="vat" code="borrow" article_id="$magic.request.article_id" }
+					{loop module="comment" function="GetList" limit="8" var="vat" code="borrow" article_id="$var.id" status="1"}
 					<tr class="comment_tr">
 						<td width="10%" height="60px" align="center"><img src="{$vat.user_id|avatar}" width="50" height="50" /></td>
 						<td width="10%" height="60px" align="center"><!-- <a href="/u/{$vat.user_id}" target=_blank> -->{$vat.username}</td>
@@ -452,7 +452,7 @@ document.getElementById(CID).innerHTML = sTime;
    </div>
    
 <script>
-var article = {$magic.request.article_id};
+var article = {$var.id};
 var borrow_user = {$var.user_id};
 var borrow_nid = {$var.borrow_nid};
 {literal}

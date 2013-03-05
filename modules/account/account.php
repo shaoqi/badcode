@@ -26,7 +26,6 @@ $_A['list_purview']["account"]["result"]["account_users"] = array("name"=>"сц╩╖╥
 $_A['list_purview']["account"]["result"]["account_payment"] = array("name"=>"ж╖╦╤╥╫й╫","url"=>"code/account/payment");
 $_A['list_purview']["account"]["result"]["account_fee"] = array("name"=>"вй╫П╥ясц","url"=>"code/account/fee");
 require_once("account.class.php");
-
 /**
  * хГ╧ШюЮпмн╙©у╣д╩╟тРотй╬кЫсп╣днд╪Чап╠М
 **/

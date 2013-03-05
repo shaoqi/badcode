@@ -76,7 +76,7 @@ elseif ($_U['query_type'] == "AddCom"){
 elseif ($_U['query_type'] == "new"){
 	$data=array();
 	$data['user_id'] = $_G['user_id'];
-	$data['contents'] = iconv("UTF-8", "GBK", $_POST['contents']);
+	$data['contents'] = strip_tags(iconv("UTF-8", "GBK", $_POST['contents']));
 	$data['article_id'] = $_POST['article_id'];
 	$data['code'] = "borrow";
 	$result=commentClass::AddLy($data);
@@ -150,7 +150,7 @@ elseif ($_U['query_type'] == "new"){
 		$data=array();
 		$data['article_id'] = $_G['user_id'];
 		$data['user_id'] = $_G['user_id'];
-		$data['contents'] = urldecode($_POST['contents']);
+		$data['contents'] = urldecode(strip_tags($_POST['contents']));
 		$data['pid'] = $_REQUEST['pid'];
 		$data['sid'] = $_REQUEST['sid'];
 		$data['code'] = $_REQUEST['code'];

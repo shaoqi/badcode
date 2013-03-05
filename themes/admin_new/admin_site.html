@@ -97,7 +97,7 @@ var url = "{$_A.query_url_all}&action={$magic.request.action}";
 		<div class="l">父&nbsp;&nbsp;级：</div>
 		<div class="c">
 			<select name="pid">
-			<option>跟目录</option>
+			<option value="0">跟目录</option>
 			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" lgnore="$_A.site_result.id" }
 			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
 			{/loop}
@@ -145,7 +145,7 @@ var url = "{$_A.query_url_all}&action={$magic.request.action}";
 		<div class="l">父&nbsp;&nbsp;级：</div>
 		<div class="c">
 			<select name="pid">
-			<option>跟目录</option>
+			<option value="0">跟目录</option>
 			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" lgnore="$_A.site_result.id" }
 			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
 			{/loop}
@@ -238,7 +238,7 @@ var url = "{$_A.query_url_all}&action={$magic.request.action}";
 		<div class="l">	父&nbsp;&nbsp;级：</div>
 		<div class="c">
 			<select name="pid">
-			<option>跟目录</option>
+			<option value="0">跟目录</option>
 			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" lgnore="$_A.site_result.id" }
 			<option value="{$item.id}" {if $_A.site_result.pid==$item.id}  selected="selected"{/if}>{$item._name}</option>
 			{/loop}
@@ -335,7 +335,7 @@ var url = "{$_A.query_url_all}&action={$magic.request.action}";
 		<div class="l">父&nbsp;&nbsp;级：</div>
 		<div class="c">
 			<select name="pid">
-			<option>跟目录</option>
+			<option value="0">跟目录</option>
 			{loop module="admin" function="GetSite" var="item" menu_id="$magic.request.menu_id" }
 			{if $_A.site_result.pid==0 }
 			{if $_A.site_result.id!=$item.id}

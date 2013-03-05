@@ -48,7 +48,7 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/roam.gif" align="absmiddle" style="float:left;"/><div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+				  <img src="{$tpldir}/images/liuz.gif" align="absmiddle" style="float:left;"/>{if $item.award_scale!=0.00}<div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div>{/if}<a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">最小流转：<font class="red">{$item.roam.account_min}元</font></td>
@@ -81,13 +81,13 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/danb.gif" align="absmiddle" style="float:left;"/><div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+				  <img src="{$tpldir}/images/{$item.borrow_type}.gif" align="absmiddle" style="float:left;"/>{if $item.award_scale!=0.00}<div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div>{/if}<a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">借款金额：<font class="red">￥{if $item.account_status.key==1}{$item.account_status.value}万{else}{$item.account}{/if}</font></td>
                   <td width="19%" align="left">年 利 率：<font class="red">{$item.borrow_apr}%</font></td>
                   <td width="21%" align="left">借款期限：<font class="red">{$item.borrow_period_name}</font></td>
-                  <td width="25%" align="left">进度：<span class="loading"><em style="width:{$item.borrow_account_scale}%"></em></span>{$item.borrow_account_scale}%</td>
+                  <td width="25%" align="left">进度：<span class="ryrloading"><em style="width:{$item.borrow_account_scale}%"></em></span>{$item.borrow_account_scale}%</td>
                   <td width="13%" rowspan="2" align="left">				 
                    {if $item.status==1 && $item.borrow_account_wait!=0}
 						<a href="/invest/a{$item.borrow_nid}.html"><img src="{$tpldir}/images/viewbtn1.gif" align="middle" /></a>
@@ -180,12 +180,12 @@ function roam_buy(borrow_nid,account,_user_id){
       </div>
       <div class="m_r_news" id="li_list_detail_1"> {loop module="articles" function="GetList" var="var" limit="6" type_id="58"}
         <ul>
-          <li>·<a href="/gonggao/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+          <li><a href="/gonggao/a{$var.id}.html">{$var.name|truncate:15}</a></li>
         </ul>
         {/loop} </div>
       <div class="m_r_news" id="li_list_detail_2" style="display:none"> {loop module="articles" function="GetList" var="var" limit="6" type_id="62"}
         <ul>
-          <li>·<a href="/xwzx/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+          <li><a href="/xwzx/a{$var.id}.html">{$var.name|truncate:15}</a></li>
         </ul>
         {/loop} </div>
     </div>
@@ -199,12 +199,12 @@ function roam_buy(borrow_nid,account,_user_id){
       </div>
       <div class="m_r_news" id="li_list_detail_3" style="display:none"> {loop module="articles" function="GetList" var="var" limit="6" type_id="59"}
         <ul>
-          <li>·<a href="/gonggao/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+          <li><a href="/gonggao/a{$var.id}.html">{$var.name|truncate:15}</a></li>
         </ul>
         {/loop} </div>
       <div class="m_r_news" id="li_list_detail_4" > {loop module="articles" function="GetList" var="var" limit="6" type_id="52"}
         <ul>
-          <li>·<a href="/zhuce/a{$var.id}.html">{$var.name|truncate:15}</a></li>
+          <li><a href="/zhuce/a{$var.id}.html">{$var.name|truncate:15}</a></li>
         </ul>
         {/loop} </div>
     </div>

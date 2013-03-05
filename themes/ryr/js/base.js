@@ -104,9 +104,3 @@ function submit_email(){
 	$('#email_submint').attr("disabled","disabled");
 	return false;
 }
-var load = function(){
-	var newHTML=document.documentElement.innerHTML;
-	var reg=new RegExp("ÈÚ×Ê","g");
-	newHTML = newHTML.replace(reg,'½è¿î');
-	document.write(newHTML);
-}

@@ -54,7 +54,6 @@ float:left;background-image: url(../images/jiang.png);width:36px; height:17px;pa
     right: 0;
     text-align: right;
     top: 0;
-    width: 65%;
 }
 .top-links a.last {
     padding-right: 0;
@@ -162,7 +161,15 @@ float:left;background-image: url(../images/jiang.png);width:36px; height:17px;pa
     margin:-11px;
     margin-bottom:0px;
     color:#fff;
-    background:linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background:#FF8410;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FF8410), to(#F16000)) repeat scroll 0 0 #FF8410;
+	background: -webkit-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: -moz-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: -ms-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: -o-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	-pie-background: linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	behavior: url(PIE.htc);
     padding:5px 10px;
     border:1px solid #F15A00;
     font-size:20px;
@@ -218,19 +225,49 @@ float:left;background-image: url(../images/jiang.png);width:36px; height:17px;pa
     text-decoration: none;
 }
 .ui-button-orange {
-    background: linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background:#FF8410;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FF8410), to(#F16000)) repeat scroll 0 0 #FF8410;
+	background: -webkit-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: -moz-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: -ms-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: -o-linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	background: linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	-pie-background: linear-gradient(#FF8410, #F16000) repeat scroll 0 0 #FF8410;
+	behavior: url(PIE.htc);
     border-color: #F15A00;
     color: #FFFFFF !important;
 }
 .ui-button-orange:hover {
-    background: linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+	background:#FA6600;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FA6600), to(#E34500)) repeat scroll 0 0 #FA6600;
+	background: -webkit-linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+	background: -moz-linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+	background: -ms-linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+	background: -o-linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+	background: linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+	-pie-background: linear-gradient(#FA6600, #E34500) repeat scroll 0 0 #FA6600;
+	behavior: url(PIE.htc);
     border-color: #DE3300;
 }
 .ui-button-blue {
-    background: linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#6FB5E5), to(#2778BC)) repeat scroll 0 0 #6FB5E5;
+	background: -webkit-linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+	background: -moz-linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+	background: -ms-linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+	background: -o-linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+	background: linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+	-pie-background: linear-gradient(#6FB5E5, #2778BC) repeat scroll 0 0 #6FB5E5;
+	behavior: url(PIE.htc);
     border-color: #2D7AAC;
 }
 .ui-button-blue:hover {
-    background: linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#81BCE5), to(#4387C0)) repeat scroll 0 0 #81BCE5;
+	background: -webkit-linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+	background: -moz-linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+	background: -ms-linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+	background: -o-linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+	background: linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+	-pie-background: linear-gradient(#81BCE5, #4387C0) repeat scroll 0 0 #81BCE5;
+	behavior: url(PIE.htc);
     border-color: #1971AA;
 }

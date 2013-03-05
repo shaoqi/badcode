@@ -106,7 +106,7 @@ elseif ($_A['query_type'] == "new"){
 	check_rank("site_new");//ºÏ≤È»®œﬁ
 	if (isset($_POST['name']) && $_POST['name']!=""){
 	
-		$var = array("name","status","nid","pid","remark","value","type","menu_id","order","index_tpl","list_tpl","content_tpl","keywords","description");
+		$var = array("name","status","nid","pid","remark","value","type","menu_id","order","index_tpl","list_tpl","content_tpl","keywords","description","seotitle");
 		$data = post_var($var);
 		if ($_POST['id']!=""){
 			$data['id'] = $_POST['id'];

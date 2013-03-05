@@ -102,7 +102,7 @@ class accountexcel {
 			$value['city'] = $value['areas']['name'];		
 			$bank_name = accountClass::GetBankName($value['bank']);
 			$value['bank_name'] = $bank_name['bank_name'];			
-			$_data[$key] = array($key+1,$value['username'],$value['realname'],$value['bank_name'],$value['branch'],$value['city'],"[{$value['account_all']}]",$value['total'],$value['credited'],$value['fee'],date("Y-m-d H:i:s",$value['addtime']),$value['addip'],$value['status']);
+			$_data[$key] = array($key+1,$value['username'],$value['realname'],$value['bank_name'],$value['branch'],$value['city'],$value['account_all'],$value['total'],$value['credited'],$value['fee'],date("Y-m-d H:i:s",$value['addtime']),$value['addip'],$value['status']);
 		}
 		exportData("Ã·œ÷º«¬º",$title,$_data);
 		exit;

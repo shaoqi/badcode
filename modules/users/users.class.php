@@ -1543,7 +1543,8 @@ class usersClass  extends usersadminClass {
 	}
 	function GetUserManageOne($data = array()){
 		global $mysql;		
-		if (!IsExiest($data['user_id'])) return "users_user_id_empty";		
+		if (!IsExiest($data['user_id'])) return "users_user_id_empty";
+		return ['status'=>1];
 		$sql = "select p1.*,p2.username from `{users_manage}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id   where p1.user_id='{$data['user_id']}'";
 		$result = $mysql->db_fetch_array($sql);
 		if ($result==false) return false;

@@ -4,7 +4,7 @@
      <div class="fund_filter">
        <ul>
         <li><span>产品类型</span><a href="javascript:void();"  onclick="sousuo('type','')" {if $magic.request.sou_type==""} class="on"{/if}>全部 </a>
-		<a href="javascript:void(0)" onclick="sousuo('type','roam')" {if $magic.request.sou_type=="roam"} class="on"{/if}>循环贷 </a><a href="javascript:void(0)" onclick="sousuo('type','pawn')" {if $magic.request.sou_type=="pawn"} class="on"{/if}>抵押贷</a></li>
+		<a href="javascript:void(0)" onclick="sousuo('type','roam')" {if $magic.request.sou_type=="roam"} class="on"{/if}>流转贷 </a><a href="javascript:void(0)" onclick="sousuo('type','pawn')" {if $magic.request.sou_type=="pawn"} class="on"{/if}>抵押贷</a></li>
 		
         <li><span>年化利率</span><a href="javascript:void(0)"  onclick="sousuo('apr','')" {if $magic.request.sou_apr==""} class="on"{/if}>全部</a><a href="javascript:void(0)"  onclick="sousuo('apr','0,10')" {if $magic.request.sou_apr=="0,10"} class="on"{/if}>10%以下 </a> <a href="javascript:void(0)"  onclick="sousuo('apr','10,20')" {if $magic.request.sou_apr=="10,20"} class="on"{/if}>10%-20%</a>
         <a href="javascript:void(0)"  onclick="sousuo('apr','20,100')" {if $magic.request.sou_apr=="20,100"} class="on"{/if}>20%以上</a></li>

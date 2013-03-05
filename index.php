@@ -315,8 +315,8 @@ else{
 		
 		//Ê×Ò³
 		elseif ($_G['query_site']==""){
-			$_G['site_result']['name']=$_G['system']['con_site_name'];
 			$index = $_G['site']['index'];
+			$_G['site_result']['name'] = $_G['site_result']['seoname'] = empty($index['seotitle'])?$_G['system']['con_site_name']:$index['seotitle'];
 			$_G['keywords'] = $index['keywords'];
 			$_G['description'] = $index['description'];
 			$template = "index.html";
@@ -348,11 +348,12 @@ else{
 				$index = isset($_G['site'][$_G['site_result']['nid']])?$_G['site'][$_G['site_result']['nid']]:[];
 				$_G['keywords'] = empty($index['keywords'])?$_G['system']['con_keywords']:$index['keywords'];
 				$_G['description'] = empty($index['description'])?$_G['system']['con_description']:$index['description'];
+				$_G['site_result']['seoname'] = empty($index['seotitle'])?$_G['site_result']['name']:$index['seotitle'];
 				if ($_G['site_result']['type']=="page"){
 					require_once(ROOT_PATH."modules/articles/articles.class.php");
 					$_G['page_result'] = articlesClass::GetPageOne(array("id"=>$_G['site_result']['value']));
 					$_G['articles'] =$_G['page_result'];
-					$_G['site_result']['name'] = $_G['articles']['name'].'-'.$_G['site_result']['name'];
+					$_G['site_result']['name'] = $_G['site_result']['name'];
 					$_G['keywords'] = empty($_G['articles']['tag'])?$_G['keywords']:$_G['articles']['tag'];
 					$_G['description'] = empty($_G['articles']['summary'])?$_G['description']:$_G['articles']['summary'];
 				}
@@ -363,7 +364,8 @@ else{
 					if ($_G['site_result']['type']=="article"){
 						require_once(ROOT_PATH."modules/articles/articles.class.php");
 						$_G['articles'] = $_G['articles_result'] = articlesClass::GetOne(array("id"=>$_G['article_id'],"hits_status"=>1));
-						$_G['site_result']['name'] = $_G['articles']['name'].'-'.$_G['site_result']['name'];
+						$_G['site_result']['name'] = $_G['articles']['name'].' - '.$_G['site_result']['name'];
+						$_G['site_result']['seoname'] = $_G['articles']['name'].' - '.$_G['site_result']['seoname'];
 						$_G['keywords'] = empty($_G['articles']['tag'])?$_G['keywords']:$_G['articles']['tag'];
 						$_G['description'] = empty($_G['articles']['summary'])?$_G['description']:$_G['articles']['summary'];
 					}

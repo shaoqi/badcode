@@ -18,11 +18,11 @@ a:hover{ color:#ff7e00;text-decoration:underline}
 .header{height:85px;}
 .top_bor{height:78px;}
 .logo{; float:left;width:153px; height:52px; float:left; padding:15px 0 0 0}
-.top_right{ float:right;padding:20px 0 0 0; width:380px; text-align:right}
+.top_right{ float:right;padding: 20px 0 0; width:380px; text-align:right}
 .reg_log{color:#b2b2b2; width:}
 .reg_log a{color:#898989; padding:0 2px}
 .reg_log a:hover{color:#ff7e00}
-.phone_num{width:215px; height:21px; margin-top:13px; padding-left:160px}
+.phone_num{width:246px; padding-left:134px}
 
 .menu_bor{ height:85px; background:url(../images/menu_bg1.gif) repeat-x;}
 .menu_bor ul{ height:40px; overflow:hidden}
@@ -126,8 +126,8 @@ img.userhead { border: 1px solid #CECECE; height: 50px;  padding: 1px; width: 50
 .in_jk_right{ float:right; width:610px;padding-right: 10px;}
 .in_jk_right a{ color:#1d2286; font-size:13px;}
 .in_jk_right td{color:#333333; padding:1px 0; vertical-align:top; padding:5px 0;}
-.loading{ background:#EFEFEF; border:#DADADA solid 1px; height:12px; display:inline-block; width:50px; position:relative; top:3px !important;_top:0px; margin:0 10px 0 0; overflow:hidden; border-radius:2px; text-align:left }
-.loading em{ background:url(../images/loadingbg.gif); height:12px; display:block}
+.ryrloading{ background:#EFEFEF; border:#DADADA solid 1px; height:12px; display:inline-block; width:50px; position:relative; top:3px !important;_top:0px; margin:0 10px 0 0; overflow:hidden; border-radius:2px; text-align:left }
+.ryrloading em{ background:url(../images/loadingbg.gif); height:12px; display:block}
 .red{color:#ff6600}
 
 .choic_tit{height:32px;}

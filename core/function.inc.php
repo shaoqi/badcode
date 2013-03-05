@@ -573,18 +573,62 @@ function post_maketime($name){
 
 //导出excel格式表
 function exportData($filename,$title,$data){
+	require(ROOT_PATH.'libs/PHPExcel/PHPExcel.php');
+	$cache = PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;
+	PHPExcel_Settings::setCacheStorageMethod($cache);
+	$objExcel = new PHPExcel();
+	$objExcel->setActiveSheetIndex(0); 
+	$objActSheet = $objExcel->getActiveSheet();
+	$objActSheet->setTitle(iconv('GBK', 'UTF-8',$filename));
+	$objActSheet->setCellValue('A1', iconv('GBK', 'UTF-8','深圳市融易融'.$filename));
+	$title_array = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+	//合并单元格
+	$objActSheet->mergeCells('A1:'.$title_array[count($title)-1].'1');    
+	//设置样式   
+	$objStyleA1 = $objActSheet->getStyle('A1');       
+	$objStyleA1->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);   
+	$objFontA1 = $objStyleA1->getFont();       
+	$objFontA1->setName('宋体');       
+	$objFontA1->setSize(18);     
+	$objFontA1->setBold(true);
+	// 设置表头
+	foreach($title as $k=>$v){
+		$objActSheet->setCellValue($title_array[$k].'2', iconv('GBK','UTF-8',$v));
+	}
+	foreach($data as $key=>$value){
+		$k=$key+3;
+		foreach($value as $a=>$b){
+			$objActSheet->setCellValueExplicit($title_array[$a].$k, iconv('GBK','UTF-8',$b),PHPExcel_Cell_DataType::TYPE_STRING); 
+		}
+	}
+	if(preg_match('/MSIE/',$ua)) {  
+		$outputFileName = str_replace('+','%20',urlencode('深圳市融易融'.$filename));
+	}else{
+		$outputFileName = '深圳市融易融'.$filename;
+	}
+	header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="'.$outputFileName.'.xls"');
+    header('Cache-Control: max-age=0');
+	$objWriter = PHPExcel_IOFactory::createWriter($objExcel, 'Excel5');
+	$objWriter->setPreCalculateFormulas(false);
+	$objWriter->save('php://output');
+}
+
+
+//导出excel格式表
+function exportData_bak($filename,$title,$data){
 	header("Content-type: application/vnd.ms-excel");
 	header("Content-disposition: attachment; filename="  . $filename . ".xls");
 	if (is_array($title)){
 		foreach ($title as $key => $value){
-			echo $value."\t";
+			echo (string)$value."\t";
 		}
 	}
 	echo "\n";
 	if (is_array($data)){
 		foreach ($data as $key => $value){
 			foreach ($value as $_key => $_value){
-				echo $_value."\t";
+				echo (string)$_value."\t";
 			}
 			echo "\n";
 		}

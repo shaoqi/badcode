@@ -54,20 +54,25 @@ return false;
 function ajax_do_login(){
 	var username = $('#rapid-userName').val();
 	if(empty(username)){
-		alert('è¯·è¾“å…¥ç™»å½•çš„ç”¨æˆ·å');
+		alert('ÇëÊäÈëµÇÂ¼µÄÓÃ»§Ãû');
 		return false;
 	}
 	var pwd = $('#rapid-userPw').val();
 	if(empty(pwd)){
-		alert('è¯·è¾“å…¥ç™»å½•å¯†ç ');
+		alert('ÇëÊäÈëµÇÂ¼ÃÜÂë');
 		return false;
 	}
 	var captcha =$('#rapid-captcha').val();
 	if(empty(captcha)){
-		alert('è¯·è¾“å…¥éªŒè¯ç ');
+		alert('ÇëÊäÈëÑéÖ¤Âë');
 		return false;
 	}
 	$.post('/index.php?user&q=login',{keywords:username,password:pwd,valicode:captcha,ajax:1},function(data){
-		alert(data);
+		if(data == 'ok'){
+			location.href='/';
+		}else{
+			alert(data);
+			return false;
+		}
 	});
 }
