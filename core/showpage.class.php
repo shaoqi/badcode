@@ -47,6 +47,7 @@ class showpageClass {
 		* @param array $array['total'],$array['perpage'],$array['nowindex'],$array['url'],$array['ajax']...
 	*/
 	function showpageClass($array) {
+
 		if(is_array($array)) {
 			if(!array_key_exists('total',$array))
 				$this->error(__FUNCTION__,'need a param of total');

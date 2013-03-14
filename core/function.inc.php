@@ -927,3 +927,75 @@ function isMobile($v) {
     $h2 = substr($v, 0,4);
     return preg_match('/^1\d{10}$/', $v)?(in_array($h1, $cu)?true:(in_array($h1, $ct)?true:('1349'==$h2?true:(in_array($h1, $cm)?true:false)))):false;
 }
+
+function checkrobot($useragent = '') {
+	static $kw_spiders = array('bot', 'crawl', 'spider' ,'slurp', 'sohu-search', 'lycos', 'robozilla');
+	static $kw_browsers = array('msie', 'netscape', 'opera', 'konqueror', 'mozilla');
+
+	$useragent = strtolower(empty($useragent) ? $_SERVER['HTTP_USER_AGENT'] : $useragent);
+	if(strpos($useragent, 'http://') === false && dstrpos($useragent, $kw_browsers)) return false;
+	if(dstrpos($useragent, $kw_spiders)) return true;
+	return false;
+}
+function checkmobile() {
+	global $_G;
+	$mobile = array();
+	static $mobilebrowser_list =array('iphone', 'android', 'phone', 'mobile', 'wap', 'netfront', 'java', 'opera mobi', 'opera mini',
+				'ucweb', 'windows ce', 'symbian', 'series', 'webos', 'sony', 'blackberry', 'dopod', 'nokia', 'samsung',
+				'palmsource', 'xda', 'pieplus', 'meizu', 'midp', 'cldc', 'motorola', 'foma', 'docomo', 'up.browser',
+				'up.link', 'blazer', 'helio', 'hosin', 'huawei', 'novarra', 'coolpad', 'webos', 'techfaith', 'palmsource',
+				'alcatel', 'amoi', 'ktouch', 'nexian', 'ericsson', 'philips', 'sagem', 'wellcom', 'bunjalloo', 'maui', 'smartphone',
+				'iemobile', 'spice', 'bird', 'zte-', 'longcos', 'pantech', 'gionee', 'portalmmm', 'jig browser', 'hiptop',
+				'benq', 'haier', '^lct', '320x320', '240x320', '176x220');
+	static $wmlbrowser_list = array('cect', 'compal', 'ctl', 'lg', 'nec', 'tcl', 'alcatel', 'ericsson', 'bird', 'daxian', 'dbtel', 'eastcom',
+			'pantech', 'dopod', 'philips', 'haier', 'konka', 'kejian', 'lenovo', 'benq', 'mot', 'soutec', 'nokia', 'sagem', 'sgh',
+			'sed', 'capitel', 'panasonic', 'sonyericsson', 'sharp', 'amoi', 'panda', 'zte');
+
+	$pad_list = array('pad', 'gt-p1000');
+
+	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+	if(dstrpos($useragent, $pad_list)) {
+		return false;
+	}
+	if(($v = dstrpos($useragent, $mobilebrowser_list, true))){
+		$_G['mobile'] = $v;
+		return '2';
+	}
+	if(($v = dstrpos($useragent, $wmlbrowser_list))) {
+		$_G['mobile'] = $v;
+		return '3'; //wml°æ
+	}
+	$brower = array('mozilla', 'chrome', 'safari', 'opera', 'm3gate', 'winwap', 'openwave', 'myop');
+	if(dstrpos($useragent, $brower)) return false;
+
+	$_G['mobile'] = 'unknown';
+	if(isset($_G['mobiletpl'][$_GET['mobile']])) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function dstrpos($string, $arr, $returnvalue = false) {
+	if(empty($string)) return false;
+	foreach((array)$arr as $v) {
+		if(strpos($string, $v) !== false) {
+			$return = $returnvalue ? $v : true;
+			return $return;
+		}
+	}
+	return false;
+}
+
+function borrow_agreement($nid,$tid){
+	global $mysql;
+	$sql='select id from {borrow_tender} where borrow_nid='.$nid.' order by addtime asc';
+	$data = $mysql->db_fetch_arrays($sql);
+	foreach ($data as $key=>$value){
+		$data[$key]=$value['id'];
+	}
+	$keys=array_keys($data, $tid);
+	$keys = $keys[0]+1;
+	return $nid.str_repeat('0',3-strlen($keys)).$keys;
+}

@@ -42,20 +42,15 @@ if (isset($_POST['username'])){
 		exit;
 	}
 	$result = approveClass::CheckSmsCode(['user_id'=>0,'type'=>'smscode','phone'=>$data['phone'],'code'=>$_POST['phone_code']]);
-	if($result!=0 && 'approve_sms_check_yes'!=$result){
+
+	if($result!=0 || 'approve_sms_check_yes'!=$result){
 		echo $MsgInfo[$result];
 		exit;
 	}
+		
 	if ($msg == ""){
 		$result = usersClass::AddUsers($data);
-		if ($result>0){
-			$now = time();
-			if($now>=1358931600 && $now<=1361635199){
-				$vip = usersClass::GetUsersVip(['user_id'=>$result]);
-				if($vip["status"]!=1){
-					regvip($result);
-				}
-			}
+		if ($result>0 && is_numeric($result)){
 			$_result = usersClass::GetUsersTypeCheck();
 			$data_info['phone'] = $data['phone'];
 			$data_info['phone_status'] = 1;
@@ -83,10 +78,10 @@ if (isset($_POST['username'])){
 				$mail_data['username'] = $data['username'];
 				$mail_data['webname'] = $_G['system']['con_webname'];
 				$mail_data['title'] = "注册邮件账户激活";
-				$mail_data['msg'] = RegEmailMsg($mail_data);
 				$mail_data['user_id']=$result;
 				$mail_data['email'] = $data['email'];
 				$mail_data['type'] = "reg";
+				$mail_data['msg'] = RegEmailMsg($mail_data);
 				usersClass::SendEmail($mail_data);
 			/*//如果注册成功，则发送邮箱进行确认
 			if ($_G["system"]["con_reg_email"]!=1){
@@ -148,7 +143,7 @@ if (isset($_POST['username'])){
 	}
 }else{
 	$_U['sendemail'] = $_G['user_result']['email'];
-	$emailurl = "http://mail.".str_replace("@","",strstr( $_G['user_result']['email'],"@"));
+	$emailurl = "http://mail.".str_replace("@","",strstr($_G['user_result']['email'],"@"));
 	$_U['emailurl'] = $emailurl;
 	$template = 'users_reg.html';
 }
@@ -174,5 +169,3 @@ function regvip($user_id){
     $remind['content'] = "尊敬的用户恭喜您申请VIP成功。";
     remindClass::sendRemind($remind);
 }
-
-?>

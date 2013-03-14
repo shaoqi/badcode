@@ -2,11 +2,23 @@
 
 		{if $_G.user_info.email_status==1}
 
-		<div class="user_main_title1">您的邮箱已经通过认证：<b>{$_G.user_result.email}</b> </div>
+		<div class="user_main_title1">您的邮箱已经通过认证：<b>{$_G.user_result.email}</b> <input type="button" value="重新修改邮箱"  class="press_mode" onclick='change_mail()'/></div>
+		<div class="user_right_border" style="display:none" id="user_right_border">
 
+			<div class="c">
+
+				<form action="" method="post" onsubmit="return submit_email();">
+
+				重设邮箱：<input type="text" name="email" value="{$_G.user_result.email}" id="email" data="{$_G.user_result.email}" />  <input type="submit" name="submit" value="重新激活" id="email_submint" />
+
+				</form>
+
+			</div>
+
+		</div>
 		{else}
 
-		<div class="user_main_title1">您的邮箱还没通过认证：<b>{$_G.user_result.email}</b></div>
+		<div class="user_main_title1">您的邮箱还没通过认证：<b>{$_U.user_result.email}</b></div>
 
 		<div class="user_right_border">
 
@@ -23,6 +35,4 @@
 		</div>
 
 		{/if}
-
 		<!--邮箱认证 结束-->
-

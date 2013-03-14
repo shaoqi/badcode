@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: borrow.calculate.php
  * $Description: 借款利息计算类型
@@ -12,8 +12,9 @@ if (!defined('DEAYOU_PATH'))  die('不能访问');//防止直接访问
 class borrowCalculateClass {
      
      /* 借款的方式汇总*/
-     function GetType ($data = array()){	
-    	//借款方式,account,period,apr,time,style,type
+     function GetType ($data = array()){
+		 
+    	//借款方式,account,period,apr,time,style,type,borrow_type
     	//return account_all,account_interest，account_capital,repay_time
     	if (IsExiest($data["account"])=="") return "equal_account_empty";
     	if (IsExiest($data["period"])=="") return "equal_period_empty";
@@ -222,7 +223,11 @@ class borrowCalculateClass {
     	}
     	
     	//月利率
-    	$month_apr = $year_apr/(12*100);
+		if($data['borrow_type']=='day'){
+			$month_apr = $year_apr/(360*100);
+		}else{
+			$month_apr = $year_apr/(12*100);
+		}
     	
     	$interest = $month_apr*$period*$account;
     	

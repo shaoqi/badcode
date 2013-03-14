@@ -579,6 +579,7 @@ class borrowClass  {
 			$_equal["apr"] = $result["borrow_apr"];
 			$_equal["style"] = $result["borrow_style"];
 			$_equal["type"] = "all";
+			$_equal["borrow_type"] = $result['borrow_type'];
 			$equal_result = borrowCalculateClass::GetType($_equal);
 			$result["repay_month_account"] = $equal_result['repay_month'];
 			$_equal["account"] = "100";
@@ -595,6 +596,123 @@ class borrowClass  {
         $result['borrow_other_time'] = $result['borrow_end_time']-time();
         $result['repay_account_interest_lost'] = $result['repay_account_interest']-$result['repay_account_interest_yes'];
 		$result['borrow_contents'] = htmlspecialchars_decode($result['borrow_contents']);
+		if($result['sell']){
+			$result['sell_info'] = unserialize($result['sell_info']);
+			$result['sell_info']['signing'] = strtotime($result['sell_info']['signing']);
+			$result['sell_info']['loan'] = strtotime($result['sell_info']['loan']);
+		}
+        return $result;
+        
+	}
+
+    /**
+	 * 合同页面使用    
+	 *
+	 * @param Array $data
+	 * @return Array
+	 */
+    public static function GetNewView($data = array()){
+		global $mysql,$_G;
+
+		$_sql = "where p1.borrow_nid = '{$data['borrow_nid']}' ";
+		
+		$sql = "select  p1.*,p2.username,p3.credits,p3.credit,p4.name as type_name,p4.title as type_title,p4.part_status as type_part_status,p5.name as style_name,p5.title as style_title  from `{borrow}` as p1 
+				 left join {borrow_type} as p4 on p1.borrow_type=p4.nid
+				 left join {borrow_style} as p5 on p1.borrow_style=p5.nid
+				 left join {users} as p2 on p1.user_id=p2.user_id
+				 left join {credit} as p3 on p1.user_id=p3.user_id
+				  $_sql
+				";
+		$result = $mysql->db_fetch_array($sql);
+		if ($result==false) return "borrow_not_exiest";
+        //借款是否到期
+		$borrow_end_status = 0;
+		if ($result['status']==1 && $result['borrow_end_time']<time()){
+			$borrow_end_status = 1;
+		}
+		$result["borrow_end_status"] = $borrow_end_status;
+        //借款的属性
+		if ($result['flag']!=""){
+			$_flag = explode(",",$result['flag']);
+			foreach ($_flag as $_k => $_v){
+				$result["_flag"][] = $_flag_result[$_v];
+				$flag_name[] = $_flag_result[$_v]['name'];
+			}
+			$result["flag_name"] = join(",",$flag_name);
+		}
+        $period_name = "个月";
+	    if ($result["borrow_type"]=="day"){
+            $period_name = "天";
+        }
+       $result["borrow_period_name"] =$result["borrow_period"].$period_name;
+        //借款状态id的属性
+		$result["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$result['status'],"account"=>$result['account'],"borrow_end_status"=>$result["borrow_end_status"],"borrow_account_wait"=>$result["borrow_account_wait"],"repay_account_wait"=>$result["repay_account_wait"],"repay_full_status"=>$result["repay_full_status"],"repay_advance_status"=>$result["repay_advance_status"]));
+		
+		require_once(ROOT_PATH."modules/borrow/borrow.calculates.php");
+		if ($result['borrow_type']!="day" && $result['borrow_type']!="second"){
+			$_equal["account"] = $result["account"];
+			$_equal["period"] = $result["borrow_period"];
+			$_equal["apr"] = $result["borrow_apr"];
+			$_equal["style"] = $result["borrow_style"];
+			$_equal["type"] = "all";
+			$_equal["borrow_type"] = $result['borrow_type'];
+			$equal_result = borrowCalculateClass::GetType($_equal);
+			$result["repay_month_account"] = $equal_result['repay_month'];
+			$_equal["account"] = "100";
+			$equal_result = borrowCalculateClass::GetType($_equal);
+			$result["borrow_100_interest"] = $equal_result['interest_total'];
+		}else{
+			$result["repay_month_account"] = $result["account"]+round($result['borrow_apr']/100/365*$result['borrow_period']*$result['account'],2);
+		}
+		if($result["borrow_type"]=="roam"){
+			
+			$result["repay_last_time"]=strtotime("{$result["borrow_period"]} month",$result['verify_time']);
+		}
+		
+        $result['borrow_other_time'] = $result['borrow_end_time']-time();
+        $result['repay_account_interest_lost'] = $result['repay_account_interest']-$result['repay_account_interest_yes'];
+		$result['borrow_contents'] = htmlspecialchars_decode($result['borrow_contents']);
+		$result['sell'] = (empty($data['tid'])||$data['tid']==1)?0:$result['sell'];
+		if($result['sell']){
+			$result['sell_info'] = unserialize($result['sell_info']);
+			$result['sell_info']['signing'] = strtotime($result['sell_info']['signing']);
+			$result['sell_info']['loan'] = strtotime($result['sell_info']['loan']);
+			$sql = 'select email,realname,card_id from {users} as a left join {approve_realname} as b on a.user_id=b.user_id where a.user_id=';
+			$result['first'] = $mysql->db_fetch_array($sql.$result['user_id']);
+			$sql = 'select a.user_id,c.account,c.addtime,email,realname,card_id from {borrow_tender} as c  left join {users} as a on a.user_id=c.user_id left join {approve_realname} as b on a.user_id=b.user_id where c.id=';
+			$result['second'] = $mysql->db_fetch_array($sql.$data['tid']);
+			$coent=articlesClass::GetPageOne(array("id"=>72));
+			$coent=$coent['contents'];
+			$search = ['first_party','first_idcard','first_email','second_party','second_idcard','second_email','debtor',
+				       'Y1','M1','D1','Y2','M2','D2','Y3','M3','D3','Y4','M4','D4',
+				       'totcn','total','interest_rate','deadline','repayment','sell_cn','sell','days','CONTRACT_NO'];
+			if($result["borrow_type"]=="roam"){
+				$last = strtotime("{$result["borrow_period"]} month",$result['second']['addtime']);
+			}else{
+				$last = $result["repay_last_time"];
+			}
+			if($result['user_id']!=$_G['user_id']){
+				$result['first']['realname']=substr_replace($result['first']['realname'],str_repeat('*',strLength(trim($result['first']['realname']))-1),2);
+				$result['first']['card_id']=substr_replace($result['first']['card_id'],str_repeat('*',12),3,-3);
+				$result['first']['email']=substr_replace($result['first']['email'],str_repeat('*',5),3,-3);
+			}
+			if($result['second']['user_id']!=$_G['user_id']){
+				$result['second']['realname']=substr_replace($result['second']['realname'],str_repeat('*',strLength($result['second']['realname'])-1),2);
+				$result['second']['card_id']=substr_replace($result['second']['card_id'],str_repeat('*',12),3,-3);
+				$result['second']['email']=substr_replace($result['second']['email'],str_repeat('*',5),3,-3);
+			}
+			$replace = [$result['first']['realname'],$result['first']['card_id'],$result['first']['email'],
+						$result['second']['realname'],$result['second']['card_id'],$result['second']['email'],substr_replace($result['sell_info']['name'],str_repeat('*',strLength($result['sell_info']['name'])-1),2),
+						date('Y',$result['sell_info']['signing']),date('m',$result['sell_info']['signing']),date('d',$result['sell_info']['signing']),
+						date('Y',$result['sell_info']['loan']),date('m',$result['sell_info']['loan']),date('d',$result['sell_info']['loan']),
+						date('Y',$result['second']['addtime']),date('m',$result['second']['addtime']),date('d',$result['second']['addtime']),
+						date('Y',$last),date('m',$last),date('d',$last),
+						num_big($result['sell_info']['total']),$result['sell_info']['total'],$result['borrow_apr'],$result['borrow_period'],
+						$result['style_name'],num_big($result['second']['account']),$result['second']['account'],($result['borrow_period']*30),
+						borrow_agreement($data['borrow_nid'],$data['tid'])
+						];
+			$result['content']=str_replace($search,$replace,$coent);
+		}
         return $result;
         
 	}

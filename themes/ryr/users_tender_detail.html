@@ -70,7 +70,7 @@
 					<td  >￥{$item.recover_account_all}</td>
 
 
-					<td  title="已收本金[{$item.recover_account_capital_yes}]+已收利息[{$item.recover_account_interest_yes}]+提前还款罚金[{$item.recover_advance_fee}]+逾期罚金[{$item.recover_late_fee}]" >{$item.recover_account_yes+$item.recover_account_interest_yes+$item.recover_advance_fee+$item.recover_late_fee}</td>
+					<td  title="已收本金[{$item.recover_account_capital_yes}]+已收利息[{$item.recover_account_interest_yes}]+提前还款罚金[{$item.recover_advance_fee}]+逾期罚金[{$item.recover_late_fee}]" >{$item.recover_account_capital_yes+$item.recover_account_interest_yes+$item.recover_advance_fee+$item.recover_late_fee}</td>
 
 
 					<td  >{if $item.change_status==1}0.00{else}￥{$item.recover_account_wait|default:0.00}{/if}</td>

@@ -3,6 +3,7 @@
 <li><a href="{$_A.query_url_all}&status=-1" {if $magic.request.status=="-1"}id="c_so"{/if}>待审核</a></li> 
 <li><a href="{$_A.query_url_all}&status=1" {if $magic.request.status=="1"}id="c_so"{/if}>已审</a></li>
 <li><a href="{$_A.query_url_all}&status=2" {if $magic.request.status=="2"}id="c_so"{/if}>审核失败</a></li>
+<li><a href="javascript:addvip();" title="新增VIP会员">新增VIP会员</a></li>
 </ul> 
 {if $magic.request.action == ""  }
 <div class="module_add">
@@ -66,6 +67,48 @@
 	</tr>
 	{/list}
 </table>
+<div  style="height:205px; overflow:hidden;display:none;" id="addvip">
+	<div class="module_border_ajax">
+		<div class="l">用户名:</div>
+		<div class="c">
+		<input type="text" id="uname" name="uname">
+	</div>
+	<div class="module_border_ajax" >
+		<div class="l">验证码:</div>
+		<div class="c">
+			<input name="valicode" type="text" size="11" maxlength="4"  tabindex="3" id="valicode" />
+		</div>
+		<div class="c">
+			<img src="/?plugins&q=imgcode" id="valicode1" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+		</div>
+	</div>
+
+	<div class="module_submit_ajax" >
+		<input type="button"  name="reset" class="submit_button" value="确认审核" onclick="doaddvip()"/>
+	</div>
+</div>
+{literal}
+<script>
+function addvip(){
+	tipsWindown('新增vip','id:addvip',"280","120","true","","1","");
+}
+function doaddvip(){
+	var uname = $('#windown-content #uname').val();
+	if(!uname){
+		alert('请输入用户名');
+		return false;
+	}
+	var valicode = $('#windown-content #valicode').val();
+	if(!valicode){
+		alert('请输入验证码');
+		return false;
+	}
+	$.post('/?dyryr&q=code/users/vip&action=add',{uname:uname,valicode:valicode},function(data){
+		alert(data);
+	});
+}
+</script>
+{/literal}
 { elseif $magic.request.action == "view"  }
 <div class="module_add">
 	

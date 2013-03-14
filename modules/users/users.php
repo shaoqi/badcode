@@ -169,6 +169,29 @@ elseif ($_A['query_type'] == "vip" ){
 			$result = UsersvipClass::GetUsersVip(array("user_id"=>$_REQUEST['user_id']));//0表示用户组的类别，1表示管理组的类型
 			$_A['vip_result'] = $result;
 		}
+	}elseif($_REQUEST['action']=="add"){
+		$username = isset($_POST['uname'])?$_POST['uname']:'';
+		if(empty($username)){
+			echo '用户名不能为空';
+			exit;
+		}
+		$result = usersClass::GetUserid(['username'=>$username]);
+		if($result=='users_empty'){
+			echo '用户不存在';
+			exit;
+		}
+		usersvipClass::regvip($result);
+		echo '用户升级为vip';
+		$admin_log = [];
+		$admin_log["user_id"] = $_G['user_id'];
+		$admin_log["code"] = "users";
+		$admin_log["type"] = "vip";
+		$admin_log["article_id"] = $result;
+		$admin_log["result"] = 1;
+		$admin_log["content"] =  '升级VIP用户';
+		$admin_log["data"] = '';
+		usersClass::AddAdminLog($admin_log);
+		exit;
 	}
 
 }

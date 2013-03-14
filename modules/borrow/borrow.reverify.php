@@ -91,6 +91,7 @@ class borrowReverifyClass
 			$_equal["period"] = $borrow_result["borrow_period"];
 			$_equal["apr"] = $borrow_result["borrow_apr"];
 			$_equal["style"] = $borrow_result["borrow_style"];
+			$_equal["borrow_type"] = $borrow_result["borrow_type"];
 			$equal_result = borrowCalculateClass::GetType($_equal);
 			foreach ($equal_result as $key => $value){
 			     $key = $key+1;
@@ -179,6 +180,7 @@ class borrowReverifyClass
 				$_equal["period"] = $borrow_result["borrow_period"];
 				$_equal["apr"] = $borrow_result["borrow_apr"];
 				$_equal["style"] = $borrow_result["borrow_style"];
+				$_equal["borrow_type"] = $borrow_result["borrow_type"];
 				$equal_result = borrowCalculateClass::GetType($_equal);
 				$money = $equal_result['interest_total'];
 				
@@ -323,6 +325,7 @@ class borrowReverifyClass
 			$_equal["apr"] = $borrow_result["borrow_apr"];
 			$_equal["style"] = $borrow_result["borrow_style"];
 			$_equal["type"] = "";
+			$_equal["borrow_type"] = $borrow_result["borrow_type"];
 			$equal_result = borrowCalculateClass::GetType($_equal);
 			foreach ($equal_result as $period_key => $value){
                 $period_key= $period_key+1;
@@ -371,6 +374,7 @@ class borrowReverifyClass
 				
 			//第五步,更新投资标的信息
 			$_equal["type"] = "all";
+			$_equal["borrow_type"] = $borrow_result["borrow_type"];
 			$equal_result = borrowCalculateClass::GetType($_equal);
 			$recover_all = $equal_result['account_total'];
 			$recover_interest_all = $equal_result['interest_total'];
@@ -657,6 +661,7 @@ class borrowReverifyClass
     		$_equal["period"] = $borrow_result["borrow_period"];
     		$_equal["style"] = $borrow_result["borrow_style"];
     		$_equal["apr"] = $borrow_result["borrow_apr"];
+			$_equal["borrow_type"] = $borrow_result["borrow_type"];
     		$_equal["type"] = "all";
     		$equal_result = borrowCalculateClass::GetType($_equal);;
     		$sql = "update `{borrow}` set borrow_full_status=1,status='{$borrow_result['reverify_status']}',repay_account_all='{$equal_result['account_total']}',repay_account_interest='{$equal_result['interest_total']}',repay_account_capital='{$equal_result['capital_total']}',repay_account_wait='{$equal_result['account_total']}',repay_account_interest_wait='{$equal_result['interest_total']}',repay_account_capital_wait='{$equal_result['capital_total']}',repay_last_time='{$endtime}',repay_next_time='{$nexttime}',borrow_success_time='{$nowtime}',repay_each_time='{$_each_time}',repay_times='{$repay_times}'  where borrow_nid='{$borrow_nid}'";

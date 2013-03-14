@@ -65,8 +65,8 @@
      <td>{$item.account_tender}</td>
      <td>{$item.borrow_apr}</td>
      <td>{$item.borrow_period}/{$item.borrow_period}({$item.recover_times})</td>
-     <td><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议</a>
-	 /<a href="/?user&q=code/borrow/downpdf&nid={$item.borrow_nid}" >下载</a></td>
+     <td><a href="/protocol/a{$item.borrow_nid}_{$item.id}.html" target="_blank">查看协议</a>
+	 /<a href="/?user&q=code/borrow/downpdf&nid={$item.borrow_nid}&tid={$item.id}" >下载</a></td>
    </tr>
    {/foreach}
    {/list}

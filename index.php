@@ -20,7 +20,6 @@ if(file_exists(DEAYOU_PATH."ipconfig.php")){
 		echo '您的IP不能访问,请与管理员联系.'; exit;
 	}
 }
-//echo ip_address();
 //将mysql加进去
 $_G['mysql'] = $mysql;
 $_G['nowtime'] = time();
@@ -39,6 +38,7 @@ $_G['web_domain'] = "http://".$_SERVER["HTTP_HOST"];
 $system = array();
 $system_name = array();
 $_system = $mysql->db_selects("system");
+
 $system['con_cookie_status'] =0;
 foreach ($_system as $key => $value){
 	$system[$value['nid']] = $value['value'];

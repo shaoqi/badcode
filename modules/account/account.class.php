@@ -72,8 +72,8 @@ class accountClass{
 			}
 		}
 		//总可用余额 总冻结金额
-		$total = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL','ORDER', 'LIMIT'), array($_select,$_sql,$_order, ""), $sql));
-		foreach($total as $key => $value){
+		$totals = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL','ORDER', 'LIMIT'), array($_select,$_sql,$_order, ""), $sql));
+		foreach($totals as $key => $value){
 			$total_balance +=$value['balance'];
 			$total_frost += $value['frost'];
 		}

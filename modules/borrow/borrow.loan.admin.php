@@ -295,7 +295,8 @@ elseif($_A['query_type'] == "loan" ){
         if ($data['borrow_password']!=""){
             $data['borrow_password'] = md5($data['borrow_password']);
         }
-	   
+		// Õ®È¨Á÷×ª
+		$data['sell'] = $_POST['sell'];
 		$result = borrowLoanClass::Add($data);
 		if ($result>0){
 			$msg = array($MsgInfo["borrow_success_msg"],"",$_A['query_url']."/".$_A['query_type']);

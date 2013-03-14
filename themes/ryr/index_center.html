@@ -48,7 +48,7 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/liuz.gif" align="absmiddle" style="float:left;"/>{if $item.award_scale!=0.00}<div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div>{/if}<a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+				  <img src="{$tpldir}/images/liuz.gif" align="absmiddle" style="float:left;"/><div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">最小流转：<font class="red">{$item.roam.account_min}元</font></td>
@@ -81,7 +81,7 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/{$item.borrow_type}.gif" align="absmiddle" style="float:left;"/>{if $item.award_scale!=0.00}<div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div>{/if}<a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+				  <img src="{$tpldir}/images/{$item.borrow_type}.gif" align="absmiddle" style="float:left;"/><div class="jiangli" title="奖励{$item.award_scale}%">{$item.award_scale}%</div><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">借款金额：<font class="red">￥{if $item.account_status.key==1}{$item.account_status.value}万{else}{$item.account}{/if}</font></td>
@@ -214,12 +214,7 @@ function roam_buy(borrow_nid,account,_user_id){
         </div>
       <div class="m_r_news" style=" margin-left:5px" id="m_r_news">
         <ul id="line">
-		{list module="borrow" var="loop" plugins="tender" function ="GetTenderList" epage="15"  }
-				{foreach from="$loop.list" item="item"}
-          <li>
-		  <span><div style="width:65px;float:left">{$item.username|truncate:2}***</div> &nbsp;成功投资<font class="red">￥{$item.account}</font></span>
-		  </li>
-		  {/loop}{/list}
+
         </ul>
       </div>
     </div>

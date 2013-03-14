@@ -1,6 +1,6 @@
 {include file="header.html"}
-{if $_G.site_result.nid=="protocol"}
-{articles module="borrow" function="GetView" borrow_nid="$_G.article_id" var="var"}
+{articles module="borrow" function="GetNewView" borrow_nid="$_G.article_id" var="var"}
+{if $var.sell=="0"}
 <div class="conbox t20">
 	<div>
 		<div class="tool_bor">
@@ -24,7 +24,7 @@
                 <td>月截止还款日</td>
                 <td>总还款本息</td>
               </tr>
-			{loop module="borrow" plugins="tender" var="bor" function="GetTenderList" borrow_nid="$_G.article_id" limit="all" }
+			{loop module="borrow" plugins="tender" var="bor" function="GetTenderList" borrow_nid="$var.borrow_nid" limit="all" }
               <tr {if $key%2==1} class="ynow"{/if}>
                 <td>{$bor.username}</td>
 				<td>{$bor.account}元</td>
@@ -67,7 +67,7 @@
                 <td>还款本金</td>
                 <td>还款利息</td>
               </tr>
-			{loop module="borrow" var="bor" plugins="loan" function="GetRepayList" borrow_nid="$_G.article_id" limit="all" order="order"}
+			{loop module="borrow" var="bor" plugins="loan" function="GetRepayList" borrow_nid="$var.borrow_nid" limit="all" order="order"}
               <tr {if $key%2==1} class="ynow"{/if}>
 				<td>{$bor.repay_period}</td>
 				<td>{$var.borrow_apr}%</td>
@@ -85,52 +85,9 @@
 				</div>
 			</div>
 		</div>
-{/articles}
-{elseif $_G.site_result.nid=="debt_protocol"}
-{articles module="borrow" function="GetChangeOne" id="$_G.article_id" status='1' var="var"}
-<div class="con_box t10">
-	<div>
-		<div class="con_bor">
-			<div class="pos_bor"><span>债权转让协议书</span></div>
-			<div class="con1">
-				<div class="con">
-	<div class="t20">
-    <div class="user_main_title1">
-	债权转让协议号：{$var.change_nid}<br />转让人：{$var.username}<br />受让人：{if $var.web_status==2}圈圈贷{else}{$var.change_username}{/if}<br />签订日期：{$var.buy_time|date_format:"Y-m-d"}<br /></div>
-	</div>
-			<div class="t20">
-		第一条：<br>	
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabyel">
-		 <tr class="head">
-				<td  >投标标题</td>
-				<td  >利率</td>
-				<td  >待还期数/总期数</td>
-				<td  >待收本息</td>
-				<td  >转让价格</td>
-				<td  >转让时间</td>
-				<td  >购买者</td>
-			</tr>
-			{list module='borrow' function='GetChangeList' id="$_G.article_id"  status='1' var="item"  user_id='$var.user_id' var="loop"}
-			{foreach from="$loop.list" item="item"}
-			<tr>
-				<td  ><a href="/invest/a{$item.borrow_nid}.html">{$item.borrow_name}</a></td>
-				<td  >{$item.borrow_apr}%</td>
-				<td  >{$item.count_all}/{$item.borrow_period}</td>
-				<td  >{$item.recover_account_all}</td>
-				<td  >{if $item.web_status==2}{$item.web_buy}{else}{$item.account}{/if}</td>
-				<td  >{$item.buy_time|date_format}</td>
-				<td  ><a href="/u/{$item.buy_userid}">{$item.buy_username|default:"网站"}</a></td>
-
-			</tr>
-			{/foreach}
-		</table>
-		{/list}
-	<div class="t20">{$_G.page_result.contents}</div>
-	</div>
-					</div>
-				</div>
-			</div>
-		</div>
-{/articles}
+{else}
+<div class="conbox t10">
+</div>
 {/if}
+{/articles}
 {include file="footer.html"}

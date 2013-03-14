@@ -36,6 +36,10 @@ $MsgInfo["borrow_loan_valicode_error"] = "验证码不正确";
 $MsgInfo["borrow_loan_cancel_tender_error"] = "有投资不能进行撤销";
 $MsgInfo["borrow_late_days_error"] = "您的操作有误。【error:borrow_late_days_error】";
 $MsgInfo["borrow_repay_empty"] = "您的操作有误。【error:borrow_repay_empty】";
+$MsgInfo["assignment_of_claim_name_null"] = "债权流转中的借款人姓名不可为空";
+$MsgInfo["assignment_of_claim_total_null"] = "债权流转中的借款总额不可为空";
+$MsgInfo["assignment_of_claim_signing_null"] = "债权流转中的合同签订日不可为空";
+$MsgInfo["assignment_of_claim_loan_null"] = "债权流转中的放款日不可为空";
 
 require_once("borrow.class.php");
 require_once("borrow.amount.php");
@@ -204,6 +208,27 @@ class borrowLoanClass
         //添加借款所必须的条件
         $type_result = self::ActionCheck($data);
         if (!is_array($type_result)) return $type_result;
+		$sell = $data['sell'];
+		if(!empty($sell['ok'])){
+			if(empty($sell['name'])){
+				return 'assignment_of_claim_name_null';
+			}
+			if(empty($sell['total'])){
+				return 'assignment_of_claim_total_null';
+			}
+			if(empty($sell['signing'])){
+				return 'assignment_of_claim_signing_null';
+			}
+			if(empty($sell['loan'])){
+				return 'assignment_of_claim_loan_null';
+			}
+			$data['sell'] = $sell['ok'];
+			unset($sell['ok']);
+			$data['sell_info'] = serialize($sell);
+		}else{
+			$data['sell'] = $sell['ok'];
+			$data['sell_info'] = '';
+		}
         $data['amount_type'] = $type_result['amount_type'];
         $data['amount_account'] = $data['account'];
         
@@ -226,7 +251,6 @@ class borrowLoanClass
 			}
 		}
         
-        
         //流转标
         if ($data["borrow_type"]=="roam"){
             $roam_data = $data["roam_data"];
@@ -247,6 +271,7 @@ class borrowLoanClass
             $_equal["period"] = $data["borrow_period"];
             $_equal["apr"] = $data["borrow_apr"];
             $_equal["style"] = $data["borrow_style"];
+			$_equal["borrow_type"] = $data["borrow_type"];
             $equal_result = borrowCalculateClass::GetType($_equal);
             $money = $equal_result[0]['account_interest'];
             if ($account_result['balance'] < $money){
@@ -494,12 +519,9 @@ class borrowLoanClass
 					$sms['phone'] = $info['phone'];
 					$sms['user_id'] = $value['user_id'];
 					$sms['type'] = "borrow";
-					if ($result['borrow_type']=="roam"){
-						$type="流转标";
-					}else{
-						$type="抵押标";
-					}
-					$sms['contents'] = "新标[{$result['name']}]已发布，年利率[{$result['borrow_apr']}%]，期限[{$result['borrow_period']}个月]，金额[{$result['account']}元]，类型[{$type}]。";
+					$sql = "select title from `{borrow_type}` where nid='{$result['borrow_type']}'";
+					$type_result = $mysql->db_fetch_array($sql);
+					$sms['contents'] = "新标[{$result['name']}]已发布，年利率[{$result['borrow_apr']}%]，期限[{$result['borrow_period']}个月]，金额[{$result['account']}元]，类型[{$type_result['title']}]。";
 					//approveClass::SendSMS($sms);
 				}
 			}

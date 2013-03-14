@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: login.php
  * $Description: µÇÂ¼
@@ -25,7 +25,7 @@ if (isset($_POST['password'])){
 		$msg = array($MsgInfo["users_valicode_empty"],"",$_url_login);
 	}elseif (isset($_POST['valicode']) && $_POST['valicode']!=$_SESSION['valicode']){
 		$msg = array($MsgInfo["users_valicode_error"],"",$_url_login);
-	}elseif ($_POST['keywords']==""){
+	}elseif (empty($_POST['keywords'])){
 		$msg = array($MsgInfo["users_keywords_empty"],"",$_url_login);
 	}elseif ($_POST['password']==""){
 		$msg = array($MsgInfo["users_password_empty"],"",$_url_login);
@@ -35,8 +35,13 @@ if (isset($_POST['password'])){
 		if(!isset($data['user_id']) || $data['user_id']==""){
 			$data['user_id'] = $_POST['keywords'];
 		}
-		$data['email'] =$_POST['keywords'];
-		$data['username'] = $_POST['keywords'];
+		if($_POST['ajax']==1){
+			$data['email'] =iconv('UTF-8','GBK',trim($_POST['keywords']));
+			$data['username'] = iconv('UTF-8','GBK',trim($_POST['keywords']));
+		}else{
+			$data['email'] =trim($_POST['keywords']);
+			$data['username'] = trim($_POST['keywords']);
+		}
 		$data['password'] = $_POST['password'];
 		$result = usersClass::Login($data);
 		

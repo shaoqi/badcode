@@ -104,9 +104,11 @@ if ($_A['query_type'] == "realname" ){
 				$data = post_var($var);
 				$data['user_id'] = $_REQUEST['examine'];
 				$data['verify_userid'] = $_G['user_id'];
+				
 				$result = approveClass::CheckRealname($data);
 				
 				if ($result>0){
+					usersvipClass::regvip($data['user_id']);
 					$msg = array("操作成功","",$_A['query_url_all']);
 				}else{
 					$msg = array($MsgInfo[$result]);
@@ -163,6 +165,56 @@ if ($_A['query_type'] == "realname" ){
 				usersClass::AddAdminLog($admin_log);
 			}
 		}		
+	}elseif($_GET['type']=='excel'){
+		$_sql = " where 1=1 ";
+		
+		//搜索用户id
+        if (IsExiest($_GET['user_id'])!=false) {
+            $_sql .= " and p1.user_id ='{$_GET['user_id']}'";
+        }
+		
+		
+		if (IsExiest($_GET['realname'])!=false) {
+            $_sql .= " and p1.realname like '%".urldecode($_GET['realname'])."%'";
+        }
+		
+		if (IsExiest($_GET['card_id'])!=false) {
+            $_sql .= " and p1.card_id like '%{$_GET['card_id']}%'";
+        }
+		
+		//搜索用户名
+		if (IsExiest($_GET['username'])!=false) {
+            $_sql .= " and p2.username = '".urldecode($_GET['username'])."'";
+        }
+		
+		//搜索用户名
+		if (IsExiest($_GET['status'])!=false) {
+            $_sql .= " and p1.status = '{$_GET['status']}'";
+        }
+				//判断添加时间开始
+		if (IsExiest($_GET['dotime1']) != false){
+			if (!empty($_GET['dotime1'])){
+				$_sql .= " and p1.addtime > ".get_mktime($_GET['dotime1']);
+			}
+		}
+		//判断添加时间结束
+		if (IsExiest($_GET['dotime2'])!=false){
+			if (!empty($_GET['dotime2'])){
+				$_sql .= " and p1.addtime < ".get_mktime($_GET['dotime2']);
+			}
+		}
+			$_select = " p1.user_id,p1.realname,p2.username,p1.card_id,p1.sex,p1.status,p1.addtime,p1.verify_time";
+			$sql = "select SELECT from `{approve_realname}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id SQL ORDER LIMIT";
+			$row = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array($_select, $_sql,$_order, ''), $sql));
+			$title = ['会员id','真实姓名','用户名称','身份证号码','性别','审核状态','添加时间','审核时间'];
+			$_data=[];
+			$status = ['未审核','审核通过','审核不通过'];
+			$sex = [1=>'男',2=>'女'];
+			foreach($row as $key=>$value){
+				$_data[$key]=[$value['user_id'],$value['realname'],$value['username'],$value['card_id'],in_array($value['sex'],$sex)?$sex[$value['sex']]:$value['sex'],$status[$value['status']],date('Y-m-d H:i:s',$value['addtime']),date('Y-m-d H:i:s',$value['verify_time'])];
+			}
+			exportData("实名认证列表",$title,$_data);
+			exit;
 	}
 }
 

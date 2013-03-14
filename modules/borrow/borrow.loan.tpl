@@ -45,7 +45,20 @@
 		<div class="c">
 		<select name='borrow_style' >{foreach from=$_A.borrow_type_result.style_result key=key item=item}<option value='{$item.nid}'>{$item.name}</option>{/foreach}</select>
 		</div>
-	</div>	
+	</div>
+	<div class="module_border" >
+		<div class="l">债权转让：</div>
+		<div class="c"><label style="margin-right:5px;"><input type="radio" name="sell[ok]" value="1" onclick="sell_info(this)">是</label><label><input type="radio" name="sell[ok]" value="0" onclick="sell_info(this)">否</label></div>
+	</div>
+	<div class="module_border" id="sell_info" style="display:none;">
+		<div class="l">债权转让信息：</div>
+		<div class="c">
+			<label for="sell_name">借款人：</label><input type="text" name="sell[name]" id="sell_name"></br>
+			<label for="sell_name">借款总额：</label><input type="text" name="sell[total]" id="sell_total" onkeyup="value=value.replace(/[^0-9.]/g,'')">元</br>
+			<label for="sell_name">合同签订时间：</label><input type="text" name="sell[signing]" id="sell_signing" onclick="change_picktime()" readonly="readonly"></br>
+			<label for="sell_name">放款日：</label><input type="text" name="sell[loan]" id="sell_loan" onclick="change_picktime()" readonly="readonly"></br>
+		</div>
+	</div>
 	{if $magic.request.type_nid!="roam"}
 	<div class="module_border" >
 		<div class="l">担保机构：</div>
@@ -162,6 +175,14 @@ function roamnum(){
 		$("#roam_num").html(Math.floor(num));
 	}else{
 		$("#roam_num").html(0);
+	}
+}
+
+function sell_info(d){
+	if($(d).val()==1){
+	$('#sell_info').show();
+	}else{
+	$('#sell_info').hide();
 	}
 }
 </script>

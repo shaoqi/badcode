@@ -265,7 +265,7 @@ function CheckExamine(){
 			<option value="0" {if $magic.request.status=="0"}selected="selected"{/if}>未审核</option>
 			<option value="1" {if $magic.request.status=="1"}selected="selected"{/if}>审核通过</option>
 			<option value="2" {if $magic.request.status=="2"}selected="selected"{/if}>审核不通过</option>
-		  </select>用户名：<input type="text" name="username" id="username" value="{$magic.request.username|urldecode}" size="7"/> 真实姓名：<input type="text" size="7" name="realname" id="realname" value="{$magic.request.realname|urldecode}"/>  身份证号：<input type="text" name="card_id" id="card_id" value="{$magic.request.card_id}" size="7"/>   <input type="button" value="{$MsgInfo.users_name_sousuo}" / onclick="sousuo()"></span></div>
+		  </select>用户名：<input type="text" name="username" id="username" value="{$magic.request.username|urldecode}" size="7"/> 真实姓名：<input type="text" size="7" name="realname" id="realname" value="{$magic.request.realname|urldecode}"/>  身份证号：<input type="text" name="card_id" id="card_id" value="{$magic.request.card_id}" size="7"/>操作时间：<input type="text" name="dotime1" id="dotime1" value="" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="" id="dotime2" size="15" onclick="change_picktime()"/>   <input type="button" value="{$MsgInfo.users_name_sousuo}" / onclick="sousuo()"></span></div>
 	</div>
 <table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
 	<tr >
@@ -281,14 +281,14 @@ function CheckExamine(){
 		<td width="*" class="main_td">时间</td>
 		<td width="*" class="main_td">操作</td>
 	</tr>
-	{ list module="approve" function="GetRealnameList" var="loop" username=request  realname=request  card_id=request status=request  epage=20 }
+	{ list module="approve" function="GetRealnameList" var="loop" username=request  realname=request  card_id=request status=request dotime1=request dotime2=request epage=20 type=request}
 	{foreach from="$loop.list" item="item"}
 	<tr {if $key%2==1} class="tr2"{/if}>
 		<td class="main_td1" align="center">{ $item.id}</td>
 		<td class="main_td1" align="center">{$item.username}</td>
 		<td class="main_td1" align="center">{$item.realname}</td>
 		<td class="main_td1" align="center">{$item.card_id}</td>
-		<td class="main_td1" align="center">{if $item.sex==1}男{else}女{/if}</td>
+		<td class="main_td1" align="center">{if $item.sex==1}男{elseif $item.sex==2}女{else}{$item.sex}{/if}</td>
 		<td class="main_td1" align="center">{if $item.card_pic1==""}-{else}<a href="./{ $item.card_pic1_url}" target="_blank" title="有图片"><img src="{ $_A.tpldir  }/images/ico_yes.gif" border="0"  /></a>{/if}</td>
 		<td class="main_td1" align="center">{if $item.card_pic2==""}-{else}<a href="./{ $item.card_pic2_url}" target="_blank" title="有图片"><img src="{ $_A.tpldir }/images/ico_yes.gif" border="0"  /></a>{/if}</td>
 		<td class="main_td1" align="center"><a href="javascript:void(0)" onclick='tipsWindown("ID5认证审核","url:get?{$_A.query_url_all}&id5={$item.user_id}",500,230,"true","","false","text");'>{if $item.id5_status==0}未认证{elseif $item.id5_status==1}已认证{else}不通过{/if}</a></td>
@@ -308,7 +308,9 @@ function CheckExamine(){
 					var realname = $("#realname").val();
 					var card_id = $("#card_id").val();
 					var status = $("#status").val();
-					location.href=url+"&username="+username+"&realname="+realname+"&card_id="+card_id+"&status="+status;
+					var dotime1 = $('#dotime1').val();
+					var dotime2 = $('#dotime2').val();
+					location.href=url+"&username="+username+"&realname="+realname+"&card_id="+card_id+"&status="+status+'&dotime1='+dotime1+'&dotime2='+dotime2;
 				}
 			  </script>
 			  {/literal}
@@ -319,7 +321,7 @@ function CheckExamine(){
 		</tr>
 		
 	<tr align="center">
-		<td colspan="14" align="center"><div align="center">{$loop.pages|showpage}</div></td>
+		<td colspan="14" align="center"><div align="center">{$loop.pages|showpage}</div><a href="{$_A.query_url_all}&type=excel&username={$magic.request.username}&realname={$magic.request.realname}&card_id={$magic.request.card_id}&status={$magic.request.status|default:0}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}" target="_blank">导出当前</a></td>
 	</tr>
 	{/list}
 	

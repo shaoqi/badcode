@@ -37,6 +37,11 @@ define(function(require, exports, module) {
 	exports.check_username = function(username,re){
 		var msg = "";
 		var _username = trim($("#"+username).val());
+		msg = test_username(_username);
+		if(msg!=true){
+			$("#"+re).html(msg);
+			return false;
+		}
 		
 		if (exports.get_length(_username) <4){
 			msg = "用户名不能小于2个字";
@@ -147,8 +152,9 @@ define(function(require, exports, module) {
 			var mail=trim($("#email").val()).split('@');
 			require("submitform");			
 			var msg = '';
-			if(empty(trim($("#username").val()))){
-				msg+='用户名不能为空'+'\n';
+			var alt = test_username($("#username").val());
+			if(alt!=true){
+				msg+=alt+'\n';
 			}
 			if(empty(trim($("#password").val()))){
 				msg+='密码不能为空'+'\n';
@@ -270,3 +276,40 @@ define(function(require, exports, module) {
 	
 	}
 });
+
+function test_username(d){
+	d = trim(d);
+	if(empty(d)){
+		return '请填写用户名';
+	}else{
+		if(!/^[_a-z0-9]{3,16}$/i.test(d)){
+			return '用户名只能由3-16位字母、数字或下划线构成';
+		} else {
+			if(!/^[a-z]/i.test(d)){
+				return  '用户名只能以字母开头';
+			} else {
+				if(/_$/.test(d)){
+					return '为了您方便记住用户名，末尾不要用下划线';
+				}else{
+					if(- 1 != d.indexOf("xx")){
+						return '用户名不能包含xx';
+					}else{
+						if(- 1 != d.indexOf("admin")){
+							return '用户名不能包含admin';
+						}else{
+							if(- 1 != d.indexOf("kf")){
+								return '用户名不能包含kf';
+							}else{
+								if(- 1 != d.indexOf("kefu")){
+									return '用户名不能包含kefu';
+								}else{
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

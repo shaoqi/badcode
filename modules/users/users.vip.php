@@ -480,6 +480,25 @@ class usersvipClass   {
                 
         }
 	}
+
+	function regvip($user_id){
+		global $mysql;
+		$vip = self::GetUsersVip(['user_id'=>$user_id]);
+		if($vip["status"]!=1){
+			$first_time = time();
+			$end_time = strtotime("+12 month",$first_time);
+			$sql = "update `{users_vip}` set status=1,kefu_userid=0,years=1,first_date='".$first_time."',end_date='".$end_time."' where user_id='$user_id'";
+			$result = $mysql->db_query($sql);
+			$remind['nid'] = "vip_success";
+			$remind['receive_userid'] = $user_id;
+			$remind['remind_nid'] =  "vip_success_".$user_id."_".$first_time;
+			$remind['article_id'] = $user_id;
+			$remind['code'] = "users";
+			$remind['title'] = "申请VIP成功";
+			$remind['content'] = "尊敬的用户恭喜您申请VIP成功。";
+			remindClass::sendRemind($remind);
+		}
+	}
 	
 }
 ?>

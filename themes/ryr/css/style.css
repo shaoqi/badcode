@@ -18,11 +18,11 @@ a:hover{ color:#ff7e00;text-decoration:underline}
 .header{height:85px;}
 .top_bor{height:78px;}
 .logo{; float:left;width:153px; height:52px; float:left; padding:15px 0 0 0}
-.top_right{ float:right;padding: 20px 0 0; width:380px; text-align:right}
+.top_right{ float:right;padding: 20px 0 0; width:246px; text-align:right}
 .reg_log{color:#b2b2b2; width:}
 .reg_log a{color:#898989; padding:0 2px}
 .reg_log a:hover{color:#ff7e00}
-.phone_num{width:246px; padding-left:134px}
+.phone_num{width:246px;}
 
 .menu_bor{ height:85px; background:url(../images/menu_bg1.gif) repeat-x;}
 .menu_bor ul{ height:40px; overflow:hidden}

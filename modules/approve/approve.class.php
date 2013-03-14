@@ -621,6 +621,19 @@ class approveClass{
 		if (IsExiest($data['status'])!=false) {
             $_sql .= " and p1.status = '{$data['status']}'";
         }
+				//判断添加时间开始
+		if (IsExiest($data['dotime1']) != false){
+			if (!empty($data['dotime1'])){
+				$_sql .= " and p1.addtime > ".get_mktime($data['dotime1']);
+			}
+		}
+		
+		//判断添加时间结束
+		if (IsExiest($data['dotime2'])!=false){
+			if (!empty($data['dotime2'])){
+				$_sql .= " and p1.addtime < ".get_mktime($data['dotime2']);
+			}
+		}
 		
 		$_order = " order by p1.status asc,p1.addtime desc";
 		$_select = " p1.*,p2.username,p3.fileurl as card_pic1_url,p4.fileurl as card_pic2_url";
@@ -634,6 +647,7 @@ class approveClass{
 		
 		//判断总的条数
 		$row = $mysql->db_fetch_array(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array('count(1) as num', $_sql,'', ''), $sql));
+		
 		$total = intval($row['num']);
 		
 		//分页返回结果
