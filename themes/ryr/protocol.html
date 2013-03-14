@@ -1,5 +1,5 @@
 {include file="header.html"}
-{articles module="borrow" function="GetNewView" borrow_nid="$_G.article_id" var="var"}
+{articles module="borrow" function="GetNewView" borrow_nid="$_G.article_id" var="var" tid="$_G.page"}
 {if $var.sell=="0"}
 <div class="conbox t20">
 	<div>
@@ -24,7 +24,7 @@
                 <td>月截止还款日</td>
                 <td>总还款本息</td>
               </tr>
-			{loop module="borrow" plugins="tender" var="bor" function="GetTenderList" borrow_nid="$var.borrow_nid" limit="all" }
+			{loop module="borrow" plugins="tender" var="bor" function="GetTenderList" borrow_nid="$_G.article_id" limit="all" }
               <tr {if $key%2==1} class="ynow"{/if}>
                 <td>{$bor.username}</td>
 				<td>{$bor.account}元</td>
@@ -67,7 +67,7 @@
                 <td>还款本金</td>
                 <td>还款利息</td>
               </tr>
-			{loop module="borrow" var="bor" plugins="loan" function="GetRepayList" borrow_nid="$var.borrow_nid" limit="all" order="order"}
+			{loop module="borrow" var="bor" plugins="loan" function="GetRepayList" borrow_nid="$_G.article_id" limit="all" order="order"}
               <tr {if $key%2==1} class="ynow"{/if}>
 				<td>{$bor.repay_period}</td>
 				<td>{$var.borrow_apr}%</td>
@@ -87,6 +87,7 @@
 		</div>
 {else}
 <div class="conbox t10">
+{$var.content}
 </div>
 {/if}
 {/articles}
