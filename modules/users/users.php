@@ -171,6 +171,7 @@ elseif ($_A['query_type'] == "vip" ){
 		}
 	}elseif($_REQUEST['action']=="add"){
 		$username = isset($_POST['uname'])?$_POST['uname']:'';
+		$username = iconv('utf-8','gbk',$username);
 		if(empty($username)){
 			echo '用户名不能为空';
 			exit;

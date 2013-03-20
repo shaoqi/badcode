@@ -387,7 +387,7 @@ elseif ($_A['query_type'] == "recharge_new"){
 		}else{
 			$data['user_id'] = $result['user_id'];
 			$data['status'] = 0;
-			$data['type']==2;
+			$data['type']==0;
 			$data['payment'] = 0;
 			$data['fee'] = 0;
 			$data['balance'] = $_POST['money'];
@@ -403,7 +403,51 @@ elseif ($_A['query_type'] == "recharge_new"){
 		}
 	}
 }
-
+// 上传表格处理
+elseif($_A['query_type']=='batch_recharge_new'){
+	check_rank("account_recharge_new");
+	$filetype = ['application/excel', 'application/vnd.ms-excel', 'application/msexcel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.msexcel'];
+	$type=strtolower(substr($_FILES['file']['name'],-3,3));
+	if(is_uploaded_file($_FILES['file']['tmp_name']) && in_array($_FILES['file']['type'],$filetype) && in_array($type,['xlsx','xls'])){
+		$dir = ROOT_PATH.'data/upfiles/'.$_FILES['file']['name'];
+		if($_FILES['file']['error']==0){
+			if(is_file($dir)){
+				unlink($dir);
+			}
+			move_uploaded_file($_FILES['file']['tmp_name'],$dir);
+			include(ROOT_PATH.'libs/PHPExcel/PHPExcel.php');
+			include(ROOT_PATH.'libs/PHPExcel/PHPExcel/Reader/Excel5.php');
+			$PHPExcel = new PHPExcel();
+			$PHPReader = new PHPExcel_Reader_Excel5();
+			$PHPExcel = $PHPReader->load($dir);
+			$currentSheet = $PHPExcel->getSheet(0);
+			$allRow = $currentSheet->getHighestRow();
+			for($i=1;$i<=$allRow;$i++){
+				$names = iconv('utf-8','gbk',$currentSheet->getCell('A'.$i)->getValue());
+				$data[$names]=[$currentSheet->getCell('B'.$i)->getValue(),iconv('utf-8','gbk',$currentSheet->getCell('C'.$i)->getValue())];
+				$name[]=$names;
+			}
+			$userdata = $mysql->db_fetch_arrays('SELECT user_id,username FROM {users} WHERE username in(\''.implode('\',\'',$name).'\')');
+			$ip = ip_address();
+			foreach($userdata as $key=>$value){
+				$userv=$data[$value['username']];
+				if(!empty($userv)){
+					$insert[]='(\''.$value['user_id'].time().rand(100,999).'\', \''.$value['user_id'].'\', 0, '.$userv[0].', 0, \''.$userv[0].'\', 0, 0, \''.$userv[1].'\','.time().', \''.$ip.'\')';
+				}
+			}
+			if(!empty($insert)){
+				$sql = 'INSERT INTO {account_recharge} (`nid`, `user_id`, `status`, `money`, `fee`, `balance`, `payment`, `type`, `remark`,`addtime`, `addip`) VALUES '.implode(',',$insert);
+				$mysql->db_query($sql);
+			}
+			unlink($dir);
+			$msg = array("操作成功","","?dyryr&q=code/account/recharge_new");
+		}else{
+			$msg = array("上传有误","","?dyryr&q=code/account/recharge_new");
+		}
+	}else{
+		$msg = array("文件的格式不对","","?dyryr&q=code/account/recharge_new");
+	}
+}
 //防止乱操作
 else{
 	$msg = array("输入有误，请不要乱操作");

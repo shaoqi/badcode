@@ -325,16 +325,20 @@ elseif ($_REQUEST['p'] == "realname"){
 
 //添加工作信息
 elseif ($_REQUEST['p'] == "view_roam"){	
-    if ($_POST["paypassword"]!=""){
+    if (!empty($_POST["paypassword"])){
         require_once("borrow.roam.php");//类名
         $data['user_id'] = $_G['user_id'];
         $data["borrow_nid"] = $_REQUEST['borrow_nid'];
         $data["paypassword"] = $_POST['paypassword'];
         $data["portion"] = $_POST['num'];
         $data["contents"] = $_POST['contents'];
-        if (md5($data['paypassword'])!= $_G["user_result"]["paypassword"]){
+		if($_POST['valicode']!=$_SESSION['valicode']){
+			$_result = "valicode_error";
+		}elseif (md5($data['paypassword'])!= $_G["user_result"]["paypassword"]){
              $_result = "borrow_roam_paypassword_error";
-        }else{
+        }elseif (empty($_G["user_result"]["paypassword"])){
+			$_result = "borrow_roam_paypassword_error";
+		}else{
 		     $_result = borrowRoamClass::AddRoam($data);
         }
 		if (is_array($_result)){

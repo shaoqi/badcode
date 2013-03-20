@@ -681,7 +681,7 @@ class borrowClass  {
 			$result['first'] = $mysql->db_fetch_array($sql.$result['user_id']);
 			$sql = 'select a.user_id,c.account,c.addtime,email,realname,card_id from {borrow_tender} as c  left join {users} as a on a.user_id=c.user_id left join {approve_realname} as b on a.user_id=b.user_id where c.id=';
 			$result['second'] = $mysql->db_fetch_array($sql.$data['tid']);
-			$coent=articlesClass::GetPageOne(array("id"=>72));
+			$coent=articlesClass::GetPageOne(array("id"=>74));
 			$coent=$coent['contents'];
 			$search = ['first_party','first_idcard','first_email','second_party','second_idcard','second_email','debtor',
 				       'Y1','M1','D1','Y2','M2','D2','Y3','M3','D3','Y4','M4','D4',

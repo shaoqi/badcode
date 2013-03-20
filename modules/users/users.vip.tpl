@@ -56,7 +56,7 @@
 	  {/literal}
 			</div>
 			<div class="floatr">
-				用户名：<input type="text" name="username" id="username" value="{$magic.request.username}"/> 	客服用户名：<input type="text" name="adminname" id="adminname" value="{$magic.request.adminname|urldecode}"/>	状态：<select name="status" id="status"><option value="">全部</option><option value="0" {if $magic.request.status=="0"} selected="selected"{/if}>未申请</option><option value="1"  {if $magic.request.status==1} selected="selected"{/if}>审核通过</option><option value="2"  {if $magic.request.status==2} selected="selected"{/if}>审核不通过</option><option value="-1"  {if $magic.request.status==-1} selected="selected"{/if}>待审核</option></select><input type="button" value="搜索" / onclick="sousuo()">
+				用户名：<input type="text" name="username" id="username" value="{$magic.request.username|urldecode}"/> 	客服用户名：<input type="text" name="adminname" id="adminname" value="{$magic.request.adminname|urldecode}"/>	状态：<select name="status" id="status"><option value="">全部</option><option value="0" {if $magic.request.status=="0"} selected="selected"{/if}>未申请</option><option value="1"  {if $magic.request.status==1} selected="selected"{/if}>审核通过</option><option value="2"  {if $magic.request.status==2} selected="selected"{/if}>审核不通过</option><option value="-1"  {if $magic.request.status==-1} selected="selected"{/if}>待审核</option></select><input type="button" value="搜索" / onclick="sousuo()">
 			</div>
 			</td>
 		</tr>

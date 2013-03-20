@@ -195,6 +195,7 @@ function check_form(){
 <table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
 	  <form action="" method="post">
 		<tr >
+			<td class="main_td"><input type="checkbox"></td>
 			<td class="main_td">ID</td>
 			<td class="main_td">用户名</td>
 			<td class="main_td">交易号</td>
@@ -213,6 +214,7 @@ function check_form(){
 		{ list module="account" function="GetRechargeList" var="loop" username=request email=request status=request order=request dotime1=request  dotime2=request type="request" epage="20"}
 		{foreach from=$loop.list item="item"}
 		<tr  {if $key%2==1} class="tr2"{/if}>
+			<td>{if $item.status==0}<input type="checkbox" value="{$item.id}" name="ids[]">{/if}</td>
 			<td >{ $item.id}</td>
 			<td><a href="{$_A.query_url}/recharge&username={$item.username}">{$item.username}</a></td>
 			<td >{ $item.nid}</td>
@@ -229,6 +231,7 @@ function check_form(){
 		{ /foreach}
 		<tr>
 		<td colspan="13" class="action">
+		<input type="button" name="action" value="批量通过审核" onclick="">
 		<div class="floatl">
 			<div style="float:left; margin-left:0px; width:390px;">充值总金额:{$loop.all_recharge}&nbsp;&nbsp;充值总手续费:{$loop.all_fee}</div>
 		</div>

@@ -336,7 +336,7 @@ class HttpClient {
     } 
 	
 	function getGopayServerTime(){
-		$url = "https://211.88.7.30/PGServer/time";
+		$url = "https://www.gopay.com.cn/PGServer/time";
 		$bits = parse_url($url);
         $host = $bits['host'];
         $port = isset($bits['port']) ? $bits['port'] : 80;

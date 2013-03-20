@@ -54,17 +54,17 @@
             <li class="menu-item weibo">
                 <a href="http://e.weibo.com/rongerong" title="欢迎关注官方微博" target="_blank" rel="nofollow">官方微博</a>|
             </li>
-			<li><a>官方QQ群：289933531</a></li>
+			<li><a>官方QQ群：289934988</a></li>
         </ul>
         <div class="top-links">
-                        <a target="_blank" href="#">融易融社区</a>|<a target="_blank" href="/help/index.html">帮助中心</a>|<a href="javascript:window.external.AddFavorite('{$_G.system.con_weburl}','{$_G.system.con_webname}')">加入收藏</a>
+                        <a target="_blank" href="#">融易融社区</a>|<a target="_blank" href="/help/index.html">帮助中心</a>|<a href="javascript:addToFavorite('{$_G.system.con_weburl}','{$_G.system.con_webname}')">加入收藏</a>
         </div>
     </div>
 </div>
 <div class="conbox" style="margin-top: 27px; margin-bottom: -17px;">
  <div class="header">
 	      <div class="logo"><a href="/" title="融易融"><img src="{$tpldir}/images/top_logo.gif" alt="融易融"/></a></div>
-		  <div style="border-left: 2px solid #DDDDDD;color: #F17C20;float: left;font-family: 黑体;font-size:30px;font-weight:bold;height: 47px;margin-top: 20px;padding-left: 10px;"><img src="{$tpldir}/images/hezuo.jpg" height="54" width="120"><img src="{$tpldir}/images/xxx.jpg" height="54" width="419"></div>
+		  <div style="border-left: 2px solid #DDDDDD;color: #F17C20;float: left;font-family: 黑体;font-size:30px;font-weight:bold;height: 47px;margin-top: 20px;padding-left: 10px;"><img src="{$tpldir}/images/hehe.jpg" height="54" width="120"><img src="{$tpldir}/images/xxx.jpg" height="54" width="419"></div>
 		  <div class="top_right">
 		  <div class="phone_num"><img src="{$tpldir}/images/phone_num.gif" width="246" height="41"/></div>
 	 </div>
@@ -125,6 +125,17 @@ function twomenu(num){
 	}
 	$("#show_"+num).show();
 	$("#m_"+num).addClass("act");
+}
+function addToFavorite(d,c) {
+    if (document.all) {
+        window.external.AddFavorite(d, c)
+    } else {
+        if (window.sidebar) {
+            window.sidebar.addPanel(c, d, "")
+        } else {
+            alert("\u5bf9\u4e0d\u8d77\uff0c\u60a8\u7684\u6d4f\u89c8\u5668\u4e0d\u652f\u6301\u6b64\u64cd\u4f5c!\n\u8bf7\u60a8\u4f7f\u7528\u83dc\u5355\u680f\u6216Ctrl+D\u6536\u85cf\u672c\u7ad9\u3002")
+        }
+    }
 }
 </script>
 
@@ -209,6 +220,7 @@ function twomenu(num){
 </div>
 </div>
 {/literal}
+{if $_G.user_id == ''}
 <div id="facebox">
   <div id="do-login">
     <h2>融易融用户登录</h2>
@@ -236,3 +248,4 @@ function twomenu(num){
     </fieldset>
   </div>
 </div>
+{/if}

@@ -322,6 +322,14 @@
 		<input type="submit"  name="reset" value="确认充值" />
 	</div>
 </form>
+	<form name="form1" method="post" action="?dyryr&q=code/account/batch_recharge_new" enctype="multipart/form-data" >
+	<div class="module_title"><strong>批量添加充值</strong></div>
+	<div class="module_border">批量添加，仅供使用电子表格</div>
+	<input type="file" name="file">
+	<div class="module_submit" >
+		<input type="submit"  name="reset" value="开始批处理" />
+	</div>
+</form>
 </div>
 
 <!--添加充值记录 结束-->

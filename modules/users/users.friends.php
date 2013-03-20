@@ -108,7 +108,7 @@ class usersfriendsClass   {
 	
 	
 	function GetFriendsInvite($data){
-		global $mysql;
+		global $mysql,$_G;
 		$_sql = " where 1=1 ";
 		
 		//≈–∂œ”√ªßid

@@ -38,12 +38,13 @@ class usersvipClass   {
 		
 		//ÅÐ¶ÏÊÇ·ñËÑË÷ÓÃ»§Ãû
 		if (IsExiest($data['username']) != false){
-			$_sql .= " and p2.`username` like '%{$data['username']}%'";
+			$data['username']=urldecode($data['username']);
+			$_sql .= " and p2.`username` like '{$data['username']}%'";
 		}
 		
 		//ËÑË÷¹ÜÀíÔ±
 		if (IsExiest($data['adminname']) != false){
-			$_sql .= " and p3.`adminname` like '%{$data['adminname']}%'";
+			$_sql .= " and p3.`adminname` like '{$data['adminname']}%'";
 		}
 		
 		//ÅÐ¶ÏÊÇ·ñËÑË÷ÓÊÏä
@@ -498,7 +499,5 @@ class usersvipClass   {
 			$remind['content'] = "×ð¾´µÄÓÃ»§¹§Ï²ÄúÉêÇëVIP³É¹¦¡£";
 			remindClass::sendRemind($remind);
 		}
-	}
-	
+	}	
 }
-?>
