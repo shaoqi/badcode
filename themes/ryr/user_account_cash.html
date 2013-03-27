@@ -29,7 +29,7 @@
 					<td>￥{ $item.credited|default:0.00}</td>
 					<td>￥{ $item.fee|default:0.00}</td>	
 					<td>{ $item.addtime|date_format:"Y-m-d H:i"}</td>
-					<td>{if $item.status==0}审核中{elseif  $item.status==1} 提现成功 {elseif $item.status==2}提现失败 {elseif $item.status==3}用户取消{/if}</td>
+					<td>{if $item.status==0}审核中{elseif  $item.status==1} 提现申请成功 {elseif $item.status==2}提现申请失败 {elseif $item.status==3}用户取消{/if}</td>
 					<td>{if $item.verify_remark!=""}{$item.verify_remark}{else}{if $item.status==0}<a href="{$_U.query_url}/cash_cancel&id={$item.id}"  class="cach_cancel">取消提现</a>{else}-{/if}{/if}</td>
 				</tr>
 				{ /foreach}

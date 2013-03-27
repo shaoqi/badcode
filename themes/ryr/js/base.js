@@ -102,5 +102,5 @@ function submit_email(){
 		return false;
 	}
 	$('#email_submint').attr("disabled","disabled");
-	return false;
+	return true;
 }

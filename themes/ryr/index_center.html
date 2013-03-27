@@ -34,7 +34,7 @@
       </div>
       <div class="in_jk_list">
         <ul>
-          {list module="borrow" function="GetList" var="loop" epage="5" status_nid="invest" sou_type="request" sou_apr="request" sou_period="request" sou_account="request" order="$magic.request.order" roam_wait=1}
+          {list module="borrow" function="GetList" var="loop" epage="5" status_nid="invest" sou_type="request" sou_apr="request" sou_period="request" sou_account="request" order="$magic.request.order" no_show=1}
           {foreach from="$loop.list" item="item"}
           {if $item.borrow_type=="roam"}
           <li>
@@ -48,15 +48,19 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/liuz.gif" align="absmiddle" style="float:left;"/><a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.5%-1%" target="_blank"><div class="jiangli" title="½±Àø0.5%-1%" style="font-size: 10px;">0.5-1%</div></a><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+				  <img src="{$tpldir}/images/liuz.gif" align="absmiddle" style="float:left;"/><a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.5%-1%" target="_blank"><!--<div class="jiangli" title="½±Àø0.5%-1%" style="font-size: 10px;">0.5-1%</div>--></a><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a>{if $item.borrow_period==1}<a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.5%-1%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">½±Àø0.5%-1%</a>{elseif $item.borrow_period==3}<a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.7%-1.2%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">½±Àø0.7%-1.2%</a>{elseif $item.borrow_period==6}<a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø1%-1.5%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">½±Àø1%-1.5%</a>{/if}</td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">×îÐ¡Á÷×ª£º<font class="red">{$item.roam.account_min}Ôª</font></td>
                   <td width="19%" align="left">Äê Àû ÂÊ£º<font class="red">{$item.borrow_apr}%</font></td>
                   <td width="21%" align="left">»Ø¹ºÆÚÏÞ£º<font class="red">{$item.borrow_period_name}</font></td>
                   <td width="25%" align="left">»¹¿î·½Ê½£º<font class="red">{$item.style_title}</font></td>
-                  <td width="13%" align="left" rowspan="2">				 
+                  <td width="13%" align="left" rowspan="2">
+                        {if $item.borrow_account_scale==100}
+                        <a href="/invest/a{$item.borrow_nid}.html"><img src="{$tpldir}/dyp2p/borrow_status_{$item.borrow_status_nid}.gif" align="middle" /></a>
+                        {else}
 						<a href="/invest/a{$item.borrow_nid}.html"><img src="{$tpldir}/images/rengou.gif" align="middle" /></a>
+                        {/if}
 				   </td>
                 </tr>
                 <tr>
@@ -81,7 +85,7 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/{$item.borrow_type}.gif" align="absmiddle" style="float:left;"/><a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.5%-1%" target="_blank"><div class="jiangli" title="½±Àø0.5%-1%" style="font-size: 10px;">0.5-1%</div></a><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a></td>
+				  <img src="{$tpldir}/images/{$item.borrow_type}.gif" align="absmiddle" style="float:left;"/><!--<a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.5%-1%" target="_blank"><div class="jiangli" title="½±Àø0.5%-1%" style="font-size: 10px;">0.5-1%</div></a>--><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a>{if $item.borrow_type!=='day' && $item.borrow_type!=='second'}{if $item.borrow_period==1}<a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.5%-1%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">½±Àø0.5%-1%</a>{elseif $item.borrow_period==3}<a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø0.7%-1.2%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">½±Àø0.7%-1.2%</a>{elseif $item.borrow_period==6}<a href="http://www.rongerong.com/gonggao/a128.html" title="½±Àø1%-1.5%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">½±Àø1%-1.5%</a>{/if}{/if}</td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">½è¿î½ð¶î£º<font class="red">£¤{if $item.account_status.key==1}{$item.account_status.value}Íò{else}{$item.account}{/if}</font></td>

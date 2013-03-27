@@ -195,7 +195,7 @@ function check_form(){
 <table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
 	  <form action="" method="post">
 		<tr >
-			<td class="main_td"><input type="checkbox"></td>
+			<td class="main_td"><input type="checkbox" onclick="check_all('ids')" id="checkall"></td>
 			<td class="main_td">ID</td>
 			<td class="main_td">用户名</td>
 			<td class="main_td">交易号</td>
@@ -214,7 +214,7 @@ function check_form(){
 		{ list module="account" function="GetRechargeList" var="loop" username=request email=request status=request order=request dotime1=request  dotime2=request type="request" epage="20"}
 		{foreach from=$loop.list item="item"}
 		<tr  {if $key%2==1} class="tr2"{/if}>
-			<td>{if $item.status==0}<input type="checkbox" value="{$item.id}" name="ids[]">{/if}</td>
+			<td>{if $item.status==0}<input type="checkbox" value="{$item.id}" name="ids">{/if}</td>
 			<td >{ $item.id}</td>
 			<td><a href="{$_A.query_url}/recharge&username={$item.username}">{$item.username}</a></td>
 			<td >{ $item.nid}</td>
@@ -231,7 +231,7 @@ function check_form(){
 		{ /foreach}
 		<tr>
 		<td colspan="13" class="action">
-		<input type="button" name="action" value="批量通过审核" onclick="">
+		<input type="button" name="action" value="批量通过审核" onclick="pichuli()">
 		<div class="floatl">
 			<div style="float:left; margin-left:0px; width:390px;">充值总金额:{$loop.all_recharge}&nbsp;&nbsp;充值总手续费:{$loop.all_fee}</div>
 		</div>
@@ -248,4 +248,43 @@ function check_form(){
 	</form>	
 </table>
 {/if}
-
+{literal}
+<script>
+function pichuli(){
+    var all = [];
+    $('input[name="ids"]:checked').each(function(){
+        all.push($(this).val());
+    });
+    if(all.length==0){
+        alert('请选择你要操作的对象');
+        return false;
+    }
+    var name=prompt("请填写备注信息","");
+    if(name!=null && name!=""){
+        if(confirm('确认要提交处理这些任务嘛？')){
+            $.post('?dyryr&q=code/account/batch_recharge',{ids:all.join(','),remark:name},function(data){
+                if(data=='ok'){
+                    alert('批处理成功');
+                    window.document.location.reload();
+                }else{
+                    alert('批处理失败');
+                    return false;
+                }
+            });
+        }else{
+            return false;
+        }
+    }else{
+        alert('对不起你没有填写备注信息，操作无效，请重新来过');
+        return false;
+    }
+}
+function check_all(name){
+    if($('#checkall').attr('checked')){
+        $('[name="'+name+'"]').attr("checked",'true');
+    }else{
+        $('[name="'+name+'"]').removeAttr("checked");
+    }
+}
+</script>
+{/literal}

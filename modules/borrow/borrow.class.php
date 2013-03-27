@@ -32,7 +32,6 @@ class borrowClass  {
 	 * @return Array
 	 */
     function GetBorrowStatusNid($data = array()){
-        global $mysql;
         //如果是0表示正在初审
        	if ($data['status']==0){
 			$borrow_status_nid = "first";
@@ -60,6 +59,9 @@ class borrowClass  {
 			}else{
 				$borrow_status_nid = "loan";
 			}
+            if($data['borrow_type']=='roam' && $data['borrow_account_scale']==100){
+                $borrow_status_nid = "full";
+            }
 			
 		}
         return $borrow_status_nid;
@@ -161,7 +163,7 @@ class borrowClass  {
             }
             //还款中
             elseif ($status_nid=="repay"){
-                $_sql .= " and p1.status=3  and p1.borrow_status=1 and p1.borrow_full_status=1 and p1.borrow_account_yes>p1.repay_account_yes ";
+                $_sql .= " and p1.status=3 and p1.borrow_status=1 and p1.borrow_full_status=1 and p1.borrow_account_yes>p1.repay_account_yes ";
             } 
             //已还完
             elseif ($status_nid=="repay_yes"){
@@ -290,6 +292,10 @@ class borrowClass  {
 		if (IsExiest($data['roam_wait']) ){
 			$_sql .= " and ((p1.borrow_account_scale !=100 and p1.borrow_type = 'roam')or ( p1.borrow_type = 'pawn' and ( p1.status=3 and p1.repay_account_wait!=0 ) or (p1.status=1) ))";
 		}
+        // 不显示哪些
+        if(IsExiest($data['no_show'])){
+            $_sql .=' and p1.id not in (1,5,6,7)';
+        }
 		
 		
 		//忽略类型
@@ -396,7 +402,9 @@ class borrowClass  {
 			if ($order == "all"){
 				$_order = " order by p1.`status` asc,p1.addtime desc";
 			}			
-		}
+		}else{
+            $_order = ' order by p1.`borrow_type` asc,p1.addtime desc';
+        }
 		
 		$flag_sql = "select p1.*,p2.fileurl from `{borrow_flag}` as p1 left join `{users_upfiles}` as p2 on p1.upfiles_id=p2.id ";
 		$flag_result = $mysql->db_fetch_arrays($flag_sql);
@@ -421,7 +429,7 @@ class borrowClass  {
 			if ($data['limit'] != "all"){ $_limit = "  limit ".$data['limit']; }
 			$list=$mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array($_select, $_sql, $_order, $_limit), $sql));
 		      foreach ($list as $key => $value){
-        			$list[$key]["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$value['status'],"account"=>$value['account'],"borrow_end_status"=>$borrow_end_status,"borrow_account_wait"=>$value["borrow_account_wait"],"repay_account_wait"=>$value["repay_account_wait"],"repay_full_status"=>$value["repay_full_status"],"repay_advance_status"=>$value["repay_advance_status"])) ;
+        			$list[$key]["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$value['status'],"account"=>$value['account'],"borrow_end_status"=>$borrow_end_status,"borrow_account_wait"=>$value["borrow_account_wait"],"repay_account_wait"=>$value["repay_account_wait"],"repay_full_status"=>$value["repay_full_status"],"repay_advance_status"=>$value["repay_advance_status"],'borrow_type'=>$value['borrow_type'],'borrow_account_scale'=>$value['borrow_account_scale'])) ;
         			 $period_name = "个月";
                     if ($value["borrow_type"]=="day"){
                         $period_name = "天";
@@ -481,7 +489,7 @@ class borrowClass  {
 			}
 		      */
             //借款状态id的属性
-			$list[$key]["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$value['status'],"account"=>$value['account'],"borrow_end_status"=>$borrow_end_status,"borrow_account_wait"=>$value["borrow_account_wait"],"repay_account_wait"=>$value["repay_account_wait"],"repay_full_status"=>$value["repay_full_status"],"repay_advance_status"=>$value["repay_advance_status"])) ;
+			$list[$key]["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$value['status'],"account"=>$value['account'],"borrow_end_status"=>$borrow_end_status,"borrow_account_wait"=>$value["borrow_account_wait"],"repay_account_wait"=>$value["repay_account_wait"],"repay_full_status"=>$value["repay_full_status"],"repay_advance_status"=>$value["repay_advance_status"],'borrow_account_scale'=>$value['borrow_account_scale'])) ;
 			
 			//获取商业图片
 			$resutlimg = usersClass::GetUsersImagesOne(array("user_id"=>$value["user_id"]));
@@ -570,7 +578,7 @@ class borrowClass  {
         }
        $result["borrow_period_name"] =$result["borrow_period"].$period_name;
         //借款状态id的属性
-		$result["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$result['status'],"account"=>$result['account'],"borrow_end_status"=>$result["borrow_end_status"],"borrow_account_wait"=>$result["borrow_account_wait"],"repay_account_wait"=>$result["repay_account_wait"],"repay_full_status"=>$result["repay_full_status"],"repay_advance_status"=>$result["repay_advance_status"]));
+		$result["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$result['status'],"account"=>$result['account'],"borrow_end_status"=>$result["borrow_end_status"],"borrow_account_wait"=>$result["borrow_account_wait"],"repay_account_wait"=>$result["repay_account_wait"],"repay_full_status"=>$result["repay_full_status"],"repay_advance_status"=>$result["repay_advance_status"],'borrow_type'=>$result['borrow_type'],'borrow_account_scale'=>$result['borrow_account_scale']));
 		
 		require_once(ROOT_PATH."modules/borrow/borrow.calculates.php");
 		if ($result['borrow_type']!="day" && $result['borrow_type']!="second"){
@@ -646,7 +654,7 @@ class borrowClass  {
         }
        $result["borrow_period_name"] =$result["borrow_period"].$period_name;
         //借款状态id的属性
-		$result["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$result['status'],"account"=>$result['account'],"borrow_end_status"=>$result["borrow_end_status"],"borrow_account_wait"=>$result["borrow_account_wait"],"repay_account_wait"=>$result["repay_account_wait"],"repay_full_status"=>$result["repay_full_status"],"repay_advance_status"=>$result["repay_advance_status"]));
+		$result["borrow_status_nid"] = self::GetBorrowStatusNid(array("status"=>$result['status'],"account"=>$result['account'],"borrow_end_status"=>$result["borrow_end_status"],"borrow_account_wait"=>$result["borrow_account_wait"],"repay_account_wait"=>$result["repay_account_wait"],"repay_full_status"=>$result["repay_full_status"],"repay_advance_status"=>$result["repay_advance_status"],'borrow_type'=>$result['borrow_type'],'borrow_account_scale'=>$result['borrow_account_scale']));
 		
 		require_once(ROOT_PATH."modules/borrow/borrow.calculates.php");
 		if ($result['borrow_type']!="day" && $result['borrow_type']!="second"){
@@ -681,8 +689,6 @@ class borrowClass  {
 			$result['first'] = $mysql->db_fetch_array($sql.$result['user_id']);
 			$sql = 'select a.user_id,c.account,c.addtime,email,realname,card_id from {borrow_tender} as c  left join {users} as a on a.user_id=c.user_id left join {approve_realname} as b on a.user_id=b.user_id where c.id=';
 			$result['second'] = $mysql->db_fetch_array($sql.$data['tid']);
-			$coent=articlesClass::GetPageOne(array("id"=>74));
-			$coent=$coent['contents'];
 			$search = ['first_party','first_idcard','first_email','second_party','second_idcard','second_email','debtor',
 				       'Y1','M1','D1','Y2','M2','D2','Y3','M3','D3','Y4','M4','D4',
 				       'totcn','total','interest_rate','deadline','repayment','sell_cn','sell','days','CONTRACT_NO'];
@@ -711,7 +717,16 @@ class borrowClass  {
 						$result['style_name'],num_big($result['second']['account']),$result['second']['account'],($result['borrow_period']*30),
 						borrow_agreement($data['borrow_nid'],$data['tid'])
 						];
-			$result['content']=str_replace($search,$replace,$coent);
+            if(isset($data['pdf'])){
+                $coent_1=articlesClass::GetPageOne(array("id"=>75));
+                $coent_2=articlesClass::GetPageOne(array("id"=>76));
+                $coent_3=articlesClass::GetPageOne(array("id"=>77));
+			    $result['content']=[str_replace($search,$replace,$coent_1['contents']),str_replace($search,$replace,$coent_2['contents']),str_replace($search,$replace,$coent_3['contents'])];
+            }else{
+                $coent=articlesClass::GetPageOne(array("id"=>74));
+			    $coent=$coent['contents'];
+			    $result['content']=str_replace($search,$replace,$coent);
+            }
 		}
         return $result;
         

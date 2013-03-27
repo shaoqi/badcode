@@ -33,11 +33,12 @@
 份
                             &nbsp;&nbsp; </div></td>
     <td width="49%"><div style="width:98px;">	
-<input type="image" src="{$tpldir}/images/gogo_rg.gif" value="" onclick="roam_buy({$roam_var.borrow_nid},{$roam_var.account_min},{$roam_var.user_id})" class="bttn_2">	
+{if $roam_var.borrow_account_scale==100}<img src="{$tpldir}/dyp2p/borrow_status_{$roam_var.borrow_status_nid}.gif" />{else}<input type="image" src="{$tpldir}/images/gogo_rg.gif" value="" onclick="roam_buy({$roam_var.borrow_nid},{$roam_var.account_min},{$roam_var.user_id})" class="bttn_2">{/if}	
 	</div></td>
   </tr>
   <tr>  
-    <td colspan="2" align="center">您的可投标金额为：<font id="account_use" style="color:#FF0000">0</font>元，最多可认购：<font style="color:#FF0000" id="roam_use">0</font></td>
+    <td colspan="2" align="center">您的可投标金额为：<font id="account_use" style="color:#FF0000">0</font>元，最多可认购：<font style="color:#FF0000" id="roam_use">0</font>
+    </td>
     </tr>
 </table>          
 </div>

@@ -5,7 +5,7 @@ require_once(ROOT_PATH."modules/borrow/borrow.tender.php");
 require_once(ROOT_PATH."modules/borrow/borrow.loan.php");
 require_once(ROOT_PATH."modules/articles/articles.class.php");
 $borrow_nid = $_REQUEST['nid'];
-$result_head = borrowClass::GetNewView(array("borrow_nid"=>$borrow_nid,'tid'=>$_REQUEST['tid']));
+$result_head = borrowClass::GetNewView(array("borrow_nid"=>$borrow_nid,'tid'=>$_REQUEST['tid'],'pdf'=>1));
 if($result_head['sell']==0){
 $result_tender = borrowTenderClass::GetTenderList(array("borrow_nid"=>$borrow_nid,"limit"=>"all"));
 $result_repay = borrowLoanClass::GetRepayList(array("borrow_nid"=>$borrow_nid,"limit"=>"all","order"=>"order"));
@@ -84,7 +84,7 @@ $contents = str_replace("&nbsp;", "", $articles);
 $pdf->Cell(100,10,'',0,1);
 $pdf->MultiCell(0, 4, $contents);
 //$pdf->Cell(920,0,$articles,0, 1, 'C');
-//$pdf->Image('themes/ryr/images/gongzhang.jpg',40);
+//$pdf->Image('themes/ryr/images/tuzhang.png',40);
 $pdf->SetFont('GB','B',16);
 //$pdf->Cell(180,0,'签订日期：'.date("Y-m-d",$result_head['borrow_success_time']),0,'','C');
 /* $save_path = '../data/images/pdf/';
@@ -93,7 +93,7 @@ $filename = $borrow_nid.'.pdf';
 //I查看 D直接下载  F生成pdf文件
 $pdf->Output($save_path.$filename, 'D');
 }else{
-	require(ROOT_PATH.'libs/tcpdf/config/lang/chi.php');
+	/*require(ROOT_PATH.'libs/tcpdf/config/lang/chi.php');
 	require(ROOT_PATH.'libs/tcpdf/tcpdf.php');
 	$img = ROOT_PATH.'themes/ryr/images/tuzhang.png';
 	$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -134,7 +134,19 @@ $pdf->Output($save_path.$filename, 'D');
 	$pdf->AddPage();
 	//$pdf->Image($img, '', '', 220, 220, 'PNG');
 	$pdf->writeHTML(iconv('gb2312','utf-8',$result_head['content']),true, 0, true, 0);
-	$pdf->lastPage();
+	$pdf->lastPage();*/
+    $pdf=new PDF_Chinese('P', 'mm', 'A4');
+    $pdf->Open();
+    $pdf->AddPage();
+    $pdf->AddGBFont();
+    //$pdf->Cell(100,10,'',0,1);
+    $pdf->SetFont('GB','',10);
+    $pdf->MultiCell(0, 4, str_replace("&nbsp;", " ", strip_tags($result_head['content'][0])));
+    $pdf->Image('themes/ryr/images/tuzhang.png',20,160);
+    $pdf->AddPage();
+    $pdf->MultiCell(0, 4, str_replace("&nbsp;", " ", strip_tags($result_head['content'][1])));
+    $pdf->AddPage();
+    $pdf->MultiCell(0, 4, str_replace("&nbsp;", " ", strip_tags($result_head['content'][2])));
 	$filename = $borrow_nid.'.pdf'; 
 	//I查看 D直接下载  F生成pdf文件
 	$pdf->Output($save_path.$filename, 'D');

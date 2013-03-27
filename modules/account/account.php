@@ -164,8 +164,28 @@ elseif ($_A['query_type'] == "recharge"){
 		}
 	}
 }
-
-
+// 资金审核批量处理
+elseif($_A['query_type']=='batch_recharge'){
+    if(!empty($_POST['ids']) && !empty($_POST['remark'])){
+        $ids = explode(',',$_POST['ids']);
+        foreach($ids as $key=>$value){
+            if(empty($value)){
+                unset($ids[$key]);
+            }
+        }
+        $data = $mysql->db_fetch_arrays('select nid from {account_recharge} where id in ('.implode(',',$ids).')');
+        $remark = iconv('utf-8','gbk',trim($_POST['remark']));
+        foreach($data as $key=>$value){
+            $recharge_data = ['nid'=>$value['nid'],'status'=>1,'verify_remark'=>$remark,'verify_content'=>$remark];
+            accountClass::VerifyRecharge($recharge_data);
+        }
+        echo 'ok';
+        exit;
+    }else{
+        echo 'wrong';
+        exit;
+    }
+}
 /**
  * 资金使用记录
 **/
@@ -424,15 +444,18 @@ elseif($_A['query_type']=='batch_recharge_new'){
 			$allRow = $currentSheet->getHighestRow();
 			for($i=1;$i<=$allRow;$i++){
 				$names = iconv('utf-8','gbk',$currentSheet->getCell('A'.$i)->getValue());
-				$data[$names]=[$currentSheet->getCell('B'.$i)->getValue(),iconv('utf-8','gbk',$currentSheet->getCell('C'.$i)->getValue())];
-				$name[]=$names;
+				$data[]=[$currentSheet->getCell('B'.$i)->getValue(),iconv('utf-8','gbk',$currentSheet->getCell('C'.$i)->getValue()),$names];
+				$name[$names]=$names;
 			}
 			$userdata = $mysql->db_fetch_arrays('SELECT user_id,username FROM {users} WHERE username in(\''.implode('\',\'',$name).'\')');
 			$ip = ip_address();
-			foreach($userdata as $key=>$value){
-				$userv=$data[$value['username']];
+            foreach($userdata as $key=>$value){
+                $uid_data[$value['username']] = $value['user_id'];
+            }
+			foreach($data as $key=>$value){
+				$userv=$uid_data[$value[2]];
 				if(!empty($userv)){
-					$insert[]='(\''.$value['user_id'].time().rand(100,999).'\', \''.$value['user_id'].'\', 0, '.$userv[0].', 0, \''.$userv[0].'\', 0, 0, \''.$userv[1].'\','.time().', \''.$ip.'\')';
+					$insert[]='(\''.$userv.time().rand(100,999).'\', \''.$userv.'\', 0, '.$value[0].', 0, \''.$value[0].'\', 0, 0, \''.$value[1].'\','.time().', \''.$ip.'\')';
 				}
 			}
 			if(!empty($insert)){
