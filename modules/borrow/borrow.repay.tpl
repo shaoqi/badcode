@@ -55,7 +55,7 @@
 		<tr>
 		<td colspan="20" class="action">
 		<div class="floatl">
-			
+			<a href="{$_A.query_url_all}" title="数据导出">数据导出</a>
 		</div>
 		<div class="floatr">
 			标题：<input type="text" name="borrow_name" id="borrow_name" value="{$magic.request.borrow_name|urldecode}" size="8"/> 用户名：<input type="text" name="username" id="username" value="{$magic.request.username}" size="8"/>贷款号：<input type="text" name="borrow_nid" id="borrow_nid" value="{$magic.request.borrow_nid}" size="8"/> 
