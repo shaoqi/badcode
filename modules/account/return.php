@@ -12,16 +12,15 @@ require_once ('../../core/config.inc.php');
 error_reporting(E_ALL);
 require_once ('account.class.php');
 require_once ("account.payment.php");
-
-
 //国付宝
 if (isset($_POST['respCode']) && $_POST['respCode']!=""){
     // 重新计算 加密的校验值
     $sql = "select `config` from `{account_payment}` where id = 13";
 	$result = $mysql->db_fetch_array($sql);
     $payment_config = unserialize($result['config']);
-    $signStr='version=[2.1]tranCode=['.$_POST['tranCode'].']merchantID=['.$_POST['merchantID'].']merOrderNum=['.$_POST['merOrderNum'].']tranAmt=['.$_POST['tranAmt'].']feeAmt=['.$_POST['feeAmt'].']tranDateTime=[{'.$_POST['tranDateTime'].'}]frontMerUrl=['.$_POST['frontMerUrl'].']backgroundMerUrl=['.$_POST['backgroundMerUrl'].']orderId=[]gopayOutOrderId=[]tranIP=['.$_POST['tranIP'].']respCode=[]gopayServerTime=[]VerficationCode=[{'.$payment_config['VerficationCode'].'}]';
+    $signStr = 'version=[2.1]tranCode=['.$_POST['tranCode'].']merchantID=['.$_POST['merchantID'].']merOrderNum=['.$_POST['merOrderNum'].']tranAmt=['.$_POST['tranAmt'].']feeAmt=['.$_POST['feeAmt'].']tranDateTime=['.$_POST['tranDateTime'].']frontMerUrl=[]backgroundMerUrl=['.$_POST['backgroundMerUrl'].']orderId=['.$_POST['orderId'].']gopayOutOrderId=['.$_POST['gopayOutOrderId'].']tranIP=['.$_POST['tranIP'].']respCode=['.$_POST['respCode'].']gopayServerTime=[]VerficationCode=['.$payment_config['VerficationCode'].']';
 	$signValue = md5($signStr);
+    error_log('$signStr=>'.$signStr.' $signValue=>'.$signValue.' $_POST_signValue=>'.$_POST['signValue']."\n", 3, "/var/www/rongerong/my-errors.log");
     if($_POST['signValue'] == $signValue){
         $result = accountClass::GetRecharge(array("nid"=>$_POST['merOrderNum']));
         if ($result==false){
