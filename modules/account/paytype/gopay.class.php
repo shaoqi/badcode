@@ -49,7 +49,7 @@ class gopayPayment  {
 		$url .= "tranIP={$tranIP}&";//ip
 		$url .= "bankCode={$bankCode}&";//商户url
 		$url .= "userType={$userType}&";//商户url
-$signStr="version=[2.1]tranCode=[$tranCode]merchantID=[$merchantID]merOrderNum=[$merOrderNum]tranAmt=[$tranAmt]feeAmt=[$feeAmt]tranDateTime=[{$tranDateTime}]frontMerUrl=[$frontMerUrl]backgroundMerUrl=[$backgroundMerUrl]orderId=[]gopayOutOrderId=[]tranIP=[$tranIP]respCode=[]gopayServerTime=[{$ServerTime}]VerficationCode=[{$VerficationCode}]";
+        $signStr="version=[2.1]tranCode=[$tranCode]merchantID=[$merchantID]merOrderNum=[$merOrderNum]tranAmt=[$tranAmt]feeAmt=[$feeAmt]tranDateTime=[{$tranDateTime}]frontMerUrl=[$frontMerUrl]backgroundMerUrl=[$backgroundMerUrl]orderId=[]gopayOutOrderId=[]tranIP=[$tranIP]respCode=[]gopayServerTime=[]VerficationCode=[{$VerficationCode}]";
 		$signValue = md5($signStr);
 		$url .= "signValue=$signValue";//商户url
 		return array("url"=>$url,"sign"=>$signStr);

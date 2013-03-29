@@ -16,18 +16,26 @@ require_once ("account.payment.php");
 
 //国付宝
 if (isset($_POST['respCode']) && $_POST['respCode']!=""){
-	$result = accountClass::GetRecharge(array("nid"=>$_POST['merOrderNum']));
-	if ($result==false){
-		$msg = "支付失败";
-	}elseif ($_POST['respCode']=="0000"){
-		accountClass::OnlineReturn(array("trade_no"=>$_POST['merOrderNum']));
-		$msg = "支付成功";
-	} else {
-		$msg = "支付失败";
-	}
-	echo "RespCode=0000|JumpURL=http://www.rongerong.com/?user&q=code/account/recharge";
+    // 重新计算 加密的校验值
+    $sql = "select `config` from `{account_payment}` where id = 13";
+	$result = $mysql->db_fetch_array($sql);
+    $payment_config = unserialize($result['config']);
+    $signStr='version=[2.1]tranCode=['.$_POST['tranCode'].']merchantID=['.$_POST['merchantID'].']merOrderNum=['.$_POST['merOrderNum'].']tranAmt=['.$_POST['tranAmt'].']feeAmt=['.$_POST['feeAmt'].']tranDateTime=[{'.$_POST['tranDateTime'].'}]frontMerUrl=['.$_POST['frontMerUrl'].']backgroundMerUrl=['.$_POST['backgroundMerUrl'].']orderId=[]gopayOutOrderId=[]tranIP=['.$_POST['tranIP'].']respCode=[]gopayServerTime=[]VerficationCode=[{'.$payment_config['VerficationCode'].'}]';
+	$signValue = md5($signStr);
+    if($_POST['signValue'] == $signValue){
+        $result = accountClass::GetRecharge(array("nid"=>$_POST['merOrderNum']));
+        if ($result==false){
+            $msg = "支付失败";
+        }elseif ($_POST['respCode']=="0000"){
+            accountClass::OnlineReturn(array("trade_no"=>$_POST['merOrderNum']));
+            $msg = "支付成功";
+        } else {
+            $msg = "支付失败";
+        }
+    }
+	echo "RespCode=".$_POST['respCode']."|JumpURL=http://www.rongerong.com/?user&q=code/account/recharge";
 
-}elseif (isset($_REQUEST['ipsbillno']) && $_REQUEST['ipsbillno']!=""){
+}elseif (isset($_REQUEST['ipsbillno']) && !empty($_REQUEST['ipsbillno'])){
 	$billno = $_GET['billno'];
 	$amount = $_GET['amount'];
 	$mydate = $_GET['date'];
