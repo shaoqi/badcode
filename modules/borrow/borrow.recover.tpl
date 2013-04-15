@@ -21,7 +21,7 @@
             {/if}
 			<td width="" class="main_td">状态</td>
 		</tr>
-		{list module="borrow" function="GetRecoverList" plugins="recover" var="loop" borrow_name="request" username="request" borrow_nid="request" recover_status="request"}
+		{list module="borrow" function="GetRecoverList" plugins="recover" var="loop" borrow_name="request" username="request" borrow_nid="request" recover_status="request" dotime1=request dotime2=request}
 		{foreach from="$loop.list" item="item"}
 		<tr  {if $key%2==1} class="tr2"{/if}>
 			<td class="main_td1" align="center"><a href="{$_A.admin_url}&q=code/users/info_view&user_id={$item.user_id}" title="查看">{$item.username}</a></td>
@@ -41,18 +41,20 @@
 		<tr>
 		<td colspan="14" class="action">
 		<div class="floatl">
-			
+			<a href="{$_A.query_url_all}&export=excel&page={$magic.request.page|default:1}&username={$magic.request.username|urldecode}&borrow_name={$magic.request.borrow_name|urldecode}&borrow_nid={$magic.request.borrow_nid}&borrow_type={$magic.request.borrow_type}&recover_status={$magic.request.recover_status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}">导出当前</a>
+            <a href="{$_A.query_url_all}&export=excel&username={$magic.request.username|urldecode}&borrow_name={$magic.request.borrow_name|urldecode}&borrow_nid={$magic.request.borrow_nid}&borrow_type={$magic.request.borrow_type}&recover_status={$magic.request.recover_status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}">导出全部</a>
 		</div>
 		<div class="floatr">
 			 标题：<input type="text" name="borrow_name" id="borrow_name" value="{$magic.request.borrow_name|urldecode}" size="8"/> 用户名：<input type="text" name="username" id="username" value="{$magic.request.username}" size="8"/>贷款号：<input type="text" name="borrow_nid" id="borrow_nid" value="{$magic.request.borrow_nid}" size="8"/> 
 			
 			{linkages name="borrow_type" nid="borrow_all_type" type="value" default="全部" value="$magic.request.borrow_type"}
-            <select name="recover_status">
+            <select name="recover_status" id="recover_status">
             <option value="">全部</option>
             <option value="1" {if $magic.request.recover_status==1} selected=""{/if}>已收</option>
-            <option value="0" {if $magic.request.recover_status==0} selected=""{/if}>未收</option>
+            <option value="2" {if $magic.request.recover_status==2} selected=""{/if}>未收</option>
             </select>
-			 <input type="button" value="搜索" class="submit" onclick="sousuo('{$_A.query_url}/recover&status={$magic.request.status}')">
+            应收时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1|default:"$day7"|date_format:"Y-m-d"}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2|default:"$nowtime"|date_format:"Y-m-d"}" id="dotime2" size="15" onclick="change_picktime()"/>
+			 <input type="button" value="搜索" class="submit" onclick="sousuo('')">
 		</div>
 		</td>
 	</tr>
@@ -100,9 +102,9 @@ function sousuo(url){
 	if (dotime2!="" && dotime2!=null){
 		sou += "&dotime2="+dotime2;
 	}
-	var status = $("#status").val();
+	var status = $("#recover_status").val();
 	if (status!="" && status!=null){
-		sou += "&status="+status;
+		sou += "&recover_status="+status;
 	}
 	var is_vouch = $("#is_vouch").val();
 	if (is_vouch!="" && is_vouch!=null){

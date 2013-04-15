@@ -224,7 +224,7 @@ class borrowCalculateClass {
     	
     	//月利率
 		if($data['borrow_type']=='day'){
-			$month_apr = $year_apr/(360*100);
+			$month_apr = $year_apr/(365*100);
 		}else{
 			$month_apr = $year_apr/(12*100);
 		}
@@ -306,6 +306,7 @@ class borrowCalculateClass {
     		$_result[$i]['repay_year'] = $account;
     		$_result[$i]['repay_time'] = get_times(array("time"=>$borrow_time,"num"=>$i+1));
     	}
+        // 到期还本，按月付息的总收入
     	if ($data["type"]=="all"){
     		$_result_all['account_total'] =  $account + $interest*$period;
     		$_result_all['interest_total'] = $_interest_all;

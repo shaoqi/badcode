@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 		}else{
 			$.ajax({
 				type:"get",
-				url:'/?user&q=login',
+				url:'/?user',
 				data:'&q=check_email&email='+email,
 				success:function(result){
 					if (result=="1"){
@@ -53,7 +53,7 @@ define(function(require, exports, module) {
 		}else{
 			$.ajax({
 				type:"get",
-				url:'/?user&q=login',
+				url:'/?user',
 				data:'&q=check_username&username='+_username,
 				success:function(result){
 					if (result=="1"){

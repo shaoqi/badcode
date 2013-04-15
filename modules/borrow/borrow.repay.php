@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: borrow.repay.php
  * $Description: 还款文件
@@ -26,13 +26,13 @@ class borrowRepayClass
         if ($data['repay_id']==""){
             return "borrow_repay_id_error";
         }
-        //读取还款相关数据+
+        //读取还款相关数据
         $sql = "select * from `{borrow_repay}` where user_id='{$data['user_id']}' and id='{$data['repay_id']}'";
         $repay_result = $mysql->db_fetch_array($sql);
         if ($repay_result==false){
             return "borrow_repay_error";
         }
-        //读取相关的借款说明+
+        //读取相关的借款说明
        	$sql = "select p1.*,p2.username  from `{borrow}` as p1 left join `{users}` as p2 on p1.user_id=p2.user_id where p1.borrow_nid='{$repay_result['borrow_nid']}' and p1.user_id='{$data['user_id']}'";
         $borrow_result = $mysql->db_fetch_array($sql);
         if ($borrow_result==false){
@@ -54,9 +54,17 @@ class borrowRepayClass
 		    $repay_account = $repay_result["repay_account"];//还款总额
 		    $repay_period = $repay_result["repay_period"];
             
+
     		//判断上一期是否已还款+
     		if ($repay_period!=1){
-    			$_repay_period = $repay_period-1;
+                $sql = "select repay_period from `{borrow_repay}` where borrow_nid={$borrow_result['borrow_nid']} order by repay_time";
+                $result = $mysql->db_fetch_arrays($sql);
+                $_repay_period = [];
+                foreach($result as $value){
+                    $_repay_period[]=$value['repay_period'];
+                }
+                $key = array_keys($_repay_period, $repay_period);
+    			$_repay_period = $_repay_period[$key[0]-1];
     			$sql = "select repay_status from `{borrow_repay}` where `repay_period`=$_repay_period and borrow_nid={$borrow_result['borrow_nid']}";
     			$result = $mysql->db_fetch_array($sql);
     			if ($result!=false && $result['repay_status']!=1){

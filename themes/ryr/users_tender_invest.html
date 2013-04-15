@@ -50,11 +50,6 @@
     <td align="left" valign="middle">投资密码：<input type="hidden" value="yes" id="password_status_id" /><input type="password" name="borrow_password" id="borrow_password" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/> <font style="color:#ff0000">此密码请跟借款人索要。</font> </td>
   </tr>{else} <input type="hidden" value="no" id="password_status_id" />
   {/if}
- <!--  <tr>
-    <td align="left" >请输入交易密码：
-      <input type="text" name="textfield2" style="width:150px; border:#BFBFBF solid 1px; height:18px;"/>                        
-      如还未设置交易密码，"<a href="#" style="color:#0000FF">请先设置交易密码</a>"</td>
-  </tr> -->
    <tr>
     <td align="left" valign="middle">交易密码：
 	{if $_G.user_result.paypassword==""}<a style="color:#0000FF" target="_blank" href="/?user&q=code/users/paypwd">请先设置交易密码</a>{else}<input type="password" style="width:150px; border:#BFBFBF solid 1px; height:18px;" name="paypassword" id="paypassword">  {/if}</td>

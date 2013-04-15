@@ -241,7 +241,7 @@
 			<td width="" class="main_td">自动投标</td>
 			<!--<td width="" class="main_td">查看</td>-->
 		</tr>
-		{ list  module="borrow" plugins="tender" function="GetTenderList" var="loop" borrow_name="request"  borrow_nid="request" username="request" query_type=$_A.query_type }
+		{ list  module="borrow" plugins="tender" function="GetTenderList" var="loop" borrow_name="request"  borrow_nid="request" username="request" dotime1=request dotime2=request query_type=$_A.query_type }
 		{foreach from="$loop.list" item="item"}
 		<tr  {if $key%2==1} class="tr2"{/if}>
 			<td>{ $item.id}<input type="hidden" name="id[]" value="{ $item.id}" /></td>
@@ -262,10 +262,11 @@
 		<tr>
 		<td colspan="14" class="action">
 		<div class="floatl">
-			
+			<a href="{$_A.query_url_all}&export=excel&page={$magic.request.page|default:1}&username={$magic.request.username}&borrow_name={$magic.request.borrow_name}&borrow_nid={$magic.request.borrow_nid}&status={$magic.request.status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}">导出当前</a>
+            <a href="{$_A.query_url_all}&export=excel&username={$magic.request.username}&borrow_name={$magic.request.borrow_name}&borrow_nid={$magic.request.borrow_nid}&status={$magic.request.status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}">导出全部</a>
 		</div>
 		<div class="floatr">
-			 标题：<input type="text" name="borrow_name" id="borrow_name" value="{$magic.request.borrow_name}" size="8"/> 用户名：<input type="text" name="username" id="username" value="{$magic.request.username}" size="8"/>贷款号：<input type="text" name="borrow_nid" id="borrow_nid" value="{$magic.request.borrow_nid}" size="8"/> 状态<select id="status" ><option value="">全部</option><option value="1" {if $magic.request.status==1} selected="selected"{/if}>已通过</option><option value="0" {if $magic.request.status=="0"} selected="selected"{/if}>未通过</option></select>  <input type="button" value="搜索" onclick="sousuo('{$_A.query_url}/tender')" />
+			 借款标题：<input type="text" name="borrow_name" id="borrow_name" value="{$magic.request.borrow_name}" size="8"/> 用户名：<input type="text" name="username" id="username" value="{$magic.request.username}" size="8"/>贷款号：<input type="text" name="borrow_nid" id="borrow_nid" value="{$magic.request.borrow_nid}" size="8"/> 状态<select id="status" ><option value="">全部</option><option value="1" {if $magic.request.status==1} selected="selected"{/if}>已通过</option><option value="0" {if $magic.request.status=="0"} selected="selected"{/if}>未通过</option></select>投资时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1|default:"$day7"|date_format:"Y-m-d"}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2|default:"$nowtime"|date_format:"Y-m-d"}" id="dotime2" size="15" onclick="change_picktime()"/><input type="button" value="搜索" onclick="sousuo('{$_A.query_url}/tender')" />
 		</div>
 		</td>
 	</tr>
@@ -313,9 +314,9 @@ function sousuo(url){
 	if (dotime2!="" && dotime2!=null){
 		sou += "&dotime2="+dotime2;
 	}
-	var status_nid = $("#status_nid").val();
+	var status_nid = $("#status").val();
 	if (status_nid!="" && status_nid!=null){
-		sou += "&status_nid="+status_nid;
+		sou += "&status="+status_nid;
 	}
 	var is_vouch = $("#is_vouch").val();
 	if (is_vouch!="" && is_vouch!=null){

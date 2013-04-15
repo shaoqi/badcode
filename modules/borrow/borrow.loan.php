@@ -459,7 +459,7 @@ class borrowLoanClass
             require_once("borrow.auto.php");
             require_once("borrow.tender.php");
     		$res = borrowAutoClass::NewAutoTender(array("borrow_nid"=>$result['borrow_nid']));			
-    		if ($res != false){
+    		if (!empty($res)){
     			foreach ($res as  $key => $value){
 		            if ($result["borrow_type"]=="roam"){
 		                require_once("borrow.roam.php");//类名
@@ -492,7 +492,7 @@ class borrowLoanClass
 						$user_log["content"] = date("Y-m-d H:i:s")."自动投标[{$borrow_url}]成功,金额为{$_tender['account']}";
 						usersClass::AddUsersLog($user_log);	
 					}
-    			}    		 
+    			}
     		}
 			require_once(ROOT_PATH."modules/remind/remind.class.php");
 			require_once(ROOT_PATH."modules/approve/approve.class.php");

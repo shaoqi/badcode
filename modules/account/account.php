@@ -329,7 +329,7 @@ elseif ($_A['query_type'] == "cash"){
 		if (isset($_POST['status'])){
 			$msg = check_valicode();
 			if ($msg==""){
-				$var = array("status","credited","fee","verify_remark");
+				$var = array("status","credited","fee","verify_remark","credit_card_cash_fee");
 				$data = post_var($var);
 				$data['id'] = $_REQUEST['id'];
 				$data['verify_userid'] = $_G['user_id'];

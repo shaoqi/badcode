@@ -323,7 +323,7 @@ elseif ($_REQUEST['p'] == "realname"){
     }
 }
 
-//添加工作信息
+//投资新标
 elseif ($_REQUEST['p'] == "view_roam"){	
     if (!empty($_POST["paypassword"])){
         require_once("borrow.roam.php");//类名

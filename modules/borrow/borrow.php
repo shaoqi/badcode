@@ -37,9 +37,9 @@ $_A['borrow_amount_type'] = $borrow_amount_type;
 **/
 
 if(file_exists(ROOT_PATH."modules/borrow/borrow.".$_A['query_type'].".admin.php")){
-	echo ROOT_PATH."modules/borrow/borrow.".$_A['query_type'].".admin.php";
     require_once(ROOT_PATH."modules/borrow/borrow.".$_A['query_type'].".admin.php");
 }
+
 
 //查看
 elseif ($_A['query_type'] == "view"){
@@ -254,7 +254,18 @@ elseif ($_A['query_type'] == "repay"){
 		$data['borrow_nid']=$_REQUEST['view'];
 		$result = borrowClass::GetOne($data);
 		$_A['borrow_result']=$result;
-	}
+	}elseif ($_GET['export']=='excel'){
+        require_once(ROOT_PATH."modules/borrow/borrow.loan.php");
+        $field = ['page','repay_status','username','borrow_name','borrow_nid','borrow_type','dotime1','dotime2'];
+        $data = [];
+        foreach ($field as $value){
+            if(isset($_GET[$value])){
+                $data[$value]=$_GET[$value];
+            }
+        }
+        borrowexcel::GetRepayList($data);
+        exit;
+    }
 }
 
 //投资
@@ -262,7 +273,18 @@ elseif ($_A['query_type'] == "tender" ){
      check_rank("borrow_tender");//检查权限
 	if ($_REQUEST['id']!=""){
 		$_A['borrow_tender_result'] = borrowTenderClass::GetTenderOne(array("id"=>$_REQUEST['id']));
-	}
+	}elseif ($_GET['export']=='excel'){
+        require_once(ROOT_PATH."modules/borrow/borrow.tender.php");
+        $field = ['page','username','borrow_name','borrow_nid','status','dotime1','dotime2'];
+        $data = [];
+        foreach ($field as $value){
+            if(isset($_GET[$value])){
+                $data[$value]=$_GET[$value];
+            }
+        }
+        borrowexcel::GetTenderList($data);
+        exit;
+    }
 
 }
 
@@ -281,7 +303,18 @@ elseif ($_A['query_type'] == "recover"){
 		$data['borrow_nid']=$_REQUEST['view'];
 		$result = borrowClass::GetOne($data);
 		$_A['borrow_result']=$result;
-	}
+	}elseif ($_GET['export']=='excel'){
+        require_once(ROOT_PATH."modules/borrow/borrow.recover.php");
+        $field = ['page','username','borrow_name','borrow_nid','borrow_type','recover_status','dotime1','dotime2'];
+        $data = [];
+        foreach ($field as $value){
+            if(isset($_GET[$value])){
+                $data[$value]=$_GET[$value];
+            }
+        }
+        borrowexcel::GetRecoverList($data);
+        exit;
+    }
 }
 
 

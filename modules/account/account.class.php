@@ -1376,12 +1376,12 @@ class accountClass{
 		//判断是否已经审核
 		if ($result['status']!=0) return "account_cash_yes_verify";
 	
-		$sql = "update `{account_cash}` set status='{$data['status']}',verify_time='".time()."',verify_userid='".$data['verify_userid']."',verify_remark='".$data['verify_remark']."' where id = '{$data['id']}'";
+		$sql = "update `{account_cash}` set status='{$data['status']}',verify_time='".time()."',verify_userid='".$data['verify_userid']."',verify_remark='".$data['verify_remark']."',credited='".($result['total']-$result['fee']-$data['credit_card_cash_fee'])."',fee='".($result['fee']+$data['credit_card_cash_fee'])."' where id = '{$data['id']}'";
        $mysql->db_query($sql);
 		
 		$user_id = $result['user_id'];
 		$cash_account = $result['total'];
-		$cashaccount = $result['credited'];
+		$cashaccount = $result['credited']-$data['credit_card_cash_fee'];
 		$cash_fee = $result['fee'];
 		
 		
@@ -1404,7 +1404,7 @@ class accountClass{
 			$log_info["repay"] = 0;//待还金额
 			$log_info["type"] = "cash_success";//类型
 			$log_info["to_userid"] = 0;//付给谁
-			$log_info["remark"] = "提现成功{$cashaccount}元";//备注
+			$log_info["remark"] = "提现成功{".$cashaccount."}元";//备注
 			$result = self::AddLog($log_info);
 			
             if ($cash_fee>0){
@@ -1425,8 +1425,29 @@ class accountClass{
 				$log_info["type"] = "cash_fee";//类型
 				$log_info["to_userid"] = 0;//付给谁
 				$log_info["remark"] = "提现手续费{$cash_fee}元";//备注
-				$result = self::AddLog($log_info); 
+				$result = self::AddLog($log_info);
 			}
+            if(!empty($data['credit_card_cash_fee'])){
+                // 信用卡套现触发费用
+				$log_info["user_id"] = $user_id;//操作用户id
+				$log_info["nid"] = "credit_card_cash_fee_".$nid;//订单号
+                $log_info["account_web_status"] = 1;//
+                $log_info["account_user_status"] = 1;//
+                $log_info["code"] = "account";//
+        		$log_info["code_type"] = "credit_card_cash_fee";//
+				$log_info["money"] = $data['credit_card_cash_fee'];//操作金额
+				$log_info["income"] = 0;//收入
+				$log_info["expend"] = $data['credit_card_cash_fee'];//支出
+				$log_info["balance_cash"] = 0;//可提现金额
+				$log_info["balance_frost"] = 0;//不可提现金额
+				$log_info["frost"] = 0;//冻结金额
+				$log_info["await"] = 0;//待收金额
+				$log_info["repay"] = 0;//待还金额
+				$log_info["type"] = "credit_card_cash_fee";//类型
+				$log_info["to_userid"] = 0;//付给谁
+				$log_info["remark"] = "未投资提现手续费{".$data['credit_card_cash_fee']."}元";//备注
+				$result = self::AddLog($log_info);
+            }
 			//加入用户操作记录
 			$user_log["user_id"] = $user_id;
 			$user_log["code"] = "account";

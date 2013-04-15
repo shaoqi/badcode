@@ -1,4 +1,4 @@
-<?
+<?php
 class borrowRecoverClass{
 	//ÊÕ¿îÃ÷Ï¸
 	function GetRecoverList($data){
@@ -29,10 +29,10 @@ class borrowRecoverClass{
 			}
 		}
 		if (IsExiest($data['borrow_nid'])!=false){
-			$_sql .= " and p2.borrow_nid={$data['borrow_nid']}";
+			$_sql .= " and p2.borrow_nid='{$data['borrow_nid']}'";
 		}
 		if (IsExiest($data['borrow_type'])!=false){
-			$_sql .= " and p2.borrow_type={$data['borrow_type']}";
+			$_sql .= " and p2.borrow_type='{$data['borrow_type']}'";
 		}
 		if (IsExiest($data['username'])!=false){
 			$_sql .= " and p3.username like '%".urldecode($data['username'])."%' ";
@@ -103,40 +103,6 @@ class borrowRecoverClass{
 				$_limit = "  limit ".$data['limit'];
 			}
 			$list  = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'ORDER', 'LIMIT'), array($_select,  $_order, $_limit), $sql));
-			foreach ($list as $key => $value){
-				$late = self::LateInterest(array("time"=>$value['recover_time'],"account"=>$value['recover_capital']));
-				if ($data['type']=="web"){
-					if ($value['recover_status']==0){
-						$list[$key]['late_days'] = $late['late_days'];
-						if ($late['late_days']<30){
-							$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days']/2,2);
-						}else{
-							$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days'],2);
-						}
-					}else{
-					$late = self::LateInterest(array("time"=>$value['recover_time'],"account"=>$value['recover_capital'],"yestime"=>$value['recover_yestime']));
-						if ($late['late_days']<30){
-							$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days']/2,2);
-						}else{
-							$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days'],2);
-						}
-						$list[$key]['late_days'] = $value['late_days'];
-					}
-				}else{
-					if ($value['recover_status']==0){
-						$list[$key]['late_days'] = $late['late_days'];
-						if ($late['late_days']<30){
-							$list[$key]['late_interest'] = 0;
-						}else{
-							$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days']/2,2);
-						}
-					}else{
-						$list[$key]['late_interest'] = $value['late_interest'];
-						$list[$key]['late_days'] = $value['late_days'];
-					}
-				}
-				$list[$key]['all_recover']=$value['recover_capital']+$value['recover_interest']+$value['late_interest'];
-			}
 			return $list;
 		}	
 		
@@ -148,77 +114,6 @@ class borrowRecoverClass{
 		$list = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'ORDER', 'LIMIT'), array($_select, $_order , $limit), $sql));
 		foreach ($list as $key => $value){
 			$all_capital+=$value['recover_capital'];
-            /*
-			$late = self::LateInterest(array("time"=>$value['recover_time'],"account"=>$value['recover_capital']));
-			if ($data['showtype']=="web"){
-				if ($value['recover_status']==1){
-					$list[$key]['late_days'] = $value['late_days'];
-					if ($late['late_days']<30){
-						$list[$key]['late_interest'] = round($value['recover_account']*0.004*$value['late_days']/2,2);
-					}else{
-						$list[$key]['late_interest'] = round($value['recover_account']*0.004*$value['late_days'],2);
-					}
-				}else{
-					$list[$key]['late_days'] = $late['late_days'];
-					$late = self::LateInterest(array("time"=>$value['recover_time'],"account"=>$value['recover_capital'],"yestime"=>$value['recover_yestime']));
-					if ($late['late_days']<30){
-						$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days']/2,2);
-					}else{
-						$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days'],2);
-					}
-				}
-			}else{
-				if ($value['recover_status']==1){
-					$list[$key]['late_interest'] = $value['late_interest'];
-					$list[$key]['late_days'] = $value['late_days'];
-				}else{
-					$list[$key]['late_days'] = $late['late_days'];
-					if ($late['late_days']<30){
-						$list[$key]['late_interest'] = 0;
-					}else{
-						$list[$key]['late_interest'] = round($value['recover_account']*0.004*$late['late_days']/2,2);
-					}
-				}
-			}
-			$list[$key]['credit']=self::GetBorrowCredit(array("user_id"=>$value['user_id']));
-			$list[$key]['all_recover']=$value['recover_capital']+$value['recover_interest']+$value['late_interest'];
-            */
-			/* if ($value['recover_yestime']<$value['buy_time']){
-				$change[$key]['recover_interest_yes']=$value['recover_interest_yes'];
-				$change[$key]['borrow_name']=$value['borrow_name'];
-				$change[$key]['recover_time']=$value['recover_time'];
-				$change[$key]['borrow_userid']=$value['borrow_userid'];
-				$change[$key]['borrow_username']=$value['borrow_username'];
-				$change[$key]['borrow_nid']=$value['borrow_nid'];
-				$change[$key]['recover_period']=$value['recover_period'];
-				$change[$key]['borrow_period']=$value['borrow_period'];
-				$change[$key]['recover_account']=$value['recover_account'];
-				$change[$key]['recover_capital']=$value['recover_capital'];
-				$change[$key]['recover_interest']=$value['recover_interest'];
-				$change[$key]['late_interest']=$value['late_interest'];
-				$change[$key]['late_days']=$value['late_days'];
-				$change[$key]['recover_status']=$value['recover_status'];
-			}
-			if ($value['recover_yestime']>$value['buy_time'] || $value['recover_yestime']==""){
-				$web[$key]['recover_interest_yes']=$value['recover_interest_yes'];
-				$web[$key]['borrow_name']=$value['borrow_name'];
-				$web[$key]['recover_time']=$value['recover_time'];
-				$web[$key]['borrow_userid']=$value['borrow_userid'];
-				$web[$key]['borrow_username']=$value['borrow_username'];
-				$web[$key]['borrow_nid']=$value['borrow_nid'];
-				$web[$key]['recover_period']=$value['recover_period'];
-				$web[$key]['borrow_period']=$value['borrow_period'];
-				$web[$key]['recover_account']=$value['recover_account'];
-				$web[$key]['recover_capital']=$value['recover_capital'];
-				$web[$key]['recover_interest']=$value['recover_interest'];
-				$web[$key]['late_interest']=$list[$key]['late_interest'];
-				$web[$key]['late_days']=$list[$key]['late_days'];
-				$web[$key]['recover_status']=$value['recover_status'];
-				$web[$key]['recover_web']=$list[$key]['recover_web'];
-				if ($web[$key]['recover_status']==1 || $web[$key]['recover_web']==1){
-					$all_recover+=$web[$key]['recover_account'];
-				}
-			} */
 		}
 		if ($data['style']=="change"){
 			$total = count($change);

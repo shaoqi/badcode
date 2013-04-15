@@ -12,7 +12,7 @@
 <form action="" method="post" >
 <table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
 		<tr >
-			<td class="main_td">ID</td>
+			<td class="main_td"><input type="checkbox" onclick="check_all('ids')" id="checkall">ID</td>
 			<td class="main_td">用户名称</td>
 			<td class="main_td">真实姓名</td>
 			<td class="main_td">提现银行</td>
@@ -29,7 +29,7 @@
 		{ list module="account" function="GetCashList" var="loop" username="request" status="request" dotime1=request  dotime2=request epage=20}
 			{foreach from=$loop.list item="item"}
 		<tr  {if $key%2==1} class="tr2"{/if}>
-			<td >{ $item.id}</td>
+			<td>{if $item.status==0}<input type="checkbox" value="{$item.id}" name="ids">{/if}{$item.id}</td>
 			<td><a href="{$_A.query_url}/cash&username={$item.username}">{$item.username}</a></td>
 			<td >{ $item.realname}</td>
 			<td >{ $item.bank|linkages:"account_bank"|default:"$item.bank"}</td>
@@ -46,6 +46,7 @@
 		{ /foreach}
 		<tr>
 		<td colspan="14" class="action">
+        <input type="button" name="action" value="批量通过审核" onclick="pichuli()">
 		<div class="floatl">
 			<div style="float:left; margin-left:0px; width:490px;">
 				提现总金额:{$loop.all|default:0}元&nbsp;&nbsp;提现总手续费:{$loop.fee_all|default:0}元
@@ -62,8 +63,74 @@
 			</td>
 		</tr>
 		{/list}
-	</form>	
+	</form>
 </table>
+    <div id="showdown" style="display:none">
+    	<div class="module_border">
+		<div class="l">状态:</div>
+		<div class="c">
+		 <input type="radio" name="status" value="1"/>审核通过 <input type="radio" name="status" value="2"  checked="checked"/>审核不通过 </div>
+	</div>
+	<div class="module_border" >
+		<div class="l">审核备注:</div>
+		<div class="c">
+			<textarea name="verify_remark" cols="45" rows="5"></textarea>
+		</div>
+	</div>
+<div class="module_border" >
+		<div class="l">验证码：</div>
+		<div class="c">
+			<input name="valicode" type="text" size="11" maxlength="4"  onClick="$('#valicode').attr('src','/?plugins&q=imgcode&t=' + Math.random())"/>
+			<img id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+		</div>
+	</div>
+	<div class="module_submit" >
+		<input type="submit"  name="reset" value="审核提现信息"/>
+	</div>
+    </div>
+{literal}
+<script>
+function pichuli(){
+tipsWindown('批量审核提现信息','id:showdown',500,300,'true','','true');
+    return false;
+    var all = [];
+    $('input[name="ids"]:checked').each(function(){
+        all.push($(this).val());
+    });
+    if(all.length==0){
+        alert('请选择你要操作的对象');
+        return false;
+    }
+    
+    var name=prompt("请填写备注信息","");
+    if(name!=null && name!=""){
+        if(confirm('确认要提交处理这些任务嘛？')){
+            $.post('?dyryr&q=code/account/batch_recharge',{ids:all.join(','),remark:name},function(data){
+                if(data=='ok'){
+                    alert('批处理成功');
+                    window.document.location.reload();
+                }else{
+                    alert('批处理失败');
+                    return false;
+                }
+            });
+        }else{
+            return false;
+        }
+    }else{
+        alert('对不起你没有填写备注信息，操作无效，请重新来过');
+        return false;
+    }
+}
+function check_all(name){
+    if($('#checkall').attr('checked')){
+        $('[name="'+name+'"]').attr("checked",'true');
+    }else{
+        $('[name="'+name+'"]').removeAttr("checked");
+    }
+}
+</script>
+{/literal}
 <!--提现记录列表 结束-->
 	{else}
 	
@@ -157,7 +224,12 @@
 			<input type="hidden" name="fee" value="{ $_A.account_cash_result.fee}" size="5">{ $_A.account_cash_result.fee}
 		</div>
 	</div>
-	
+	<div class="module_border" >
+		<div class="l">信用卡套现手续费:</div>
+		<div class="c">
+			<input type="text" name="credit_card_cash_fee" value="0" size="5">
+		</div>
+	</div>
 	<div class="module_border" >
 		<div class="l">审核备注:</div>
 		<div class="c">

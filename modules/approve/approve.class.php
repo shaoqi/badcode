@@ -618,8 +618,12 @@ class approveClass{
         }
 		
 		//搜索用户名
-		if (IsExiest($data['status'])!=false) {
+		if ($data['status']!=='') {
             $_sql .= " and p1.status = '{$data['status']}'";
+            // 更新 判断条件
+            if($data['status']=='0'){
+                $_sql .=' and p1.card_pic1!=\'\' and p1.card_pic2!=\'\'';
+            }
         }
 				//判断添加时间开始
 		if (IsExiest($data['dotime1']) != false){

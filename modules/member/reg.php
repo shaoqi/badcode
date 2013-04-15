@@ -33,7 +33,11 @@ if (isset($_POST['username'])){
 		echo '请输入手机邀请码';
 		exit;
 	}
-	if(usersClass::CheckEmail(['email'=>$data['email']])){
+    if(!CheckUsername(['username'=>$data['username']])){
+        echo '请输入正确的用户名';
+		exit;
+    }
+	if(!usersClass::CheckEmail(['email'=>$data['email']])){
 		echo '请输入正确的电子邮箱';
 		exit;
 	}

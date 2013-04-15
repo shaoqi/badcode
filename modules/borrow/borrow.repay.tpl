@@ -21,13 +21,13 @@
 			<td width="" class="main_td">实还总额</td>
 			{/if}
             <!--
-			{if $magic.request.type=="yes" || $magic.request.type==""}
+			{if $magic.request.repay_type=="yes" || $magic.request.repay_type==""}
 			<td width="" class="main_td">应缴逾期罚息</td>
 			<td width="" class="main_td">应缴管理费</td>
 			<td width="" class="main_td">提前还款罚金</td>
 			<td width="" class="main_td">实还金额</td>
 			<td width="" class="main_td">还款时间</td>
-			{elseif $magic.request.type=="wait"}
+			{elseif $magic.request.repay_type=="wait"}
 			<td width="" class="main_td">逾期罚息</td>
 			<td width="" class="main_td">应还管理费</td>
 			<td width="" class="main_td">应还总额</td>
@@ -35,7 +35,7 @@
             -->
 			<td width="" class="main_td">状态</td>
 		</tr>
-		{list module="borrow" plugins="loan" function="GetRepayList" var="loop" borrow_name="request" username="request" borrow_nid="request" is_vouch="request" borrow_type="request" order="status" repay_status="request" repay_type="request"}
+		{list module="borrow" plugins="loan" function="GetRepayList" var="loop" borrow_name="request" username="request" borrow_nid="request" is_vouch="request" borrow_type="request" order="status" repay_status="request" repay_type="request" dotime1=request dotime2=request}
 		{foreach from="$loop.list" item="item"}
 		<tr  {if $key%2==1} class="tr2"{/if}>
 			<td>{$item.borrow_nid}</td>
@@ -55,7 +55,8 @@
 		<tr>
 		<td colspan="20" class="action">
 		<div class="floatl">
-			<a href="{$_A.query_url_all}" title="数据导出">数据导出</a>
+			<a href="{$_A.query_url_all}&export=excel&page={$magic.request.page|default:1}&repay_status={$magic.request.repay_status}&username={$magic.request.username}&borrow_name={$magic.request.borrow_name}&borrow_nid={$magic.request.borrow_nid}&borrow_type={$magic.request.borrow_type}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}">导出当前</a>
+            <a href="{$_A.query_url_all}&export=excel&repay_status={$magic.request.repay_status}&username={$magic.request.username}&borrow_name={$magic.request.borrow_name}&borrow_nid={$magic.request.borrow_nid}&borrow_type={$magic.request.borrow_type}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}">导出全部</a>
 		</div>
 		<div class="floatr">
 			标题：<input type="text" name="borrow_name" id="borrow_name" value="{$magic.request.borrow_name|urldecode}" size="8"/> 用户名：<input type="text" name="username" id="username" value="{$magic.request.username}" size="8"/>贷款号：<input type="text" name="borrow_nid" id="borrow_nid" value="{$magic.request.borrow_nid}" size="8"/> 
@@ -68,6 +69,7 @@
 			{else}
 			状态：<select name="repay_status" id="repay_status"><option value="" {if $magic.request.repay_status==""}selected="selected"{/if}>不限</option><option value="1" {if $magic.request.repay_status==1}selected="selected"{/if}>已还</option><option value="0" {if $magic.request.repay_status=="0"}selected="selected"{/if}>未还</option></select>
 			{/if}
+            应还时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1|default:"$day7"|date_format:"Y-m-d"}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2|default:"$nowtime"|date_format:"Y-m-d"}" id="dotime2" size="15" onclick="change_picktime()"/>
 			<input type="button" value="搜索" class="submit" onclick="sousuo('{$_A.query_url}/repay&repay_status={$magic.request.repay_status}')">
 		</div>
 		</td>

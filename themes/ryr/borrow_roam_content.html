@@ -23,7 +23,7 @@
   <tr>
     <td height="27">担保机构：  {$roam_var.voucher} </td>
     <td>反担保方式：  {$roam_var.vouch_style}  </td>
-    <td>还款方式：  一次性还款 </td>
+    <td>还款方式：  {$roam_var.style_title} </td>
   </tr>
 </table>
 <div style="background-color: #FDFAE9; height: 75px; width: 480px; margin: auto;margin-top:15px;border: solid 1px #F9DDD1;">
@@ -70,7 +70,7 @@ function roam_buy(borrow_nid,account,_user_id){
         var dia = $.dialog({
             id: 'borr_realname',
             width: "300px",
-            height: "240px",
+            height: "250px",
             title:'我要购买',
             content: 'url:/?user&q=code/borrow/loan&p=view_roam&account='+account+'&num='+_val+'&borrow_nid='+borrow_nid,
             max: false,

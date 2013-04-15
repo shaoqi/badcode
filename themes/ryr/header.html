@@ -43,7 +43,7 @@
         <ul class="top-menu g-fix">
             {if $_G.user_id == ''}
 			<li><a href="/?user&q=reg">注册</a>|</li>
-            <li><a href="/?user&q=login" onclick="ajax_login();return false;">登录</a>|</li>
+            <li><a href="/?user&q=login" onclick="ajax_login();return false;" rel="nofollow">登录</a>|</li>
 			{else}
 			{articles module="users" plugins="vip" function="GetUsersVip" var="Vvar" user_id="$_G.user_id"}
 			<li>尊敬的{if $Vvar.status==0}(<a href="/?user&q=code/users/vip">申请VIP</a>){else}VIP{/if}会员:<a href="/?user" style="color: #E45B00;">{$_G.user_result.username}</a>|</li>
@@ -54,7 +54,7 @@
             <li class="menu-item weibo">
                 <a href="http://e.weibo.com/rongerong" title="欢迎关注官方微博" target="_blank" rel="nofollow">官方微博</a>|
             </li>
-			<li><a>官方QQ群：289934988</a></li>
+			<li><a href="http://wp.qq.com/wpa/qunwpa?idkey=2e7843ab05a22686e6ec7b546d3a9fc43cf67e631657fb832dbd0f637b22d063" target="_blank" title="点击加入官方QQ群：289934988" rel="nofollow">官方QQ群：289934988</a></li>
         </ul>
         <div class="top-links">
                         <a target="_blank" href="#">融易融社区</a>|<a target="_blank" href="/help/index.html">帮助中心</a>|<a href="javascript:addToFavorite('{$_G.system.con_weburl}','{$_G.system.con_webname}')">加入收藏</a>

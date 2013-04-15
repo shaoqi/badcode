@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: borrow.excel.php
  * $Description: 借款导出
@@ -142,6 +142,79 @@ class borrowexcel {
 		exportData("账号信息管理",$title,$_data);
 		exit;
 	}
+
+    
+    /**
+     * 导出还款信息
+     */
+    public function GetRepayList($data)
+    {
+        if ($data['page']>0) {
+            $result = borrowLoanClass::GetRepayList($data);
+            $result = $result['list'];
+        } else {
+            $data['limit'] = "all";
+            $result = borrowLoanClass::GetRepayList($data);
+        }
+        if(!empty($result)){
+            $title=['贷款号','借款人','借款标题','借款期数','借款类型','应还时间','应还本息','实还时间','实还本金','实还利息','还款费用','实还总额','状态'];
+            $_data = [];
+            foreach($result as $value){
+                $_data[]=[$value['borrow_nid'],$value['borrow_username'],$value['borrow_name'],$value['repay_period'],$value['type_title'],date('Y-m-d',$value['repay_time']),$value['repay_account'],(empty($value['repay_yestime'])?'':date('Y-m-d',$value['repay_yestime'])),$value['repay_capital_yes'],$value['repay_interest_yes'],$value['repay_fee'],($value['repay_capital_yes']+$value['repay_interest_yes']+$value['repay_fee']),$value['repay_type_name']];
+            }
+            exportData("借款管理之还款信息",$title,$_data);
+            exit;
+        }
+    }
+
+    /**
+     * 导出还款信息
+     */
+    public function GetRecoverList($data)
+    {
+        if ($data['page']>0) {
+            $result = borrowRecoverClass::GetRecoverList($data);
+            $result = $result['list'];
+        } else {
+            $data['limit'] = "all";
+            $result = borrowRecoverClass::GetRecoverList($data);
+        }
+        if(!empty($result)){
+            $title=['收款人','贷款号','借款标题','借款类型','还款本息','逾期天数','应收时间','实收时间','实收总额','状态'];
+            $_data = [];
+            $bool_status = ['待收款','已收款'];
+            $borrow_type = ['credit'=>'信用标','vouch'=>'担保标','pawn'=>'抵押标','second'=>'秒标','worth'=>'净值标','day'=>'天标','roam'=>'流转标'];
+            foreach($result as $value){
+                $_data[]=[$value['username'],$value['borrow_nid'],$value['borrow_name'].'(第'.$value['repay_period'].'期)',$borrow_type[$value['borrow_type']],$value['recover_account'],$value['late_days'].'天',(empty($value['recover_time'])?'':date('Y-m-d',$value['recover_time'])),(empty($value['recover_yestime'])?'':date('Y-m-d',$value['recover_yestime'])),$value['recover_account_yes'],(isset($bool_status[$value['recover_status']])?$bool_status[$value['recover_status']]:'否')];
+            }
+            exportData("借款管理之还款信息",$title,$_data);
+            exit;
+        }
+    }
+
+    /**
+     * 导出投资信息
+     */
+    public function GetTenderList($data)
+    {
+        if ($data['page']>0) {
+            $result = borrowTenderClass::GetTenderList($data);
+            $result = $result['list'];
+        } else {
+            $data['limit'] = "all";
+            $result = borrowTenderClass::GetTenderList($data);
+        }
+        if(!empty($result)){
+            $title=['投资ID','投资人','投资金额','投资时间','投资状态','是否转让','投资理由','借款标','借款标识名','借款总额','自动投标'];
+            $status_arr = ['待审核','成功','失败'];
+            $bool_status = ['否','是'];
+            $_data = [];
+            foreach($result as $value){
+                $_data[]=[$value['id'],$value['username'],$value['account'],date('Y-m-d H:i:s',$value['addtime']),(isset ($status_arr[$value['status']])?$status_arr[$value['status']]:'待审核'),(isset ($bool_status[$value['change_status']])?$bool_status[$value['change_status']]:'否'),(empty($value['contents'])?'':$value['contents']),$value['borrow_name'],$value['borrow_nid'],$value['borrow_account'],(isset ($bool_status[$value['auto_status']])?$bool_status[$value['auto_status']]:'否')];
+            }
+            exportData("借款管理之投资信息",$title,$_data);
+            exit;
+        }
+    }
 	
 }
-?>

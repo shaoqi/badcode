@@ -710,8 +710,6 @@ class borrowTenderClass
 			  $list[$key]["interest_fee"] = round($list[$key]["recover_interest"]*0.1,2);
 		   }
 		   $list[$key]["account_wait"]=$list[$key]["recover_account"]-$list[$key]["interest_fee"];
-		   
-		   
 	   }
 	   $lists = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'ORDER', 'LIMIT'), array($_select, $_order , ''), $sql));
 	   foreach ($lists as $key => $value){

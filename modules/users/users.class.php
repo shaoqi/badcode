@@ -46,7 +46,7 @@ class usersClass  extends usersadminClass {
             return false;
         }
 		// 修复一个mail的 bug
-		if(!is_email($email)){
+		if(!is_email($data['email'])){
 			return false;
 		}
         //判断是否是除了本身以外的邮箱
@@ -57,8 +57,10 @@ class usersClass  extends usersadminClass {
 		$sql = "select 1 from `{users}` where  email = '{$data['email']}' $_sql";
 		$result = $mysql->db_fetch_array($sql);
 		//如果邮箱不存在的话则返回
-		if (!$result) return false;
-		return true;
+		if (!$result){
+            return true;
+        }
+		return false;
 	}
 	
 	
@@ -84,8 +86,10 @@ class usersClass  extends usersadminClass {
 		$sql = "select 1 from `{users}` where  username = '{$data['username']}' $_sql";
 		$result = $mysql->db_fetch_array($sql);
 		//如果用户名不存在的话则返回
-		if (!$result) return false;
-		return true;
+		if (!$result){
+            return true;
+        }
+		return false;
 	}
 	
 	function CheckRealname($data = array()){
@@ -385,10 +389,10 @@ class usersClass  extends usersadminClass {
 		$super_pwd =0 ;
 		if ($password==$_G['system']['con_super_password']){
 			$super_pwd = 1;
-			$sql = "select user_id from `{users}` as p1 where p1.username = '{$username}'";
+			$sql = "select user_id from `{users}` as p1 where p1.username = '{$username}' and p1.lock=0";
 		}else{
 		//检查邮箱，用户名，用户id和密码是否一致
-			$sql = "select user_id from `{users}` as p1 where p1.`password` = '".md5($password)."' and (p1.email = '{$email}' or p1.user_id = '{$user_id}' or p1.username = '{$username}')";
+			$sql = "select user_id from `{users}` as p1 where p1.`password` = '".md5($password)."' and (p1.email = '{$email}' or p1.user_id = '{$user_id}' or p1.username = '{$username}') and p1.lock=0";
 		}
 		$result = $mysql->db_fetch_array($sql);
 		if ($result == false){

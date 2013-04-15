@@ -875,7 +875,7 @@ function ip_control($allow_ip=""){
 
 //” œ‰—È÷§
 function is_email($email) {
-	$exp = "^[a-z'0-9]+([._-][a-z'0-9]+)*@([a-z0-9]+([._-][a-z0-9]+))+$";
+	$exp = "/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i";
 	if(preg_match($exp,$email)) {
 		return true;
 	}

@@ -92,20 +92,19 @@ elseif ($_U['query_sort'] == 'check_username'){
 	$username = iconv("UTF-8","GBK",urldecode($_REQUEST['username']));
 	$result = usersClass::CheckUsername(array("username"=>$username));
 	if ($result == true){
-		echo "1";exit;
-	}else{
 		echo "0";exit;
+	}else{
+		echo "1";exit;
 	}
 }
 
 # 检查邮箱是否被注册
 elseif ($_U['query_sort'] == 'check_email'){
-	$result = usersClass::CheckEmail(array("email"=>urldecode($_REQUEST['email'])));
-	
+	$result = usersClass::CheckEmail(["email"=>urldecode($_REQUEST['email'])]);
 	if ($result == true){
-		echo "1";exit;
-	}else{
 		echo "0";exit;
+	}else{
+		echo "1";exit;
 	}
 }
 // 检查 手机号码是否已经被注册

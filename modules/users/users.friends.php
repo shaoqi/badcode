@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: users.vip.php
  * $Description: 用户vip的管理中心
@@ -113,7 +113,7 @@ class usersfriendsClass   {
 		
 		//判断用户id
 		if (IsExiest($data['user_id']) != false){
-			$_sql .= " and p1.`user_id`  = '{$data['user_id']}'";
+			$_sql .= " and p1.`user_id`  = '{$data['user_id']}' and p5.status=1 and p4.realname_status=1 and p4.phone_status=1";
 		}
 		
 		if (IsExiest($data['friends_userid']) != false){
@@ -132,6 +132,8 @@ class usersfriendsClass   {
 		$sql = "select SELECT from `{users_friends_invite}` as p1
 				left join `{users}` as p2 on p1.user_id = p2.user_id
 				left join `{users}` as p3 on p1.friends_userid = p3.user_id
+                left join `{users_info}` as p4 on p1.friends_userid = p4.user_id
+                left join `{users_email}` as p5 on p1.friends_userid = p5.user_id
 				SQL ORDER LIMIT";
 		//是否显示全部的信息
 		if (IsExiest($data['limit'])!=false){

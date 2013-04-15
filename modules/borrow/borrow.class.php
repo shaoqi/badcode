@@ -403,7 +403,7 @@ class borrowClass  {
 				$_order = " order by p1.`status` asc,p1.addtime desc";
 			}			
 		}else{
-            $_order = ' order by p1.`borrow_type` asc,p1.addtime desc';
+            $_order = ' order by p1.`order` desc,p1.`borrow_type` asc,p1.`borrow_account_scale` asc,p1.addtime desc';
         }
 		
 		$flag_sql = "select p1.*,p2.fileurl from `{borrow_flag}` as p1 left join `{users_upfiles}` as p2 on p1.upfiles_id=p2.id ";

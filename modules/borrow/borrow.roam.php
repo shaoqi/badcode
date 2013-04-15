@@ -146,9 +146,10 @@ class borrowRoamClass
 		if (IsExiest($data['borrow_nid'])!=""){
 			$_sql .= " and  p1.borrow_nid = '{$data['borrow_nid']}' ";
 		}
-		$sql = "select  p1.*,p2.name as borrow_name,p2.borrow_period,p2.borrow_type,p2.borrow_apr,p2.borrow_style,p2.account,p2.borrow_contents,p3.username  from `{borrow_roam}` as p1 
+		$sql = "select  p1.*,p2.name as borrow_name,p2.borrow_period,p2.borrow_type,p2.borrow_apr,p2.borrow_style,p2.account,p2.borrow_contents,p3.username,p4.name as style_name,p4.title as style_title  from `{borrow_roam}` as p1 
 				 left join {borrow} as p2 on p1.borrow_nid=p2.borrow_nid
 				 left join {users} as p3 on p1.user_id=p3.user_id
+                 left join {borrow_style} as p4 on p2.borrow_style=p4.nid
 				  $_sql
 				";
 		$result = $mysql->db_fetch_array($sql);
@@ -199,18 +200,14 @@ class borrowRoamClass
 		$equal_result = borrowCalculateClass::GetType($_equal);
          $sql = "select count(1) as num from `{borrow_repay}` where borrow_nid='{$data["borrow_nid"]}' ";
         $_result = $mysql->db_fetch_array($sql);
-        if ($_result == false){
-            $repay_period = 1;
-        }else{
-            $repay_period = $_result['num']+1;
-        }
+        $repay_period = empty($_result)?0:$_result['num'];
         
         //添加投资人的收款信息
         foreach ($equal_result as $period_key => $value){
-            $period_key= $period_key+1;
+            $repay_period = $repay_period+1;
 			$repay_month_account = $value['account_all'];
 			//防止重复添加还款信息
-			$sql = "select 1 from `{borrow_recover}` where user_id='{$data['user_id']}' and borrow_nid='{$data["borrow_nid"]}' and recover_period='{$period_key}' and tender_id='{$tender_id}'";
+			$sql = "select 1 from `{borrow_recover}` where user_id='{$data['user_id']}' and borrow_nid='{$data["borrow_nid"]}' and recover_period='{$repay_period}' and tender_id='{$tender_id}'";
 			$result = $mysql->db_fetch_array($sql);
 			if ($result==false){
 				$sql = "insert into `{borrow_recover}` set `addtime` = '".time()."',";
@@ -220,19 +217,13 @@ class borrowRoamClass
 				$mysql ->db_query($sql);
 			}else{
 				$sql = "update `{borrow_recover}` set `addtime` = '".time()."',";
-				$sql .= "`addip` = '".ip_address()."',user_id='{$data['user_id']}}',status=1,`borrow_nid`='{$data["borrow_nid"]}',`borrow_userid`='{$roam_result["user_id"]}',`tender_id`='{$tender_id}',`recover_period`='{$period_key}',";
+				$sql .= "`addip` = '".ip_address()."',user_id='{$data['user_id']}}',status=1,`borrow_nid`='{$data["borrow_nid"]}',`borrow_userid`='{$roam_result["user_id"]}',`tender_id`='{$tender_id}',`recover_period`='{$repay_period}',";
 				$sql .= "`recover_time`='{$value['repay_time']}',`recover_account`='{$value['account_all']}',";
 				$sql .= "`recover_interest`='{$value['account_interest']}',`recover_capital`='{$value['account_capital']}'";
 				$sql .= " where user_id='{$data['user_id']}}' and recover_period='{$repay_period}' and borrow_nid='{$data["borrow_nid"]}' and tender_id='{$tender_id}'";
 				$mysql ->db_query($sql);
 			}
-		}
-      
-        //添加借款人的收款信息
-		foreach ($equal_result as $key => $value){
-		     $key = $key+1;
-			//防止重复添加还款信息
-			$sql = "select 1 from `{borrow_repay}` where user_id='{$roam_result["user_id"]}' and repay_period='{$repay_period}' and borrow_nid='{$data["borrow_nid"]}'";
+            $sql = "select 1 from `{borrow_repay}` where user_id='{$roam_result["user_id"]}' and repay_period='{$repay_period}' and borrow_nid='{$data["borrow_nid"]}'";
 			$result = $mysql->db_fetch_array($sql);
 			if ($result==false){
 				$sql = "insert into `{borrow_repay}` set `addtime` = '".time()."',";
@@ -247,9 +238,8 @@ class borrowRoamClass
 				$sql .= "`repay_interest`='{$value['account_interest']}',`repay_capital`='{$value['account_capital']}'";
 				$sql .= " where user_id='{$roam_result["user_id"]}' and repay_period='{$repay_period}' and borrow_nid='{$data["borrow_nid"]}'";
 				$mysql ->db_query($sql);
-			}          
+			}
 		}
-        
         //扣除投资人的还款金额
 		$log_info["user_id"] = $data["user_id"];//操作用户id
 		$log_info["nid"] = "tender_roam_".$data["borrow_nid"]."_".$data["user_id"]."_".$tender_id;//订单号
