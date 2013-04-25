@@ -17,7 +17,8 @@ class ipsPayment {
 		$Currency_Type = "RMB";
 		$Mer_key = $payment['PrivateKey'];
 		$Amount = number_format($payment['money'], 2, '.', '');
-		$SignMD5 = md5($payment['trade_no']. $Amount . $Date . $Currency_Type . $Mer_key);
+        $Signvar='billno'.$payment['trade_no'].'currencytype'.$Currency_Type.'amount'.$Amount.'date'.$Date.'orderencodetype5'.$Mer_key;
+		$SignMD5 = md5($Signvar);
 		$url = $submitUrl;
 		$url .= "Mer_code={$payment['member_id']}&";//用户号
 		$url .= "Billno={$payment['trade_no']}&";//私钥
@@ -30,12 +31,15 @@ class ipsPayment {
 		$url .= "FailUrl=&";//失败地址
 		$url .= "ErrorUrl=&";//错误地址
 		$url .= "DispAmount={$Amount}&";//金额
-		$url .= "OrderEncodeType=2&";//金额
-		$url .= "RetEncodeType=12&";//
+		$url .= "OrderEncodeType=5&";//金额
+		$url .= "RetEncodeType=17&";//
 		$url .= "Rettype=1&";//
-		$url .= "SignMD5={$SignMD5}";//
-		//$url .= "Mer_code=000015&Billno=20101202034558653693&Amount=0.10&Date=20101202&Currency_Type=RMB&Gateway_Type=01&Lang=GB&Merchanturl=http%3A%2F%2Frz.com%2Fdemo%2FOrderReturn.php&FailUrl=&ErrorUrl=&Attach=&DispAmount=0.10&OrderEncodeType=2&RetEncodeType=12&Rettype=1&ServerUrl=&SignMD5=381dbff2840de7aa914ac251191fb6aa";
-        return $url;
+        $url .= 'ServerUrl='.$payment['notify_url'];
+		$url .= "&SignMD5={$SignMD5}";//
+        $url .= "&DoCredit=1";// 银行直连
+        $url .= "&Bankco={$payment['bankCode']}";//银行代码
+        error_log('$url=>'.$url.' $signStr=>'.$Signvar.' $SignMD5=>'.$SignMD5."\n", 3, "/var/www/rongerong/data/log/ips/my-ips-errors-".date('Y-m-d').".log");
+        return array("url"=>$url,"sign"=>$Signvar);
 		
     }
 
@@ -142,4 +146,3 @@ class ipsPayment {
             );
     }
 }
-?>

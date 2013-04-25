@@ -166,8 +166,6 @@ class accountpaymentClass {
 	function ToSubmit($data = array()){
 		global $mysql,$_G;
 		$payment = isset($data['payment'])?$data['payment']:"";
-		$data['notify_url'] = $_G['web_domain']."/modules/account/notify.php";//通知地址
-		$data['return_url'] = $_G['web_domain']."/modules/account/return.php";//回调地址
 		$data['webname'] = $_G['system']['con_webname'];//回调地址
 		$data['subject'] = isset($data['subject'])?$data['subject']:"";
 		$data['body'] = isset($data['body'])?$data['body']:"";
@@ -177,6 +175,8 @@ class accountpaymentClass {
 		if ($result==false) return "";
 		if($result['config']!=""){
 			$data = unserialize($result['config'])+$data;
+            $data['notify_url'] = $_G['web_domain']."/modules/account/notify.php?ryrpyment=".$result['nid'];//通知地址
+		    $data['return_url'] = $_G['web_domain']."/modules/account/return.php?ryrpyment=".$result['nid'];//回调地址
 			include_once(ROOT_PATH."modules/account/paytype/{$result['nid']}.class.php");
 			$classname = $result['nid']."Payment";
 			

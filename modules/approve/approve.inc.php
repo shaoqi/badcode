@@ -214,7 +214,7 @@ elseif ($_U['query_type']=="phone"){
 				$data['user_id'] = $_G['user_id'];
 				$data['type'] = "smscode";
 				$data['code'] = rand(100000,999999);
-				$data['contents'] = "尊敬的用户您好：本次手机验证码为".$data['code']."。该验证码3分钟后失效。感谢您关注深圳市融易融金融信息服务有限公司，如需帮助，请拨打电话4000-852-600。公司网址：www.rongerong.com";
+				$data['contents'] = "尊敬的融易融用户您好：您本次手机验证码为".$data['code']."，该验证码3分钟后失效，祝您投资愉快。如有疑问请拨打电话4000852600进行咨询。";
 				$data['contents'] = iconv("GBK","UTF-8",$data['contents']);
 				$result = approveClass::SendSMS($data);
 				$_SESSION['smscode_time'] = time();
@@ -259,7 +259,7 @@ elseif ($_U['query_type'] == "email"){
 		$data['email'] = $_POST['email'];
 		$result = usersClass::CheckEmail($data);
 
-		if ($result==false){
+		if ($result==true){
 			$result = usersClass::UpdateEmail($data);
 			if ($result == false){
 				$msg = array($result);	
@@ -276,7 +276,6 @@ elseif ($_U['query_type'] == "email"){
 				if (isset($_SESSION['sendemail_time']) && $_SESSION['sendemail_time']+60*2>time()){
 					$msg = array("请2分钟后再次请求。","",$url);
 				}else{
-
 					$result = usersClass::SendEmail($data);
 					if ($result==true) {
 						$_SESSION['sendemail_time'] = time();
@@ -308,7 +307,7 @@ elseif ($_U['query_type'] == "email"){
 			exit;
 		}else{
 			$result = usersClass::CheckEmail($data);
-			if($result==true){
+			if($result==false){
 				echo 1;exit;
 			}else{
 				$pattern= "/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/";

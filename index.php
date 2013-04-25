@@ -380,9 +380,5 @@ else{
 		$magic->assign("_G",$_G);
 		$magic->display($template);
 		
-		exit;
-		
-		
-		
-		
+		exit;		
 }

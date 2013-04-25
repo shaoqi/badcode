@@ -12,14 +12,17 @@ class gopayPayment  {
     var $orderby = 3;
  
     public static function ToSubmit($data){
-    	$submitUrl = 'https://www.gopay.com.cn/PGServer/Trans/WebClientAction.do?'; //    
-		$backgroundMerUrl = "http://www.rongerong.com/modules/account/return.php"; 
+    	$submitUrl = 'https://www.gopay.com.cn/PGServer/Trans/WebClientAction.do?';
+        //$submitUrl = 'https://mertest.gopay.com.cn/PGServer/Trans/WebClientAction.do?';
+		$backgroundMerUrl = $data['return_url']; 
 		$frontMerUrl = "";  
 		$gopayServerTime= trim(HttpClient::getGopayServerTime());
 		$ServerTime=str_ireplace(" ","",$gopayServerTime);
 		$tranCode = 8888;
 		$merchantID = $data["merchantID"];
+        //$merchantID = '0000003358';
 		$VerficationCode = $data["VerficationCode"];
+        //$VerficationCode = '12345678';
 		$merOrderNum = $data["trade_no"];
 		$tranAmt = $data["money"];
 		$feeAmt = 0;
@@ -28,6 +31,7 @@ class gopayPayment  {
 		$tranDateTime =  trim(date("YmdHis",time()));
 		$virCardNoIn = $data["virCardNoIn"];
 		$tranIP = ip_address();
+        $tranIP = trim($tranIP);
 		$msgExt = '';
 		$bankCode = $data["bankCode"];
 		$userType = 1;
@@ -52,6 +56,8 @@ class gopayPayment  {
         $signStr="version=[2.1]tranCode=[$tranCode]merchantID=[$merchantID]merOrderNum=[$merOrderNum]tranAmt=[$tranAmt]feeAmt=[$feeAmt]tranDateTime=[$tranDateTime]frontMerUrl=[$frontMerUrl]backgroundMerUrl=[$backgroundMerUrl]orderId=[]gopayOutOrderId=[]tranIP=[$tranIP]respCode=[]gopayServerTime=[$gopayServerTime]VerficationCode=[$VerficationCode]";
 		$signValue = md5($signStr);
 		$url .= "signValue=$signValue";//商户url
+        // 支付跟踪日志
+        error_log('$url=>'.$url.' $signStr=>'.$signStr.' $signValue=>'.$signValue."\n", 3, "/var/www/rongerong/data/log/gopay/my-gopay-errors-".date('Y-m-d').".log");
 		return array("url"=>$url,"sign"=>$signStr);
     }
 

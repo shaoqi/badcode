@@ -14,6 +14,7 @@ require_once("borrow.loan.php");
 require_once("borrow.fee.php");
 require_once("borrow.model.php");
 require_once("borrow.calculates.php");
+require_once(ROOT_PATH."/modules/approve/approve.class.php");
 
 class borrowRepayClass
 {
@@ -409,6 +410,21 @@ class borrowRepayClass
 		$remind['title'] = "用户【".$borrow_username."】对您所投资的借款标[{$borrow_name}]已经成功还款。";
 		$remind['content'] = "用户【".$borrow_username."】在".date("Y-m-d",time())."对您所投资的借款标[{$borrow_url}]已经成功还款,还款金额￥".$recover_result['recover_account'];
         remindClass::sendRemind($remind);
+
+
+        // 给投资人发送手机短信
+        $sql = 'select `phone` from `{users_info}` where `user_id`='.$recove_userid.' and `phone_status`=1 and `phone`!=\'\'';
+        $phone = $mysql->db_fetch_array($sql);
+        if(!empty($phone)){
+            $phone_data = [];
+            $phone_data['status'] = 1;
+            $phone_data['user_id'] = $recove_userid;
+            $phone_data['type'] = "recover_success";
+            $phone_data['phone'] = $phone['phone'];
+            $phone_data['contents'] = "尊敬的融易融用户，您投资的借款标[{$borrow_name}]￥".$recover_result['recover_account']."成功回款。为了提高资金的使用率，您可提现或续投平台的新标。感谢您对融易融的支持。";
+            $phone_data['contents'] = iconv("GBK","UTF-8",$phone_data['contents']);
+            $result = approveClass::SendSMS($phone_data);
+        }
         
         $sql = "update  `{borrow_recover}` set recover_type='yes',recover_fee='{$recover_fee}',recover_yestime='".time()."',recover_account_yes = recover_account ,recover_capital_yes = recover_capital ,recover_interest_yes = recover_interest,status=1,recover_status=1 where id = '{$recover_result['id']}'";
 		$mysql->db_query($sql);

@@ -31,100 +31,78 @@
 					{foreach from=$_U.account_payment_list item="var"}
 					{if $var.nid!="offline"}
 					
-					<input type="radio" name="payment1"  class="input_border" checked="checked" value="{$var.id}"  onclick="change_type1('{$var.nid}')" id="payment" alt="{$var.nid}"   tabindex="3"/> {$var.name} <input type="hidden" name="payname{$var.id}" value="{$var.name}" /><input type="hidden" id="paymentnid{$var.id}" value="{$var.nid}" /><br />
+					<input type="radio" name="payment_type"  class="input_border" {if $var.id=="14"}checked="checked"{/if} value="{$var.id}"  onclick="change_type1('{$var.nid}')" id="payment" alt="{$var.nid}"   tabindex="3"/> {$var.name} <input type="hidden" name="payname{$var.id}" value="{$var.name}" /><input type="hidden" id="paymentnid{$var.id}" value="{$var.nid}" name="paymentnid{$var.id}"/><br />
 					
 					{/if}
 					{/foreach}
-				<div id="B2C_Banks" style="width:500px;">
+				<div id="B2C_Banks" style="width:500px;display:none">
 
-					<input type="radio" name="bankCode"  class="input_border"  value="ICBC" id="bankCode"  checked="checked" /> <img src="/data/images/payment/img_bankicbc.gif" border="0" />		              <input type="radio" name="bankCode"  class="input_border"  value="ABC" id="bankCode" /> <img src="/data/images/payment/img_bankabc.gif" border="0"   />   	                    
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="ICBC"   checked="checked" /> <img src="/data/images/payment/img_bankicbc.gif" border="0" />		              <input type="radio" name="bankCode_gopay"  class="input_border"  value="ABC"  /> <img src="/data/images/payment/img_bankabc.gif" border="0"   />   	                    
 
-					<input type="radio" name="bankCode"  class="input_border"  value="BOC" id="bankCode"  /> <img src="/data/images/payment/img_bankboc.gif" border="0" /><br/>
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="BOC"   /> <img src="/data/images/payment/img_bankboc.gif" border="0" /><br/>
 
-					<input type="radio" name="bankCode"  class="input_border"  value="CCB" id="bankCode" /> <img src="/data/images/payment/img_bankccb.gif" border="0"/>
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="CCB"  /> <img src="/data/images/payment/img_bankccb.gif" border="0"/>
 
-					<input type="radio" name="bankCode"  class="input_border"  value="CMB" id="bankCode"  /> <img src="/data/images/payment/img_bankcmb.gif" border="0" />				
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="CMB"   /> <img src="/data/images/payment/img_bankcmb.gif" border="0" />				
 
-					<input type="radio" name="bankCode"  class="input_border"  value="BOCOM" id="bankCode"  /> <img src="/data/images/payment/img_bankbocom.gif" border="0" /><br/>
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="BOCOM"   /> <img src="/data/images/payment/img_bankbocom.gif" border="0" /><br/>
 
-					<input type="radio" name="bankCode"  class="input_border"  value="GDB" id="bankCode"  /> <img src="/data/images/payment/img_bankgdb.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="GDB"   /> <img src="/data/images/payment/img_bankgdb.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="CMBC" id="bankCode"  /> <img src="/data/images/payment/img_bankcmbc.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="CMBC"   /> <img src="/data/images/payment/img_bankcmbc.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="HXBC" id="bankCode"  /> <img src="/data/images/payment/img_bankhxbc.gif" border="0" /><br/>
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="HXBC"   /> <img src="/data/images/payment/img_bankhxbc.gif" border="0" /><br/>
 
-					<input type="radio" name="bankCode"  class="input_border"  value="CIB" id="bankCode"  /> <img src="/data/images/payment/img_bankcib.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="CIB"   /> <img src="/data/images/payment/img_bankcib.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="SPDB" id="bankCode"  /> <img src="/data/images/payment/img_bankspdb.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="SPDB"   /> <img src="/data/images/payment/img_bankspdb.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="CEB" id="bankCode"  /> <img src="/data/images/payment/img_bankceb.gif" border="0" /><br/>
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="CEB"   /> <img src="/data/images/payment/img_bankceb.gif" border="0" /><br/>
 
-					<input type="radio" name="bankCode"  class="input_border"  value="SDB" id="bankCode"  /> <img src="/data/images/payment/img_bankspb.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="SDB"   /> <img src="/data/images/payment/img_bankspb.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="PSBC" id="bankCode"  /> <img src="/data/images/payment/img_bankpsbc.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="PSBC"   /> <img src="/data/images/payment/img_bankpsbc.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="CITIC" id="bankCode"  /> <img src="/data/images/payment/img_bankcitic.gif" border="0" /><br/>
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="CITIC"   /> <img src="/data/images/payment/img_bankcitic.gif" border="0" /><br/>
 
-					<input type="radio" name="bankCode"  class="input_border"  value="BOBJ" id="bankCode"  /> <img src="/data/images/payment/img_bankbobj.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="BOBJ"   /> <img src="/data/images/payment/img_bankbobj.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="TCCB" id="bankCode"  /> <img src="/data/images/payment/img_banktccb.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="TCCB"   /> <img src="/data/images/payment/img_banktccb.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="BOS" id="bankCode"  /> <img src="/data/images/payment/img_bankbos.gif" border="0" /><br/>
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="BOS"   /> <img src="/data/images/payment/img_bankbos.gif" border="0" /><br/>
 
-					<input type="radio" name="bankCode"  class="input_border"  value="SRCB" id="bankCode"  /> <img src="/data/images/payment/img_banksrcb.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="SRCB"   /> <img src="/data/images/payment/img_banksrcb.gif" border="0" />
 
-					<input type="radio" name="bankCode"  class="input_border"  value="PAB" id="bankCode"  /> <img src="/data/images/payment/img_bankpab.gif" border="0" />
+					<input type="radio" name="bankCode_gopay"  class="input_border"  value="PAB"   /> <img src="/data/images/payment/img_bankpab.gif" border="0" />
 
 				</div>
-				<!--<div id="ips_Banks" style="width:500px;">
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00026" id="bankCode_ips" width="125px" height="32px"  checked="checked" /> <img src="{$tempdir}/images/ICBC.jpg" border="0"  width="125px" height="32px"/>
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00017" id="bankCode_ips" width="125px" height="32px" /> <img src="{$tempdir}/images/ABC.jpg" border="0"  width="125px" height="32px"  />
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00083" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/BOC.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00015" id="bankCode_ips" width="125px" height="32px" /> <img src="{$tempdir}/images/CCB.jpg" border="0"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00021" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CMB.jpg" border="0"  width="125px" height="32px"/>				
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00005" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/COMM.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00052" id="bankCode_ips" width="125px" height="32px" /> <img src="{$tempdir}/images/CGB.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00013" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CMBC.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00041" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/HXB.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00016" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CIB.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00032px" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/SPDB.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00054" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/ECITIC.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00051" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/PSBC.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00057" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CEB.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00056" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/BEIJING.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00050" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CBHB.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00095" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/HKBEA.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00052" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/HZ.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00013" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/NJCB.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00021" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/ZJCZ.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00094" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/CZ.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00056" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/BJRCB.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00032" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/SHANGHAI.jpg" border="0"  width="125px" height="32px"/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00084" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/SDB.jpg" border="0"  width="125px" height="32px"/><br/>
-
-					<input type="radio" name="bankCode_ips"  class="input_border"  value="00085" id="bankCode_ips" width="125px" height="32px"  /> <img src="{$tempdir}/images/PINGAN.jpg" border="0"  width="125px" height="32px"/>
-				</div>-->
+				<div id="ips_Banks" style="width:438px;">
+					<label title="北京农村商业银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00056"  checked="checked"/><img src="/data/images/payment/BJRCB.png" border="0"  width="125px" height="32px" alt="北京农村商业银行" /></label>
+                    <label title="北京银行北京银行（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00050"  /><img src="/data/images/payment/img_bankbobj.gif" border="0"  width="125px" height="32px" alt="北京银行"/></label>
+                    <label title="渤海银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00095"  /><img src="/data/images/payment/BOHAIB.png" border="0"  width="125px" height="32px" alt="渤海银行"/></label>
+                    <label title="东亚银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00096"  /><img src="/data/images/payment/HKBEA.png" border="0"  width="125px" height="32px" alt="东亚银行"/></label>
+                    <label title="光大银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00057"  /><img src="/data/images/payment/img_bankceb.gif" border="0"  width="125px" height="32px" alt="光大银行"/></label>
+                    <label title="广发银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00052"  /><img src="/data/images/payment/img_bankgdb.gif" border="0"  width="125px" height="32px" alt="广发银行"/></label>
+                    <label title="杭州银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00081"  /><img src="/data/images/payment/HZCB.png" border="0"  width="125px" height="32px" alt="杭州银行"/></label>
+                    <label title="华夏银行华夏借记卡（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00041"  /><img src="/data/images/payment/img_bankhxbc.gif" border="0"  width="125px" height="32px" alt="华夏银行"/></label>
+                    <label title="交通银行太平洋卡（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00005"  /><img src="/data/images/payment/img_bankbocom.gif" border="0"  width="125px" height="32px" alt="交通银行"/></label>
+                    <label title="民生银行民生卡（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00013"  /><img src="/data/images/payment/img_bankcmbc.gif" border="0"  width="125px" height="32px" alt="民生银行"/></label>
+                    <label title="宁波银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00085"  /><img src="/data/images/payment/NBBANK.png" border="0"  width="125px" height="32px" alt="宁波银行"/></label>
+                    <label title="平安银行平安借记卡（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00087"  /><img src="/data/images/payment/img_bankpab.gif" border="0"  width="125px" height="32px" alt="平安银行"/></label>
+                    <label title="浦东发展银行东方卡（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00032"  /><img src="/data/images/payment/img_bankspdb.gif" border="0"  width="125px" height="32px" alt="浦东发展银行"/></label>
+                    <label title="上海银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00084"  /><img src="/data/images/payment/img_bankbos.gif" border="0"  width="125px" height="32px" alt="上海银行"/></label>
+                    <label title="深圳发展银行发展卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00023"  /><img src="/data/images/payment/img_bankspb.gif" border="0"  width="125px" height="32px" alt="深圳发展银行"/></label>
+                    <label title="兴业银行在线兴业（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00016"  /><img src="/data/images/payment/img_bankcib.gif" border="0"  width="125px" height="32px" alt="兴业银行"/></label>
+                    <label title="邮政储蓄银联网上支付签约客户（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00051"  /><img src="/data/images/payment/img_bankpsbc.gif" border="0"  width="125px" height="32px" alt="邮政储蓄"/></label>
+                    <label title="招商银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00021"  /><img src="/data/images/payment/img_bankcmb.gif" border="0"  width="125px" height="32px" alt="招商银行"/></label>
+                    <label title="浙商银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00086"  /><img src="/data/images/payment/CZBANK.png" border="0"  width="125px" height="32px" alt="浙商银行"/></label>
+                    <label title="中国工商银行网上签约注册用户（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00004"  /><img src="/data/images/payment/img_bankicbc.gif" border="0"  width="125px" height="32px" alt="中国工商银行"/></label>
+                    <label title="中国工商银行工行手机支付（仅限工行手机签约客户）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00026"  /><img src="/data/images/payment/img_bankicbc.gif" border="0"  width="125px" height="32px" alt="中国工商银行"/></label>
+                    <label title="中国建设银行网上银行签约客户（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00015"  /><img src="/data/images/payment/img_bankccb.gif" border="0"  width="125px" height="32px" alt="中国建设银行"/></label>
+                    <label title="中国农业银行网上银行签约客户（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00017"  /><img src="/data/images/payment/img_bankabc.gif" border="0"  width="125px" height="32px" alt="中国农业银行"/></label>
+                    <label title="中国银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00083"  /><img src="/data/images/payment/img_bankboc.gif" border="0"  width="125px" height="32px" alt="中国银行"/></label>
+                    <label title="中信银行银行卡支付（全国范围）"><input type="radio" name="bankCode_ips"  class="input_border"  value="00054"  /><img src="/data/images/payment/img_bankcitic.gif" border="0"  width="125px" height="32px" alt="中信银行"/></label>
+				</div>
 			</div>
 		</div>
 		</div>
@@ -137,7 +115,7 @@
 						{foreach from=$_U.account_payment_list item="var" key=_key}
 						{if $var.nid=="offline"}
 						<tr>
-							<td width="10%" align="center"><input type="radio" name="payment2"  class="input_border" value="{$var.id}" {if $_key==1} checked="checked"{/if}  tabindex="3"/></td>
+							<td width="10%" align="center"><input type="radio" name="payment_bank"  class="input_border" value="{$var.id}" {if $_key==1} checked="checked"{/if}  tabindex="3"/></td>
 							<td width="30%" align="center"><img src="{$var.litpic}" width="120px" height="35px"></td>
 							<td width="60%" align="center">{$var.description}</td>
 						</tr>

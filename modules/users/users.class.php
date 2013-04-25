@@ -142,7 +142,7 @@ class usersClass  extends usersadminClass {
 				$data['user_id'] = 0;
 				$data['type'] = "smscode";
 				$data['code'] = rand(100000,999999);
-				$data['contents'] = "尊敬的用户您好：本次手机验证码为".$data['code']."。该验证码3分钟后失效。感谢您关注深圳市融易融金融信息服务有限公司，如需帮助，请拨打电话4000-852-600。公司网址：www.rongerong.com";
+				$data['contents'] = "尊敬的融易融用户您好：您本次手机验证码为".$data['code']."，该验证码3分钟后失效，祝您投资愉快。如有疑问请拨打电话4000852600进行咨询。";
 				$data['contents'] = iconv("GBK","UTF-8",$data['contents']);
 				$result = approveClass::SendSMS($data);
 				$_SESSION['smscode_time'] = time();
@@ -191,7 +191,7 @@ class usersClass  extends usersadminClass {
 		}
 		
 		//判断用户名是否存在
-		if(self::CheckUsername(array("username"=>$data['username']))) {
+		if(!self::CheckUsername(array("username"=>$data['username']))) {
 			return "users_username_exist";
 		}
 		//MD5加密，用一个密码来防止被破译 帝友傻逼式的加密方式不值得学习
@@ -299,7 +299,7 @@ class usersClass  extends usersadminClass {
 			return "users_email_empty";
 		}
 		//判断其他邮箱是否已经存在
-		if(self::CheckEmail(array("email"=>$data['email']))) {
+		if(!self::CheckEmail(array("email"=>$data['email']))) {
 			return "users_email_exist";
 		}
 		//修改邮箱

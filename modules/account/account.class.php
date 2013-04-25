@@ -1718,7 +1718,7 @@ class accountClass{
 		$trade_no = $data['trade_no'];
 		$rechage_result = self::GetRecharge(array("nid"=>$trade_no));
 		if($rechage_result['status']==0 && $rechage_result!=false){
-				$credit_log['user_id'] = $user_id;
+				$credit_log['user_id'] = $rechage_result['user_id'];
 				$credit_log['nid'] = "online_recharge";
 				$credit_log['code'] = "account";
 				$credit_log['type'] = "recharge_approve";
@@ -1736,6 +1736,8 @@ class accountClass{
 				$rec['verify_remark'] = "成功充值";
 				
 				self::VerifyRecharge($rec);
+                // 充值送vip
+                self::recharge_vip($rechage_result['user_id']);
 		}
 		return true;
 	}
@@ -1773,5 +1775,47 @@ class accountClass{
         }
         return $result;
     }
+
+    /**
+     * 充值赠送vip
+     *
+     */
+    public static function recharge_vip ($user_id){
+        global $mysql;
+        // 从充值表中查找 首次重置的用户 时间节点为2013-04-23 12:00:00
+        $sql = 'select uid from {activity_20130423} where uid='.$user_id;
+        $result = $mysql->db_fetch_array($sql);
+        if(!empty($result)){
+            return false;
+        }
+        $sql = 'select `money` from {account_recharge} where `user_id`='.$user_id.' and `status`=1 and `type`>0 and `addtime`>=1366689600 order by addtime asc limit 1';
+        $money = $mysql->db_fetch_array($sql);
+        if(empty($money) or $money['money']<1000){
+            return false;
+        }
+        $sql = 'select `status`,`years`,`first_date`,`end_date` from {users_vip} where `user_id`='.$user_id;
+        $vip = $mysql->db_fetch_array($sql);
+        $first_date = time();
+        $end_date = $first_date+31536000;
+        if (empty($vip)){
+            $sql = 'insert into {users_vip} (`user_id`,`status`,`years`,`first_date`,`end_date`) values ('.$user_id.',1,1,'.$first_date.','.$end_date.')';
+        }else{
+            if($vip['status']){
+               $first_date = $vip['first_date'];
+               $end_date = $vip['end_date']+31536000;
+            }else{
+                if(!empty($vip['end_date'])){
+                    if($vip['end_date']<$first_date){
+                        $end_date = $first_date+31536000;
+                    }else{
+                        $first_date = $vip['first_date'];
+                        $end_date = $vip['end_date']+31536000;
+                    }
+                }
+            }
+            $sql = 'update {users_vip} set `status`=1,`years`='.($vip['years']+1).',`first_date`='.$first_date.',`end_date`='.$end_date.' where `user_id`='.$user_id;
+        }
+        $mysql->db_query($sql);
+        $mysql->db_query('insert into {activity_20130423} (`uid`,`time`) values ('.$user_id.',\''.date('Y-m-d H:i:s').'\')');
+    }
 }
-?>

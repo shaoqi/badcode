@@ -13,6 +13,7 @@ error_reporting(E_ALL);
 require_once ('account.class.php');
 require_once ("account.payment.php");
 //国付宝
+error_log($_REQUEST['ryrpyment'],3, "/var/www/test/my-errors.log");
 if (isset($_POST['respCode']) && !empty($_POST['respCode']) && $_REQUEST['ryrpyment']=='gopay'){
     // 重新计算 加密的校验值
     $sql = "select `config` from `{account_payment}` where id = 13";

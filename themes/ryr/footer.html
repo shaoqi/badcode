@@ -42,5 +42,68 @@
 </div>	 
 	 </div> <div class="cle"></div>
 </div>
+{literal}
+<style>
+.nav_fixed {
+    background: url("http://static.paipaiimg.com/chong/pbcss/sprite/bg_nav_fixed.png") no-repeat scroll 0 0 transparent;
+    bottom: 10px;
+    height: 161px;
+    position: fixed;
+    right: 30px;
+    text-align: center;
+    width: 38px;
+    z-index: 500;
+}
+.nav_fixed a {
+    display: block;
+    height: 28px;
+    line-height: 29px;
+    margin-bottom: 1px;
+    overflow: hidden;
+    padding: 1px;
+    width: 36px;
+}
+.nav_fixed .we-chat-layer[style*="display"] {
+    display: block !important;
+    transform: scale(0);
+    visibility: hidden;
+}
+.nav_fixed .we-chat {
+    height: 42px;
+    line-height: 999em;
+    overflow: hidden;
+}
+.nav_fixed .fb {
+    padding-top: 24px;
+}
+.nav_fixed span {
+    color: #FF6633;
+    display: none;
+}
+.nav_fixed .fb span, .nav_fixed .fb:hover span {
+    color: #FF6633;
+    display: inline;
+}
+</style>
+<div style="" id="header_scroll_component" class="nav_fixed">
+	<a rd="32863.7.1" href="#nolink" tag="top">
+		<span>顶部</span>
+	</a>
+	<a onclick="try{$dyLoadModel(&quot;pp.chong.dyload.feedback&quot;,&quot;20130326&quot;);return false;}catch(e){}" class="fb" rd="32863.7.2" target="_blank" href="http://support.qq.com/discuss/699_1.shtml" tag="feed">
+		<span>反馈</span>
+	</a>
+	<a class="we-chat" target="_blank" href="http://chong.qq.com/mobile/wap_index.shtml?ptag=32863.7.5#wap-wx" tag="wx">微信二维码</a>
+	<a rd="32863.7.3" href="#nolink" tag="bottom">
+		<span>底部</span>
+	</a>
+	<div style="opacity: 1; display: none;" class="we-chat-layer" tag="wx_div">
+		<a target="_blank" href="http://chong.qq.com/mobile/wap_index.shtml?ptag=32863.7.5#wap-wx" class="wx-link">
+			<img width="330" height="330" alt="微信充值中心二维码" src="http://pics0.paipaiimg.com/update/20120912/index_qrcode_for_chong.png"></a>
+		<p>
+			<a target="_blank" href="http://chong.qq.com/mobile/wap_index.shtml?ptag=32863.7.5#wap-wx" class="wx-link">微信“扫一扫”，充值不用愁</a>
+		</p>
+	</div>
+</div>
+{/literal}
 </body>
 </html>

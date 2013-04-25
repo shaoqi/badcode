@@ -83,10 +83,10 @@ elseif ($_U['query_type']=="recharge_new"){
                     $_fee["account"] = $data['money'];
                      $result = accountFeeClass::GetFeeValue($_fee);
                      $data['fee'] = $result[0]['account_fee'];
-					$data['payment'] = $_POST['payment1'];
-					$data['remark'] = $_POST['payname'.$_POST['payment1']]."在线充值";
+					$data['payment'] = $_POST['payment_type'];
+					$data['remark'] = $_POST['payname'.$_POST['payment_type']]."在线充值";
 				}else{
-					$data['payment'] = $_POST['payment2'];
+					$data['payment'] = $_POST['payment_bank'];
                     $data['fee'] = 0;
 				}
 				$data['balance'] = $data['money'] - $data['fee'];
@@ -98,7 +98,8 @@ elseif ($_U['query_type']=="recharge_new"){
 					$data['recharge_id'] = $result;
 					$data['subject'] = "账号充值";
 					$data['trade_no'] =$data['nid'];
-					$data['bankCode'] = $_POST['bankCode'];
+                    $paymentnid = $_POST['paymentnid'.$_POST['payment_type']];
+					$data['bankCode'] = $_POST['bankCode_'.$paymentnid];
 					//$data['subject'] = $_G['system']['con_webname']."账号充值";
 					$data['body'] = "账号充值";
 					$url = accountpaymentClass::ToSubmit($data);

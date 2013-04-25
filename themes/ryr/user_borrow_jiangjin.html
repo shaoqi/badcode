@@ -10,10 +10,11 @@
 				<tr class="ytit1" >
 
 
-					<td  >邀请的好友</td>
-
-
-					<td  >注册时间 </td>
+					<td>邀请的好友</td>
+                    <td>邮箱认证状态</td>
+                    <td>手机认证</td>
+                    <td>身份认证</td>
+					<td>注册时间 </td>
 
 				</tr>
 
@@ -28,18 +29,17 @@
 
 
 					<td>{$item.friends_username}</td>
-
-
+                    <td>{if $item.email_status==1}通过{elseif $item.email_status==2}不通过{else}待审核{/if}</td>
+                    <td>{if $item.phone_status==1}通过{elseif $item.phone_status==2}不通过{else}待审核{/if}</td>
+                    <td>{if $item.realname_status==1}通过{elseif $item.realname_status==2}不通过{else}待审核{/if}</td>
 					<td>{$item.friend_reg_time|date_format:"Y-m-d H:i:s"}</td>
-
-					
 				</tr>
 
 
 				{/foreach}
 				<tr >
 
-					<td colspan="3" align="center">{$loop.pages|showpage}</td>
+					<td colspan="5" align="center">{$loop.pages|showpage}</td>
 
 
 				</tr>

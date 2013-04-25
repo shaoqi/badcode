@@ -22,16 +22,7 @@
 		<span class="user_info_item_left">身份证：</span> <span>
 		{$_U.realname_result.card_id}
 		</span>
-		</div>		
-		<div class="user_info_item">
-		<span class="user_info_item_left">身份证正面图片：</span> <span>
-		{if $_U.realname_result.card_pic1!=""}<a href="./{ $_U.realname_result.card_pic1_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}&nbsp;
-		</span>
-		</div>	
-		
-		<div class="user_info_item">
-		<span class="user_info_item_left">身份证背面图片：</span> <span>
-		{if $_U.realname_result.card_pic2!=""}<a href="./{ $_U.realname_result.card_pic2_url}" target="_blank" title="有图片" style="color:blue">点击查看</a>{/if}&nbsp;
+		</div>
 		</span>
 		</div>	
 {else}
@@ -48,8 +39,13 @@
 
 </div>
 {if $_U.realname_result.status==2}
-<div class="user_main_title1" style="margin-top:10px;">
-审核备注：{$_U.realname_result.verify_remark}（{$_U.realname_result.verify_time|date_format}）
+<div class="user_main_title1 user_right_foot" style="margin-top:10px;">
+<strong style=" color:#FF0000">审核备注：{$_U.realname_result.verify_remark}（{$_U.realname_result.verify_time|date_format}）</strong>
+</div>
+{/if}
+{if $_U.realname_result.status==0 && $_U.realname_result.card_pic1==$_U.realname_result.card_pic2 && $_U.realname_result.card_pic1!=''}
+<div class="user_main_title1 user_right_foot" style="margin-top:10px;">
+<strong style=" color:#FF0000">你的实名验证资料已经上传，请耐心等待工作的人员的审核</strong>
 </div>
 {/if}
 		<form action="" method="post" onsubmit="return formcheck();" enctype="multipart/form-data" name="formx" id="formx" >

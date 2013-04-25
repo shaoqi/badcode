@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: borrow.remind.php
  * $Description: ½è¿îÌáÐÑ

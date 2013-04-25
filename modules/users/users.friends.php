@@ -113,7 +113,7 @@ class usersfriendsClass   {
 		
 		//判断用户id
 		if (IsExiest($data['user_id']) != false){
-			$_sql .= " and p1.`user_id`  = '{$data['user_id']}' and p5.status=1 and p4.realname_status=1 and p4.phone_status=1";
+			$_sql .= " and p1.`user_id`  = '{$data['user_id']}'";
 		}
 		
 		if (IsExiest($data['friends_userid']) != false){
@@ -127,14 +127,20 @@ class usersfriendsClass   {
 		if (IsExiest($data['type']) != false){
 			$_sql .= " and p1.`type`  = '{$data['type']}'";
 		}
-		
-		$_select = "p1.*,p2.username,p3.username as friends_username,p3.reg_time as friend_reg_time";
-		$sql = "select SELECT from `{users_friends_invite}` as p1
+        $_select = "p1.*,p2.username,p3.username as friends_username,p3.reg_time as friend_reg_time";
+        $sql = "select SELECT from `{users_friends_invite}` as p1
 				left join `{users}` as p2 on p1.user_id = p2.user_id
 				left join `{users}` as p3 on p1.friends_userid = p3.user_id
-                left join `{users_info}` as p4 on p1.friends_userid = p4.user_id
-                left join `{users_email}` as p5 on p1.friends_userid = p5.user_id
 				SQL ORDER LIMIT";
+		if (IsExiest($data['user_id']) != false){
+            $_select = "p3.username as friends_username,p3.reg_time as friend_reg_time,p5.status as email_status,p4.realname_status,p4.phone_status";
+            $sql = "select SELECT from `{users_friends_invite}` as p1
+				    left join `{users}` as p3 on p1.friends_userid = p3.user_id
+                    left join `{users_info}` as p4 on p1.friends_userid = p4.user_id
+                    left join `{users_email}` as p5 on p1.friends_userid = p5.user_id
+				    SQL ORDER LIMIT";
+		}
+		
 		//是否显示全部的信息
 		if (IsExiest($data['limit'])!=false){
 			if ($data['limit'] != "all"){ $_limit = "  limit ".$data['limit']; }
