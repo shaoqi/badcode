@@ -187,6 +187,8 @@ class showpageClass {
 	        $_suri = explode("?",$_SERVER['REQUEST_URI']);
                 $suri = "";
                 if ($_suri[1]!=""){
+                    $suri = "&".$_suri[1];
+                }else{
                     $suri = "?".$_suri[1];
                 }
                
@@ -270,7 +272,7 @@ class showpageClass {
 		} elseif ($this->ajax_action_name=="dy"){
 			//$_scr = explode("/",$_SERVER['SCRIPT_URL']); 
 			$_scr = explode("/",$_SERVER['REQUEST_URI']); 
-			$this->url = "/".$_scr[1]."/index"; 
+			$this->url = "/".$_scr[1]."/index";
 		}else {
 			//自动获取
 			if(empty($_SERVER['QUERY_STRING'])) {
@@ -282,6 +284,7 @@ class showpageClass {
 				} else {
 					$this->url = $_SERVER['REQUEST_URI']."?".$this->page_name."=";
 				}
+                
 			} else {
 				if(stristr($_SERVER['QUERY_STRING'],$this->page_name.'=')) {
 				//地址存在页面参数
@@ -293,11 +296,11 @@ class showpageClass {
 						$this->url .= '&'.$this->page_name."=";
 					}
 				} else {
-					$this->url = $_SERVER['REQUEST_URI'].'&'.$this->page_name.'=';
-				}//end if    
+					$this->url = $_SERVER['REQUEST_URI'].((stristr($url,'?'))?'&':'?').$this->page_name.'=';
+				}//end if 
 			}//end if
 		}//end if
-		
+	
 	}
 
 	/**
@@ -347,6 +350,8 @@ class showpageClass {
 			    $_suri = explode("?",$_SERVER['REQUEST_URI']);
                 $suri = "";
                 if ($_suri[1]!=""){
+                    $suri = "&".$_suri[1];
+                }else{
                     $suri = "?".$_suri[1];
                 }
 				return '<a '.$style.' href="'.$url.'.html'.$suri.'">'.$text.'</a>';
