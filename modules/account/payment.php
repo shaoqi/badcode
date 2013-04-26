@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: payment.class.php
  * $Description: Ö§¸¶¹ÜÀí

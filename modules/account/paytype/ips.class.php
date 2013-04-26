@@ -36,8 +36,10 @@ class ipsPayment {
 		$url .= "Rettype=1&";//
         $url .= 'ServerUrl='.$payment['notify_url'];
 		$url .= "&SignMD5={$SignMD5}";//
-        $url .= "&DoCredit=1";// 银行直连
-        $url .= "&Bankco={$payment['bankCode']}";//银行代码
+        if(!empty($payment['bankCode'])){
+            $url .= "&DoCredit=1";// 银行直连
+            $url .= "&Bankco={$payment['bankCode']}";//银行代码
+        }
         error_log('$url=>'.$url.' $signStr=>'.$Signvar.' $SignMD5=>'.$SignMD5."\n", 3, "/var/www/rongerong/data/log/ips/my-ips-errors-".date('Y-m-d').".log");
         return array("url"=>$url,"sign"=>$Signvar);
 		

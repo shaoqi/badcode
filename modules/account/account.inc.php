@@ -77,7 +77,9 @@ elseif ($_U['query_type']=="recharge_new"){
 				$url = "";
                
 				if ($_POST['type']==1){
-				     require_once("account.fee.php");
+                    $pyment['ips'] = ['00056','00050','00095','00096','00057','00052','00081','00041','00005','00013','00085','00087','00032','00084','00023','00016','00051','00021','00086','00004','00026','00015','00017','00083','00054','0'];
+                    $pyment['gopay'] = ['ICBC','ABC','BOC','CCB','CMB','BOCOM','GDB','CMBC','HXBC','CIB','SPDB','CEB','SDB','PSBC','CITIC','BOBJ','TCCB','BOS','SRCB','PAB'];
+				    require_once("account.fee.php");
                     $_fee["vip_status"] = $_G["user_result"]["vip_status"];
                     $_fee["type"] = "recharge_success";
                     $_fee["account"] = $data['money'];
@@ -85,34 +87,38 @@ elseif ($_U['query_type']=="recharge_new"){
                      $data['fee'] = $result[0]['account_fee'];
 					$data['payment'] = $_POST['payment_type'];
 					$data['remark'] = $_POST['payname'.$_POST['payment_type']]."在线充值";
+                    $paymentnid = $_POST['paymentnid'.$_POST['payment_type']];
+					$bankCode = $_POST['bankCode_'.$paymentnid];
+                    if(!in_array($bankCode,$pyment[$paymentnid])){
+                        $msg = array("银行代号不存在","",$_U['query_url']."/".$_U['query_type']);
+                    }
 				}else{
 					$data['payment'] = $_POST['payment_bank'];
                     $data['fee'] = 0;
 				}
-				$data['balance'] = $data['money'] - $data['fee'];
+                if(empty($msg)){
+                    $data['balance'] = $data['money'] - $data['fee'];
 
-				$data['nid'] = time().rand(1000,9999).$_G['user_id'];
-				$result = accountClass::AddRecharge($data);
-		  	    $url = "";
-				if ($_POST['type']==1){
-					$data['recharge_id'] = $result;
-					$data['subject'] = "账号充值";
-					$data['trade_no'] =$data['nid'];
-                    $paymentnid = $_POST['paymentnid'.$_POST['payment_type']];
-					$data['bankCode'] = $_POST['bankCode_'.$paymentnid];
-					//$data['subject'] = $_G['system']['con_webname']."账号充值";
-					$data['body'] = "账号充值";
-					$url = accountpaymentClass::ToSubmit($data);
+                    $data['nid'] = time().rand(1000,9999).$_G['user_id'];
+                    $result = accountClass::AddRecharge($data);
+                    $url = "";
+                    if ($_POST['type']==1){
+                        $data['recharge_id'] = $result;
+                        $data['subject'] = "账号充值";
+                        $data['trade_no'] =$data['nid'];
+                        $data['bankCode'] = $bankCode;
+                        //$data['subject'] = $_G['system']['con_webname']."账号充值";
+                        $data['body'] = "账号充值";
+                        $url = accountpaymentClass::ToSubmit($data);
+                    }
+                    if ($url!=""){
+                        header("Location: {$url}");
+                        exit;
+                        $msg = array("网站正在转向支付网站<br>如果没反应，请点击下面的支付网站接口","支付网站",$url);
+                    }else{
+                        $msg = array("你已经成功提交了充值，请等待管理员的审核。","",$_U['query_url']."/".$_U['query_type']);
+                    }
 				}
-				if ($url!=""){
-					header("Location: {$url}");
-					exit;
-					$msg = array("网站正在转向支付网站<br>如果没反应，请点击下面的支付网站接口","支付网站",$url);
-				}else{
-					$msg = array("你已经成功提交了充值，请等待管理员的审核。","",$_U['query_url']."/".$_U['query_type']);
-				}
-				
-				
 			}else{
 				$msg = array("金额填写有误","",$_U['query_url']."/".$_U['query_type']);
 			
@@ -121,7 +127,6 @@ elseif ($_U['query_type']=="recharge_new"){
 	}else{
 		$_U['account_payment_list'] = accountpaymentClass::GetList(array("status"=>1));
 	}
-	
 }
 
 

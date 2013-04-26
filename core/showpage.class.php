@@ -187,8 +187,6 @@ class showpageClass {
 	        $_suri = explode("?",$_SERVER['REQUEST_URI']);
                 $suri = "";
                 if ($_suri[1]!=""){
-                    $suri = "&".$_suri[1];
-                }else{
                     $suri = "?".$_suri[1];
                 }
                
@@ -350,8 +348,6 @@ class showpageClass {
 			    $_suri = explode("?",$_SERVER['REQUEST_URI']);
                 $suri = "";
                 if ($_suri[1]!=""){
-                    $suri = "&".$_suri[1];
-                }else{
                     $suri = "?".$_suri[1];
                 }
 				return '<a '.$style.' href="'.$url.'.html'.$suri.'">'.$text.'</a>';

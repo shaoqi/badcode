@@ -194,7 +194,7 @@ class borrowClass  {
                 $_sql .= " and p1.status=3 ";
             } //正在招标的借款
             elseif ($status_nid=="invest" ){
-                $_sql .= " and ((p1.status=1 and p1.borrow_end_time> ".time().") or p1.status=3)";
+                $_sql .= " and p1.borrow_status=1 and ((p1.status=1 and p1.borrow_end_time> ".time().") or p1.status=3)";
                 //$data['order'] = "all";
             }
 		}
