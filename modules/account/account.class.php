@@ -72,11 +72,10 @@ class accountClass{
 			}
 		}
 		//总可用余额 总冻结金额
-		$totals = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL','ORDER', 'LIMIT'), array($_select,$_sql,$_order, ""), $sql));
-		foreach($totals as $key => $value){
-			$total_balance +=$value['balance'];
-			$total_frost += $value['frost'];
-		}
+		$row = $mysql->db_fetch_array(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array('sum(`balance`) as num', $_sql,'', ''), $sql));
+        $total_balance = $row['balance'];
+        $row = $mysql->db_fetch_array(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array('sum(`frost`) as num', $_sql,'', ''), $sql));
+        $total_frost = $row['frost'];
 		//返回最终的结果
 		$result = array('list' => $list?$list:array(),'total' => $total,'page' => $data['page'],'epage' => $data['epage'],'total_page' => $total_page,'total_balance' => $total_balance,'total_frost' => $total_frost);
 		
@@ -142,12 +141,11 @@ class accountClass{
 		$_limit = " limit ".($data['epage'] * ($data['page'] - 1)).", {$data['epage']}";
 		$list = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL','ORDER', 'LIMIT'), array($_select,$_sql,$_order, $_limit), $sql));
 		
-		$total_log = $mysql->db_fetch_arrays(str_replace(array('SELECT', 'SQL','ORDER', 'LIMIT'), array($_select,$_sql,$_order, ""), $sql));
-		
-		foreach($total_log as $key=>$value){
-			$total_income += $value['income_new']; 
-			$total_expend += $value['expend_new']; 
-		}
+        $row = $mysql->db_fetch_array(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array('sum(`income_new`) as num', $_sql,'', ''), $sql));
+        $total_income = $row['num'];
+        $row = $mysql->db_fetch_array(str_replace(array('SELECT', 'SQL', 'ORDER', 'LIMIT'), array('sum(`expend_new`) as num', $_sql,'', ''), $sql));
+        $total_expend = $row['num'];
+
 		$total_num = $total_income-$total_expend;
 		
 		//返回最终的结果
