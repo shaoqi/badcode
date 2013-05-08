@@ -1374,7 +1374,7 @@ class accountClass{
 		//ÅĞ¶ÏÊÇ·ñÒÑ¾­ÉóºË
 		if ($result['status']!=0) return "account_cash_yes_verify";
 	
-		$sql = "update `{account_cash}` set status='{$data['status']}',verify_time='".time()."',verify_userid='".$data['verify_userid']."',verify_remark='".$data['verify_remark']."',credited='".($result['total']-$result['fee']-$data['credit_card_cash_fee'])."',fee='".($result['fee']+$data['credit_card_cash_fee'])."' where id = '{$data['id']}'";
+		$sql = "update `{account_cash}` set status='".$data['status']."',verify_time='".time()."',verify_userid='".$data['verify_userid']."',verify_remark='".$data['verify_remark']."',credited='".($result['total']-$result['fee']-$data['credit_card_cash_fee'])."',fee='".($result['fee']+$data['credit_card_cash_fee'])."' where id = '{$data['id']}'";
        $mysql->db_query($sql);
 		
 		$user_id = $result['user_id'];

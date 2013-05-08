@@ -359,9 +359,36 @@ elseif ($_A['query_type'] == "cash"){
 		}
 	}
 }
-
-
-
+/**
+ * 批量提现处理
+ */
+elseif ($_A['query_type']=='batch_cash'){
+         $data = post_var(['status','verify_remark']);
+         $data['verify_userid'] = $_G['user_id'];
+		 $data['verify_time'] = time();
+         $ids = $_POST['ids'];
+         if(empty($ids)){
+            exit('no');
+         }
+         $ids = explode(',',$ids);
+         foreach($ids as $value){
+            if(!empty($value)){
+                $data['id'] = $value;
+                accountClass::VerifyCash($data);
+            }
+         }
+         //加入管理员操作记录
+				$admin_log["user_id"] = $_G['user_id'];
+				$admin_log["code"] = "account";
+				$admin_log["type"] = "batch_cash";
+				$admin_log["operating"] = "verify";
+				$admin_log["article_id"] = $result>0?$result:0;
+				$admin_log["result"] = $result>0?1:0;
+				$admin_log["content"] =  $msg[0];
+				$admin_log["data"] =  $data;
+				usersClass::AddAdminLog($admin_log);
+                exit('ok');
+}
 /**
  * 扣除费用
 **/

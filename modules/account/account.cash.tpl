@@ -46,7 +46,7 @@
 		{ /foreach}
 		<tr>
 		<td colspan="14" class="action">
-        <input type="button" name="action" value="批量通过审核" onclick="pichuli()">
+        <input type="button" name="action" value="批量审核" onclick="pichuli()">
 		<div class="floatl">
 			<div style="float:left; margin-left:0px; width:490px;">
 				提现总金额:{$loop.all|default:0}元&nbsp;&nbsp;提现总手续费:{$loop.fee_all|default:0}元
@@ -74,25 +74,23 @@
 	<div class="module_border" >
 		<div class="l">审核备注:</div>
 		<div class="c">
-			<textarea name="verify_remark" cols="45" rows="5"></textarea>
+			<textarea name="verify_remark" cols="45" rows="5" id="verify_remark"></textarea>
 		</div>
 	</div>
 <div class="module_border" >
 		<div class="l">验证码：</div>
 		<div class="c">
-			<input name="valicode" type="text" size="11" maxlength="4"  onClick="$('#valicode').attr('src','/?plugins&q=imgcode&t=' + Math.random())"/>
+			<input name="valicode" type="text" size="11" maxlength="4"  onClick="$('#valicode').attr('src','/?plugins&q=imgcode&t=' + Math.random())" id="valicoder"/>
 			<img id="valicode" alt="点击刷新" onClick="this.src='/?plugins&q=imgcode&t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
 		</div>
 	</div>
 	<div class="module_submit" >
-		<input type="submit"  name="reset" value="审核提现信息"/>
+		<input type="button"  name="reset" value="审核提现信息" onclick="dopichuli()"/>
 	</div>
     </div>
 {literal}
 <script>
 function pichuli(){
-tipsWindown('批量审核提现信息','id:showdown',500,300,'true','','true');
-    return false;
     var all = [];
     $('input[name="ids"]:checked').each(function(){
         all.push($(this).val());
@@ -101,26 +99,42 @@ tipsWindown('批量审核提现信息','id:showdown',500,300,'true','','true');
         alert('请选择你要操作的对象');
         return false;
     }
-    
-    var name=prompt("请填写备注信息","");
-    if(name!=null && name!=""){
-        if(confirm('确认要提交处理这些任务嘛？')){
-            $.post('?dyryr&q=code/account/batch_recharge',{ids:all.join(','),remark:name},function(data){
+    tipsWindown('批量审核提现信息','id:showdown',500,300,'true','','true');
+}
+function dopichuli(){
+    var verify_remark = $('#windown-content  #verify_remark').val();
+    var status = $('input:radio[name="status"]:checked').val();
+    var valicode = $('#windown-content #valicoder').val();
+    if(!verify_remark){
+        alert('请填写审核备注');
+        return false;
+    }
+    if(!valicode){
+        alert('请填写验证码');
+        return false;
+    }
+    var all = [];
+    $('input[name="ids"]:checked').each(function(){
+        all.push($(this).val());
+    });
+    if(confirm('确认要提交处理这些任务嘛？')){
+            $.post('?dyryr&q=code/account/batch_cash',{ids:all.join(','),status:status,verify_remark:verify_remark,valicode:valicode},function(data){
                 if(data=='ok'){
                     alert('批处理成功');
                     window.document.location.reload();
                 }else{
                     alert('批处理失败');
+                    $("#windownbg").remove();
+			        $("#windown-box").fadeOut("slow",function(){$(this).remove();});
                     return false;
                 }
             });
-        }else{
-            return false;
-        }
-    }else{
-        alert('对不起你没有填写备注信息，操作无效，请重新来过');
+     }else{
+        $("#windownbg").remove();
+		$("#windown-box").fadeOut("slow",function(){$(this).remove();});
         return false;
-    }
+     }
+
 }
 function check_all(name){
     if($('#checkall').attr('checked')){
