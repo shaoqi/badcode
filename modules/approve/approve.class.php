@@ -782,8 +782,13 @@ class approveClass{
 			$result = $mysql->db_fetch_array($sql);
 			if ($result!=false) { return "approve_realname_card_id_exiest";}
 		}
-		
-		$sql = "update `{approve_realname}` set verify_userid='{$data['verify_userid']}',verify_remark='{$data['verify_remark']}', verify_time='".time()."',status='{$data['status']}' where user_id='{$data['user_id']}'";
+		$birthyear = $birthmonth = $birthday = 0;
+        if(!empty($result['card_id'])){
+            $birthyear = substr($result['card_id'],6,4)
+            $birthmonth = substr($result['card_id'],10,2)
+            $birthday = substr($result['card_id'],12,2);
+        }
+		$sql = "update `{approve_realname}` set verify_userid='{$data['verify_userid']}',verify_remark='{$data['verify_remark']}', verify_time='".time()."',status='{$data['status']}',birthyear='{$birthyear}',birthmonth='{$birthmonth}',birthday='{$birthday}' where user_id='{$data['user_id']}'";
 		$mysql->db_query($sql);
 		$user_info['user_id'] = $data["user_id"];
 		if ($data['status']==1){
