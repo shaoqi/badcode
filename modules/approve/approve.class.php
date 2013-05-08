@@ -784,8 +784,8 @@ class approveClass{
 		}
 		$birthyear = $birthmonth = $birthday = 0;
         if(!empty($result['card_id'])){
-            $birthyear = substr($result['card_id'],6,4)
-            $birthmonth = substr($result['card_id'],10,2)
+            $birthyear = substr($result['card_id'],6,4);
+            $birthmonth = substr($result['card_id'],10,2);
             $birthday = substr($result['card_id'],12,2);
         }
 		$sql = "update `{approve_realname}` set verify_userid='{$data['verify_userid']}',verify_remark='{$data['verify_remark']}', verify_time='".time()."',status='{$data['status']}',birthyear='{$birthyear}',birthmonth='{$birthmonth}',birthday='{$birthday}' where user_id='{$data['user_id']}'";
