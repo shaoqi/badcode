@@ -227,7 +227,7 @@ class messageClass{
 	 * @param string $data;
 	 * @return boolen(true,false)
 	 */
-	function SendMessages($data = array()){
+	public static function SendMessages($data = array()){
 		global $mysql;
 		
 		$sql = "insert into `{message_receive}` set addtime='".time()."',addip='".ip_address()."',";

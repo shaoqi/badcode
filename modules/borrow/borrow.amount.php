@@ -36,10 +36,10 @@ class borrowAmountClass  {
 	//account_use 可用额度
 	//account_nouse 不可用额度
 	//remark 额度的记录
-	function  AddAmountLog($data){
+	public static function  AddAmountLog($data){
 		global $mysql;
 		 //判断用户是否存在
-        if (!IsExiest($data['user_id'])) {
+        if (empty($data['user_id'])) {
             return "amount_user_id_empty";
         } 
         if($data['amount_type']=="worth" || $data['amount_type']=="second" ) return "";

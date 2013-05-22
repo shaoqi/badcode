@@ -14,6 +14,7 @@ if (!defined('ROOT_PATH'))  die('不能访问');//防止直接访问
 require_once("account.class.php");
 require_once("account.count.php");
 require_once(ROOT_PATH."modules/users/users.class.php");
+require_once(ROOT_PATH."modules/approve/approve.class.php");
 
 if ($_U['query_type']=="bank_new"){
 	if (IsExiest($_POST['account'])!=false){
@@ -22,22 +23,68 @@ if ($_U['query_type']=="bank_new"){
 		$data['user_id'] = $_G['user_id'];
 		$bank_id = intval($_POST['id']);
 		if (!empty($bank_id)){
-			$data['id'] = $bank_id;
-			$result = accountClass::UpdateUsersBank($data);
+            $code = intval($_POST['code']);
+            if(!empty($code)){
+                $sql = "select phone from `{users_info}` where user_id=".$_G['user_id']." and phone!='' and phone_status=1";
+	            $phone = $mysql->db_fetch_array($sql);
+                $result = approveClass::CheckSmsCode(['user_id'=>0,'type'=>'smscode','phone'=>$data['phone'],'code'=>$_POST['phone_code']]);
+                $sql = "select `code` from `{approve_smslog}` where user_id={$_G['user_id']} and type='smsbankcode' and phone='{$phone['phone']}' order by id desc";
+		        $smsbankcode = $mysql->db_fetch_array($sql);
+	            if(empty($smsbankcode) || $smsbankcode['code']!=$code){
+                    $msg = array("请输入手机验证码","",$_U['query_url_all']);
+                }else{
+			        $data['id'] = $bank_id;
+			        $result = accountClass::UpdateUsersBank($data);
+                    if ($result>0){
+                        $msg = array("资金账户操作成功","",$_U['query_url']."/bank");
+                    }else{
+                        $msg = array($MsgInfo[$result],"",$_U['query_url_all']);
+                    }
+                }
+            }else{
+                $msg = array("请输入手机验证码","",$_U['query_url_all']);
+            }
 		}else{
 			$result = accountClass::AddUsersBank($data);
-		}
-		if ($result>0){
-			$msg = array("资金账户操作成功","",$_U['query_url']."/bank");
-		}else{
-			$msg = array($MsgInfo[$result],"",$_U['query_url_all']);
+            if ($result>0){
+			    $msg = array("资金账户操作成功","",$_U['query_url']."/bank");
+		    }else{
+			    $msg = array($MsgInfo[$result],"",$_U['query_url_all']);
+		    }
 		}
 	}elseif($_REQUEST['id']!=""){
 		$_U['account_bank_result'] = accountClass::GetUsersBankOne(array("user_id"=>$_G['user_id'],"id"=>$_REQUEST['id']));
 		
 	}
 }
-
+// 手机验证码
+elseif ($_U['query_type']=="bank_code"){
+    $sql = "select phone from `{users_info}` where user_id=".$_G['user_id']." and phone!='' and phone_status=1";
+	$phone = $mysql->db_fetch_array($sql);
+    if(empty($phone)){
+        echo -2;
+        exit;
+    }
+    if ($_SESSION['smsbankcode_time']+60>time() && in_array($phone['phone'],$_SESSION['smsbankcode_phone']))
+	{
+		echo -1;
+        exit;
+	}else{
+			$data['status'] = 1;
+            $data['phone'] = $phone['phone'];
+			$data['user_id'] = $_G['user_id'];
+			$data['type'] = "smsbankcode";
+			$data['code'] = rand(100000,999999);
+			$data['contents'] = "尊敬的用户您好：您在".date('Y-m-d H:i:s')."执行了提现账号修改，本次手机验证码为[".$data['code']."]，若非本人操作请联系融易融客服。";
+			$data['contents'] = iconv("GBK","UTF-8",$data['contents']);
+			$result = approveClass::SendSMS($data);
+			$_SESSION['smsbankcode_time'] = time();
+			$_SESSION['smsbankcode_othertime'] = $_SESSION['smsbankcode_time']-time();
+			$_SESSION['smsbankcode_phone'] = $phone['phone'];
+			echo 1;
+            exit;
+	}
+}
 //银行账号删除
 elseif ($_U['query_type']=="bank_del"){
 	$data['id'] = $_REQUEST['id'];

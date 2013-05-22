@@ -142,7 +142,7 @@ class usersClass  extends usersadminClass {
 				$data['user_id'] = 0;
 				$data['type'] = "smscode";
 				$data['code'] = rand(100000,999999);
-				$data['contents'] = "尊敬的融易融用户您好：您本次手机验证码为".$data['code']."，该验证码3分钟后失效，祝您投资愉快。如有疑问请拨打电话4000852600进行咨询。";
+				$data['contents'] = "尊敬的用户您好：您本次手机验证码为[".$data['code']."]，该验证码3分钟后失效，祝您投资愉快。如有疑问请致电4000852600。";
 				$data['contents'] = iconv("GBK","UTF-8",$data['contents']);
 				$result = approveClass::SendSMS($data);
 				$_SESSION['smscode_time'] = time();
@@ -441,7 +441,7 @@ class usersClass  extends usersadminClass {
      * @param $param array('user_id' => '用户id','code' => '模块名称','type' => '所属分类,'operating' => '操作类型','article_id' => '操作id','result' => '操作结果','content' => '操作内容')
 	 * @return Null
      */
-	function AddUsersLog($data){
+	public static function AddUsersLog($data){
 		global $mysql;
 		$sql = "insert into `{users_log}` set  addtime='".time()."',addip='".ip_address()."'";
 		$data['content'] = htmlspecialchars($data['content'], ENT_QUOTES);

@@ -26,7 +26,7 @@ if ($_A['query_class'] == "info"){
 	
 	//系统参数
 	if (isset($_POST['con_webopen'])){
-		$var = array("con_webopen","con_cookie_id","con_cache_type","con_webdescription","con_template_skin","con_closemsg","con_webname","con_weburl","con_webpath","con_houtai","con_logo","con_keywords","con_description","con_beian","con_template","con_tongji");
+		$var = array("con_webopen","con_cookie_id","con_cache_type","con_webdescription","con_template_skin","con_closemsg","con_webname","con_weburl","con_webpath","con_houtai","con_logo",'continued_investment_min','continued_investment_max',"con_keywords","con_description","con_beian","con_template","con_tongji");
 		$data = post_var($var);
 		$result = adminClass::UpdateSystem($data);
 		$msg = array($MsgInfo["admin_info_success"]);

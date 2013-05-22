@@ -10,15 +10,27 @@
  * Copyright(c) 2010 - 2012 by deayou.com. All rights reserved
 ******************************/
 require_once ("core/config.inc.php");
-
+require ("libs/Requests.php");
 error_reporting(0);
-
+Requests::register_autoloader();
 
 if(file_exists(DEAYOU_PATH."ipconfig.php")){
 	require_once DEAYOU_PATH."ipconfig.php";
 	if(ip_control_all($allow_ip_all)){
 		echo '您的IP不能访问,请与管理员联系.'; exit;
 	}
+}
+// 推荐信息
+$_GET['u'] = isset($_GET['u'])?$_GET['u']:'';
+if(!empty($_GET['u'])){
+    $_user_id = Url2Key($_GET['u'],"reg_invite");
+    setcookie('reginvite_user_id',authcode($_user_id[1],'ENCODE'),time()+31536000,"/",$_SERVER["HTTP_HOST"],false,true);
+    $_SESSION['reginvite_user_id'] = $_user_id[1];
+}else{
+    if(!empty($_COOKIE["reginvite_user_id"])){
+        $reginvite_user_id = authcode($_COOKIE["reginvite_user_id"],'DECODE');
+        $_SESSION['reginvite_user_id'] = $reginvite_user_id;
+    }
 }
 //将mysql加进去
 $_G['mysql'] = $mysql;
@@ -380,5 +392,9 @@ else{
 		$magic->assign("_G",$_G);
 		$magic->display($template);
 		
-		exit;		
+		exit;
+		
+		
+		
+		
 }

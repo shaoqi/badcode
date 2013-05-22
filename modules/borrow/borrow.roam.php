@@ -146,7 +146,7 @@ class borrowRoamClass
 		if (IsExiest($data['borrow_nid'])!=""){
 			$_sql .= " and  p1.borrow_nid = '{$data['borrow_nid']}' ";
 		}
-		$sql = "select  p1.*,p2.name as borrow_name,p2.borrow_period,p2.borrow_type,p2.borrow_apr,p2.borrow_style,p2.account,p2.borrow_contents,p3.username,p4.name as style_name,p4.title as style_title  from `{borrow_roam}` as p1 
+		$sql = "select  p1.*,p2.name as borrow_name,p2.borrow_period,p2.borrow_type,p2.borrow_apr,p2.borrow_style,p2.account,p2.borrow_contents,p2.award_status,p2.award_false,p2.award_scale,p2.award_account,p2.continued_status,p2.continued,p2.continued_min,p3.username,p4.name as style_name,p4.title as style_title  from `{borrow_roam}` as p1 
 				 left join {borrow} as p2 on p1.borrow_nid=p2.borrow_nid
 				 left join {users} as p3 on p1.user_id=p3.user_id
                  left join {borrow_style} as p4 on p2.borrow_style=p4.nid
@@ -291,7 +291,7 @@ class borrowRoamClass
 		if ($_result['user_id']>0 ){
 			$log_info["user_id"] = $_result['user_id'];//操作用户id
 			$log_info["nid"] = "invite_award_add_".$borrow_nid."_".$tender_userid."_".$tender_id;//订单号
-			$log_info["account_web_status"] = 0;//
+			$log_info["account_web_status"] = 1;//
 			$log_info["account_user_status"] = 1;//
 			$log_info["borrow_nid"] = $borrow_nid;//收入
 			$log_info["code"] = "tender";//
@@ -315,9 +315,107 @@ class borrowRoamClass
 			$_invite['tender_period']=$roam_result["borrow_period"];
 			$_invite['tender_apr']=$roam_result["borrow_apr"];
 			$_invite['award']=$award_account;
-			usersClass::AddManageAccount($_invite);	
+			usersClass::AddManageAccount($_invite);
 		}
-	
+
+        // 投标奖励
+        if(!empty($tender_id)){
+            if($roam_result['award_status']>0 && $roam_result['award_false']==1){
+                if($roam_result['award_status']==2){
+                    $award = round($account*$roam_result['award_scale']/100,2);
+                }
+                if($roam_result['award_status']==1){
+                    $award = $roam_result['award_account'];
+                }
+                if($award>0){
+                    $log_info["user_id"] = $data['user_id'];//操作用户id
+			        $log_info["nid"] = "brrow_award_add_".$data["borrow_nid"]."_".$data['user_id']."_".$tender_id;//订单号
+			        $log_info["account_web_status"] = 1;//
+			        $log_info["account_user_status"] = 1;//
+			        $log_info["borrow_nid"] = $data["borrow_nid"];//收入
+			        $log_info["code"] = "tender";//
+			        $log_info["code_type"] = "brrow_tender_award";//
+			        $log_info["code_nid"] = $tender_id;//
+			        $log_info["money"] = $award;//操作金额
+			        $log_info["income"] = $award;//收入
+			        $log_info["expend"] = 0;//支出
+			        $log_info["balance_cash"] = $award;//可提现金额
+			        $log_info["balance_frost"] = 0;//不可提现金额
+			        $log_info["frost"] = 0;//冻结金额
+			        $log_info["await"] = 0;//待收金额
+			        $log_info["type"] = "brrow_tender_award";//类型
+			        $log_info["to_userid"] = $data['user_id'];//付给谁
+			        $log_info["remark"] =  "投资借款[{$borrow_url}]获得的投资奖励";
+			        accountClass::AddLog($log_info);
+                    $remind['nid'] = "brrow_tender_award";
+		            $remind['remind_nid'] = $_nid;
+		            $remind['receive_userid'] = $data["user_id"];
+		            $remind['article_id'] = $tender_nid;
+		            $remind['code'] = "borrow";
+		            $remind['title'] = '投标奖励';
+		            $remind['content'] = '你所投资的【'.$roam_result["username"].'】标['.$borrow_url.']在'.date('Y-m-d').'获得'.$award.'元奖励';
+		            remindClass::sendRemind($remind);
+                }
+            }
+        }
+        // 续投奖励
+	    if(!empty($tender_id)){
+            $now = time();
+            $start = empty($_G["system"]['continued_investment_min'])?0:strtotime($_G["system"]['continued_investment_min']);
+            $end = empty($_G["system"]['continued_investment_max'])?0:strtotime($_G["system"]['continued_investment_max']);
+            if($now>=$start && $now<$end){
+                if($roam_result['continued_status']>0){
+                    $sql = 'select sum(recover_account_yes) as recover_account from {borrow_recover} where user_id='.$data["user_id"].' and `recover_status`=1 and recover_yestime between '.$start.' and '.$end;
+                    $replay_account = $mysql->db_fetch_array($sql);
+                    $replay_account = empty($replay_account)?0:$replay_account['recover_account'];
+                    $sql = 'select sum(total) as total from {account_cash} where `user_id`='.$data["user_id"].' and (`status`=1 or `status`=0) and `addtime` between '.$start.' and '.$end;
+                    $cash = $mysql->db_fetch_array($sql);
+                    $cash = empty($cash)?0:$cash['total'];
+                    $sql = 'select sum(account_tender) as account_tender from {borrow_tender} where `user_id`='.$data["user_id"].' and `status`=1 and `id`!='.$tender_id.' and `addtime` between '.$start.' and '.$end;
+                    $account_tender = $mysql->db_fetch_array($sql);
+                    $account_tender = empty($account_tender)?0:$account_tender['account_tender'];
+                    $continued_investment = $replay_account-$cash-$account_tender;
+                    if($roam_result['continued_min'] <= $continued_investment and $continued_investment>0){
+                        $continued_investment = min($continued_investment,$account);
+                        if($roam_result['continued_status']==2){
+                            $award = round($account*$roam_result['continued']/100,2);
+                        }
+                        if($roam_result['continued_status']==1){
+                            $award = $roam_result['continued'];
+                        }
+                        if($award>0){
+                            $log_info["user_id"] = $data['user_id'];//操作用户id
+			                $log_info["nid"] = "continued_investment_award_add_".$data["borrow_nid"]."_".$data['user_id']."_".$tender_id;//订单号
+			                $log_info["account_web_status"] = 1;//
+			                $log_info["account_user_status"] = 1;//
+			                $log_info["borrow_nid"] = $data["borrow_nid"];//收入
+			                $log_info["code"] = "tender";//
+			                $log_info["code_type"] = "continued_investment_award";//
+			                $log_info["code_nid"] = $tender_id;//
+			                $log_info["money"] = $award;//操作金额
+			                $log_info["income"] = $award;//收入
+			                $log_info["expend"] = 0;//支出
+			                $log_info["balance_cash"] = $award;//可提现金额
+			                $log_info["balance_frost"] = 0;//不可提现金额
+			                $log_info["frost"] = 0;//冻结金额
+			                $log_info["await"] = 0;//待收金额
+			                $log_info["type"] = "continued_investment_award";//类型
+			                $log_info["to_userid"] = $data['user_id'];//付给谁
+			                $log_info["remark"] =  "投资借款[{$borrow_url}]获得的续投奖励";
+			                accountClass::AddLog($log_info);
+                            $remind['nid'] = "continued_investment_award";
+		                    $remind['remind_nid'] = $_nid;
+		                    $remind['receive_userid'] = $data["user_id"];
+		                    $remind['article_id'] = $tender_nid;
+		                    $remind['code'] = "borrow";
+		                    $remind['title'] = '续投奖励';
+		                    $remind['content'] = '你所投资的【'.$roam_result["username"].'】标['.$borrow_url.']在'.date('Y-m-d').'获得'.$award.'元续投奖励';
+		                    remindClass::sendRemind($remind);
+                        }
+                    }
+                }
+            }
+        }
 		
 		
         //扣除费用

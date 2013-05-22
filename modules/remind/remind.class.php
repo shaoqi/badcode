@@ -542,13 +542,13 @@ class remindClass{
 	//sent_user,发送用户id
 	//receive_user,接收用户id
 	//type,类型
-	function sendRemind($data){
+	public static function sendRemind($data){
 		global $mysql,$user,$_G;
 		
 		//是否禁止提醒模块
 		//if ($_G['system']['remind_status']==0) return "";
 		$remind_user = array();
-		if ($data['receive_user']!=""){
+		if (!empty($data['receive_user'])){
 			$data['receive_userid'] = $data['receive_user'];
 		}
         //判断是否存在
@@ -650,14 +650,13 @@ class remindClass{
 	//$data['content']内容
 	//$data['contract']联系方式
 	//$data['status']联系方式
-	function AddLog($data){
+	public static function AddLog($data){
 		global $mysql;
 		$sql = "insert into `{remind_log}` set `addtime` = '".time()."',`addip` = '".ip_address()."',";
 		foreach($data as $key => $value){
-			$_sql[] .= "`$key` = '$value'";
+			$_sql[] = "`$key` = '$value'";
 		}
 		$sql .= join(",",$_sql)." ";
         return $mysql->db_query($sql);
 	}
 }
-?>

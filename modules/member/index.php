@@ -79,9 +79,19 @@ elseif ($_U['query_sort'] == 'user'){
 
 
 #要请好友注册	
-elseif ($_U['query_sort'] == "reginvite"){	
-	$_user_id = Url2Key($_REQUEST['u'],"reg_invite");
-	$_SESSION['reginvite_user_id'] = $_user_id[1];
+elseif ($_U['query_sort'] == "reginvite"){
+    // 推荐信息
+$_REQUEST['u'] = isset($_REQUEST['u'])?$_REQUEST['u']:'';
+if(!empty($_REQUEST['u'])){
+    $_user_id = Url2Key($_REQUEST['u'],"reg_invite");
+    setcookie('reginvite_user_id',authcode($_user_id[1],'ENCODE'),time()+31536000,"/",$_SERVER["HTTP_HOST"],false,true);
+    $_SESSION['reginvite_user_id'] = $_user_id[1];
+}else{
+    if(!empty($_COOKIE["reginvite_user_id"])){
+        $reginvite_user_id = authcode($_COOKIE["reginvite_user_id"],'DECODE');
+        $_SESSION['reginvite_user_id'] = $reginvite_user_id;
+    }
+}
 	header('location:/?user&q=reg');
 }
 

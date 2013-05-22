@@ -108,7 +108,7 @@ if ($_A['query_type'] == "realname" ){
 				$result = approveClass::CheckRealname($data);
 				
 				if ($result>0){
-					usersvipClass::regvip($data['user_id']);
+					//usersvipClass::regvip($data['user_id']);
 					$msg = array("²Ù×÷³É¹¦","",$_A['query_url_all']);
 				}else{
 					$msg = array($MsgInfo[$result]);

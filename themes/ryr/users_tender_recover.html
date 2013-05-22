@@ -43,7 +43,7 @@
 
 					<td  >已收本息</td>
 					<td  >发布时间</td>
-
+                    <td  >我的投资时间</td>
 
 					<td  >协议书</td>
 
@@ -90,9 +90,9 @@
 
 					<td  >￥{$item.recover_account_yes|default:0.00}</td>
 					<td  >{$item.borrow_verify_time|date_format:"Y-m-d"}</td>
+                    <td  >{$item.addtime|date_format:"Y-m-d"}</td>
 
-
-					<td  ><a href="/protocol/a{$item.borrow_nid}.html" target="_blank">查看协议书</a></td>
+					<td  ><a href="/protocol/a{$item.borrow_nid}_{$item.id}.html" target="_blank">查看协议书</a></td>
 
 
 					<!--<td  ><a href="">{if $item.borrow_userqq==""}-{else}<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$item.borrow_userqq}&amp;site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:{$item.borrow_userqq}:41" alt="" title=""></a>{/if}</a></td>-->

@@ -9,7 +9,7 @@
   <tr>
     <td colspan="5" style="text-align:left">&nbsp;&nbsp;您目前待收的本息总额是：<font class="red">￥{$_U.borrow_wait.recover_wait_account|default:"0.00"}</font>，共<font class="red">{$_U.borrow_wait.tender_success_num|default:"0"}</font>笔投资。</td>
   </tr>
-   {list module="borrow" var="loop" function ="GetRecoverList" plugins="tender" user_id="$_G.user_id" keywords="request" dotime1="request" dotime2="request" money1="request" money2="request" keyworlds="request"  dodate="request" borrow_status=3 recover_status=0 order="repay_time" epage="25" change_show="1"}
+   {list module="borrow" var="loop" function ="GetRecoverList" plugins="tender" user_id="$_G.user_id" keywords="request" dotime1="request" dotime2="request" money1="request" money2="request" keyworlds="request"  dodate="request" borrow_status=3 recover_status=0 order="recover_time" epage="25" change_show="1"}
   <tr class="ytit1">
     <td width="20%">&nbsp;</td>
     <td width="20%">未来一个月</td>

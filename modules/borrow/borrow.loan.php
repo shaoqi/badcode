@@ -148,6 +148,33 @@ class borrowLoanClass
     			return  "borrow_loan_award_account_over_min";
     		}
         }
+        //续投奖励
+        if ($data['continued_status']==2){
+            $max = intval($type_result['award_scale_end']);
+        	if($data['continued']==""){
+        	   return  "borrow_loan_award_scale_empty";
+        	}
+    		if(intval($data['continued']) > $max){
+    			return  "borrow_loan_award_scale_over_max";
+    		}
+    		$min = intval($type_result['award_scale_first']);
+            
+    		if(intval($data['continued']) < $min){
+    			return  "borrow_loan_award_scale_over_min";
+    		}
+        }elseif ($data['continued_status']==1){
+            $max = intval($type_result['award_account_end']);
+        	if($data['continued']==""){
+        	   return  "borrow_loan_award_account_empty";
+        	}
+    		if(intval($data['continued']) > $max){
+    			return  "borrow_loan_award_account_over_max";
+    		}
+    		$min = intval($type_result['award_account_first']);
+    		if(intval($data['continued']) < $min){
+    			return  "borrow_loan_award_account_over_min";
+    		}
+        }
         
         //如果是流转标
         if ($data["borrow_type"]=="roam"){
@@ -459,7 +486,7 @@ class borrowLoanClass
             require_once("borrow.auto.php");
             require_once("borrow.tender.php");
     		$res = borrowAutoClass::NewAutoTender(array("borrow_nid"=>$result['borrow_nid']));			
-    		if (!empty($res)){
+    		if ($res != false){
     			foreach ($res as  $key => $value){
 		            if ($result["borrow_type"]=="roam"){
 		                require_once("borrow.roam.php");//类名
@@ -492,7 +519,7 @@ class borrowLoanClass
 						$user_log["content"] = date("Y-m-d H:i:s")."自动投标[{$borrow_url}]成功,金额为{$_tender['account']}";
 						usersClass::AddUsersLog($user_log);	
 					}
-    			}
+    			}    		 
     		}
 			require_once(ROOT_PATH."modules/remind/remind.class.php");
 			require_once(ROOT_PATH."modules/approve/approve.class.php");

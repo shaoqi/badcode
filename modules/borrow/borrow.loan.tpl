@@ -48,7 +48,7 @@
 	</div>
 	<div class="module_border" >
 		<div class="l">债权转让：</div>
-		<div class="c"><label style="margin-right:5px;"><input type="radio" name="sell[ok]" value="1" onclick="sell_info(this)">是</label><label><input type="radio" name="sell[ok]" value="0" onclick="sell_info(this)">否</label></div>
+		<div class="c"><label style="margin-right:5px;"><input type="radio" name="sell[ok]" value="1" onclick="sell_info(this)">是</label><label><input type="radio" name="sell[ok]" value="0" onclick="sell_info(this)" checked="checked">否</label></div>
 	</div>
 	<div class="module_border" id="sell_info" style="display:none;">
 		<div class="l">债权转让信息：</div>
@@ -58,6 +58,30 @@
 			<label for="sell_name">合同签订时间：</label><input type="text" name="sell[signing]" id="sell_signing" onclick="change_picktime()" readonly="readonly"></br>
 			<label for="sell_name">放款日：</label><input type="text" name="sell[loan]" id="sell_loan" onclick="change_picktime()" readonly="readonly"></br>
 		</div>
+	</div>
+    <div class="module_border">
+		<div class="l">投标奖励：</div>
+		<div class="c"><label style="margin-right:5px;"><input type="radio" name="award_status" value="0" onclick="award_info(this)" checked="checked">关闭</label><label style="margin-right:5px;"><input type="radio" name="award_status" value="1" onclick="award_info(this)">奖励固定金额</label><label><input type="radio" name="award_status" value="2" onclick="award_info(this)">按比例奖励</label></div>
+	</div>
+    <div class="module_border award_info" style="display:none;">
+		<div class="l">投标奖励先后设置：</div>
+		<div class="c"><label style="margin-right:5px;"><input type="radio" name="award_false" value="1" checked="checked">投标成功即奖励</label><label><input type="radio" name="award_false" value="0">投标成功后奖励和利息一起发放</label></div>
+	</div>
+    <div class="module_border award_info" style="display:none;">
+		<div class="l">投标奖励标准：</div>
+		<div class="c"><label style="margin-right:5px;" id="award_scale">奖励比例:<input type="text" name="award_scale">（奖励比例到小数点后两位，范围{$_A.borrow_type_result.award_scale_first}%-{$_A.borrow_type_result.award_scale_end}%之间）</label><label id="award_account">奖励金额：<input type="text" name="award_account" value="2" onclick="sell_info(this)">（奖励金额保留到小数点后两位，范围{$_A.borrow_type_result.award_account_first}元-{$_A.borrow_type_result.award_account_end}元之间）</label></div>
+	</div>
+    <div class="module_border">
+		<div class="l">续投奖励开启：</div>
+		<div class="c"><label style="margin-right:5px;"><input type="radio" name="continued_status" value="0" onclick="continued_info(this)" checked="checked">关闭</label><label style="margin-right:5px;"><input type="radio" name="continued_status" value="1" onclick="continued_info(this)">奖励固定金额</label><label><input type="radio" name="continued_status" value="2" onclick="continued_info(this)">按比例奖励</label></div>
+	</div>
+    <div class="module_border continued_info" style="display:none;">
+		<div class="l">续投奖励标准：</div>
+		<div class="c"><label style="margin-right:5px;" id="continued_2">奖励比例:<input type="text" name="continued_2">（奖励比例到小数点后两位，范围{$_A.borrow_type_result.award_scale_first}%-{$_A.borrow_type_result.award_scale_end}%之间）</label><label id="continued_1" style="margin-right:5px;display:none">奖励金额：<input type="text" name="continued_1" onclick="sell_info(this)">（奖励金额保留到小数点后两位，范围{$_A.borrow_type_result.award_account_first}元-{$_A.borrow_type_result.award_account_end}元之间）</label></div>
+	</div>
+    <div class="module_border continued_info" style="display:none;">
+		<div class="l">续投奖励限制（最小额）：</div>
+		<div class="c"><label style="margin-right:5px;"><input type="text" name="continued_min" value="5000"></label></div>
 	</div>
 	{if $magic.request.type_nid!="roam"}
 	<div class="module_border" >
@@ -184,6 +208,34 @@ function sell_info(d){
 	}else{
 	$('#sell_info').hide();
 	}
+}
+function award_info(d){
+    if($(d).val()==0){
+	    $('.award_info').hide();
+	}else{
+	    $('.award_info').show();
+	}
+    if($(d).val()==1){
+        $('#award_scale').hide();
+        $('#award_account').show();
+    }else if($(d).val()==2){
+        $('#award_account').hide();
+        $('#award_scale').show();
+    }
+}
+function continued_info(d){
+    if($(d).val()==0){
+	    $('.continued_info').hide();
+	}else{
+	    $('.continued_info').show();
+	}
+    if($(d).val()==1){
+        $('#continued_2').hide();
+        $('#continued_1').show();
+    }else if($(d).val()==2){
+        $('#continued_1').hide();
+        $('#continued_2').show();
+    }
 }
 </script>
 {/literal}

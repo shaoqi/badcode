@@ -91,6 +91,11 @@ float:left;background-image: url(../images/jiang.png);width:36px; height:17px;pa
     background: url("../images/weibo.png") no-repeat scroll 8px center transparent;
     padding-left: 22px;
 }
+.top-menu .tencent {
+    background: url("../images/tencent.gif") no-repeat scroll 8px center transparent;
+    padding-left: 22px;
+	padding-top:1px;
+}
 .top-menu .toolbox .menu-bd {
     width: 72px;
 }

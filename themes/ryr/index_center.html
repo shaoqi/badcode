@@ -1,5 +1,3 @@
-<style>
-</style>
 <div class="conbox t20">
   <div class="main_left">
    <div class="quick_links">
@@ -48,7 +46,7 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/liuz.gif" align="absmiddle" style="float:left;"/><a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.5%-1%" target="_blank"><!--<div class="jiangli" title="奖励0.5%-1%" style="font-size: 10px;">0.5-1%</div>--></a><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a>{if $item.borrow_period==1}<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.5%-1%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励0.5%-1%</a>{elseif $item.borrow_period==3}<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.7%-1.2%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励0.7%-1.2%</a>{elseif $item.borrow_period==6}<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励1%-1.5%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励1%-1.5%</a>{/if}</td>
+				  <img src="{$tpldir}/images/liuz.gif" align="absmiddle" style="float:left;"/><a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.5%-1%" target="_blank"><!--<div class="jiangli" title="奖励0.5%-1%" style="font-size: 10px;">0.5-1%</div>--></a><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a>{if $item.award_status!='0'}<img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励{$item.award_scale}%{/if}{if $item.continued_status!='0'}<img src="{$tpldir}/images/medal_a.png" width="20" height="17">续投奖励{$item.continued}%{/if}</td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">最小流转：<font class="red">{$item.roam.account_min}元</font></td>
@@ -85,14 +83,14 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td colspan="5" align="left">
-				  <img src="{$tpldir}/images/{$item.borrow_type}.gif" align="absmiddle" style="float:left;"/><!--<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.5%-1%" target="_blank"><div class="jiangli" title="奖励0.5%-1%" style="font-size: 10px;">0.5-1%</div></a>--><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a>{if $item.borrow_type!=='day' && $item.borrow_type!=='second'}{if $item.borrow_period==1}<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.5%-1%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励0.5%-1%</a>{elseif $item.borrow_period==3}<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.7%-1.2%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励0.7%-1.2%</a>{elseif $item.borrow_period==6}<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励1%-1.5%" target="_blank"><img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励1%-1.5%</a>{/if}{/if}</td>
+				  <img src="{$tpldir}/images/{$item.borrow_type}.gif" align="absmiddle" style="float:left;"/><!--<a href="http://www.rongerong.com/gonggao/a128.html" title="奖励0.5%-1%" target="_blank"><div class="jiangli" title="奖励0.5%-1%" style="font-size: 10px;">0.5-1%</div></a>--><a href="/invest/a{$item.borrow_nid}.html" style="float:left;">{$item.name}</a>{if $item.award_scale!='0.00'}<img src="{$tpldir}/images/medal_b.png" width="20" height="17">奖励{$item.award_scale}%{/if}</td>
                 </tr>
                 <tr>
                   <td width="22%" align="left">借款金额：<font class="red">￥{if $item.account_status.key==1}{$item.account_status.value}万{else}{$item.account}{/if}</font></td>
                   <td width="19%" align="left">年 利 率：<font class="red">{$item.borrow_apr}%</font></td>
                   <td width="21%" align="left">借款期限：<font class="red">{$item.borrow_period_name}</font></td>
                   <td width="25%" align="left">进度：<span class="ryrloading"><em style="width:{$item.borrow_account_scale}%"></em></span>{$item.borrow_account_scale}%</td>
-                  <td width="13%" rowspan="2" align="left">				 
+                  <td width="13%" rowspan="2" align="left">
                    {if $item.status==1 && $item.borrow_account_wait!=0}
 						<a href="/invest/a{$item.borrow_nid}.html"><img src="{$tpldir}/images/viewbtn1.gif" align="middle" /></a>
 				    {else}
@@ -100,9 +98,9 @@
 				   {/if}
 					</td>
                 </tr>
-                <tr>				  
-                  <td width="22%" align="left">授信额度：{if $item.pawn_status.key==1}{$item.pawn_status.value}万{else}{$item.pawn_amount}{/if}				  
-				  </td>				 
+                <tr>
+                  <td width="22%" align="left">授信额度：{if $item.pawn_status.key==1}{$item.pawn_status.value}万{else}{$item.pawn_amount}{/if}
+				  </td>
                   <td width="19%" align="left">还需金额：<font class="red">￥{if $item.account_wait_status.key==1}{$item.account_wait_status.value}万{else}{$item.borrow_account_wait|default:0}{/if}</font></td>
                   <td width="21%" align="left">还款方式：{$item.style_title}</td>
                   <td width="25%" align="left">剩余时间：{$item.borrow_end_time|surplus}</td>
@@ -119,12 +117,12 @@
 	  {/if}
     </div> {/list}
   </div>
- 
+
   <script>
 {articles module="borrow" plugins="Loan" function="GetLoanStep" user_id="$_G.user_id" var="var"}
 var step = {$var.status};
 var url = '/{$var.url}';
-{/articles} 
+{/articles}
 {literal}
 function change_detail(i,k){
 if(k==1){
@@ -160,7 +158,7 @@ function roam_buy(borrow_nid,account,_user_id){
 	 }else{
      var val = $("#result_"+borrow_nid).val();
     _val = parseInt(val.replace("份", ""));
-   
+
         var dia = $.dialog({
             id: 'borr_realname',
             width: "300px",
@@ -206,7 +204,7 @@ function roam_buy(borrow_nid,account,_user_id){
           <li><a href="/gonggao/a{$var.id}.html">{$var.name|truncate:15}</a></li>
         </ul>
         {/loop} </div>
-      <div class="m_r_news" id="li_list_detail_4" > {loop module="articles" function="GetList" var="var" limit="6" type_id="49"}
+      <div class="m_r_news" id="li_list_detail_4" > {loop module="articles" function="GetList" var="var" limit="6" type_id="52"}
         <ul>
           <li><a href="/zhuce/a{$var.id}.html">{$var.name|truncate:15}</a></li>
         </ul>

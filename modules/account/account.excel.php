@@ -63,13 +63,14 @@ class accountexcel {
 	//充值资金记录ID
 	function RechargeLog($data){
 		global $Linkages;
-		$title = array("Id","用户名","交易号","类型","充值银行","充值金额","充值手续费","实际到账金额","状态","操作时间","操作ip");		
+		$title = array("Id","用户名","交易号","类型","充值银行","充值金额","充值手续费","实际到账金额","状态","操作时间","操作ip");
+        $_select = "p1.id,p1.nid,p1.type,p1.money,p1.fee,p1.balance,p1.status,p1.addtime,p1.addip,p2.username,p3.name as payment_name";
 		if ($data['page']>0){
-			$_result = accountClass::GetRechargeList($data);
+			$_result = accountClass::GetRechargeList($data,$_select);
 			$result  = $_result['list'];
 		}else{
 			$data['limit'] = "all";
-			$result = accountClass::GetRechargeList($data);
+			$result = accountClass::GetRechargeList($data,$_select);
 		}
 		foreach ($result as $key => $value){
 			$value['type'] = $Linkages['account_recharge_type'][$value['type']];

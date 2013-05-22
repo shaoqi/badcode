@@ -22,7 +22,7 @@ class borrowCountClass
  
  
 	//data = array("user_id"=>"");
-	function UpdateBorrowCount($data = array()){
+	public static function UpdateBorrowCount($data = array()){
 		global $mysql;
 		if ($data['user_id']=="") return "";
 		$user_id =$data['user_id'];
@@ -164,7 +164,7 @@ class borrowCountClass
 		
 	}
 	
-	function GetBorrowRepayCount(){
+	public static function GetBorrowRepayCount(){
 		global $mysql;
 		$sql = "select repay_status,sum(repay_account) as repay_account_all,sum(repay_capital) as repay_capital_all,sum(repay_interest) as repay_interest_all,sum(late_interest) as late_interest_all,sum(late_reminder) as late_reminder_all  from `{borrow_repay}`  where status=1 group by repay_status";
 		$result = $mysql->db_fetch_arrays($sql);
@@ -256,7 +256,7 @@ class borrowCountClass
 	}
 	
 	
-	function GetKefuBorrowCount(){
+	public static function GetKefuBorrowCount(){
 		global $mysql;
 		
 		//借款统计
@@ -282,7 +282,7 @@ class borrowCountClass
 	}
 	
 	
-	function GetKefuTenderCount(){
+	public static function GetKefuTenderCount(){
 		global $mysql;
 		
 		//借款统计
@@ -309,7 +309,7 @@ class borrowCountClass
 	}
 	
 	
-	function BorrowRemindCount(){
+	public static function BorrowRemindCount(){
 		global $mysql;
 		//满标审核
 		$sql = "select count(1) as num from `{borrow}` where status=1 and borrow_account_yes = account";
@@ -413,7 +413,7 @@ class borrowCountClass
 	}
     
     	//data = array("user_id"=>"");
-	function GetUsersCount($data = array()){
+	public static function GetUsersCount($data = array()){
 		global $mysql;
 		if ($data['user_id']=="") return "";
         $sql = "select * from  `{borrow_count}` where user_id='{$data['user_id']}'";
@@ -422,7 +422,7 @@ class borrowCountClass
         
   }
   
-	 function GetUsersTodayCount($data = array()){
+	 public static function GetUsersTodayCount($data = array()){
 		global $mysql;
 		if ($data['user_id']=="") return "";
 		$year = date("Y",time());
@@ -443,7 +443,7 @@ class borrowCountClass
 	  }
   
    //投资人借出统计
-	function GetUsersRecoverCount($data = array()){
+	public static function GetUsersRecoverCount($data = array()){
 	   	global $mysql;
 		if ($data['user_id']=="") return "";
         $result = array();
@@ -568,7 +568,7 @@ class borrowCountClass
     
     
    //借款人借入统计
-	function GetUsersRepayCount($data = array()){
+	public static function GetUsersRepayCount($data = array()){
 	   	global $mysql;
 		if ($data['user_id']=="") return "";
         $sql = "select repay_status,sum(repay_account) as anum,sum(repay_interest) as inum,count(1) as num from  `{borrow_repay}` where user_id='{$data['user_id']}' and status=1 group by repay_status";
@@ -679,7 +679,7 @@ class borrowCountClass
        
     }
     //统计用户借出与还款积分
-	function GetUsersCreditCount($data = array()){
+	public static function GetUsersCreditCount($data = array()){
        	global $mysql;
         $_result=array();
     	if ($data['user_id']=="") return "";

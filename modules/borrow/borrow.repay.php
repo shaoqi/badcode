@@ -425,8 +425,50 @@ class borrowRepayClass
             $phone_data['contents'] = iconv("GBK","UTF-8",$phone_data['contents']);
             $result = approveClass::SendSMS($phone_data);
         }
+                    // 投标奖励
+                    if($repay_result['award_status']>0 && $repay_result['award_false']==0){
+                        $sql = 'select (`recover_account_all`-`recover_account_interest`) as acount from {borrow_tender} where id='.$recover_result['tender_id'].' and `award`=0';
+                        $recover_capital = $mysql->db_fetch_array($sql);
+                        if(!empty($recover_capital['acount'])){
+                            if($roam_result['award_status']==2){
+                                $award = round($recover_capital['acount']*$repay_result['award_scale']/100,2);
+                            }
+                            if($repay_result['award_status']==1){
+                                $award = $repay_result['award_account'];
+                            }
+                            if($award>0){
+                                $log_info["user_id"] = $recove_userid;//操作用户id
+                                $log_info["nid"] = "brrow_award_add_".$recover_result["borrow_nid"]."_".$recove_userid."_".$recover_result['tender_id'];//订单号
+                                $log_info["account_web_status"] = 1;//
+                                $log_info["account_user_status"] = 1;//
+                                $log_info["borrow_nid"] = $recover_result["borrow_nid"];//收入
+                                $log_info["code"] = "tender";//
+                                $log_info["code_type"] = "brrow_tender_award";//
+                                $log_info["code_nid"] = $recover_result['tender_id'];//
+                                $log_info["money"] = $award;//操作金额
+                                $log_info["income"] = $award;//收入
+                                $log_info["expend"] = 0;//支出
+                                $log_info["balance_cash"] = $award;//可提现金额
+                                $log_info["balance_frost"] = 0;//不可提现金额
+                                $log_info["frost"] = 0;//冻结金额
+                                $log_info["await"] = 0;//待收金额
+                                $log_info["type"] = "brrow_tender_award";//类型
+                                $log_info["to_userid"] = $recove_userid;//付给谁
+                                $log_info["remark"] =  "投资借款[{$borrow_url}]获得的投资奖励";
+                                accountClass::AddLog($log_info);
+                                $remind['nid'] = "brrow_tender_award";
+                                $remind['remind_nid'] = $_nid;
+                                $remind['receive_userid'] = $recove_userid;
+                                $remind['article_id'] = $recover_result['tender_id'];
+                                $remind['code'] = "borrow";
+                                $remind['title'] = '投标奖励';
+                                $remind['content'] = '你所投资的【'.$repay_result["username"].'】标['.$borrow_url.']在'.date('Y-m-d').'获得'.$award.'元奖励';
+                                remindClass::sendRemind($remind);
+                            }
+                        }
+                    }
         
-        $sql = "update  `{borrow_recover}` set recover_type='yes',recover_fee='{$recover_fee}',recover_yestime='".time()."',recover_account_yes = recover_account ,recover_capital_yes = recover_capital ,recover_interest_yes = recover_interest,status=1,recover_status=1 where id = '{$recover_result['id']}'";
+        $sql = "update `{borrow_recover}` set recover_type='yes',recover_fee='{$recover_fee}',recover_yestime='".time()."',recover_account_yes = recover_account ,recover_capital_yes = recover_capital ,recover_interest_yes = recover_interest,status=1,recover_status=1 where id = '{$recover_result['id']}'";
 		$mysql->db_query($sql);
         
             	

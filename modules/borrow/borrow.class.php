@@ -762,9 +762,9 @@ class borrowClass  {
 	}
 	
 	//获取借款的积分
-	function GetBorrowCredit($data){
+	public static function GetBorrowCredit($data){
 		global $mysql,$_G;
-		if (IsExiest($_G["borrow_credit_result"])!=false) return $_G["borrow_credit_result"];//防止重复读取\
+		if (isset($_G["borrow_credit_result"])) return $_G["borrow_credit_result"];//防止重复读取\
 		
 		if ($data['user_id']=="") return false;
 		$_result = array();
@@ -792,7 +792,7 @@ class borrowClass  {
     
     function GetDays($data = array()){
         global $mysql;
-        if ($data["now_time"]==""){
+        if (empty($data["now_time"])){
             $data["now_time"] = time();
         }
         $_repay_time = get_mktime(date("Y-m-d",$data["repay_time"]));

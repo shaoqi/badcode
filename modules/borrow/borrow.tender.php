@@ -641,7 +641,9 @@ class borrowTenderClass
 				$_order = " order by p1.`order` desc,p1.id desc ";
 			}elseif ($data['order'] == "recover_status"){
 				$_order = " order by p1.`recover_status` asc,p1.id desc ";
-			}
+			}elseif($data['order'] == 'recover_time'){
+                $_order = " order by p1.recover_time asc";
+            }
 		}
 		if($data['protocol']==1){
 			$_select = 'p1.recover_period,p1.recover_time,sum(p1.recover_account) as recover_account,sum(p1.recover_capital) as recover_capital,sum(p1.recover_interest) as recover_interest';
@@ -694,7 +696,7 @@ class borrowTenderClass
 	       }elseif ($value["recover_type"]=="web"){
 	           $type_name = "ÍøÕ¾µæ¸¶";
 	       }
-		   $days= borrowClass::GetDays(array("repay_time"=>$value["recover_time"]));
+		   $days= borrowClass::GetDays(array("repay_time"=>$value["recover_yestime"],'now_time'=>$value["recover_yestime"]));
 			if ($days>0){
 				$list[$key]['late_days'] = $days;
 			}

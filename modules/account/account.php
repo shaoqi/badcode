@@ -366,6 +366,7 @@ elseif ($_A['query_type']=='batch_cash'){
          $data = post_var(['status','verify_remark']);
          $data['verify_userid'] = $_G['user_id'];
 		 $data['verify_time'] = time();
+         $data['verify_remark'] = iconv('UTF-8','GBK',$data['verify_remark']);
          $ids = $_POST['ids'];
          if(empty($ids)){
             exit('no');

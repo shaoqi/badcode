@@ -103,7 +103,7 @@ function pichuli(){
 }
 function dopichuli(){
     var verify_remark = $('#windown-content  #verify_remark').val();
-    var status = $('input:radio[name="status"]:checked').val();
+    var status = $('#windown-content input:radio[name="status"]:checked').val();
     var valicode = $('#windown-content #valicoder').val();
     if(!verify_remark){
         alert('ÇëÌîĞ´ÉóºË±¸×¢');

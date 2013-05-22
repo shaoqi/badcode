@@ -284,7 +284,7 @@ function CheckExamine(){
 	{ list module="approve" function="GetRealnameList" var="loop" username=request  realname=request  card_id=request status=request dotime1=request dotime2=request epage=20 type=request}
 	{foreach from="$loop.list" item="item"}
 	<tr {if $key%2==1} class="tr2"{/if}>
-		<td class="main_td1" align="center">{$item.id}<input type="checkbox"></td>
+		<td class="main_td1" align="center">{ $item.id}</td>
 		<td class="main_td1" align="center">{$item.username}</td>
 		<td class="main_td1" align="center">{$item.realname}</td>
 		<td class="main_td1" align="center">{$item.card_id}</td>

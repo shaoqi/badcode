@@ -16,7 +16,7 @@ require_once("account.excel.php");
 require_once("account.tongji.php");
 require_once(ROOT_PATH."modules/credit/credit.class.php");
 
-class accountClass{
+class accountClass {
 	
 	/**
 	 * 资金详情列表
@@ -549,7 +549,7 @@ class accountClass{
 	 * @param Array $data = arrray("user_id"=>"用户id","status"=>"充值状态","username"=>"用户名","email"=>"邮箱")
 	 * @return Boolen
 	 */
-	function GetRechargeList($data = array()){
+	function GetRechargeList($data = array(),$_select=''){
 		global $mysql;
 
 		$_sql = "where 1=1 ";
@@ -593,7 +593,7 @@ class accountClass{
 			}
 		}
 
-		$_select = "p1.*,p2.username,p3.name as payment_name";
+		$_select = empty($_select)?"p1.*,p2.username,p3.name as payment_name":$_select;
 		if (IsExiest($data['order'])!=false) {
 			if ($data['order']=="addtime_down"){
 				$_order = " order by p1.addtime desc";
@@ -610,6 +610,7 @@ class accountClass{
 		
 		//导出数据
 		if (IsExiest($data['excel'])=="true"){
+            $_select ='p1.type,p1.money,p1.addtime,p1.status,p1.remark,p1.verify_remark,p3.name as payment_name';
 			$result= $mysql->db_fetch_arrays(str_replace(array('SELECT', 'ORDER', 'LIMIT'), array($_select,  '  order by p1.addtime desc,id desc', ""), $sql));
 			$title = array("类型","支付方式","充值金额","充值时间","备注","状态","管理备注");
 			$linkage_result = $_G['linkage'];
@@ -769,8 +770,8 @@ class accountClass{
 		$result = $mysql->db_fetch_array($sql);
 		//判断订单号是否有误
 		if ($result['num']>1) return "account_recharge_nid_error";
-		
-		$sql = "update `{account_recharge}` set status='{$data['status']}',verify_time='".time()."',verify_userid='".$data['verify_userid']."',verify_remark='".$data['verify_remark']."',verify_content='".$data['verify_content']."' where nid = '{$data['nid']}'";
+		$verify_time = empty($data['verify_time'])?time():$data['verify_time'];
+		$sql = "update `{account_recharge}` set status='{$data['status']}',verify_time='".$verify_time."',verify_userid='".$data['verify_userid']."',verify_remark='".$data['verify_remark']."',verify_content='".$data['verify_content']."' where nid = '{$data['nid']}'";
         $mysql->db_query($sql);
 		
 		if ($data['status']==1){
@@ -883,13 +884,13 @@ class accountClass{
 	 * @param Array $data =array("nid"=>"订单号","verify_remark"=>"审核备注","status"=>"审核状态")
 	 * @return Boolen
 	 */
-	function AddLog($data = array()){
+	public static function AddLog($data = array()){
 		global $mysql;
-		
+
 		//第一步，查询是否有资金记录
 		$sql = "select * from `{account_log}` where `nid` = '{$data['nid']}'";
 		$result = $mysql -> db_fetch_array($sql);
-		if ($result['nid']!="") return "account_log_nid_exiest";
+		if (!empty($result['nid'])) return "account_log_nid_exiest";
 		
 		//第二步，查询原来的总资金
 		$sql = "select * from `{account}` where user_id='{$data['user_id']}'";

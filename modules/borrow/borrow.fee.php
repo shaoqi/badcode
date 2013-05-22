@@ -187,9 +187,11 @@ class borrowFeeClass{
 	 * @param Array $data
 	 * @return Boolen
 	 */
-    function GetFeeValue($data = array()){
+    public static function GetFeeValue($data = array()){
         global $mysql;
         $_sql = "";
+        $_result = [];
+        $data["pay_tender"] = isset($data["pay_tender"])?$data["pay_tender"]:0;
         if ($data["pay_tender"]==1){
             $_sql = " and pay_tender=1";
         }
@@ -197,7 +199,6 @@ class borrowFeeClass{
          $result = $mysql->db_fetch_arrays($sql);
            
          if ($result !=false){
-             $_result = array();
              foreach($result  as $key =>$value){
                 $account =0;
                 //是否vip
@@ -321,7 +322,7 @@ class borrowFeeClass{
                     }
                 }
                 //期数是否选择
-                if ($data["round"]==""){
+                if (!empty($data["round"])){
                  $value['account'] = round($account,2);
                }else{
                     $value['account'] = $account;

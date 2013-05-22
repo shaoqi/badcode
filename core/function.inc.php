@@ -120,13 +120,13 @@ function SetCookies($data = array()){
 	$_session_id = !IsExiest($data['cookie_id'])?md5("deayou_userid"):md5($data['cookie_id']);
 	if (IsExiest($data['cookie_status'])!=false && $data['cookie_status'] == 1){
 	    if ($data["time"]!=""){
-	       setcookie("dy_cookie_time",$data["time"],time()+$data["time"],"/");
+	       setcookie("dy_cookie_time",$data["time"],time()+$data["time"],"/",$_SERVER["HTTP_HOST"],false,true);
            $_ctime = time()+$data["time"];
 	    }else{
 	       $_ctime = time()+$_COOKIE["dy_cookie_time"];
-	       setcookie("dy_cookie_time", $_COOKIE["dy_cookie_time"],$_ctime,"/");
+	       setcookie("dy_cookie_time", $_COOKIE["dy_cookie_time"],$_ctime,"/",$_SERVER["HTTP_HOST"],false,true);
 	    }
-		setcookie($_session_id,authcode($data['user_id'].",".time(),"ENCODE"),$_ctime,"/");
+		setcookie($_session_id,authcode($data['user_id'].",".time(),"ENCODE"),$_ctime,"/",$_SERVER["HTTP_HOST"],false,true);
 	}else{
 	    if ($data["time"]!=""){
 	       $_SESSION["dy_cookie_time"] = $data["time"];

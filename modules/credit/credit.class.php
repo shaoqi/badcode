@@ -505,7 +505,7 @@ class creditClass {
 	 *
 	 * @return Array $data = array("code"=>"模块","user_id"=>"用户","type"=>"类型","article_id"=>"文章id","code"=>"","code"=>"",);
 	 */
-	function ActionCreditLog($data){
+	public static function ActionCreditLog($data){
 		global $mysql;
 		$_nid = explode(",",$data['nid']);
 		
@@ -572,7 +572,7 @@ class creditClass {
 	 *
 	 * @return Array $data = array("user_id"=>"用户");
 	 */
-	function ActionCredit($data){
+	public static function ActionCredit($data){
 		global $mysql;
 		$sql = "select sum(p1.credit) as num,p2.class_id from `{credit_log}` as p1 left join `{credit_type}` as p2 on p1.nid=p2.nid  where p1.user_id='{$data['user_id']}' group by p2.class_id order by p2.class_id desc";
 		$result = $mysql->db_fetch_arrays($sql);
@@ -593,7 +593,7 @@ class creditClass {
 	 *
 	 * @return Array $data = array("user_id"=>"用户","credit"=>"积分","id"=>"积分记录id");
 	 */
-	function UpdateCredit($data){
+	public static function UpdateCredit($data){
 		global $mysql;
 		$sql = "update `{credit_log}` set `credit`='{$data['credit']}' where id='{$data['id']}' and user_id='{$data['user_id']}'";
 		$mysql->db_query($sql);
@@ -654,7 +654,7 @@ class creditClass {
 		return $result;
 	}
 	
-	function CountCredit($data){
+	public static function CountCredit($data){
 		global $mysql;
 		if ($data['type']=="dyp2p"){
 			require_once(ROOT_PATH."/modules/borrow/borrow.class.php");
@@ -666,7 +666,7 @@ class creditClass {
 	}
 	
 	
-	function GetCreditCount($data){
+	public static function GetCreditCount($data){
 		global $mysql;
 		$sql = "select sum(credit) as num,type from `{credit_log}` where user_id='{$data['user_id']}' group by type";
 		$result = $mysql->db_fetch_arrays($sql);
@@ -681,7 +681,7 @@ class creditClass {
 	
 	
 	
-	function GetUserCredit($data){
+	public static function GetUserCredit($data){
 		global $mysql;
 		$sql = "select sum(p1.credit) as num,p3.nid from `{credit_log}` as p1 ,`{credit_type}` as p2 ,{credit_class} as p3 where p1.user_id='{$data['user_id']}' and p2.nid=p1.nid and p2.class_id=p3.id group by p3.id";
 		$result = $mysql->db_fetch_arrays($sql);
@@ -694,7 +694,7 @@ class creditClass {
  		return $_result;
 	}
 	
-	function GetGoldCount($data = array()){
+	public static function GetGoldCount($data = array()){
 		global $mysql;
 		if ($data['user_id']=="") return false;
 		//邀请金币
@@ -770,12 +770,13 @@ class creditClass {
     
     
     //获取积分所对应的等级 credit,class
-    function GetUserCreditRank($data){
+    public static function GetUserCreditRank($data){
         global $mysql,$_G;
         $integral =   $data['credit'];
         $class =   $data['class'];
+        $_G['credit'] = isset($_G['credit'])?$_G['credit']:[];
     	if ($integral=="" && $integral!="0") return "";
-    	if ($_G['credit']['rank']=="") return "";
+    	if (empty($_G['credit']['rank'])) return "";
     	$_result = array();
     	foreach ($_G['credit']['rank'] as $key => $value){
     		$_result[$value['class_nid']][] = $value;

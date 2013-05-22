@@ -2,7 +2,7 @@
 <div class="us_r_bor1" >
 		<div style="margin:10px">
 		{list module="account" function="GetCashList" var="loop" user_id="$_G.user_id" epage=20}
-		<div><span class="daochu" style="float:right"><a href="{$magic.server.REQUEST_URI}&excel=true">导出数据</a></span>成功提现{$loop.all|default:0.00}元，提现到账{$loop.credited_all|default:0.00}元，手续费{$loop.fee_all|default:0.00}元
+		<div><span class="daochu" style="float:right"><a href="{$magic.server.REQUEST_URI}&excel=true">导出数据</a></span>提现申请{$loop.all|default:0.00}元，提现申请成功{$loop.credited_all|default:0.00}元，手续费{$loop.fee_all|default:0.00}元
 		</div>
 		</div>
 		<div class="t20">

@@ -321,57 +321,40 @@ class approveClass{
 	public static  function SendSMS($data)
 	{
 		global $mysql,$_G;
-		
-		$_sms_url = explode("?",$_G['system']['con_sms_url']);
-		$http = $_sms_url[0];
-		$_data = str_replace("#phone#",$data['phone'],$_sms_url[1]);
-		$_data = str_replace("#content#",$data['contents'],$_data );
-		$__data = explode("&",$_data);
-		foreach ($__data as $key => $value){
-			$_val = explode("=",$value);
-			$_res[$_val[0]] = $_val[1];
-		}
-		$result= self::postSMS($http,$_res);		//POST方式提交
+		$url = str_replace("#phone#",iconv("GBK", "UTF-8",$data['phone']),iconv("GBK", "UTF-8",trim($_G['system']['con_sms_url'])));
+        $url = str_replace("#content#",$data['contents'].iconv("GBK", "UTF-8",'【融易融】'),$url);
+        /*$urls = explode('?',$url);
+        $filed = explode('&',$url[1]);
+        foreach($filed as $value){
+            $value = explode('=',$value);
+            $post[$value[0]] = $value[1];
+        }*/
+        $request = Requests::get(trim($url),[],['transport'=>'Requests_Transport_cURL']);
+        if($request->status_code==200){
+            $data['status'] = self::postSMS($request->body,$data['phone']);
+        }else{
+            $data['status'] = 0;
+            error_log('短信['.$phone."]发送失败HTTP状态为[".$request->status_code."]\n",3, ROOT_PATH."/data/log/sms.".date('Y-m-d').".log");
+        }
 		$sql = "insert into `{approve_smslog}` set  addtime='".time()."',addip='".ip_address()."'";
 		foreach($data as $key => $value){
 			$sql .= ",`$key` = '$value'";
 		}
 		$mysql->db_query($sql);
-		if ($result>=0) return array(1,$http."?".$_data,$result);
-		return array(2,$http."?".$_data,$result);
+		if ($data['status']) return array(1,$url,$data['status']);
+		return array(2,$url,$data['status']);
 	}
 	
-	function postSMS($url,$data=''){
-		$row = parse_url($url);
-		$host = $row['host'];
-		$port = $row['port'] ? $row['port']:80;
-		$file = $row['path'];
-		while (list($k,$v) = each($data)) 
-		{
-			$post .= rawurlencode($k)."=".rawurlencode($v)."&";	//转URL标准码
-		}
-		$post = substr( $post , 0 , -1 );
-		$len = strlen($post);
-		$fp = @fsockopen( $host ,$port, $errno, $errstr, 10);
-		if (!$fp) {
-			return "$errstr ($errno)\n";
-		} else {
-			$receive = '';
-			$out = "POST $file HTTP/1.1\r\n";
-			$out .= "Host: $host\r\n";
-			$out .= "Content-type: application/x-www-form-urlencoded\r\n";
-			$out .= "Connection: Close\r\n";
-			$out .= "Content-Length: $len\r\n\r\n";
-			$out .= $post;		
-			fwrite($fp, $out);
-			while (!feof($fp)) {
-				$receive .= fgets($fp, 128);
-			}
-			fclose($fp);
-			$receive = explode("\r\n\r\n",$receive);
-			unset($receive[0]);
-			return implode("",$receive);
-		}
+	public static function postSMS($xml,$phone){
+        $p = xml_parser_create();
+        xml_parse_into_struct($p, $xml, $vals);
+        xml_parser_free($p);
+        // 发送状态写入日志
+        if($vals['1']['value']!=0){
+            error_log('短信['.$phone."]发送失败接口状态为[".$vals['1']['value']."][".iconv("UTF-8","GBK",$vals[5]['value'])."]\n",3, ROOT_PATH."/data/log/sms.".date('Y-m-d').".log");
+            return 0;
+        }
+        return 1;
 	}
 		
 	/**
@@ -788,8 +771,10 @@ class approveClass{
             $birthmonth = substr($result['card_id'],10,2);
             $birthday = substr($result['card_id'],12,2);
         }
-		$sql = "update `{approve_realname}` set verify_userid='{$data['verify_userid']}',verify_remark='{$data['verify_remark']}', verify_time='".time()."',status='{$data['status']}',birthyear='{$birthyear}',birthmonth='{$birthmonth}',birthday='{$birthday}' where user_id='{$data['user_id']}'";
+		$sql = "update `{approve_realname}` set verify_userid='{$data['verify_userid']}',verify_remark='{$data['verify_remark']}', verify_time='".time()."',status='{$data['status']}' where user_id='{$data['user_id']}'";
 		$mysql->db_query($sql);
+        $sql = "update `{users_info}` set birthyear='{$birthyear}',birthmonth='{$birthmonth}',birthday='{$birthday}' where user_id='{$data['user_id']}'";
+        $mysql->db_query($sql);
 		$user_info['user_id'] = $data["user_id"];
 		if ($data['status']==1){
 			//充值失败站内信提醒 

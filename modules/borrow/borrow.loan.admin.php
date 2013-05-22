@@ -278,8 +278,14 @@ elseif ($_REQUEST['p'] == "lateday"){
 elseif($_A['query_type'] == "loan" ){
 	
     if (isset($_POST['username']) && $_POST["username"]!=""){
-        $var = array("name","borrow_type","borrow_use","borrow_password","account","borrow_period","borrow_apr","borrow_style","borrow_contents","borrow_valid_time","tender_account_min","tender_account_max","award_status","award_scale","award_account","award_false","pawnins","valicode");
+        $var = array("name","borrow_type","borrow_use","borrow_password","account","borrow_period","borrow_apr","borrow_style","borrow_contents","borrow_valid_time","tender_account_min","tender_account_max","award_status","award_scale","award_account","award_false","pawnins","valicode","continued_status","continued_min");
 		$data = post_var($var);
+        if($data['continued_status']==1){
+            $data['continued']=$_POST['continued_1'];
+        }
+        if($data['continued_status']==2){
+            $data['continued']=$_POST['continued_2'];
+        }
 		$username = $_POST['username'];
 		$result = usersClass::GetUsers(array("username"=>$username));
 		$data['user_id'] = $result['user_id'];	
