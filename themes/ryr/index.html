@@ -5,8 +5,7 @@
 		<div class="border_box" style="height:300px;">
 			<div class="box_skitter box_skitter_large" style="margin:0 auto;">
 				<ul>
-					<li><a href="/gonggao/a153.html" title="融易融为灾区人民加油！" target="_blank"><img src="{$tpldir}/images/12.jpg" class="cube" /></a><div class="label_text"><p><a href="/gonggao/a153.html" title="融易融为灾区人民加油！" target="_blank" onclick="window.location.href='/gonggao/a153.html';return false;">融易融为灾区人民加油！</a></p></div></li>
-					<li><a href="http://www.rongerong.com/gonggao/a154.html" title="活动" target="_blank"><img src="{$tpldir}/images/banner_03.png" class="cubeRandom" /></a><div class="label_text"><p>融易融，走在金融创新的路上<a href="/mtbd/a121.html" title="网络借贷商业模式与投资预测分析报告" target="_blank" onclick="window.location.href='/mtbd/a121.html';return false;">【腾讯财经】</a><a href="/mtbd/a114.html" title="年终奖如何理财" target="_blank" onclick="window.location.href='/mtbd/a114.html';return false;">【凤凰财经】</a><a href="/mtbd/a123.html" title="网络借贷最迫切需要的政策支持" target="_blank" onclick="window.location.href='/mtbd/a123.html';return false;">【和讯财经】</a><a href="/mtbd/a124.html" title="融易融，走在创新金融的路上" target="_blank" onclick="window.location.href='/mtbd/a124.html';return false;">【新浪财经】</a><a href="/mtbd/a125.html" title="支持金融业创新发展 深圳派“礼包”" target="_blank" onclick="window.location.href='/mtbd/a125.html';return false;">【搜狐财经】</a></p></div></li>
+					<li><a href="http://www.rongerong.com/gonggao/a154.html" title="活动" target="_blank"><img src="{$tpldir}/images/banner_03.jpg" class="cubeRandom" /></a><div class="label_text"><p>融易融，走在金融创新的路上<a href="/mtbd/a121.html" title="网络借贷商业模式与投资预测分析报告" target="_blank" onclick="window.location.href='/mtbd/a121.html';return false;">【腾讯财经】</a><a href="/mtbd/a114.html" title="年终奖如何理财" target="_blank" onclick="window.location.href='/mtbd/a114.html';return false;">【凤凰财经】</a><a href="/mtbd/a123.html" title="网络借贷最迫切需要的政策支持" target="_blank" onclick="window.location.href='/mtbd/a123.html';return false;">【和讯财经】</a><a href="/mtbd/a124.html" title="融易融，走在创新金融的路上" target="_blank" onclick="window.location.href='/mtbd/a124.html';return false;">【新浪财经】</a><a href="/mtbd/a125.html" title="支持金融业创新发展 深圳派“礼包”" target="_blank" onclick="window.location.href='/mtbd/a125.html';return false;">【搜狐财经】</a></p></div></li>
 					<li><a href="/fangchan/index.html" title="房产抵押贷" target="_blank"><img src="{$tpldir}/images/3.jpg" class="block" /></a><div class="label_text"><p>一切皆有可能！看融易融如何做到投资零风险</p></div></li>
 					<li><a href="/zqlzr/index.html" title="债权流转人" target="_blank"><img src="{$tpldir}/images/4.jpg" class="cubeStop" /></a><div class="label_text"><p><a href="/zqlzr/index.html" title="债权流转人" target="_blank">债权流转人</a>：实现财富的循环增值</p></div></li>
 					<li><a href="/gonggao/a120.html" title="产品中心" target="_blank"><img src="{$tpldir}/images/5.jpg" class="cubeHide" /></a><div class="label_text"><p>灵活、多样、安全的产品设计：流转担保贷，抵押担保贷，循环担保贷，联保担保贷</p></div></li>
@@ -14,13 +13,27 @@
 				</ul>
 			</div>
 		</div>
+        <div class="tips conbox" id="tips1">
+            <div class="title">最新讯息</div>
+            <div class="text" id="tips2">
+                <ul style="top: 0px;" id="tips3">
+                {loop module="articles" function="GetList" var="var" limit="10" order="id_desc"}
+                <li><a href="/gonggao/a{$var.id}.html" target="_blank" title="{$var.name}">{$var.name}　　　 {$var.addtime|date_format:"Y-m-d"}</a></li>
+                {/loop}
+                </ul>
+            </div>
+            <div class="btn">
+                <a href="javascript:;" class="up"></a>
+                <a href="javascript:;" class="down"></a>
+            </div>
+        </div>
 {literal}
 <script type="text/javascript">
 $('.box_skitter_large').css({height:300,width:980}).skitter({label:false,hideTools:true,focus: true,navigation: false});
 </script>
-<style>
+<!--<style>
 html{-webkit-filter:grayscale(100%);-moz-filter:grayscale(100%);-ms-filter:grayscale(100%);-o-filter:grayscale(100%);filter:grayscale(100%);filter:url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 .3333 .3333 0 0 .3333 .3333 .3333 0 0 .3333 .3333 .3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);}
-</style>
+</style>-->
 {/literal}
 {include file="index_center.html"}
 <div class="conbox t10">
@@ -37,4 +50,53 @@ html{-webkit-filter:grayscale(100%);-moz-filter:grayscale(100%);-ms-filter:grays
     </div>
 </div>
 </div>
+{literal}
+<script>
+function tipsList(obj,d){
+	if(!obj||obj.size()==0) return
+	var list=[];
+	var index=0;
+	var cont=obj.find('ul')
+	var h=obj.find('.text')[0].clientHeight;
+	var _stop=false;
+	var timer
+	var delay=d||4000
+	$(obj).mouseenter(function(){clearTimeout(timer);}).mouseleave(function(){auto()})
+	obj.find('li').each(function(i){
+		list.push(this);
+		if(i>0){
+			$(this).remove();
+		}
+	})
+	var l=list.length;
+	var next=function(){
+		index=index+1>=l?0:index+1;
+		cont.append(list[index])
+		cont.animate({
+			top:-h
+		},function(){
+			cont.find('li:eq(0)').remove();
+			cont.css('top',0)
+		})
+	}
+	var prev=function(){
+		index=index-1<0?(l-1):index-1;
+		cont.prepend(list[index])
+		cont.css('top',-h)
+		cont.animate({
+			top:0
+		},function(){
+			cont.find('li:eq(1)').remove();
+		})
+	}
+	$('.up',obj).click(function(){prev()})
+	$('.down',obj).click(function(){next()})
+	var auto=function(){
+		timer = setTimeout(function(){next();auto()},delay)
+	}
+	auto()
+}
+tipsList($('#tips1'), 4000);
+</script>
+{/literal}
 {include file="footer.html"}

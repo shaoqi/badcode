@@ -189,6 +189,7 @@ function check_form(){
 {else}
 <div class="module_add">
 	<div class="module_title"><strong><font color="#FF0000">{$magic.request.username|urldecode} </font>充值记录</strong><div style="float:right">
+            交易号：<input type="text" name="nid" id="nid" value="{$magic.request.nid|default:""}" />
 			时间：<input type="text" name="dotime1" id="dotime1" value="{$magic.request.dotime1|default:"$day7"|date_format:"Y-m-d"}" size="15" onclick="change_picktime()"/> 到 <input type="text"  name="dotime2" value="{$magic.request.dotime2|default:"$nowtime"|date_format:"Y-m-d"}" id="dotime2" size="15" onclick="change_picktime()"/>  用户名：<input type="text" name="username" id="username" value="{$magic.request.username|urldecode}"/> 状态<select id="status" ><option value="">全部</option><option value="1" {if $magic.request.status==1} selected="selected"{/if}>成功</option><option value="0" {if $magic.request.status=="0"} selected="selected"{/if}>审核</option><option value="2" {if $magic.request.status=="2"} selected="selected"{/if}>失败</option></select> 			
 			类型:{linkages name="type" nid="account_recharge_type" type="value" default="全部" value="$magic.request.type"} <input type="button" value="搜索"  onclick="sousuo()"/></div></div>
 </div>
@@ -211,7 +212,7 @@ function check_form(){
 			<td class="main_td">操作IP</td>
 			<td class="main_td">管理</td>
 		</tr>
-		{ list module="account" function="GetRechargeList" var="loop" username=request email=request status=request order=request dotime1=request  dotime2=request type="request" epage="20"}
+		{ list module="account" function="GetRechargeList" var="loop" username=request email=request status=request order=request dotime1=request  dotime2=request type="request" nid="request" epage="20"}
 		{foreach from=$loop.list item="item"}
 		<tr  {if $key%2==1} class="tr2"{/if}>
 			<td>{if $item.status==0}<input type="checkbox" value="{$item.id}" name="ids">{/if}</td>
@@ -236,7 +237,7 @@ function check_form(){
 			<div style="float:left; margin-left:0px; width:390px;">充值总金额:{$loop.all_recharge}&nbsp;&nbsp;充值总手续费:{$loop.all_fee}</div>
 		</div>
 		<div class="floatr" >
-			 <a href="{$_A.query_url_all}&type=excel&page={$magic.request.page|default:1}&username={$magic.request.username}&status={$magic.request.status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}&epage=20">导出当前</a> <a href="{$_A.query_url_all}&type=excel&username={$magic.request.username}&status={$magic.request.status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}">导出全部</a>&nbsp;&nbsp;&nbsp;
+			 <a href="{$_A.query_url_all}&import=excel&page={$magic.request.page|default:1}&username={$magic.request.username}&status={$magic.request.status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}&type={$magic.request.type}&epage=20">导出当前</a> <a href="{$_A.query_url_all}&import=excel&username={$magic.request.username}&status={$magic.request.status}&dotime1={$magic.request.dotime1}&dotime2={$magic.request.dotime2}&type={$magic.request.type}">导出全部</a>&nbsp;&nbsp;&nbsp;
 		</div>
 		</td>
 	</tr>

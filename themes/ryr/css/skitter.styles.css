@@ -70,3 +70,60 @@
 -------------------------------------------------------------- */
 .box_skitter_large {width:800px;height:300px;}
 .box_skitter_small {width:200px;height:100px;}
+
+.tips {
+    background: url("../images/bg.png") no-repeat scroll left top transparent;
+    height: 36px;
+    margin-bottom: 10px;
+	width: 980px;
+}
+.tips .title {
+    color: #FF7200;
+    float: left;
+    font-weight: bold;
+    line-height: 26px;
+    margin-top: 4px;
+    text-align: center;
+    width: 100px;
+}
+.tips .text {
+    float: left;
+    height: 28px;
+    margin: 4px 0 0 20px;
+    overflow: hidden;
+    position: relative;
+    width: 840px;
+}
+.tips ul {
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 800px;
+}
+.tips li {
+    display: block;
+    height: 26px;
+    line-height: 26px;
+}
+.tips .btn {
+    float: left;
+    margin: 8px 5px;
+}
+.tips .btn a {
+    background: url("../images/btn_tips.png") no-repeat scroll 0 0 transparent;
+    clear: both;
+    display: block;
+    height: 9px;
+    width: 10px;
+}
+.tips .btn .up {
+}
+.tips .btn .up:hover {
+    background-position: -12px top;
+}
+.tips .btn .down {
+    background-position: left -9px;
+}
+.tips .btn .down:hover {
+    background-position: -12px -9px;
+}

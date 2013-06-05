@@ -321,20 +321,25 @@ class approveClass{
 	public static  function SendSMS($data)
 	{
 		global $mysql,$_G;
-		$url = str_replace("#phone#",iconv("GBK", "UTF-8",$data['phone']),iconv("GBK", "UTF-8",trim($_G['system']['con_sms_url'])));
-        $url = str_replace("#content#",$data['contents'].iconv("GBK", "UTF-8",'¡¾ÈÚÒ×ÈÚ¡¿'),$url);
-        /*$urls = explode('?',$url);
-        $filed = explode('&',$url[1]);
-        foreach($filed as $value){
-            $value = explode('=',$value);
-            $post[$value[0]] = $value[1];
-        }*/
-        $request = Requests::get(trim($url),[],['transport'=>'Requests_Transport_cURL']);
-        if($request->status_code==200){
-            $data['status'] = self::postSMS($request->body,$data['phone']);
+        $url ='';
+        if(!preg_match('/^1380000/',$data['phone'])){
+            $url = str_replace("#phone#",iconv("GBK", "UTF-8",$data['phone']),iconv("GBK", "UTF-8",trim($_G['system']['con_sms_url'])));
+            $url = str_replace("#content#",$data['contents'].iconv("GBK", "UTF-8",'¡¾ÈÚÒ×ÈÚ¡¿'),$url);
+            /*$urls = explode('?',$url);
+            $filed = explode('&',$url[1]);
+            foreach($filed as $value){
+                $value = explode('=',$value);
+                $post[$value[0]] = $value[1];
+            }*/
+            $request = Requests::get(trim($url),[],['transport'=>'Requests_Transport_cURL']);
+            if($request->status_code==200){
+                $data['status'] = self::postSMS($request->body,$data['phone']);
+            }else{
+                $data['status'] = 0;
+                error_log('¶ÌÐÅ['.$phone."]·¢ËÍÊ§°ÜHTTP×´Ì¬Îª[".$request->status_code."]\n",3, ROOT_PATH."/data/log/sms.".date('Y-m-d').".log");
+            }
         }else{
-            $data['status'] = 0;
-            error_log('¶ÌÐÅ['.$phone."]·¢ËÍÊ§°ÜHTTP×´Ì¬Îª[".$request->status_code."]\n",3, ROOT_PATH."/data/log/sms.".date('Y-m-d').".log");
+            $data['status'] = 1;
         }
 		$sql = "insert into `{approve_smslog}` set  addtime='".time()."',addip='".ip_address()."'";
 		foreach($data as $key => $value){

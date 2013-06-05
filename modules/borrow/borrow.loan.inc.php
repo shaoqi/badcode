@@ -332,7 +332,8 @@ elseif ($_REQUEST['p'] == "view_roam"){
         $data["paypassword"] = $_POST['paypassword'];
         $data["portion"] = $_POST['num'];
         $data["contents"] = $_POST['contents'];
-		if($_POST['valicode']!=$_SESSION['valicode']){
+        $_result=check_valicode();
+		if(!empty($_result)){
 			$_result = "valicode_error";
 		}elseif (md5($data['paypassword'])!= $_G["user_result"]["paypassword"]){
              $_result = "borrow_roam_paypassword_error";

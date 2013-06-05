@@ -253,6 +253,10 @@ class showpageClass {
 				return $str .  $this->pre_page().$this->nowbar().$this->next_page();
 				break;
 			case '5':
+                $this->next_page  = '下一页';
+				$this->pre_page   = '上一页';
+				$this->first_page = '首页';
+				$this->last_page  = '尾页';
 				return $str .  $this->pre_bar.$this->pre_page().$this->nowbar().$this->next_page().$this->next_bar;
 				break;
 		}

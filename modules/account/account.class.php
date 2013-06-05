@@ -115,7 +115,7 @@ class accountClass {
 		}
 		
 		$_select = "p1.*,p2.username";
-		$_order = " order by p1.id desc ";
+		$_order = " order by p1.addtime desc,p1.id desc ";
 		$sql = "select SELECT from {account_log} as p1 
 				 left join {users} as p2 on p1.user_id=p2.user_id
 				SQL ORDER LIMIT";
@@ -553,6 +553,11 @@ class accountClass {
 		global $mysql;
 
 		$_sql = "where 1=1 ";
+
+        //搜索nid
+		if (IsExiest($data['nid'])!=false) {
+			$_sql .= " and p1.nid = '{$data['nid']}'";
+		}
 		
 		//搜索用户id
 		if (IsExiest($data['user_id'])!=false) {
@@ -887,11 +892,12 @@ class accountClass {
 	public static function AddLog($data = array()){
 		global $mysql;
 
+
 		//第一步，查询是否有资金记录
 		$sql = "select * from `{account_log}` where `nid` = '{$data['nid']}'";
 		$result = $mysql -> db_fetch_array($sql);
 		if (!empty($result['nid'])) return "account_log_nid_exiest";
-		
+        $addtime = empty($data['addtime'])?time():$data['addtime'];		
 		//第二步，查询原来的总资金
 		$sql = "select * from `{account}` where user_id='{$data['user_id']}'";
 		$result = $mysql->db_fetch_array($sql);
@@ -952,7 +958,7 @@ class accountClass {
 		
 		$sql .= "total_old='{$result['total']}',";
 		$sql .= "total=balance+frost+await,";
-		$sql .=" `addtime` = '".time()."',`addip` = '".ip_address()."'";
+		$sql .=" `addtime` = '".$addtime."',`addip` = '".ip_address()."'";
 		$mysql->db_query($sql);
 		$id = $mysql->db_insert_id();
 		
@@ -984,7 +990,7 @@ class accountClass {
 				$result['balance'] = 0;
 			}
 			$total = $result['total'] + $data['income'] + $data['expend'];
-			$sql = "insert into `{account_balance}` set total='{$total}',balance={$result['balance']}+".$data['income'].",income='{$data['income']}',expend='{$data['expend']}',type='{$data['type']}',`money`='{$data['money']}',user_id='{$data['user_id']}',nid='{$data['nid']}',remark='{$data['remark']}', `addtime` = '".time()."',`addip` = '".ip_address()."'";
+			$sql = "insert into `{account_balance}` set total='{$total}',balance={$result['balance']}+".$data['income'].",income='{$data['income']}',expend='{$data['expend']}',type='{$data['type']}',`money`='{$data['money']}',user_id='{$data['user_id']}',nid='{$data['nid']}',remark='{$data['remark']}', `addtime` = '".$addtime."',`addip` = '".ip_address()."'";
 			$mysql->db_query($sql);
 		}
             
@@ -1001,7 +1007,7 @@ class accountClass {
     				$result['balance'] = 0;
     			}
     			$total = $result['total'] - $data['income'] + $data['expend'];
-    			$sql = "insert into `{account_web}` set total='{$total}',balance={$result['balance']}-".$data['income']."+".$data['expend'].",income='{$data['income']}',expend='{$data['expend']}',type='{$data['type']}',`money`='{$data['money']}',user_id='{$data['user_id']}',nid='{$data['nid']}',remark='{$data['remark']}', `addtime` = '".time()."',`addip` = '".ip_address()."'";
+    			$sql = "insert into `{account_web}` set total='{$total}',balance={$result['balance']}-".$data['income']."+".$data['expend'].",income='{$data['income']}',expend='{$data['expend']}',type='{$data['type']}',`money`='{$data['money']}',user_id='{$data['user_id']}',nid='{$data['nid']}',remark='{$data['remark']}', `addtime` = '".$addtime."',`addip` = '".ip_address()."'";
     			$mysql->db_query($sql);
     		}
     	}	
@@ -1019,7 +1025,7 @@ class accountClass {
     				$_result['balance'] = 0;
     			}
     			$total = $_result['total'] + $data['income'] - $data['expend'];
-    			$sql = "insert into `{account_users}` set total='{$total}',balance={$_result['balance']}+".$data['income']."-".$data['expend'].",income='{$data['income']}',expend='{$data['expend']}',type='{$data['type']}',`money`='{$data['money']}',user_id='{$data['user_id']}',nid='{$data['nid']}',remark='{$data['remark']}', `addtime` = '".time()."',`addip` = '".ip_address()."'";
+    			$sql = "insert into `{account_users}` set total='{$total}',balance={$_result['balance']}+".$data['income']."-".$data['expend'].",income='{$data['income']}',expend='{$data['expend']}',type='{$data['type']}',`money`='{$data['money']}',user_id='{$data['user_id']}',nid='{$data['nid']}',remark='{$data['remark']}', `addtime` = '".$addtime."',`addip` = '".ip_address()."'";
     			$mysql->db_query($sql);
     		}
     	}
@@ -1186,6 +1192,34 @@ class accountClass {
 		
 		return $result;
 	}
+
+
+    /**
+	 * 获取用户资金信息(添加了待审核提现,奖励金额)
+	 *
+	 * @param Array $data
+	 * @return Boolen
+	 */
+
+    function getnewone($data=array()){
+        global $mysql;
+		$_sql = "where 1=1 ";
+			 
+		if (IsExiest($data['user_id'])!=false) {
+			$_sql .= " and p1.user_id = {$data['user_id']}";
+		}
+		
+		$_select = "p1.*";
+		$sql = "select $_select from `{account}` as p1 $_sql";
+		$result = $mysql->db_fetch_array($sql);
+        $sql = 'select sum(`total`) as cash from `{account_cash}` where `user_id`='.$data['user_id'].' and `status`=0';
+        $cash = $mysql->db_fetch_array($sql);
+        $result['cash'] = $cash['cash'];
+        $sql = 'select sum(money) as money from {account_log} where `user_id`='.$data['user_id'].' and `code`=\'tender\' and `code_type` in (\'continued_investment_award\',\'brrow_tender_award\',\'invite_tender_award\')';
+        $cash = $mysql->db_fetch_array($sql);
+        $result['award'] = $cash['money'];
+        return $result;
+    }
 	
 	
 	/**

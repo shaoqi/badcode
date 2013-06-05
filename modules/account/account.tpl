@@ -411,7 +411,7 @@ function sousuo(){
 	var type = $("#type").val();
 	var username = $("#username").val();
 	var realname = $("#realname").val();
-	
+	var nid = $("#nid").val();
 	if (username!=null){
 		sou += "&username="+username;
 	}
@@ -431,7 +431,9 @@ function sousuo(){
 	if (type!=null){
 		 sou += "&type="+type;
 	}
-	
+	if (nid!=null){
+		 sou += "&nid="+nid;
+	}
 	if (sou!=""){
 	location.href=url+sou;
 	}

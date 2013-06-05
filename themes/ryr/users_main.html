@@ -122,18 +122,16 @@
         <div class="main_box t10">
 		           <div class="m_r_title1">
 		<h1>资金信息</h1><span>><a href="/?user&q=code/account/detail">更多</a></span></div>
-{articles module="account"  function="GetOne" var="Avar" user_id="$_G.user_id"}
+{articles module="account"  function="getnewone" var="Avar" user_id="$_G.user_id"}
 				   <div class="us_infor">
                    <table width="100%" cellspacing="9">
   <tbody><tr>
     <td width="35%">账户资金总额：<font>￥{$Avar.total|default:0.00}</font></td>
-    {list  module="users" plugins="Friends" function="GetFriendsInvite" var="loop" user_id="$_G.user_id" showpage="3"}
-	<td width="29%">奖金金额：<font>￥{$loop.vip_account|default:0.00}</font></td>
-	{/list}
+	<td width="29%">奖金金额：<font>￥{$Avar.award|default:0.00}</font></td>
     <td width="36%">可用现金金额：<font>￥{$Avar.balance|default:0.00}</font></td>
   </tr>
   <tr>
-    <td>待审核提现：<font>￥0.00</font></td>
+    <td>待审核提现：<font>￥{$Avar.cash|default:0.00}</font></td>
     <td width="29%">&nbsp;</td>
     <td width="36%">&nbsp;</td>
   </tr>

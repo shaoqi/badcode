@@ -285,15 +285,15 @@ class borrowRoamClass
 		accountClass::AddLog($log_info);
         
 		//推广奖励 		
-		$_result=usersFriendsClass::GetUsersInviteOne(array("user_id"=>$data["user_id"]));			
+		$_result=usersFriendsClass::GetUsersInviteOne(array("user_id"=>$data["user_id"]));
 		$invite = isset($_G["system"]["con_invite_tender_award"])?$_G["system"]["con_invite_tender_award"]:2;
 		$award_account = round($invite*$recover_interest_all/100,2);
 		if ($_result['user_id']>0 ){
 			$log_info["user_id"] = $_result['user_id'];//操作用户id
-			$log_info["nid"] = "invite_award_add_".$borrow_nid."_".$tender_userid."_".$tender_id;//订单号
+			$log_info["nid"] = "invite_award_add_".$data["borrow_nid"]."_".$data['user_id']."_".$tender_id;//订单号
 			$log_info["account_web_status"] = 1;//
 			$log_info["account_user_status"] = 1;//
-			$log_info["borrow_nid"] = $borrow_nid;//收入
+			$log_info["borrow_nid"] = $data["borrow_nid"];//收入
 			$log_info["code"] = "tender";//
 			$log_info["code_type"] = "invite_tender_award";//
 			$log_info["code_nid"] = $tender_id;//
@@ -348,9 +348,9 @@ class borrowRoamClass
 			        $log_info["remark"] =  "投资借款[{$borrow_url}]获得的投资奖励";
 			        accountClass::AddLog($log_info);
                     $remind['nid'] = "brrow_tender_award";
-		            $remind['remind_nid'] = $_nid;
+		            $remind['remind_nid'] = $remind['nid'].$_nid;
 		            $remind['receive_userid'] = $data["user_id"];
-		            $remind['article_id'] = $tender_nid;
+		            $remind['article_id'] = $tender_id;
 		            $remind['code'] = "borrow";
 		            $remind['title'] = '投标奖励';
 		            $remind['content'] = '你所投资的【'.$roam_result["username"].'】标['.$borrow_url.']在'.date('Y-m-d').'获得'.$award.'元奖励';
@@ -365,20 +365,22 @@ class borrowRoamClass
             $end = empty($_G["system"]['continued_investment_max'])?0:strtotime($_G["system"]['continued_investment_max']);
             if($now>=$start && $now<$end){
                 if($roam_result['continued_status']>0){
-                    $sql = 'select sum(recover_account_yes) as recover_account from {borrow_recover} where user_id='.$data["user_id"].' and `recover_status`=1 and recover_yestime between '.$start.' and '.$end;
+                    $sql = 'select sum(recover_account_yes-recover_fee) as recover_account from {borrow_recover} where user_id='.$data["user_id"].' and `recover_status`=1 and recover_yestime between '.(empty($account_result['continued_at'])?$start:$account_result['continued_at']).' and '.$now;
                     $replay_account = $mysql->db_fetch_array($sql);
-                    $replay_account = empty($replay_account)?0:$replay_account['recover_account'];
-                    $sql = 'select sum(total) as total from {account_cash} where `user_id`='.$data["user_id"].' and (`status`=1 or `status`=0) and `addtime` between '.$start.' and '.$end;
+                    $replay_account = empty($replay_account['recover_account'])?0:$replay_account['recover_account'];
+                    $replay_account = $replay_account+$account_result['continued'];
+                    $new_start=$mysql->db_fetch_array('select min(recover_yestime) as recover_yestime from {borrow_recover} where user_id='.$data["user_id"].' and `recover_status`=1 and recover_yestime between '.(empty($account_result['continued_at'])?$start:$account_result['continued_at']).' and '.$end);
+                    $recover_start=empty($new_start['recover_yestime'])?(empty($account_result['continued_at'])?$start:$account_result['continued_at']):$new_start['recover_yestime'];
+                    $sql = 'select sum(total) as total from {account_cash} where `user_id`='.$data["user_id"].' and (`status`=1 or `status`=0) and `addtime` between '.$recover_start.' and '.$now;
                     $cash = $mysql->db_fetch_array($sql);
-                    $cash = empty($cash)?0:$cash['total'];
-                    $sql = 'select sum(account_tender) as account_tender from {borrow_tender} where `user_id`='.$data["user_id"].' and `status`=1 and `id`!='.$tender_id.' and `addtime` between '.$start.' and '.$end;
-                    $account_tender = $mysql->db_fetch_array($sql);
-                    $account_tender = empty($account_tender)?0:$account_tender['account_tender'];
-                    $continued_investment = $replay_account-$cash-$account_tender;
-                    if($roam_result['continued_min'] <= $continued_investment and $continued_investment>0){
-                        $continued_investment = min($continued_investment,$account);
+                    $cash = empty($cash['total'])?0:$cash['total'];
+                    $continued = $replay_account-$cash;
+                    $continued_investment = min($continued,$account);
+                    $sql = 'update {account} set continued='.max(($continued-$continued_investment),0).',continued_at='.$now.' where user_id='.$data['user_id'];
+                    $mysql->db_query($sql);
+                    if($roam_result['continued_min'] <= $continued and $continued>0){
                         if($roam_result['continued_status']==2){
-                            $award = round($account*$roam_result['continued']/100,2);
+                            $award = round($continued_investment*$roam_result['continued']/100,2);
                         }
                         if($roam_result['continued_status']==1){
                             $award = $roam_result['continued'];
@@ -404,9 +406,9 @@ class borrowRoamClass
 			                $log_info["remark"] =  "投资借款[{$borrow_url}]获得的续投奖励";
 			                accountClass::AddLog($log_info);
                             $remind['nid'] = "continued_investment_award";
-		                    $remind['remind_nid'] = $_nid;
+		                    $remind['remind_nid'] = $remind['nid'].$_nid;
 		                    $remind['receive_userid'] = $data["user_id"];
-		                    $remind['article_id'] = $tender_nid;
+		                    $remind['article_id'] = $tender_id;
 		                    $remind['code'] = "borrow";
 		                    $remind['title'] = '续投奖励';
 		                    $remind['content'] = '你所投资的【'.$roam_result["username"].'】标['.$borrow_url.']在'.date('Y-m-d').'获得'.$award.'元续投奖励';
@@ -544,7 +546,7 @@ class borrowRoamClass
 		$user_log["code"] = "tender";
 		$user_log["type"] = "tender_success";
 		$user_log["operating"] = "tender";
-		$user_log["article_id"] = $tender_userid;
+		$user_log["article_id"] =$tender_id;
 		$user_log["result"] = 1;
 		$user_log["content"] = "流转标[{$borrow_url}]投标成功。";
 		usersClass::AddUsersLog($user_log);	
@@ -576,18 +578,18 @@ class borrowRoamClass
 		$remind['nid'] = "tender_roam_success";
 		$remind['remind_nid'] = $_nid;
 		$remind['receive_userid'] = $data["user_id"];
-		$remind['article_id'] = $tender_nid;
+		$remind['article_id'] = $tender_id;
 		$remind['code'] = "borrow";
-		$remind['title'] = "投资{$roam_result["borrow_username"]}[{$roam_result["borrow_name"]}]满标审核成功";
+		$remind['title'] = "投资{$roam_result["borrow_username"]}[{$roam_result["borrow_name"]}]审核成功";
 		$remind['content'] = "你所投资的标[{$borrow_url}]在".date("Y-m-d",time())."已经审核通过";
 		remindClass::sendRemind($remind);
 				
         
 		//借款标发布者接收
 		$remind['nid'] = "borrow_roam_success";
-        $remind['remind_nid'] =  "borrow_roam_success_".$daat["borrow_nid"]."_".$roam_result["user_id"]."_".$tender_id;
+        $remind['remind_nid'] =  "borrow_roam_success_".$data["borrow_nid"]."_".$roam_result["user_id"]."_".$tender_id;
 		$remind['receive_userid'] = $roam_result['user_id'];
-		$remind['article_id'] = $daat['borrow_nid'];
+		$remind['article_id'] = $data['borrow_nid'];
 		$remind['code'] = "borrow";
 		$remind['title'] = "流转标[{$roam_result["borrow_name"]}]借款成功";
 		$remind['content'] = "流转标[{$borrow_url}]在".date("Y-m-d",time())."借款成功";
@@ -614,7 +616,7 @@ class borrowRoamClass
         $half_sql = " and p1.addtime>{$half_time}";//半年
         $year_sql = " and p1.addtime>{$year_time}";//一年
         $recover_sql = " and p1.repay_status=1"; //成功回购
-        $late_sql = " and p1.repay_time<".time();//逾期
+        $late_sql = " and p1.repay_status=0 and p1.repay_time<".time();//逾期
         
         //全部
         $result = $mysql->db_fetch_array($sql);
@@ -782,4 +784,3 @@ class borrowRoamClass
 		return $data['borrow_nid'];	
     }
 }
-?>

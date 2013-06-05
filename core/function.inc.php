@@ -442,6 +442,7 @@ function create_file($dir,$contents=""){
 		}
 	}
 	$_SESSION['valicode']="";
+    unset($_SESSION['valicode']);
  	return $msg;
  }
  /**

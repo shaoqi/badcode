@@ -1,4 +1,4 @@
-<?
+<?php
 /******************************
  * $File: borrow.COUNT.php
  * $Description: 借款统计文件
@@ -500,23 +500,17 @@ class borrowCountClass
         
         //逾期
         $result = array();
-        $sql = "select recover_status,sum(recover_account) as anum,count(1) as num  from `{borrow_recover}`  where user_id='{$data['user_id']}' and recover_time<=".(time()+60*60*24)." group by recover_status";
-        $result = $mysql->db_fetch_arrays($sql);
-        $_result["tender_late_account"] = 0;
-        if ($result!=false){
-             foreach ($result as  $key => $value){
-                if ($value["recover_status"]==1){
-                    $_result["recover_late_yes_account"] = $value["anum"];//逾期已还总额
-                    $_result["recover_late_yes_num"] = $value["num"];//逾期已还笔数
-                }elseif ($value["recover_status"]==0){
-                    $_result["recover_late_no_account"] = $value["anum"];//逾期未还总额
-                    $_result["recover_late_no_num"] = $value["num"];//逾期未还笔数
-                }
-                $_result["tender_late_account"] += $value["anum"];//逾期未还总额
-                $_result["tender_late_num"] += $value["num"];//逾期未还总额
-                
-             }
-        }
+        // 逾期已还
+        $sql = "select recover_status,sum(recover_account) as anum,count(1) as num  from `{borrow_recover}`  where user_id='{$data['user_id']}' and  recover_status=1 and (recover_yestime-recover_time)>".(time()+60*60*24);
+        $recover_late = $mysql->db_fetch_arrays($sql);
+        $_result["recover_late_yes_account"] = isset($recover_late["anum"])?$recover_late["anum"]:0;//逾期已还总额
+        $_result["recover_late_yes_num"] = isset($recover_late["num"])?$recover_late["num"]:0;//逾期已还笔数
+        $sql = "select recover_status,sum(recover_account) as anum,count(1) as num  from `{borrow_recover}`  where user_id='{$data['user_id']}' and recover_time<=".(time()+60*60*24)." and recover_status=0";
+        $recover_late = $mysql->db_fetch_arrays($sql);
+        $_result["recover_late_no_account"] = isset($recover_late["anum"])?$recover_late["anum"]:0;
+        $_result["recover_late_no_num"] = isset($recover_late["num"])?$recover_late["num"]:0;
+        $_result["tender_late_account"] = $_result["recover_late_yes_account"]+$_result["recover_late_no_account"];//逾期未还总额
+        $_result["tender_late_num"] = $_result["tender_late_yes_num"]+$_result["tender_late_no_num"];//逾期未还总额
        
         //网站垫付
         $result = array();
@@ -528,9 +522,9 @@ class borrowCountClass
         
         //投资奖励
         $result = array();
-        $sql = "select sum(tender_award_fee) as tnum,count(1) as num  from `{borrow_tender}`  where user_id='{$data['user_id']}' and tender_award_fee>0 ";
+        $sql = 'select sum(money) as tnum,count(distinct `borrow_nid`) as num from {account_log} where `user_id`='.$data['user_id'].' and `code`=\'tender\' and `code_type` in (\'continued_investment_award\',\'brrow_tender_award\',\'invite_tender_award\')';
         $result = $mysql->db_fetch_array($sql);
-        $_result["tender_award_fee"] = $result["tnum"];//奖励总额
+        $_result["tender_award_account"] = $result["tnum"];//奖励总额
         $_result["tender_award_num"] = $result["num"];//奖励笔数
         
         
@@ -558,7 +552,7 @@ class borrowCountClass
         $_result["tender_false_scale"] = 0;
         if ($_result["tender_success_account"]>0 ){
         //平均收益率
-        $_result["tender_recover_scale"] = round($_result["tender_interest_account"]/$_result["tender_success_account"],2);
+        $_result["tender_recover_scale"] = round(($_result["tender_interest_account"]+$_result["tender_award_account"])/$_result["tender_success_account"],2);
         
         //坏账率
         $_result["tender_false_scale"] = round($_result["tender_late_account"]/$_result["tender_success_account"],2);

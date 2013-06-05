@@ -127,11 +127,12 @@ elseif ($_A['query_type'] == "web_count"){
 elseif ($_A['query_type'] == "recharge"){
 	check_rank("account_recharge");//ºÏ≤È»®œﬁ
 	
-	if (isset($_REQUEST['type']) && $_REQUEST['type']=="excel"){
+	if (isset($_REQUEST['import']) && $_REQUEST['import']=="excel"){
 		$data['page'] = $_REQUEST['page'];
 		$data['epage'] = $_REQUEST['epage'];
 		$data['username'] = $_REQUEST['username'];
 		$data['status'] = $_REQUEST['status'];
+        $data['type'] = $_REQUEST['type'];
 		accountexcel::RechargeLog($data);
 		exit;
 	}elseif ($_REQUEST['view']!=""){
